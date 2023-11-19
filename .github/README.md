@@ -1,6 +1,6 @@
 # Dotfiles
 
-![preview](images/wpgtk_preview1.mkv)
+[![preview](images/wpgtk1.png)](https://youtu.be/ph19WxzsCRg)
 
 ![preview](images/dash_ani1.gif)
 

@@ -88,6 +88,14 @@ Print
 super + Print
     snip 0
 
+# start screen recording
+super + alt + Print
+    snip record
+
+# stop screen recording
+super + alt + shift + Print
+    killall ffmpeg
+
 # clipboard manager
 super + alt + x
     rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'

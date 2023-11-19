@@ -7,7 +7,7 @@
 }
 
 .popup {
-    background-color: #2f3142;
+    background-color: #17213d;
     border-radius: 6px;
 }
 
@@ -16,22 +16,22 @@
 }
 
 .bar_win {
-    background-color: #2f3142;
+    background-color: #17213d;
     color: #bfc9db;
-    border: 1px solid #d18bc7;
+    border: 1px solid #e18a67;
     border-radius: 16px;
 }
 
 .bar_sep {
 //  color: #3e424f;
-    color: #707389;
+    color: #586175;
     font-weight: bold;
     font-size: 22px;
     margin: 0px 12px 0px 12px;
 }
 
 tooltip.background {
-    background-color: #2f3142;
+    background-color: #17213d;
     font-size: 18px;
     border-radius: 10px;
 }
@@ -41,7 +41,7 @@ tooltip label {
 }
 
 scale trough {
-    background-color: #dad2dd;
+    background-color: #afccd9;
     box-shadow: 0px 1px 20px 1px #1f1d2f;
     border-radius: 16px;
     min-height: 10px;
@@ -236,7 +236,7 @@ calendar.button {
 }
 
 .sys {
-    background-color: #d9a7eb;
+    background-color: #6b92c3;
     border-radius: 10px;
 }
 
@@ -297,7 +297,7 @@ calendar.button {
 }
 
 circular-progress.sys_tray_prog {
-    background-color: #d9a7eb;
+    background-color: #6b92c3;
     border-radius: 10px;
 }
 
@@ -364,7 +364,7 @@ label.sys_tray_prog {
 }
 
 .music_bar scale trough {
-    background-color: #d18bc7;
+    background-color: #e18a67;
     box-shadow: 0px 0px 2px 1px #19192f;
     border-radius: 24px;
     min-height: 13px;
@@ -387,11 +387,11 @@ label.sys_tray_prog {
     }
 
     .bar {
-        background-color: #2f3142;
+        background-color: #17213d;
     }
 
     .bar scale trough {
-        background-color: #d18bc7;
+        background-color: #e18a67;
         box-shadow: 0 6px 5px 2px #06060b;
         border-radius: 24px;
         min-width: 150px;
@@ -430,15 +430,15 @@ label.sys_tray_prog {
 
 .panel.root {
 //  background-image: linear-gradient(45deg, #18142c, #1f1d2f);
-//  background-image: linear-gradient(45deg, #1b1c25, #18142c 8%, #1f1d2f, #5E6D82);
-    background-image: linear-gradient(45deg, #1b1c25, #1f1d2f 8%, #0f0f17, #1b1c25);
+//  background-image: linear-gradient(45deg, #0A0E19, #18142c 8%, #1f1d2f, #33688A);
+    background-image: linear-gradient(45deg, #0A0E19, #1f1d2f 8%, #0f0f17, #0A0E19);
 }
 
 .panel.main {
 //  background-color: #13141c;
-//  background-color: #1b1c25;
-//  background-image: linear-gradient(45deg, #1b1c25, #13141c);
-    background-image: linear-gradient(45deg, #1b1c25, #1f1d2f);
+//  background-color: #0A0E19;
+//  background-image: linear-gradient(45deg, #0A0E19, #13141c);
+    background-image: linear-gradient(45deg, #0A0E19, #1f1d2f);
 }
 
 .panel.left {
@@ -446,7 +446,7 @@ label.sys_tray_prog {
 }
 
 .panel scale trough {
-    background-color: #707389;
+    background-color: #586175;
 }
 
 .panel_profile_picture {
@@ -503,17 +503,17 @@ label.sys_tray_prog {
     padding: 0 10px 0 15px;
     font-size: 20px;
     color: #bfc9db;
-    /* background-color: #2f3142; */
-//  background-image: linear-gradient(225deg, #5E6D82, #1f1d2f 12%, #18142c 95%, #5E6D82);
-    background-image: linear-gradient(225deg, #5E6D82, #1f1d2f 12%, #0f0f17 95%, #5E6D82);
+    /* background-color: #17213d; */
+//  background-image: linear-gradient(225deg, #33688A, #1f1d2f 12%, #18142c 95%, #33688A);
+    background-image: linear-gradient(225deg, #33688A, #1f1d2f 12%, #0f0f17 95%, #33688A);
     border-radius: 30px;
 }
 
 .weather-container:hover .weather {
-//  background-image: linear-gradient(225deg, #5E6D82, #1f1d2f 15%, #18142c 80%, #5E6D82);
-//  background-image: linear-gradient(225deg, #5E6D82, #947990 15%, #947990 80%, #5E6D82);
-//  background-image: linear-gradient(225deg, #1b1c25, #1f1d2f 15%, #0f0f17 80%, #1b1c25);
-    background: #947990;
+//  background-image: linear-gradient(225deg, #33688A, #1f1d2f 15%, #18142c 80%, #33688A);
+//  background-image: linear-gradient(225deg, #33688A, #A1705C 15%, #A1705C 80%, #33688A);
+//  background-image: linear-gradient(225deg, #0A0E19, #1f1d2f 15%, #0f0f17 80%, #0A0E19);
+    background: #A1705C;
 }
 
 .weather .temp {
@@ -527,7 +527,7 @@ label.sys_tray_prog {
 }
 
 .panel_sys_toggle {
-    background-image: linear-gradient(45deg, #2f3142, #1b1c25);
+    background-image: linear-gradient(45deg, #17213d, #0A0E19);
     font-size: 24px;
 }
 
@@ -540,7 +540,7 @@ label.sys_tray_prog {
 }
 
 .panel_sys_toggle button.active {
-    color: #2f3142;
+    color: #17213d;
     background-color: #a1bdce;
 }
 
@@ -550,8 +550,8 @@ label.sys_tray_prog {
 }
 
 .panel_box {
-    background-image: linear-gradient(45deg, #2f3142, #18142c 50%, #1f1d2f, #1b1c25);
-    background-image: linear-gradient(45deg, #2f3142, #1f1d2f 50%, #1f1d2f, #1b1c25);
+    background-image: linear-gradient(45deg, #17213d, #18142c 50%, #1f1d2f, #0A0E19);
+    background-image: linear-gradient(45deg, #17213d, #1f1d2f 50%, #1f1d2f, #0A0E19);
 }
 
 .sys_module, .sys_module * {
@@ -560,7 +560,7 @@ label.sys_tray_prog {
 
 .sys_module {
     padding: 20px 10px 10px 10px;
-//  background-image: linear-gradient(45deg, #2f3142, #18142c 50%, #1f1d2f, #1b1c25);
+//  background-image: linear-gradient(45deg, #17213d, #18142c 50%, #1f1d2f, #0A0E19);
 }
 
 .sys_box circular-progress {
@@ -680,8 +680,8 @@ label.sys_tray_prog {
 
 .player_module {
 //  background-image: linear-gradient(45deg, #18142c, #1f1d2f);
-//  background-image: linear-gradient(45deg, #5E6D82, #ffb0d5, #18142c 90%, #1f1d2f, #1b1c25);
-//  background-image: linear-gradient(45deg, #1b1c25, #947990, #18142c 50%, #1f1d2f, #1b1c25);
+//  background-image: linear-gradient(45deg, #33688A, #ca8acd, #18142c 90%, #1f1d2f, #0A0E19);
+//  background-image: linear-gradient(45deg, #0A0E19, #A1705C, #18142c 50%, #1f1d2f, #0A0E19);
     padding: 10px 15px 10px 10px;
     border-radius: 18px;
 }
@@ -785,13 +785,13 @@ label.sys_tray_prog {
 .tray_module .power.dropdown .tray_icon.fixed {
     color: #a1bdce;
 //  background-color: #a65960;
-//  background-color: #d9a7eb;
-    background-color: #707389;
+//  background-color: #6b92c3;
+    background-color: #586175;
 }
 
 .tray_module .tray_icon.inactive {
     color: #d78787;
-    background-color: #2f3142;
+    background-color: #17213d;
 }
 
 .tray_module .tray_icon.wireless {
@@ -859,7 +859,7 @@ label.sys_tray_prog {
 }
 
 .bright_module .scale_box scale trough {
-//  background-color: #2f3142;
+//  background-color: #17213d;
     border-radius: 8px;
     min-height: 10px;
     min-width: 310px;

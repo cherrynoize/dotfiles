@@ -13,8 +13,13 @@ dest_path="${SNIP_PATH:-$HOME/snip}"
 # default time delay before capture (in seconds)
 capture_delay="${SNIP_DELAY:-"0"}"
 
-# default command to execute after capture
-post_capture_cmd="${SNIP_CMD:-"optipng \"%DEST%\" &"}"
+declare -A post_cmd
+
+# default command to execute after screenshots (compress png)
+post_cmd["screenshot"]="${SNIP_SCREENSHOT_CMD:-"optipng \"%DEST%\" &"}"
+
+# default command to execute after screencasts (strip audio)
+post_cmd["record"]="${SNIP_RECORD_CMD:-"ffmpeg -i \"%DEST%\" -c copy -an \"noa_%DEST%\" && mv \"noa_%DEST%\" \"%DEST%\""}"
 
 fullscreen="${SNIP_DEFAULT_FULLSCREEN:-true}"
 verbose="${SNIP_DEFAULT_VERBOSITY:-1}"
@@ -29,13 +34,27 @@ tmp_dir="${SNIP_TMP_DIR:-/tmp}"
 
 # outputs full destination path
 join_dest_path () {
-  echo "$dest_path/$dest_filename$dest_file_ext"
+  dest="$dest_path/$dest_filename$dest_file_ext"
+  screen_res="$(xrandr | grep '*' | awk '{print $1;}')"
+  dest="${dest_filename//\$wx\$h/$screen_res}"
+  echo "$dest"
+}
+
+# run after capture command
+run_post_command () {
+  run="${post_cmd[${1:-screenshot}]}"
+  run="${run//%DEST%/$(join_dest_path)}"
+  eval "$run"
 }
 
 notification_title="Screenshot taken"
-notification_body="Saved to '$(join_dest_path)'"
 notification_id=5445
 notification_timeout=5000
+
+send_notification () {
+  notification_body="Saved to '$(join_dest_path)'"
+  dunstify --action="default,Default" -t "$notification_timeout" -r "$notification_id" "$notification_title" "$notification_body"
+}
 
 # image file formats
 declare -A img_fmt_ext=(
@@ -92,7 +111,7 @@ file formats:
 environment variables:
   SNIP_PATH   default destination path for snip (default: $dest_path)
   SNIP_DELAY  default delay before capture (in seconds) (default: $capture_delay)
-  SNIP_CMD    default command to be executed after capture (default: '$post_capture_cmd')
+  SNIP_CMD    default command to be executed after capture (default: '${post_cmd["screenshot"]}')
 
 command line options take precedence over environment variables. if no value is provided, snip will fallback to its default.
 
@@ -114,7 +133,7 @@ while [ -n "$1" ]; do
       ;;
     -e|--execute)
       # command to execute after capture
-      post_capture_cmd="$2"
+      post_screenshot_cmd="$2"
       shift 2
       ;;
     -f|--format)
@@ -174,6 +193,8 @@ case "$cmd" in
     else
       throw_error codec
     fi
+
+    notification_title="Recording stopped"
     ;;
   screenshot|clipboard|*)
     file_format="${file_format:-"$default_img_fmt"}"
@@ -205,16 +226,13 @@ case "$cmd" in
     if [ "$dest_path" = "$SNIP_PATH" ]; then
       dest_path="${SNIP_PATH_SCAST:-"$dest_path"}"
     fi
-    screen_res="$(xrandr | grep '*' | awk '{print $1;}')"
-    dest_filename="${dest_filename//\$wx\$h/$screen_res}"
-    dest_file_ext=.mkv
 
     case "$file_format" in
       mkv)
-        ffmpeg -f x11grab -video_size "$screen_res" -framerate 25 -i "$DISPLAY" -c:v ffvhuff "$(join_dest_path)"
+        ffmpeg -f x11grab -video_size "$screen_res" -framerate 25 -stream_loop -1 -i "$DISPLAY" -c:v ffvhuff "$(join_dest_path)"
         ;;
       mp4|*)
-        ffmpeg -f x11grab -video_size "$screen_res" -framerate 25 -i "$DISPLAY" -f alsa -i default -c:v libx264 -preset ultrafast -c:a aac "$(join_dest_path)"
+        ffmpeg -f x11grab -video_size "$screen_res" -framerate 25 -stream_loop -1 -i "$DISPLAY" -f alsa -i default -c:v libx264 -preset ultrafast -c:a aac "$(join_dest_path)"
         ;;
     esac
     ;;
@@ -231,10 +249,9 @@ case "$cmd" in
     ;;
 esac
 
-post_capture_cmd="${post_capture_cmd//%DEST%/$(join_dest_path)}"
-eval "$post_capture_cmd"
-
 if [ -n "$verbose" ]; then
   # show notification after capture
-  dunstify --action="default,Default" -t "$notification_timeout" -r "$notification_id" "$notification_title" "$notification_body"
+  send_notification &
 fi
+
+run_post_command "$cmd"

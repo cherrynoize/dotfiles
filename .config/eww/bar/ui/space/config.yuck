@@ -64,11 +64,11 @@
 (defvar artist_max_chars "17")
 
 (deflisten player_scroll_title :initial "No player"
- `music title --auto 11`)
+ `music title --scroll 11`)
 (deflisten player_scroll_album :initial "No album"
- `music album --auto 13`)
+ `music album --scroll 13`)
 (deflisten player_scroll_artist :initial "No artist"
- `music artist --auto 15`)
+ `music artist --scroll 15`)
 
 (defpoll player_title :interval "3s" "music title --placeholder 'Empty'")
 (defpoll player_artist :interval "3s" "music artist")
