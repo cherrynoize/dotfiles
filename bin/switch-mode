@@ -76,7 +76,7 @@ case "$_ctx" in
     terminate
     ;;
   wallpaper)
-    config_dir="$HOME/.wallpaper/current"
+    config_dir="$HOME/.wallpaper-themes/current"
     current_config="wallpaper"
     config_ext=""
     post_exec+="change-wallpaper;"

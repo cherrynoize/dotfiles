@@ -19,3 +19,6 @@
 [submodule ".github/.config/awesome"]
 	path = .github/.config/awesome
 	url = https://github.com/cherrynoize/awesome
+[submodule ".dotfiles/.config/awesome"]
+	path = .dotfiles/.config/awesome
+	url = https://github.com/cherrynoize/awesome

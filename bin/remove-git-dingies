@@ -1,0 +1,21 @@
+#!/bin/sh -e
+branch="${branch:-main}"
+remote="${remote:-origin}"
+git_cmd="${1:-git}"
+
+remote_url="$("$git_cmd" config --get remote.origin.url)"
+
+# remove remote
+"$git_cmd" remote rm "$remote" || true
+
+#"$git_cmd" tag | xargs "$git_cmd" tag -d
+"$git_cmd" branch -D "$branch" || true
+(
+  cd .git
+  rm -rf refs/remotes/ refs/original/ -- *_HEAD logs/
+)
+"$git_cmd" for-each-ref --format="%(refname)" refs/original/ | xargs -n1 --no-run-if-empty "$git_cmd" update-ref -d
+"$git_cmd" -c gc.reflogExpire=0 -c gc.reflogExpireUnreachable=0 -c gc.rerereresolved=0 -c gc.rerereunresolved=0 -c gc.pruneExpire=now gc "$@"
+
+# add remote back
+"$git_cmd" remote add "$remote" "$remote_url"

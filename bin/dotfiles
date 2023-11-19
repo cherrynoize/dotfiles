@@ -8,7 +8,7 @@ remote="origin" # git remote name
 # add files to repo
 add-files () {
   # paths to be added relative to ~ dir
-  home_lst=".github bin .local/bin .wallpaper .bashrc .bash_aliases .Xresources .zshrc .inputrc .gtkrc-2.0.mine .emacs .vimrc .mozilla/firefox/q0q5c5do.default-release/chrome .surf/styles"
+  home_lst=".github bin .local/bin .wallpaper-themes .bashrc .bash_aliases .Xresources .zshrc .inputrc .gtkrc-2.0.mine .emacs .vimrc .mozilla/firefox/q0q5c5do.default-release/chrome .surf/styles"
   #.vim/plugged 
   # paths to be added relative to ~/.config
   config_lst="alacritty awesome/* bash-git-prompt bspwm btop/btop.conf conky dunst eww fish gtk-3.0/gtk.css gtk-3.0/settings.ini n3lock neofetch nvim picom polybar ranger rofi sxhkd vis wpg/templates xsettingsd starship.toml"

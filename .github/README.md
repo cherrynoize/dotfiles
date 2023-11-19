@@ -66,12 +66,6 @@ You might want to place your own profile picture inside of
 `~/.pfp`. It can be any picture file with any name, such as
 `~/.pfp/pfp.jpg`.
 
-### Environment variables
-
-There are several environment variables which are used for
-different purposes. I will be making a config file but in
-the meanwhile
-
 ## Binaries
 
 The repo also includes a large collection of shell scripts, some
@@ -94,7 +88,7 @@ login shell, `fish` gets launched from there.)
 
 ## Themes
 
-Themes are currently in alpha so please be gentle. I'm setting up
+Themes are currently in alpha so please be nice. I'm setting up
 themes for all sorts of things though - it just takes some time.
 
 To change themes:

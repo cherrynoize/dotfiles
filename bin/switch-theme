@@ -120,7 +120,7 @@ case "$_ctx" in
     config_ext=""
     ;;
   wallpaper)
-    config_dir="$HOME/.wallpaper"
+    config_dir="$HOME/.wallpaper-themes"
     config_link_name="current"
     config_ext=""
     post_exec+="change-wallpaper;"
