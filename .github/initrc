@@ -1,0 +1,12 @@
+#
+# ~/.initrc
+# Configuration file for dotfiles
+# https://github.com/cherrynoize/dotfiles
+#
+
+# Network interfaces
+export WLAN="$(ls /sys/class/net | grep -m 1 wl)"
+export ETH="$(ls /sys/class/net | grep -m 1 et)"
+
+# Restore wallpaper and `wpgtk` theme
+. ~/.config/wpg/wp_init.sh

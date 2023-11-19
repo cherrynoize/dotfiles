@@ -1,0 +1,15 @@
+#!/bin/sh
+
+polybar_toggle () {
+  if [ "$1" = "-p" ] || [ "$1" = "--polybar" ]; then
+    # hide/show cover module
+    polybar-msg action "#network-data.module_$1"
+    # show/hide inner modules
+    polybar-msg action "#wireless-network.module_$2"
+    polybar-msg action "#wired-network.module_$2"
+  fi
+}
+
+polybar_toggle hide show
+irnm
+polybar_toggle show hide

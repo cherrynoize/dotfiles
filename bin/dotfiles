@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# utility for handling and managing dotfiles
+# https://github.com/cherrynoize/dotfiles
+# author | cherrynoize
+
+remote="origin" # git remote name
+
+# add files to repo
+add-files () {
+  # paths to be added relative to ~ dir
+  home_lst=".github bin .local/bin .wallpaper .bashrc .bash_aliases .Xresources .zshrc .inputrc .gtkrc-2.0.mine .emacs .vimrc .mozilla/firefox/q0q5c5do.default-release/chrome .surf/styles"
+  #.vim/plugged 
+  # paths to be added relative to ~/.config
+  config_lst="alacritty awesome/* bash-git-prompt bspwm btop/btop.conf conky dunst eww fish gtk-3.0/gtk.css gtk-3.0/settings.ini n3lock neofetch nvim picom polybar ranger rofi sxhkd vis wpg/templates xsettingsd starship.toml"
+  msg="update" # default commit message
+  [ -n "$1" ] && msg="$*" # user defined message
+
+  # make sure to add submodules
+  cfg submodule add https://github.com/cherrynoize/awesome .config/awesome 2> /dev/null
+
+  # add from ~
+  echo $ cd ~...
+  pushd ~ > /dev/null || exit 1
+  echo "* adding to repo: $home_lst"
+  cfg add $home_lst
+  echo # newline
+  popd > /dev/null
+
+  # add from ~/.config
+  echo $ cd ~/.config...
+  pushd ~/.config > /dev/null || exit 1
+  echo "* adding to repo: $config_lst"
+  cfg add $config_lst
+  echo # newline
+  popd > /dev/null
+}
+
+# update tracked files create new commit
+create-commit () {
+  echo "* creating commit \`$msg\`"
+  cfg commit -a -m "$msg" # update already committed files
+}
+
+# push changes to remote
+push-repo () {
+  if [ -n "$(wireless-signal)" ]; then
+    echo "[*] pushing changes to $remote"
+    cfg push -u "$remote" || # push updates
+      { # if it fails
+        sadd # try to add ssh key first
+        echo # newline
+        exec "$0" # then try again
+      }
+  else
+    echo "[!] no network found: can't push to $remote"
+    exit 2
+  fi
+}
+
+case "$1" in
+  update)
+    create-commit
+    echo
+    push-repo
+    ;;
+esac

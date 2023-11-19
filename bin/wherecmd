@@ -1,0 +1,12 @@
+#!/bin/sh
+# usage:
+#  eval $(wherecmd)
+#
+# description:
+#  reports absolute path when run from any location
+#
+# example:
+#  script_location="$(eval $(wherecmd))"
+
+#echo 'cd "$(dirname "${BASH_SOURCE[0]}")" && pwd'
+echo 'dirname "$(readlink -f "$0")"'

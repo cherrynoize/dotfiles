@@ -1,0 +1,41 @@
+#!/bin/sh
+# invokes outside program to fetch light shift manager name
+light_shift_mgr="redshift"
+
+status=disabled
+pgrep "$light_shift_mgr" > /dev/null && status=enabled
+
+# disabled by default
+icon="󱍖"
+#icon="󰈈"
+#icon="󰡮"
+
+# light shift enabled
+#[ -n "$status" ] && icon="󱩌"
+
+case "$1" in
+  on)
+    toggle-daemon "$light_shift_mgr" on
+    ;;
+  off)
+    toggle-daemon "$light_shift_mgr" off 2>/dev/null
+    ;;
+  kill)
+    kill-redshift
+    ;;
+  toggle)
+    toggle-daemon "$light_shift_mgr"
+    ;;
+  icon)
+    echo "$icon"
+    ;;
+  status)
+    echo "$status"
+    ;;
+  ""|name)
+    echo "$light_shift_mgr"
+    ;;
+  *)
+    echo "error: unknown option \`$1\`"
+    ;;
+esac

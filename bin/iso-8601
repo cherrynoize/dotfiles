@@ -1,0 +1,4 @@
+#!/bin/sh
+SEP=" "
+[ "$1" = "-T" ] && SEP="T"
+date '+%Y/%m/%d'"${SEP}"'%H:%M'

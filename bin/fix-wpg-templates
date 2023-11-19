@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+cd ~/.config/wpg/templates || exit
+declare -a links=(bspwm dunst eww-wpgtk gtk2 gtk3.0 gtk3.20 poly powersave-tray rofi)
+
+# first remove old symlinks
+for l in "${links[@]}"; do
+  # verify it is in fact a symbolic link
+  if [ -L "$l" ]; then
+    # remove it
+    rm "$l"
+  fi
+done
+
+# then create the new ones
+ln -s ~/.config/bspwm/colorschemes/current bspwm
+ln -s ~/.config/dunst/dunstrc dunst
+ln -s ~/.config/eww/bar/themes/wpgtk/eww.scss eww-wpgtk
+ln -s ~/.local/share/themes/FlatColor/gtk-2.0/gtkrc gtk2
+ln -s ~/.local/share/themes/FlatColor/gtk-3.0/gtk.css gtk3.0
+ln -s ~/.local/share/themes/FlatColor/gtk-3.20/gtk.css gtk3.20
+ln -s ~/.config/polybar/themes/current/colors.ini poly
+ln -s ~/.config/eww/bar/scripts/powersave-tray powersave-tray
+ln -s ~/.config/rofi/themes/wpgtk.rasi rofi

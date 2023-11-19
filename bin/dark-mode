@@ -1,0 +1,3 @@
+#!/bin/sh
+switch-mode -a dark
+notify-send "Dark mode set"

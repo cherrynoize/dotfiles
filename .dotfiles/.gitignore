@@ -1,0 +1,16 @@
+# avoid .git
+.dotfiles
+# avoid user-defined elements
+.pfp
+# avoid not really config
+.cache
+cache
+.old
+# heavy files
+target
+build
+dist
+Mail
+storage
+blob_storage
+node_modules

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#author_/cherrynoize
+
+pow () {
+  res="$1"
+  exp="$2"
+
+  if [ "$exp" = 0 ]; then
+    echo 1
+  elif [ "$exp" -lt 0 ]; then
+    echo "bad value: only positive exponents"
+  fi
+
+  while [ "$exp" -gt 1 ]; do
+    (( res*=$1 ))
+    (( exp-- ))
+  done
+  echo "$res"
+}
+
+pow "$@"

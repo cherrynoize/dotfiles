@@ -1,0 +1,127 @@
+#!/bin/sh
+# This script is a modified version of https://github.com/Mangeshrex/rxfetch
+
+esc=""
+rst="${esc}[0m"
+
+#colors
+CBK=$(tput setaf 0)
+CRE=$(tput setaf 1)
+CGR=$(tput setaf 2)
+CYE=$(tput setaf 3)
+CBL=$(tput setaf 4)
+
+CMA=$(tput setaf 5)
+CCY=$(tput setaf 6)
+CWH=$(tput setaf 7)
+CBD=$(tput bold)
+CNC=$(tput sgr0)
+
+get_init() {
+	if pidof -q systemd; then
+		echo 'systemd'
+	elif [ -f '/sbin/openrc' ]; then
+		echo 'openrc'
+	elif [ -f '/sbin/dinit' ]; then
+		echo 'dinit'
+	else
+		cut -d ' ' -f 1 /proc/1/comm
+	fi
+}
+
+get_uptime() {
+		uptime -p | sed 's/up//'
+}
+
+get_pkg_count() {
+	package_managers=('xbps-install' 'apk' 'port' 'apt' 'pacman' 'nix' 'dnf' 'rpm' 'emerge' 'eopkg')
+	for package_manager in "${package_managers[@]}"; do
+		if command -v "$package_manager" 2>/dev/null >&2; then
+			case "$package_manager" in
+			xbps-install) xbps-query -l | wc -l ;;
+			apk) apk search | wc -l ;;
+			apt) if [ "$kernel" != "Darwin" ]; then 
+					echo $(($(apt list --installed 2>/dev/null | wc -l) - 1))
+				 else
+					echo 0
+				 fi
+				 ;;
+			pacman) pacman -Q | wc -l ;;
+			nix) nix-env -qa --installed '*' | wc -l ;;
+			dnf) dnf list installed | wc -l ;;
+			rpm) rpm -qa | wc -l ;;
+			emerge) qlist -I | wc -l ;;
+			port) port installed 2>/dev/null | wc -l | awk 'NR==1{print $1}' ;;
+			eopkg) eopkg li | wc -l ;;
+			esac
+
+			# if a package manager is found return from the function
+			return
+		fi
+	done
+	echo 0
+}
+
+# Get package information formatted
+get_package_info() {
+	pkg_count=$(get_pkg_count)
+	if [ "$pkg_count" -ne 0 ]; then
+		echo "$pkg_count"
+	else
+		echo "Unknown"
+	fi
+}
+
+distro() {
+		awk -F "=" '/^ID/ { print $2 }' /etc/os-release
+}
+
+storage() {
+    df -h / | awk '/^\//{print $3}'
+}
+
+# Get memory usage
+get_mem () {
+  free --mega | sed -n -E '2s/^[^0-9]*([0-9]+) *([0-9]+).*/'"${space}"'\2 MB/p'
+}
+
+# Get DE/WM
+# Reference: https://github.com/unixporn/robbb/blob/master/fetcher.sh
+get_de_wm() {
+	wm="${XDG_CURRENT_DESKTOP#*:}"
+	[ "$wm" ] || wm="$DESKTOP_SESSION"
+
+	# for most WMs
+	[ ! "$wm" ] && [ "$DISPLAY" ] && command -v xprop >/dev/null && {
+		id=$(xprop -root -notype _NET_SUPPORTING_WM_CHECK 2>/dev/null)
+		id=${id##* }
+		wm=$(xprop -id "$id" -notype -len 100 -f _NET_WM_NAME 8t 2>/dev/null | grep '^_NET_WM_NAME' | cut -d\" -f 2)
+	}
+
+	# for non-EWMH WMs
+	[ ! "$wm" ] || [ "$wm" = "LG3D" ] && {
+		wms=('sway' 'kiwmi' 'wayfire' 'sowm' 'catwm' 'fvwm' 'dwm' '2bwm' 'monsterwm' 'tinywm' 'xmonad')
+		for current_wm in "${wms[@]}"; do
+			if pgrep -x "$current_wm" 2>/dev/null >&2; then
+				wm="${current_wm}";
+				break
+			fi
+		done
+	}
+
+	echo "${wm:-unknown}"
+}
+
+# output
+cat << EOF
+$(pokemon-colorscripts -r --no-title)
+${CMA}os${CWH}     $(distro)
+${CGR}ker${CWH}    $(uname -r)
+${CCY}pkgs${CWH}   $(get_package_info)
+${CBL}sh${CWH}     ${SHELL}  ${CYE}󰮯 ${CYE} ${CGR}󰊠 ${CGR} ${CBL}󰊠 ${CBL} ${CRE}󰊠 ${CRE} ${CCY}󰊠 ${CCY} ${CMA}󰊠 ${CMA}
+${CYE}ram${CWH}    $(get_mem)
+${CRE}de/wm${CWH}  $(get_de_wm)
+${CMA}init${CWH}   $(get_init)
+${CBL}disk${CWH}   $(storage) used
+${CYE}up${CWH}    $(get_uptime)${rst}
+EOF

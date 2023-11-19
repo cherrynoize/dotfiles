@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+# tiny data-packets watch-tool
+#
+# author  cherrynoize
+# https://github.com/cherrynoize
+#
+
+# test duration in seconds
+interval=1
+# size of memory unit steps
+mem_unit=1024
+# add leading zero in front of floats
+leading_zero=
+# nic
+interface="$WLAN"
+# memory unit symbols
+declare unit_symbols=(B K M G T)
+
+# I would reccomend setting an environment variable and then reading
+# configuration values such as your NIC from that. Meaning when you
+# have to change this is new future, there's only one place you need
+# to go.
+#
+# But if you're too lazy to do that, you can edit this source so you
+# don't have to call the script passing -i each time.
+
+usage () {
+cat << EOF
+usage:
+ netspeed [-h|--help | [-i|--interface INTERFACE] [-m|--mem-unit UNIT] [-z|--zero] [-v|--verbose] [INTERVAL]]
+
+example:
+ netspeed -i wlan0 -m 1000 --zero -v 3
+
+default:
+ netspeed -i "\$WLAN" -m 1024 1
+
+therefore this can also be used depending on your shell:
+ WLAN=wlan0 netspeed
+
+comments actually explain some options better than this usage.
+EOF
+}
+
+while [ -n "$1" ]; do
+  case "$1" in
+    -h|--help)
+      usage
+      exit
+      ;;
+    -i|--interface)
+      interface="$2"
+      shift 2
+      ;;
+    -m|--mem-unit)
+      mem_unit="$2"
+      shift 2
+      ;;
+    -z|--zero)
+      leading_zero=1
+      shift
+      ;;
+    -v|--verbose)
+      verbose=1
+      shift
+      ;;
+    -*)
+      echo "unkown option $1"
+      exit 1
+      ;;
+    *)
+      interval="$1"
+      shift 1
+      ;;
+  esac
+done
+
+byta="$(grep "$interface" < /proc/net/dev | awk '{print $2;}')"
+sleep "$interval"
+bytb="$(grep "$interface" < /proc/net/dev | awk '{print $2;}')"
+
+speed=$(( (bytb-byta) / interval ))
+
+u=0
+compute_speed () {
+  if [ "$u" -ge "$((${#unit_symbols[@]}-1))" ]; then
+    return
+  fi
+  if [ "$speed" -gt "$mem_unit" ]; then
+    (( u++ ))
+    (( speed /= mem_unit ))
+    compute_speed
+  fi
+}
+
+compute_speed
+if [ "$speed" -ge "$((mem_unit/10))" ] &&
+   [ "$u" -lt "$((${#unit_symbols[@]}-1))" ] &&
+   [ -z "$verbose" ]; then
+  # print point values (e.g: .5 K) instead of larger values of
+  # smaller order
+  (( u++ ))
+  speed="$(bc <<< "scale=1; ${speed}/${mem_unit}")"
+  [ -n "$leading_zero" ] && speed="0${speed}"
+fi
+
+echo "$speed ${unit_symbols[$u]}"

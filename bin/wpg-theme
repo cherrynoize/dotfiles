@@ -1,0 +1,9 @@
+#!/bin/sh
+case $1 in
+  light)
+    wpg -LA "$(wpg -c)" && wpg -s "$(wpg -c)"
+    ;;
+  restore|dark)
+    wpg -A "$(wpg -c)" && wpg -rs "$(wpg -c)"
+    ;;
+esac

@@ -1,0 +1,21 @@
+#!/bin/sh
+# toggle-daemon
+# author: cherrynoize
+#
+# usage: toggle-daemon PROCESS_NAME [on|off]
+#
+# with no options kills process or runs if not already found
+# you can specify intended behaviour with 'on' and 'off' switches
+#
+
+if [ -z "$1" ]; then
+  echo "error: process name is needed"
+  exit 1
+fi
+
+if pgrep "$1" > /dev/null && ! [ "$2" = "on" ]; then
+  killall "$1"
+elif ! pgrep "$1" > /dev/null && ! [ "$2" = "off" ]; then
+  # all additional args are passed to invoked process
+  "$@"&
+fi

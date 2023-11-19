@@ -1,0 +1,2 @@
+#!/bin/sh
+pa-change-app-volume "$1" volume "$2"

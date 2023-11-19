@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# basic music bot
+#
+# author  cherrynoize
+# https://github.com/cherrynoize
+#
+
+# time for each play in seconds
+play_time_min="31"
+play_time_max="60"
+# command to execute after time expires
+cmd="previous"
+
+die () {
+  if [ "$(pgrep -c "music-bot")" -gt "1" ]; then
+    ps -ef | grep 'music-bot' | awk -v me="$$" '$2 != me {print $2}' | xargs kill 2>/dev/null
+  fi
+}
+
+# parse args
+while [ -n "$1" ]; do
+  case $1 in
+    -t|--min-time)
+      play_time_min="$2"
+      shift 2
+      ;;
+    -T|--max-time)
+      play_time_max="$2"
+      shift 2
+      ;;
+    -m|--multi-thread)
+      multi=1
+      shift
+      ;;
+    quit)
+      die
+      exit
+      ;;
+    -*)
+      echo "unknown option \"$1\""
+      exit 1
+      ;;
+    *)
+      cmd="$1"
+      shift
+      ;;
+  esac
+done
+
+# kill previous instances if not multi-threaded
+[ "$multi" = "1" ] || die
+
+while true; do
+  play_time=$((play_time_min + RANDOM % play_time_max))
+  sleep $play_time
+  playerctl "$cmd"
+done

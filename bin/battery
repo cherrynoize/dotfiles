@@ -1,0 +1,18 @@
+#!/bin/sh
+# author: cherrynoize
+
+BAT="$(ls /sys/class/power_supply | grep BAT | head -n 1)"
+
+bat_level () {
+  cat "/sys/class/power_supply/${BAT}/capacity"
+}
+
+bat_stat () {
+  cat "/sys/class/power_supply/${BAT}/status"
+}
+
+if [ "$1" = "status" ]; then
+  bat_stat
+else
+  bat_level
+fi

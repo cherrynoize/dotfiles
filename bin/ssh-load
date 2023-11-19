@@ -1,0 +1,3 @@
+#!/bin/sh
+ssh-add ~/.ssh/cherrynoize_ed25519
+ssh-add ~/.ssh/cherrylabs_ed25519

@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# sync logins
+while [ -n "$1" ]; do
+  case "$1" in
+    -P)
+      # update default profile if -P is set
+      FF_DEFAULT_PROFILE="$2"
+      shift 2
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+pf="$(firefox-decrypt -l | grep "$FF_DEFAULT_PROFILE" | awk '{print $1;}')" # fetch profile number from firefox-decrypt list
+firefox-decrypt -c "$pf" -f pass # export logins to pass

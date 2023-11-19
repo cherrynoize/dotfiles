@@ -1,0 +1,10 @@
+#!/bin/sh
+cmd="suspend"
+[ -n "$1" ] && {
+  cmd="$1"
+  shift
+}
+
+suspend-actions.sh
+sudo systemctl "$cmd" "$@"
+resume-actions.sh

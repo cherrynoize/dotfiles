@@ -1,0 +1,28 @@
+#!/bin/sh
+# author | cherrynoize
+#
+# script to add new wallpapers
+# (using the switch-mode wallpaper dir structure)
+#
+# usage: add-wallpaper WALLPAPER [MODE]
+# WALLPAPER  is an absolute or relative path to a file
+# MODE       can be either 'light' or 'dark'
+#            (otherwise current mode is used)
+
+# fetch "-mode" suffix
+if [ -n "$2" ]; then
+  suffix="-$2"
+fi
+
+# add suffix (if any) to dest dir
+dest="$HOME/.wallpaper$suffix"
+
+# remove suffix if dest doesn't exit
+# (assuming it is currently active mode)
+if [ ! -d "$dest" ]; then
+  echo "warning: $HOME/.wallpaper-$2 not found (defaulting to $HOME/.wallpaper)."
+  dest="$HOME/.wallpaper"
+fi
+
+# hard link into wallpaper dir
+ln "$1" "$dest"

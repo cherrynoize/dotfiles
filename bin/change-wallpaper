@@ -1,0 +1,78 @@
+#!/bin/sh
+# change-wallpaper
+# author | cherrynoize
+# https://github.com/cherrynoize
+#
+# BUGS:
+# - seems not to work with filenames containing spaces, but I
+#   believe it might be wpgtk, not us (testing needed)
+
+wallpaper_dir="$HOME/.wallpaper/current/wallpaper" # current wallpaper directory
+wall_link="$HOME/.current-wallpaper" # link to current wallpaper
+[ -n "$FF_DEFAULT_PROFILE" ] && ff_wall_link="$HOME/.mozilla/firefox/$FF_DEFAULT_PROFILE/chrome/images/wallpaper" # link to ff wallpaper
+wpg_dir="$HOME/.config/wpg/templates"
+
+current_wall="$(wpg -c)" # current wallpaper name
+
+# update symlink to current wallpaper
+update_wall_symlink () {
+  # remove old symlink
+  if [ -L "$1" ]; then
+    rm "$1"
+  fi
+
+  # create new symlink
+  if [ ! -e "$1" ]; then
+    ln -s "$wall_path" "$1"
+  else
+    echo "warning: '$1' is not a symlink"
+    echo "ignoring symlink creation"
+  fi
+}
+
+# update ff wallpaper
+update_ff_wall_link () {
+  [ -e "$1" ] && rm "$1"
+  ln "$wall_path" "$1"
+}
+
+case "$1" in
+  "")
+    # pick random files until we get a new wallpaper
+    while [ -z "$wall" ] || [ "$wall" = "$current_wall" ]; do
+      wall="$(random-file "$wallpaper_dir")"
+
+      # stop if there isn't more than one wallpaper
+      [ "$(ls -1 | wc -l)" -le "1" ] && break
+    done
+    ;;
+  -r|--reload)
+    wall="$current_wall"
+    ;;
+  *)
+    # set wallpaper name
+    wall="$1"
+    ;;
+esac
+
+wall_path="$wallpaper_dir/$wall"
+
+# set wallpaper and generate colorscheme with wpg
+wpg -a "$wall_path" # add wallpaper and generate colorscheme
+wpg -A "$wall" # auto-adjust colorscheme
+wpg -s "$wall" # set wallpaper and colorscheme
+
+wpg_inactive_mode="$wpg_dir/eww-wpgtk-$(switch-mode -o)"
+
+if [ -f "$wpg_inactive_mode" ]; then
+  rm "$wpg_inactive_mode" || echo "failed to remove '$wpg_inactive_mode'"
+fi
+
+update_wall_symlink "$wall_link" # update link to current wallpaper
+[ -n "$ff_wall_link" ] && update_ff_wall_link "$ff_wall_link" # update link to wallpaper in ff
+
+# update firefox
+pywalfox update
+
+# update screenlock cache
+n3lock -w "$wall_path"

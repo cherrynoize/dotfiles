@@ -1,0 +1,54 @@
+#!/bin/bash
+# add ssh-key to agent
+# author | cherrynoize
+
+# parse args
+case "$1" in
+  -a|--all)
+    # fetch ssh key from env vars
+    [ -z "$SSH_KEY" ] && {
+      echo "error: ssh key not found."
+      exit 1
+    }
+
+    # add each colon separated key to agent
+    IFS=':' read -r -a ssh_keys <<< "$SSH_KEY"
+    for s in "${ssh_keys[@]}"; do
+      [ -n "$s" ] && sadd -- "$s"
+    done
+    exit
+    ;;
+  "")
+    # if key is not set use default key
+    [ -z "$key" ] && key="$(awk -F ':' '{print $1;}' <<< "$SSH_KEY")"
+    ;;
+  -d|--default)
+    # only fetch first ssh key
+    key="$(awk -F ':' '{print $1;}' <<< "$SSH_KEY")"
+    ;;
+  --)
+    key="$2"
+    ;;
+esac
+
+# open safe if closed
+safe state || {
+  echo "safe closed: trying to open..."
+  safe open
+}
+
+case "$2" in
+  -i|--interactive)
+    ssh-add "$key"
+    ;;
+  *)
+    # unlock password store
+    pass open >/dev/null 2>&1
+
+    # fetch password
+    pwd="$(pass show ssh/"$(basename "$key")")"
+
+    # add ssh key to agent
+    ssh-add-pass "$key" "$pwd"
+    ;;
+esac

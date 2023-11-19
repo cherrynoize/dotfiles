@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+# print average sensor temperature
+# author  cherrynoize
+# https://github.com/cherrynoize
+
+# floating point precision
+prec=1
+
+while [ -n "$1" ]; do
+  # parse args
+  case $1 in
+    -p|--prec)
+      use_prec=1
+      prec="$2"
+      shift 2
+      ;;
+    -d|--device)
+      device="$2"
+      shift 2
+      ;;
+    -k|--key)
+      keyword="$2"
+      shift 2
+      ;;
+    -r|--raw)
+      use_raw=1
+      shift
+      ;;
+    -f|--fahreneit)
+      use_fahr=1
+      shift
+      ;;
+    -P|--pretty)
+      use_pretty=1
+      shift
+      ;;
+    -s|--status)
+      show_status=1
+      shift
+      ;;
+    *)
+      echo "unknown option \"$1\""
+      exit 1
+      ;;
+  esac
+done
+
+# fetch temp with glob
+raw_temp="$(cat /sys/devices/${device}*/*/*/${keyword}*/${keyword}*/*/temp1_input)"
+
+# print raw values
+if [ -n "$use_raw" ]; then
+  echo "$raw_temp"
+  exit
+fi
+
+# find average
+temp="$(avg -p 0 "$raw_temp")"
+temp="$(bc <<< "scale=${prec}; ${temp}/1000")"
+
+# convert to fahreneit
+if [ -n "$use_fahr" ]; then
+  temp="$(bc <<< "scale=${prec}; (${temp}*9/5)+32")"
+fi
+
+# strip decimal point on round integers
+if [ -z "$use_prec" ]; then
+  temp="${temp/\.0/}"
+fi
+
+stemp="${temp/\.*/}"
+if [ -n "$show_status" ]; then
+  if [ "$stemp" -gt "70" ]; then
+    temp="Fire"
+  elif [ "$stemp" -gt "60" ]; then
+    temp="Critical"
+  elif [ "$stemp" -gt "50" ]; then
+    temp="High"
+  elif [ "$stemp" -gt "40" ]; then
+    temp="Normal"
+  elif [ "$stemp" -gt "20" ]; then
+    temp="Low"
+  elif [ "$stemp" -ge "0" ]; then
+    temp="Cold"
+  elif [ "$stemp" -lt "0" ]; then
+    temp="Freezing"
+  fi
+elif [ -n "$use_pretty" ]; then
+  if [ -z "$use_fahr" ]; then
+    temp+="°C"
+  else
+    temp+="°F"
+  fi
+fi
+
+echo "$temp"

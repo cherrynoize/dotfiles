@@ -1,0 +1,20 @@
+#!/bin/sh
+# swap on/off and enabled/disabled
+
+case "$1" in
+  0|"")
+    sed -e 's/off/disabled/' -e 's/on/enabled/'
+    ;;
+  1)
+    sed -e 's/disabled/off/' -e 's/enabled/on/'
+    ;;
+  -1)
+    onable -2 | onable -3
+    ;;
+  -2)
+    sed -e 's/off/offf/' -e 's/on/off/' -e 's/offf/on/'
+    ;;
+  -3)
+    sed -e 's/disabled/disabledd/' -e 's/enabled/disabled/' -e 's/disabledd/enabled/'
+    ;;
+esac

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# author | cherrynoize
+# update and push dotfiles
+
+remote="origin" # remote to push to
+
+# first create commit
+commit-config "$@"
+
+echo
+# push commit
+if [ -n "$(wireless-signal)" ]; then
+  echo "* pushing changes to $remote"
+  cfg push -u "$remote" || # push updates
+    { # if it fails
+      sadd # try to add ssh key first
+      echo # newline
+      exec "$0" # then start again
+    }
+else
+  echo "! no network found: can't push to $remote"
+  exit 2
+fi

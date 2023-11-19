@@ -1,0 +1,7 @@
+#!/bin/sh
+header="Memory"
+if [ "$1" = "--header" ]; then
+  notify-send "$header" "$(memory)%"
+else
+  notify-send "$(memory)%"
+fi

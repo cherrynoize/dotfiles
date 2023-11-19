@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+
+# The name of polybar bar which houses the main player module and the control modules.
+PARENT_BAR="main"
+PARENT_BAR_PID=$(pgrep -a "polybar" | grep "$PARENT_BAR" | cut -d" " -f1)
+
+# Location to store cover image in
+COVER="/tmp/cover"
+# You can set a placeholder for when no cover is found
+FALLBACK_COVER=
+
+# Set the source audio player here.
+# Players supporting the MPRIS spec are supported.
+# Examples: spotify, vlc, chrome, mpv and others.
+# Use `playerctld` to always detect the latest player.
+# See more here: https://github.com/altdesktop/playerctl/#selecting-players-to-control
+PLAYER="playerctld"
+
+# Format of the information displayed
+# Eg. {{ artist }} - {{ album }} - {{ title }}
+# See more attributes here: https://github.com/altdesktop/playerctl/#printing-properties-and-metadata
+FORMAT="{{ title }} - {{ artist }}"
+
+# Sends $2 as message to all polybar PIDs that are part of $1
+update_hooks () {
+  while IFS= read -r id
+  do
+    polybar-msg -p "$id" hook player-play-pause "$2" 1>/dev/null 2>&1
+  done < <(echo "$1")
+}
+
+PLAYERCTL_STATUS="$(playerctl --player=$PLAYER status 2>/dev/null)"
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -eq 0 ]; then
+  STATUS="$PLAYERCTL_STATUS"
+else
+  STATUS="no player"
+fi
+
+running=0
+case "$1" in
+    --title)
+        playerctl --player="$PLAYER" metadata --format "{{ title }}" 2>/dev/null
+        ;;
+    --artist)
+        playerctl --player="$PLAYER" metadata --format "{{ artist }}" 2>/dev/null
+        ;;
+    --album)
+        playerctl --player="$PLAYER" metadata --format "{{ album }}" 2>/dev/null
+        ;;
+    --track)
+        track=$(playerctl --player="$PLAYER" metadata xesam:trackNumber 2>/dev/null)
+        [ -z "$track" ] && track="0/0"
+        echo "$track"
+        ;;
+    --status)
+        echo "$STATUS"
+        ;;
+    --ctime)
+        ctime=$(playerctl --player="$PLAYER" position --format "{{ duration(position) }}" 2>/dev/null)
+        [ -z "$ctime" ] && ctime="0:00"
+        echo "$ctime"
+        ;;
+    --atime)
+        atime=$(playerctl --player="$PLAYER" position 2>/dev/null)
+        [ -z "$atime" ] && atime="0"
+        echo "${atime%.*}"
+        ;;
+    --ttime)
+        ttime=$(playerctl --player="$PLAYER" metadata --format "{{ duration(mpris:length) }}" 2>/dev/null)
+        [ -z "$ttime" ] && ttime="0:00"
+        echo "$ttime"
+        ;;
+    --attime)
+        attime=$(playerctl --player="$PLAYER" metadata --format "{{ mpris:length }}" 2>/dev/null)
+        [ -z "$attime" ] && attime="0"
+        (( attime/=1000000 ))
+        echo "$attime"
+        ;;
+    --loop-stat-ic)
+        LOOP=$(playerctl --player="$PLAYER" loop 2>/dev/null)
+        if [[ "$LOOP" = *"Track"* ]] || [[ "$LOOP" = "on"* ]]; then
+            icon="󰑘 "
+        elif [[ "$LOOP" = *"Playlist"* ]]; then
+            icon="凌"
+        else
+            icon="稜"
+        fi
+        echo "$icon"
+        ;;
+    --cover-loc)
+        albumart=$(playerctl --player="$PLAYER" metadata mpris:artUrl | sed -e 's/open.spotify.com/i.scdn.co/g' 2>/dev/null)
+        [ "$(playerctl --player="$PLAYER" metadata mpris:artUrl)" ] && curl -s "$albumart" --output "$COVER" || [ -n "$FALLBACK_COVER" ] && cp "$FALLBACK_COVER" "$COVER"
+        echo "$COVER"
+        ;;
+    --lyrics)
+        title="$("$0" --title)"
+        artist="$("$0" --artist)"
+        if [ -n "$title" ] && [ -n "$artist" ]; then
+            url="https://api.lyrics.ovh/v1/${artist}/${title}"
+            lyrics=$(curl -s "$( echo "$url" | sed s/" "/%20/g | sed s/"&"/%26/g | sed s/,/%2C/g | sed s/-/%2D/g)" | jq '.lyrics' )
+            [ "$lyrics" = "null" ] && lyrics="no lyrics found"
+        else
+            lyrics="no lyrics available"
+        fi
+        printf "$lyrics"
+        ;;
+    *)
+        if [ "$STATUS" = "stopped" ]; then
+            echo "no music"
+        elif [ "$STATUS" = "Paused"  ]; then
+            update_hooks "$PARENT_BAR_PID" 2
+            playerctl --player="$PLAYER" metadata --format "$FORMAT"
+        elif [ "$STATUS" = "no player"  ]; then
+            echo "$STATUS"
+        else
+            running=1
+            update_hooks "$PARENT_BAR_PID" 1
+            playerctl --player="$PLAYER" metadata --format "$FORMAT"
+        fi
+        ;;
+esac
+
+if [ -n "$1" ]; then
+  if [ "$running" = "1" ] && [ "$1" = "3" ]; then
+    killall zscroll
+  elif [ "$running" = "0" ] && [ "$1" = "0.3" ] || [ "$1" = "0.1" ]; then
+    killall zscroll
+  fi
+fi

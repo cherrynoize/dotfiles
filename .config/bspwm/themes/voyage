@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#    _
+#   | |__  ___ _ ____      ___ __ ___
+#   | '_ \/ __| '_ \ \ /\ / / '_  ` _ \  ^ cherry-noize
+#   | |_) \__ \ |_) \ V  V /| | | | | |  ^ https://github.com/cherrynoize
+#   |_.__/|___/ .__/ \_/\_/ |_| |_| |_|  ^ cherrynoize@duck.com
+#             |_|
+#
+
+main_padding=10
+top_padding=50
+
+case "$1" in
+  padding)
+    echo "$main_padding"
+    exit
+    ;;
+  top-padding)
+    echo "$top_padding"
+    exit
+    ;;
+esac
+
+bspc config top_padding           "$top_padding"
+bspc config bottom_padding        "$main_padding"
+bspc config left_padding          "$main_padding"
+bspc config right_padding         "$main_padding"
+bspc config window_gap            "25"
+bspc config border_width          "0"

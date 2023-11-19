@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# toggle powersave frequency governor
+#
+# author | cherrynoize
+# https://github.com/cherrynoize
+
+cache_file="$HOME/.cache/freq-gov.lst"
+old="$(cat "$cache_file")" # fetch old governor
+
+[ -z "$gov" ] && new="powersave"
+
+case "$1" in
+  "")
+    new="$old"
+    ;;
+  -c|--current)
+    # display all entries
+    cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+    exit
+    ;;
+  -C|--current-one)
+    # show only first entry
+    "$0" -c | head -n1
+    exit
+    ;;
+  -l|--last)
+    echo "$old"
+    exit
+    ;;
+  -f|--file)
+    echo "$cache_file"
+    exit
+    ;;
+  *)
+    new="$1"
+    ;;
+esac
+
+cur="$("$0" -C)"
+
+# ignore if switching to current governor
+if [ ! "$cur" = "$new" ]; then
+  # try to set new governor or run as root
+  sudo cpupower frequency-set -g "$new" || exit 2
+
+  # update governor cache
+  echo "$cur" > "$cache_file" # overwrite with latest gov
+fi

@@ -1,0 +1,45 @@
+#!/bin/sh
+# set i/o scheduler for device
+# author | cherrynoize
+usage () {
+  cat<<EOF
+USAGE
+setiosched -s|--show [DEV]
+  show current io scheduler info
+setiosched [DEV] SCHED
+  set io sched for any device that matched pattern
+  (default pattern is *)
+EOF
+}
+
+case "$1" in
+  -h|--help)
+    usage
+    exit
+    ;;
+  ""|-s|--show)
+    if [ -n "$2" ]; then
+      # show io scheduler for selected device
+      cat /sys/block/$2/queue/scheduler
+    else
+      # list all io schedulers for all devices
+      grep "" /sys/block/*/queue/scheduler
+    fi
+    ;;
+  *)
+    if [ -n "$2" ]; then
+      # specify device name or pattern
+      # ($ setiosched DEV SCHED)
+      dev="$1"
+      sched="$2"
+    else
+      # try to set on all devices
+      # ($ setiosched SCHED)
+      dev="*"
+      sched="$1"
+    fi
+
+    # set scheduler
+    echo "$sched" | tee /sys/block/$dev/queue/scheduler > /dev/null
+    ;;
+esac

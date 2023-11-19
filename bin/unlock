@@ -1,0 +1,12 @@
+#!/bin/bash
+# unlock system
+# author | cherrynoize
+
+# ================================
+# TODO
+# - cooler rofi prompt for password (then pass it over)
+# ================================
+
+safe open # unlock safe
+pass open # open password store
+sadd -a # add all keys to agent

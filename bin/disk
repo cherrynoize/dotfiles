@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# Synopsis:
+#  Display disk partition information
+#
+# Usage:
+#  [use_lsblk=1] disk [part] [column]
+#
+# Available columns (df):
+#  Filesystem | Size | Used | Avail | Use% | Mounted on
+#
+# Available columns (lsblk):
+#  NAME | FSTYPE | FSVER | LABEL | UUID | FSAVAIL | FSUSE% | MOUNTPOINTS
+#
+# Author:
+#  cherrynoize
+
+# program used to fetch disk info (df|lsblk)
+fetch_tool="df"
+
+part=/ # default partition mountpoint
+col=used # default column to display
+
+declare -A columns=(
+  [used]=1
+  [free]=2
+  [total]=3
+  [mount]=4
+  [fstype]=5
+  [uuid]=5
+)
+
+if [ -n "$2" ]; then
+  part="$1"
+  shift
+fi
+
+if [ -n "$1" ]; then
+  col="$1"
+fi
+
+# for values outside of column range
+if [ ! "$col" = "0" ] && { # verify it's not zero to begin with
+   [ "$((col+0))" -le "0" ] ||
+   [ "$((col+0))" -ge "${#columns[@]}" ]
+}; then
+  col="${columns[$col]}" # try to map index to column number
+fi
+
+# fetch disk info
+case "$fetch_tool" in
+  df)
+    cmd="df -h --output=pcent,avail,size,target,fstype"
+    ;;
+  lsblk)
+    cmd="lsblk -frno FSUSE%,FSAVAIL,SIZE,MOUNTPOINTS,UUID"
+    ;;
+esac
+
+mapfile -t entries <<< "$($cmd)"
+
+# go through each entry
+for l in "${entries[@]}"; do
+  if [ "$(awk '{print $'"${columns[mount]}"';}' <<< "$l")" = "$part" ] || # mountpoint
+     [ "$(awk '{print $'"${#columns[@]}"';}' <<< "$l")" = "$part" ]; then # uuid
+       awk '{print $'"${col}"';}' <<< "$l"
+  fi
+done

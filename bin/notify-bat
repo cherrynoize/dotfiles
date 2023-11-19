@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+# author: cherrynoize
+
+bat_info="$(acpi -b)"
+on_bat="$(acpi -b | grep Discharging)"
+
+#bat_msg="Battery usage"
+bat_msg="Battery"
+ac_msg="AC"
+
+# threshold at or after which battery is shown as 100%
+max_bat=100
+
+while [ -n "$1" ]; do
+  case "$1" in
+    -s|--status)
+      [ "$on_bat" ] &&
+        status="$bat_msg" ||
+        status="$ac_msg"
+      shift
+      ;;
+    -m|--mini)
+      charge="$(acpi -b | awk '{print $4;}' | head -c +3)" # current charge
+
+      if [ "${charge:0:-1}" -ge "$max_bat" ]; then # 100% fallback
+        charge="100%"
+        msg="fully charged"
+      else
+        eta_raw="$(acpi -b | awk '{print $5;}')" # time till charged
+
+        # add hours
+        eta_hours="$(echo "$eta_raw" | awk -F : '{print $1;}')"
+        eta_hours="$(drop "$eta_hours")"
+        [ -n "$eta_hours" ] &&
+          eta="${eta_hours}h "
+
+        # add minutes
+        eta_mins="$(echo "$eta_raw" | awk -F : '{print $2;}')"
+        eta_mins="$(drop "$eta_mins")"
+        [ -n "$eta_mins" ] &&
+          eta+="${eta_mins}m "
+
+        # if less than a minute
+        if [ -z "$eta" ]; then
+          # add seconds
+          eta_secs="$(echo "$eta_raw" | awk -F : '{print $3;}')"
+          eta_secs="$(drop "$eta_secs")"
+          [ -z "$eta_secs" ] &&
+            eta_secs="0"
+          eta+="${eta_secs}s "
+        fi
+
+        msg="$eta"
+      fi
+
+      if [ "$on_bat" ]; then
+        [ ! "$charge" = "100%" ] && msg+="remaining"
+      else
+        [ ! "$charge" = "100%" ] && msg+="till fully charged"
+        charge+="+"
+      fi
+
+      bat_info="$charge ($msg)"
+      shift
+      ;;
+    *)
+      status="$1"
+      shift
+      break
+      ;;
+  esac
+done
+
+if [ -n "$status" ]; then
+  notify-send "$status" "$bat_info" "$@"
+else
+  notify-send "$bat_info" "$@"
+fi

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Set volume and send notification
+
+# Set volume with amixer
+amixer sset Master "$@" > /dev/null
+
+# Query for the current volume and on/off state
+#volume="$(amixer sget Master | grep -F -e '%' -e 'dB' -m1 | awk '{ print $5 }' | sed 's/[][%]//g;s/dB//g')"
+#mute="$(amixer sget Master | tail -1 | awk '{print $6}' | sed 's/[^a-z]*//g')"
+#if [[ "$1" == "mute" || "$1" == "unmute" || "$volume" == "0" || "$mute" == "off" ]]; then
+#    # Show the sound state notification
+#    notify-send "Sound [${mute}]"
+#else
+#    # Show the volume notification
+#    notify-send "Volume [${volume}%]"
+#fi
+
+# Play sound
+#play -n synth 0.05 sine 440 vol 0.05 2>/dev/null

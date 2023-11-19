@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+nid=9987
+
+# kill timer
+if [ "$1" = "-k" ] || [ "$1" = "--kill" ]; then
+  if [ -n "$2" ]; then
+    nid="$2"
+  fi
+
+  # close notification
+  dunstify -C "$nid"
+
+  # kill all processes
+  /usr/bin/env killall "$(basename -- "$0")"
+fi
+
+timer=60
+interval=1
+extime_factor=1100
+
+if [ -n "$3" ]; then
+  timer="$3"
+fi
+
+if [ -n "$4" ]; then
+  interval="$4"
+fi
+
+if [ -n "$5" ]; then
+  nid="$5"
+fi
+
+extime=$(( extime_factor*${interval%.*} ))
+
+while [ "$timer" -gt "0" ]; do
+  timer=$(( timer-1 )) # POSIX compliant decrement
+  {
+    # Trying to do everything asynchronously
+    action="$(dunstify --action="default,Default" -t "$extime" -r "$nid" "${1//\$timer/$timer}" "${2//\$timer/$timer}")"
+
+    # SIGTERM if notification dismissed 
+    # Found no better way to stop parent asynchronously
+    if [ "$action" = "2" ]; then
+      kill 0
+    fi
+  } &
+
+  sleep "$interval"
+done
+
+# Execute $6 if present
+if [ -n "$6" ]; then
+  eval "$6"
+fi

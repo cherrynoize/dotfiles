@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+span_length="24"
+zscroll_delay="0.3"
+get_status="$(dirname "$0")/get-player-status"
+scroll_padding="  "
+
+# fetch current status
+is_playing=0
+STATUS="$($get_status --status)"
+[ "$STATUS" = "stopped" ] ||
+  [ "$STATUS" = "Paused"  ] ||
+  [ "$STATUS" = "no player"  ] ||
+  [ "$STATUS" = "No player could handle this command"  ] ||
+  is_playing=1
+
+[ "$is_playing" = "0" ] && zscroll_delay="3"
+
+# pare args
+while [ -n "$1" ]; do
+  case "$1" in
+    -d|--delay)
+      zscroll_delay="$1"
+      ;;
+    -s|--slow)
+      zscroll_delay="3"
+      ;;
+    -f|--fast)
+      zscroll_delay="0.1"
+      ;;
+    -p|--padding)
+      scroll_padding="$1"
+      ;;
+    -*)
+      get_status+=" $1"
+      ;;
+    *)
+      if [ "$1" -gt "0" ]; then
+        span_length="$1"
+      fi
+      ;;
+  esac
+  shift
+done
+
+# see man zscroll for documentation of the following parameters
+zscroll -l "$span_length" \
+        --delay "$zscroll_delay" \
+        --scroll-padding "$scroll_padding" \
+        --match-command "${get_status} --status" \
+        --match-text "Playing" "--scroll 1" \
+        --match-text "Paused" "--scroll 0" \
+        --update-check=true "${get_status} ${zscroll_delay}"

@@ -1,0 +1,2 @@
+#/bin/sh
+cat /proc/net/wireless | awk 'NR==3 { print $3; }''' | sed 's/\.//'

@@ -1,0 +1,33 @@
+#!/bin/sh
+count="$(dunstctl count history)"
+status="$(dunstctl is-paused)"
+
+# initialize icon
+icon="󱀂"
+
+# no notifs
+if [ "$count" -le "0" ]; then
+  icon="󰄷"
+fi
+
+if [ "$status" = "false" ]; then
+  status="enabled"
+else
+  status="disabled"
+  icon=""
+fi
+
+case "$1" in
+  status)
+    echo "$status"
+    ;;
+  count)
+    echo "$count"
+    ;;
+  icon)
+    echo "$icon"
+    ;;
+  toggle)
+    dunstctl set-paused toggle
+    ;;
+esac

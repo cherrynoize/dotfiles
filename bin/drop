@@ -1,0 +1,28 @@
+#!/bin/sh
+
+while [ -n "$1" ]; do
+  case "$1" in
+    leading|beginning)
+      top="^"
+      shift
+      ;;
+    closing|ending)
+      bot="$"
+      shift
+      ;;
+    -c|--char)
+      char="$2"
+      shift 2
+      ;;
+    *)
+      string="$1"
+      shift
+      ;;
+  esac
+done
+
+if [ -z "$char" ]; then
+  char=0
+fi
+
+echo "$string" | sed 's/'"${top}${char}"'*'"${bot}"'//'

@@ -1,0 +1,60 @@
+#!/bin/sh
+#
+# beautifully easy clipboard management
+#
+# author  cherrynoize
+# https://github.com/cherrynoize
+#
+
+# file to write current selection in
+cache_file="${HOME}/.cache/hyper.cache"
+# interval between clipboard checks (in secs)
+timeout="1"
+
+die () {
+  if [ "$(pgrep -c "hyper-clip")" -gt "1" ]; then
+    ps -ef | grep 'hyper-clip' | awk -v me="$$" '$2 != me {print $2}' | xargs kill
+  fi
+}
+
+update_sel () {
+  sel="$(xsel -b -o)"
+  if [ -n "$sel" ] && [ ! "$sel" = "$(cat "$cache_file")" ]; then
+    do_copy
+  fi
+}
+
+do_copy () {
+  xsel -b -o > "$cache_file"
+}
+
+do_paste () {
+  if [ -f "$cache_file" ]; then
+    update_sel
+    xdotool type --window "%0" --clearmodifiers --delay "0ms" -- "$(cat "$cache_file")"
+  fi
+}
+
+reload_daemon () {
+  die
+  run_daemon
+}
+
+run_daemon () {
+  # account for current running process too
+  if [ "$(pgrep -c "hyper-clip")" -le "1" ]; then
+    while true; do
+      update_sel
+      sleep "$timeout"
+    done
+  fi
+}
+
+case $1 in
+  copy) do_copy ;;
+  paste) do_paste ;;
+  reload) reload_daemon ;;
+  ""|daemon) run_daemon & ;;
+  quit) die ;;
+  *) echo "unknown option \"$1\"" ;;
+esac

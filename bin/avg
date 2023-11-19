@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# floating point precision
+prec=2
+if [ "$1" = "-p" ]; then
+  prec=$2
+  shift 2
+fi
+
+# initialize array
+array=($@)
+
+# array length
+n=$#
+
+# copying the value of n
+m=$n
+
+# initialized sum by 0
+sum=0
+
+# loop until n is greater
+# than 0
+while [ $n -gt 0 ]
+do
+    # copy element in a
+    # temp variable
+    num=${array[$(( n-1 ))]}
+
+    # add them to sum
+    sum=$(( sum+num ))
+
+    # decrement count of n
+    (( n-- ))
+done
+
+# find average with bc
+avg=$(echo "$sum / $m" | bc -l)
+printf "%0.${prec}f" "$avg"

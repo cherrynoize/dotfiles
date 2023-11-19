@@ -1,0 +1,150 @@
+#!/usr/bin/env bash
+# clear common mistakes that leave you like 'wtf?'
+# author | cherrynoize
+
+profile="$HOME/.xprofile"
+
+# list to run when unfucking everything
+declare -a everything=(
+  wallpaper
+  wpg
+  bar
+  picom
+  redshift
+  dunst
+  sxhkd
+  keyboard
+  monitor
+  profile
+)
+
+# minimum usage list item length
+max_len=10 # "everything"
+
+for e in "${everything[@]}"; do
+  if [ "${#e}" -gt "$max_len" ]; then
+    max_len="${#e}"
+  fi
+done
+
+pad () {
+  pad=
+  pad_len=$(( max_len - ${#1} ))
+  while [ "$pad_len" -gt "0" ]; do
+    pad+=" "
+    (( pad_len-- ))
+  done
+  echo "$pad"
+}
+
+print_sep () {
+  if [ -z "$sep" ]; then
+    len=$(( max_len + 6 ))
+    while [ "$len" -gt "0" ]; do
+      sep+="="
+      (( len-- ))
+    done
+  fi
+  echo "$sep"
+}
+
+show_list () {
+  print_sep
+  for e in "${everything[@]}"; do
+    echo "|| $e$(pad "$e") ||"
+  done
+  echo "|| everything ||"
+  print_sep
+}
+
+usage () {
+  echo "usage: unfuck [OPTION]"
+  show_list
+  echo "example: unfuck everything"
+}
+
+unfuck_everything () {
+  # unfuck every little thing
+  for e in "${everything[@]}"; do
+    eval "unfuck_$e"
+  done
+}
+
+unfuck_profile () {
+  . "$profile"
+}
+
+unfuck_keyboard () {
+  setxkbmap -option caps:escape,shift:both_capslock
+}
+
+unfuck_monitor () {
+  toggle-monitor
+}
+
+unfuck_wallpaper () { # wtf?
+  killall change-wallpaper
+}
+
+unfuck_wpg () {
+  # reload current wallpaper
+  wpg -s "$(wpg -c)"
+}
+
+unfuck_redshift () {
+  if pgrep redshift; then
+    kill-redshift > /dev/null
+    redshift&
+  else
+    kill-redshift 2> /dev/null
+  fi
+}
+
+unfuck_sxhkd () {
+  # try to reload
+  pkill -USR1 -x sxhkd || {
+    # sxhkd will spawn terminals in dir from which daemon was run
+    cd ~
+    # kill and respawn
+    killall sxhkd
+    sxhkd & disown
+  }
+}
+
+unfuck_dunst () {
+  killall dunst
+  killall xfce4-notifyd # causes conflicts and is spawned automatically by stuff such as xfce4-power-manager
+  dunst &
+}
+
+unfuck_picom () {
+  killall picom
+  picom -b
+}
+
+unfuck_bar () {
+  # check if any bar is running
+  if ! pgrep eww > /dev/null && ! pgrep polybar > /dev/null; then
+    # reset bspc padding
+    pad="$(bash ~/.config/bspwm/themes/current padding)"
+    bspc config top_padding "$pad"
+  else
+    # close and relaunch bar
+    killall eww
+    killall polybar
+    switch-bar launch
+  fi
+}
+
+case $1 in
+  "")
+    echo "what to unfuck?"
+    show_list
+    ;;
+  -h|--help)
+    usage
+    ;;
+  *)
+    eval "unfuck_$1"
+    ;;
+esac

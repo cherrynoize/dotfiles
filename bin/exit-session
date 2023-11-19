@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+if [ -e "/tmp/bspwm_0_0-socket" ]; then
+  DESKTOP_SESSION="bspwm"
+fi
+
+case "$DESKTOP_SESSION" in
+  "" ) echo "desktop session not found: trying everything" ;;&
+  "openbox"|"" ) openbox --exit ;;&
+  "bspwm"|"" ) bspc quit ;;&
+  "awesome"|"" ) killall awesome ;;&
+  "i3"|"" ) i3-msg exit ;;&
+  "plasma"|"" ) qdbus org.kde.ksmserver /KSMServer logout 0 0 0 ;;
+  * ) echo "$DESKTOP_SESSION: unknown desktop session" ;;
+esac

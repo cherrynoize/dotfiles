@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+WIN_MOUNT_POINT="/tmp/windows-mnt"
+WIN_PART="/dev/nvme0n1p3"
+WIN_ENTRYPOINT="Users/j"
+
+log_file="/var/log/windows.log"
+
+# dry run is useful for sourcing above variables
+if [ ! "$1" = "-dry-run" ]; then
+  echo "[$(iso-8601)] access-windows: starting..." | tee -a "$log_file" > /dev/null
+
+  sudo mkdir -p "$WIN_MOUNT_POINT" || {
+    echo "error: failed to create dir $WIN_MOUNT_POINT"
+    exit 1
+  }
+  sudo mount "$WIN_PART" "$WIN_MOUNT_POINT" 2>> "$log_file"
+
+  dest="$WIN_MOUNT_POINT"
+  [ "$1" = "-home" ] && dest+="/$WIN_ENTRYPOINT"
+
+  echo "$dest"
+fi
+
+echo "[$(iso-8601)] access-windows: completed successfully." | tee -a "$log_file" > /dev/null

@@ -1,0 +1,48 @@
+#!/bin/bash
+
+spc=1
+
+workspaces() {
+  ws=($(bspc query -D --names))
+
+  return_val="(box :class \"workspaces\" :orientation \"h\" :spacing $spc :space-evenly \"false\""
+
+  # init counter
+  i=0
+
+  for w in "${ws[@]}"; do
+    foc=
+    occ=
+    urg=
+
+    # increment counter
+    (( i++ ))
+
+    # check if focused
+    [ "$(bspc query -D -d focused --names | grep "$w")" ] && foc="focused"
+
+    # check if occupied
+    [ "$(bspc query -D -d .occupied --names | grep "$w")" ] && occ="occupied"
+
+    if [ -z "$foc" ] && [ -z "$occ" ]; then continue; fi
+
+    # check if urgent
+    [ "$(bspc query -D -d .urgent --names | grep "$w")" ] && urg="urgent"
+
+#   ic[i]=""
+    ic[i]="$w"
+#   if [ -n "${foc}" ]; then
+#     ic[i]=""
+#   fi
+
+    return_val+=" (button :onclick \"bspc desktop -f ^${i}\" :class \"${foc} ${occ} ${urg}\" \"${ic[i]}\")"
+  done
+
+  return_val+=")"
+  echo "$return_val"
+}
+
+workspaces
+bspc subscribe desktop node_transfer | while read -r _ ; do
+  workspaces
+done

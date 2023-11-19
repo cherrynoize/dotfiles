@@ -1,0 +1,9 @@
+#!/bin/sh
+n=$#
+
+while [ -n "$1" ]; do
+  res=$((res+$1))
+  shift
+done
+
+echo "$((res/n))"

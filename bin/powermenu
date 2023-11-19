@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+dir="$HOME/.config/rofi/ui/"
+theme="neo"
+
+#lastlogin="$(last "$USER" | head -n1 | tr -s ' ' | cut -d' ' -f5,6,7)"
+uptime="$(uptime -p | sed -e 's/up //g')"
+host="$(hostname)"
+
+# icons
+hibernate=''
+#shutdown='⏼'
+shutdown=''
+#reboot='⟳'
+reboot=''
+lock=''
+suspend=''
+logout=''
+
+# rofi win
+rofi_win () {
+  rofi -dmenu \
+    -p " $USER@$host" \
+    -mesg " Uptime: $uptime" \
+    -theme "$dir/$theme.rasi"
+}
+
+# launch powermenu
+choice="$(echo -e "$lock\n$suspend\n$logout\n$hibernate\n$reboot\n$shutdown" | rofi_win)"
+
+case "$choice" in
+  "$shutdown")
+    confirm power off
+    ;;
+  "$reboot")
+    confirm power reboot
+    ;;
+  "$hibernate")
+    power hybrid-sleep
+    ;;
+  "$suspend")
+    power sleep
+    ;;
+  "$logout")
+    confirm power exit
+    ;;
+  "$lock")
+    power force lock
+    ;;
+esac

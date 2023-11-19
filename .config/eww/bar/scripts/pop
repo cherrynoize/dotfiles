@@ -1,0 +1,128 @@
+#!/bin/sh
+# toggle eww windows
+
+# eww
+eww="eww -c ${HOME}/.config/eww/bar/themes/current"
+
+EWW_WINDOWS="system calendar music audio power panel"
+
+# open window
+run () {
+  # close other open windows
+  if [ -n "$OTHER_EWW_WINDOWS" ]; then
+    ${eww} close $OTHER_EWW_WINDOWS
+  fi
+
+  ${eww} open-many --toggle $1
+}
+
+# launch and close widgets
+launch () {
+  run "$EWW_WIN" & echo "Ok, good!"
+}
+
+calendar () {
+  EWW_WIN="calendar"
+  OTHER_EWW_WINDOWS="$(echo "$EWW_WINDOWS" | sed 's/'$EWW_WIN'//')"
+  launch
+}
+
+calendar_container () {
+  EWW_WIN="calendar-container"
+  OTHER_EWW_WINDOWS=""
+  launch
+}
+
+system () {
+  EWW_WIN="system"
+  OTHER_EWW_WINDOWS="$(echo "$EWW_WINDOWS" | sed 's/'$EWW_WIN'//')"
+  launch
+}
+
+system_container () {
+  EWW_WIN="system-container"
+  OTHER_EWW_WINDOWS=""
+  launch
+}
+
+music () {
+  EWW_WIN="music"
+  OTHER_EWW_WINDOWS="$(echo "$EWW_WINDOWS" | sed 's/'$EWW_WIN'//')"
+  launch
+}
+
+music_container () {
+  EWW_WIN="music-container"
+  OTHER_EWW_WINDOWS=""
+  launch
+}
+
+audio () {
+  EWW_WIN="audio"
+  OTHER_EWW_WINDOWS="$(echo "$EWW_WINDOWS" | sed 's/'$EWW_WIN'//')"
+  launch
+}
+
+audio_container () {
+  EWW_WIN="audio-container"
+  OTHER_EWW_WINDOWS=""
+  launch
+}
+
+power () {
+  EWW_WIN="power"
+  OTHER_EWW_WINDOWS="$(echo "$EWW_WINDOWS" | sed 's/'$EWW_WIN'//')"
+  launch
+}
+
+power_container () {
+  EWW_WIN="power-container"
+  OTHER_EWW_WINDOWS=""
+  launch
+}
+
+panel () {
+  EWW_WIN="panel"
+  OTHER_EWW_WINDOWS="$(echo "$EWW_WINDOWS" | sed 's/'$EWW_WIN'//')"
+  launch
+}
+
+panel_container () {
+  EWW_WIN="panel-container"
+  OTHER_EWW_WINDOWS=""
+  launch
+}
+
+# pick widgets
+case $1 in
+  calendar)
+    calendar
+    calendar_container
+    ;;
+  system)
+    system
+    system_container
+    ;;
+  music)
+    music
+    music_container
+    ;;
+  audio)
+    audio
+    audio_container
+    ;;
+  power)
+    power
+    power_container
+    ;;
+  panel)
+    panel
+    panel_container
+    ;;
+  --close)
+    ${eww} close panel system calendar music audio
+    ;;
+  *)
+    echo "unknown option: $1"
+    ;;
+esac

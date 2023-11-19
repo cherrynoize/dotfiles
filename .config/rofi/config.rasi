@@ -1,0 +1,8 @@
+@import "~/.config/rofi/bindings.rasi"
+
+configuration {
+  modes: "window,windowcd,run,drun,filebrowser,keys,ssh,combi";
+  terminal: "alacritty";
+}
+
+@theme "~/.config/rofi/themes/wpgtk.rasi"

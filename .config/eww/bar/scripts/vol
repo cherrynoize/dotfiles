@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ "$(vol status)" == "on" ]; then
+  fg="#0f0f17"
+  bg="#bbc5d7"
+else
+  bg="transparent"
+  fg="#bbc5d7"
+fi
+
+case "$1" in
+  fg)
+    echo "$fg"
+    ;;
+  bg)
+    echo "$bg"
+    ;;
+  *)
+    vol "$@"
+    ;;
+esac

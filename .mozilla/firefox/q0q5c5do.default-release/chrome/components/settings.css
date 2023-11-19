@@ -1,0 +1,2 @@
+/* hide mouseover toolbar in fullscreen mode */
+*|div#fullscr-toggler {display:none!important;}

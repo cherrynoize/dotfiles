@@ -1,0 +1,72 @@
+#!/bin/sh
+# author | cherrynoize
+icon_on="󰀝"
+icon_off="󰀞"
+#icon_off="󰘊"
+
+# airplane mode on
+turn_on () {
+  # disable all
+  toggle-bluetooth off &
+  toggle-wifi off &
+}
+
+# airplane mode off
+turn_off () {
+  # enable all
+  toggle-bluetooth on &
+  toggle-wifi on &
+}
+
+# if anything is active
+case on in
+  "$(toggle-wifi status)"|"$(toggle-bluetooth status)")
+    # means airplane mode is off
+    status="off"
+    mode="wireless on"
+    ;;
+  *)
+    # otherwise we assume it's on
+    status="on"
+    mode="airplane mode"
+    ;;
+esac
+
+case "$1" in
+  ""|toggle)
+    if [ "$status" = "on" ]; then
+      turn_off
+    else
+      turn_on
+    fi
+    exit
+    ;;
+  on)
+    turn_on
+    exit
+    ;;
+  off)
+    turn_off
+    exit
+    ;;
+  status)
+    echo "$status"
+    exit
+    ;;
+  mode)
+    echo "$mode"
+    exit
+    ;;
+  icon)
+    if [ "$status" = "on" ]; then
+      echo "$icon_on"
+    else
+      echo "$icon_off"
+    fi
+    exit
+    ;;
+  *)
+    echo "unknown option: $1"
+    exit 1
+    ;;
+esac

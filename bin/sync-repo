@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# sync local repo with remote
+# author | cherrynoize
+
+msg="auto sync (sync-repo: $(date "+%Y-%m-%d %H:%M"))"
+remote="origin"
+
+# error: no repo
+[ -n "$1" ] || {
+  echo "no repo specified."
+  exit 1
+}
+
+# overwrite default msg
+[ -n "$2" ] && {
+  msg="$2"
+}
+
+# overwrite default remote
+[ -n "$3" ] && {
+  remote="$3"
+}
+
+# try to change dir
+pushd "$1" || {
+  echo "error: could not move to repo path: $1"
+  exit 2
+}
+
+# pull from repo first
+git pull
+# add all files in path
+if [ -z "$TRACKING_OFF" ]; then
+  git add .
+  add-submodules . 2>/dev/null
+fi
+# then push local changes
+git commit -a -m "$msg"
+git push -u "$remote" || { # if it fails
+  sadd # try to add ssh key first
+  echo # newline
+
+  # if running interactively, try again
+  [[ $- = *i* ]] && exec "$0" "$@"
+}
+
+# try to popd back
+popd || {
+  echo "error: could not go back to start dir."
+  exit 2
+}

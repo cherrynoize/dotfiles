@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# set the timer
+t="$1"
+
+# count each second
+while [ "$t" -gt "0" ]; do
+  printf "%d               \r" "$t"
+  (( t-- ))
+  sleep 1
+done
+
+[ "$2" = "-n" ] && notify-send "Time's up!"

@@ -1,0 +1,10 @@
+#!/bin/sh
+title_fmt='+%a, %b %d %Y'
+body_fmt='+%H:%M:%S'
+case $# in
+  0 ) ;;
+  [1-2] ) title_fmt="$1";;
+  2 ) body_fmt="$2";;
+  * ) echo Too many arguments.; exit 1;;
+esac
+notify-send "$(date "$title_fmt")" "$(date "$body_fmt")"

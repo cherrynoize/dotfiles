@@ -1,0 +1,23 @@
+#!/bin/sh
+# measure read/write speed on disk
+# stolen from https://wiki.archlinux.org/title/Benchmarking
+
+tmp_file="disk-benchmark.tmpfile"
+
+# write file
+echo measuring write speed...
+dd if=/dev/zero of="$tmp_file" bs=1M count=1024 conv=fdatasync,notrunc status=progress
+
+# clear the buffer-cache
+echo 3 > /proc/sys/vm/drop_caches
+# read file from disk
+echo measuring read speed...
+dd if="$tmp_file" of=/dev/null bs=1M count=1024 status=progress
+
+# read again, this time from buffer-cache
+echo measuring read from buffer-cache speed...
+dd if="$tmp_file" of=/dev/null bs=1M count=1024 status=progress
+# note: one should compute average of last command 4-5 times
+
+# remove file
+rm "$tmp_file"

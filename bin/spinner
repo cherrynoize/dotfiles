@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# pick a random animation from bash_loading_animations
+# author      cherrynoize
+# animations  https://github.com/Silejonu/bash_loading_animations
+
+# Load in the functions and animations
+source ~/.local/lib/bash_loading_animations.sh
+# Run BLA::stop_loading_animation if the script is interrupted
+trap BLA::stop_loading_animation SIGINT
+
+declare animations=(
+  '${BLA_classic[@]}'
+  '${BLA_box[@]}'
+  '${BLA_bubble[@]}'
+  '${BLA_breathe[@]}'
+  '${BLA_growing_dots[@]}'
+  '${BLA_passing_dots[@]}'
+  '${BLA_metro[@]}'
+  '${BLA_snake[@]}'
+  '${BLA_filling_bar[@]}'
+  '${BLA_classic_utf8[@]}'
+  '${BLA_bounce[@]}'
+  '${BLA_vertical_block[@]}'
+  '${BLA_horizontal_block[@]}'
+  '${BLA_quarter[@]}'
+  '${BLA_triangle[@]}'
+  '${BLA_semi_circle[@]}'
+  '${BLA_rotating_eyes[@]}'
+  '${BLA_firework[@]}'
+  '${BLA_braille[@]}'
+  '${BLA_braille_whitespace[@]}'
+  '${BLA_trigram[@]}'
+  '${BLA_arrow[@]}'
+  '${BLA_bouncing_ball[@]}'
+  '${BLA_big_dot[@]}'
+  '${BLA_modern_metro[@]}'
+  '${BLA_pong[@]}'
+  '${BLA_earth[@]}'
+  '${BLA_clock[@]}'
+  '${BLA_moon[@]}'
+  '${BLA_orange_pulse[@]}'
+  '${BLA_blue_pulse[@]}'
+  '${BLA_football[@]}'
+  '${BLA_blink[@]}'
+  '${BLA_camera[@]}'
+  '${BLA_sparkling_camera[@]}'
+  '${BLA_sick[@]}'
+  '${BLA_monkey[@]}'
+  '${BLA_bomb[@]}'
+)
+
+# pick a random animation
+anim=${animations[ $RANDOM % ${#animations[@]} ]}
+
+# print animation variable name and exit
+case $1 in
+  -n|--name)
+    echo "$anim"
+    exit
+    ;;
+  -f|--flush)
+    flush=1
+    shift
+    ;;
+  -q|--quiet)
+    quiet=1
+    shift
+    ;;
+esac
+
+if [ -z "$1" ]; then
+  cmd="sleep 5"
+fi
+
+eval BLA::start_loading_animation "$anim"
+if [ -n "$quiet" ]; then
+  eval "$cmd"; "$@" >/dev/null
+else
+  eval "$cmd"; "$@"
+fi
+BLA::stop_loading_animation
+
+if [ -n "$flush" ]; then
+  printf "\033[1A                                "
+fi
+
+printf "\n" # restore the terminal cursor

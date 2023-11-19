@@ -1,0 +1,103 @@
+!! Screen
+Xft.dpi: 115
+
+!! Conf
+URxvt*altSendsEscape: true
+xterm*metaSendsEscape: true
+
+!! Colorscheme
+
+! special
+URxvt.foreground:   #c7a0dc
+URxvt.background: #17051e
+URxvt.cursorColor:  #c7a0dc
+URxvt*shading: 30
+xterm*foreground:  #c7a0dc
+xterm*background:  #17051e
+xterm*cursorColor: #c7a0dc
+
+! black
+*.color0:       #002b36
+*.color8:       #657b83
+
+! red
+*.color1:       #dc322f
+*.color9:       #dc322f
+
+! green
+*.color2:       #859900
+*.color10:      #859900
+
+! yellow
+*.color3:       #b58900
+*.color11:      #b58900
+
+! blue
+*.color4:       #268bd2
+*.color12:      #268bd2
+
+! magenta
+*.color5:       #6c71c4
+*.color13:      #6c71c4
+
+! cyan
+*.color6:       #2aa198
+*.color14:      #2aa198
+
+! white
+*.color7:       #93a1a1
+*.color15:      #fdf6e3
+
+!! URxvt Appearance
+URxvt.font: xft:JetBrains Mono:size=12
+URxvt.boldFont: xft:JetBrains Mono:style=Bold:size=12
+URxvt*.italicFont: xft:JetBrains Mono:style=Italic:size=12
+URxvt*.boldItalicFont: xft:JetBrains Mono:style=Bold Italic:size=12
+URxvt.letterSpace: 0
+URxvt.lineSpace: 0
+!! URxvt.geometry: 92x24
+URxvt.geometry: 400x400
+URxvt.internalBorder: 24
+URxvt.cursorBlink: true
+URxvt.cursorUnderline: false
+URxvt.saveline: 2048
+URxvt.scrollBar: false
+URxvt.scrollBar_right: false
+URxvt.urgentOnBell: true
+URxvt.depth: 32
+URxvt.iso14755: false
+
+!! Common Keybinds for Navigations
+URxvt.keysym.Shift-Up: command:\033]720;1\007
+URxvt.keysym.Shift-Down: command:\033]721;1\007
+URxvt.keysym.Control-Up: \033[1;5A
+URxvt.keysym.Control-Down: \033[1;5B
+URxvt.keysym.Control-Right: \033[1;5C
+URxvt.keysym.Control-Left: \033[1;5D
+
+! "Delete previous word" Set from: Default
+rofi.kb-remove-word-back:            Control+Alt+h,Control+BackSpace
+! "Delete next word" Set from: Default
+rofi.kb-remove-word-forward:         Control+Alt+d
+
+!! Edit | Copy Paste Selection & Search
+URxvt.perl-ext-common: default,clipboard,url-select,keyboard-select
+URxvt.clipboard.autocopy: true
+URxvt.copyCommand: xsel -ib
+URxvt.pasteCommand: xsel -ob
+URxvt.keysym.M-c: perl:clipboard:copy
+URxvt.keysym.M-v: perl:clipboard:paste
+URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+URxvt.keysym.M-s: perl:keyboard-select:search
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.keyboard-select.clipboard: true !! Copy to clipboard in selection mode
+
+!! Permanent highlight copy-paste
+!!URxvt.copyCommand: xclip -i -selection clipboard
+!!URxvt.pasteCommand: xclip -o
+
+!! URLs
+URxvt.urlLauncher: firefox
+URxvt.underlineURLs: true
+URxvt.urlButton: 1

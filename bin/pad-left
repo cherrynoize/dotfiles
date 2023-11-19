@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+pad=0
+pad+="$1"
+shift
+
+for (( i=0; i<${pad#0}; i++ )); do
+  printf " "
+done
+printf "$@"

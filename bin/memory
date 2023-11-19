@@ -1,0 +1,39 @@
+#!/bin/sh
+
+args="-m"
+
+usage () {
+cat << EOF
+usage: memory MODE [OPTIONS]
+
+options:
+ MODE can be one of:
+  used | free | total | perc (default)
+ OPTIONS are passed down directly as args to \`free\` (ignored with perc).
+
+examples:
+ memory used
+ memory total -h --si
+EOF
+}
+
+case "$1" in
+  ""|perc)
+    printf "%.0f\n" "$(free -m | grep Mem | awk '{print ($3/$2)*100}')"
+    ;;
+  total)
+    shift
+    free $args "$@" | grep Mem: | awk '{print $2}'
+    ;;
+  used)
+    shift
+    free $args "$@" | grep Mem: | awk '{print $3}'
+    ;;
+  free)
+    shift
+    free $args "$@" | grep Mem: | awk '{print $4}'
+    ;;
+  help)
+    usage
+    ;;
+esac

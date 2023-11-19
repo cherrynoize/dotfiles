@@ -1,0 +1,3 @@
+#!/bin/sh
+switch-mode -a light
+notify-send "Light mode set"

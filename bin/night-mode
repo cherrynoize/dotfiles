@@ -1,0 +1,31 @@
+#!/bin/sh
+
+case "$(switch-mode -c)" in
+  light)
+    icon="󰖨"
+    mode="light mode"
+    status="disabled"
+    ;;
+  dark)
+    icon="󰤄"
+    mode="dark mode"
+    status="enabled"
+    ;;
+  *)
+    icon="󰔎"
+    mode="mode unavailable"
+    status="unavailable"
+    ;;
+esac
+
+case "$1" in
+  status)
+    echo "$status"
+    ;;
+  icon)
+    echo "$icon"
+    ;;
+  mode)
+    echo "$mode"
+    ;;
+esac

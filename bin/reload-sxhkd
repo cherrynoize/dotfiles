@@ -1,0 +1,3 @@
+#!/bin/sh
+pkill -USR1 -x sxhkd
+notify-send "sxhkd" "Config reloaded"

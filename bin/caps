@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# case manipulation pipe script
+#
+# author: cherrynoize
+# cherrynoize [at] duck (dot) com
+# https://cherrynoize.github.io
+#
+
+usage () {
+cat << EOF
+ example usage:
+  echo hello, world! | caps -W
+EOF
+}
+
+case $1 in
+  -h)
+    usage
+    ;;
+  -l)
+    # string to lowercase
+    tr '[:upper:]' '[:lower:]'
+    ;;
+  -u)
+    # string to uppercase
+    tr '[:lower:]' '[:upper:]'
+    ;;
+  -L)
+    # first letter of string to uppercase
+    input="$(cat)"
+    echo "${input^}"
+    ;;
+  -W)
+    # first letter of each word to uppercase
+    sed -e "s/\b\(.\)/\u\1/g"
+    ;;
+esac

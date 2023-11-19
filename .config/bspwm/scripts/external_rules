@@ -1,0 +1,60 @@
+#!/bin/bash
+
+wid=$1
+class=$2
+instance=$3
+consequences=$4
+
+#read W H <<< "$(xdotool getdisplaygeometry)"
+
+# For debugging purposes
+#notify-send "$wid $class $instance $consequences"
+
+handle_win () {
+  case "$class" in
+    FloaTerm)
+      eval "$consequences"
+      [ "$state" ] || echo "state=floating center=on rectangle=781x451+0+0"
+      ;;
+    Updating)
+      eval "$consequences"
+      [ "$state" ] || echo "state=floating rectangle=483x190+1090+72"
+      ;;
+#   MusicPlayer)
+#     eval "$consequences"
+#     [ "$state" ] || echo "desktop=^5"
+#     ;;
+#   mpv)
+#     eval "$consequences"
+#     [ "$state" ] || echo "desktop=^6"
+#     ;;
+    retroarch)
+      eval "$consequences"
+      [ "$state" ] || echo "desktop=^8"
+      ;;
+#   firefox|Firefox|Navigator)
+#     eval "$consequences"
+#     [ "$state" ] || echo "desktop=^2 border=off"
+#     ;;
+    Spotify)
+      eval "$consequences"
+      [ "$state" ] || echo "rectangle=1124x600 desktop=^5"
+      ;;
+    "")
+      sleep 0.5
+      wm_class=($(xprop -id $wid | grep "WM_CLASS" | grep -Po '"\K[^,"]+'))
+      class=${wm_class[-1]}
+      [[ ${#wm_class[@]} == "2" ]] && instance=${wm_class[0]}
+      [[ -n "$class" ]] && main
+      ;;
+  esac
+}
+
+handle_win
+
+case "$instance" in
+  Toolkit)
+    eval "$consequences"
+    [ "$state" ] || echo "state=floating rectangle=500x290+1054+593"
+    ;;
+esac

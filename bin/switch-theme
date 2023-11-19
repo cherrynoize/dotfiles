@@ -1,0 +1,208 @@
+#!/usr/bin/env bash
+# switch between different themes
+#
+# author  cherrynoize
+# https://github.com/cherrynoize
+
+# where to store theme history
+cache_dir="$HOME/.cache/theme-history"
+# size for each file
+hst_size=10
+
+# list of contexts to call when calling switch --all
+declare -a all_ctx=(
+  "wallpaper"
+  "eww-bar"
+  "eww-bar-ui"
+  "polybar"
+  "bspwm"
+  "bspwm-colors"
+)
+
+# run actions and exit
+terminate () {
+  eval "$post_exec"
+}
+
+# add entry if theme changed
+update_history () {
+  cur_theme="$(readlink "$config_link")"
+
+  # if theme has changed
+  if [ ! "$cur_theme" = "$_theme" ]; then
+    # verify cache dir exists
+    mkdir -p "$cache_dir"
+    # history file
+    hst_file="${cache_dir}/${_ctx}"
+
+    # update history
+    if [ -f "$hst_file" ]; then
+      # remove duplicate entries
+      sed -i "/${cur_theme}/d" "$hst_file"
+      # remove old entries
+      hist_buf="$(tail -n $hst_size < "$hst_file")"
+      echo "$hist_buf" > "$hst_file"
+    fi
+
+    # append current theme
+    echo "$cur_theme" >> "$hst_file"
+  fi
+}
+
+# toggle most recent theme in history
+toggle_theme () {
+  # history file
+  hst_file="$cache_dir/$_ctx"
+  # most recent theme
+  lst_theme="$(tail -n 1 < "$hst_file")"
+  # set last theme recursively
+  exec "$0" "$_ctx" "$lst_theme"
+}
+
+# parse args
+while [ -n "$1" ]; do
+  case "$1" in
+    -t|--toggle)
+      toggle_theme
+      exit
+      ;;
+    -s|--show)
+      show=1
+      shift
+      ;;
+    -l|--list)
+      list=1
+      shift
+      ;;
+    -q|--quiet)
+      quiet=1
+      shift
+      ;;
+    -a|--all)
+      # if we had already set a context
+      if [ -n "$_ctx" ]; then
+        # it becomes the theme
+        _theme="$_ctx"
+      fi
+      # cause context is --all
+      _ctx="$1"
+      shift
+      ;;
+    *)
+      if [ -z "$_ctx" ]; then
+        # set context first
+        _ctx="$1"
+      else
+        # then theme
+        _theme="$1"
+      fi
+      shift
+      ;;
+  esac
+done
+
+case "$_ctx" in
+  -a|--all)
+    for c in "${all_ctx[@]}"; do
+      # set mode for each context recursively
+      "$0" "$c" "$_theme"
+    done
+    terminate
+    ;;
+  "")
+    if [ -n "$list" ]; then
+      echo "${all_ctx[*]}"
+      exit
+    fi
+
+    config_dir="."
+    config_link_name="current"
+    config_ext=""
+    ;;
+  wallpaper)
+    config_dir="$HOME/.wallpaper"
+    config_link_name="current"
+    config_ext=""
+    post_exec+="change-wallpaper;"
+    ;;
+  eww-bar)
+    config_dir="$HOME/.config/eww/bar/themes"
+    config_link_name="current"
+    config_ext=""
+    post_exec+="switch-bar reload;"
+    ;;
+  eww-bar-ui)
+    config_dir="$HOME/.config/eww/bar/ui"
+    config_link_name="current"
+    config_ext=""
+    post_exec+="switch-bar reload;"
+    ;;
+  polybar)
+    config_dir="$HOME/.config/polybar/themes"
+    config_link_name="current"
+    config_ext=""
+    post_exec+="switch-bar reload;"
+    ;;
+  rofi)
+    config_dir="$HOME/.config/rofi/themes/"
+    config_link_name="current"
+    config_ext=""
+    post_exec+=""
+    ;;
+  bspwm)
+    config_dir="$HOME/.config/bspwm/themes"
+    config_link_name="current"
+    config_ext=""
+    post_exec+="bspc wm -r"
+    ;;
+  bspwm-colors)
+    config_dir="$HOME/.config/bspwm/colorschemes"
+    config_link_name="current"
+    config_ext=""
+    post_exec+="bspc wm -r"
+    ;;
+  *)
+    echo "error: invalid input. could not find context \`${_ctx}\`"
+    exit 2
+    ;;
+esac
+
+new_config="${config_dir}/${_theme}${config_ext}"
+config_link="${config_dir}/${config_link_name}"
+
+# print current theme
+[ -n "$show" ] &&
+  exec readlink "$config_link"
+
+# list available themes
+[ -n "$list" ] &&
+  exec ls "$config_dir"
+
+if [ -e "$new_config" ]; then
+  if [ -e "$config_link" ]; then
+    if [ -L "$config_link" ]; then
+      # append current theme to history file
+      [ -z "$quiet" ] && update_history
+      # remove current link
+      rm "${config_link}"
+    else
+      echo "error: \`${config_link}\` is not a symlink."
+      exit 3
+    fi
+  fi
+  # point link to new theme
+  ln -s "${_theme}${config_ext}" "${config_link}"
+else
+  echo "error: theme \`${_theme}\` not found."
+  exit 3
+fi
+
+terminate
+
+# TODO
+# - add global theme like in switch-mode
+# - add optional theme option to toggle command to toggle
+#   between last two themes only if either is given
+#   theme, otherwise set given theme
+# - prev and next options
+# - list all available contexts

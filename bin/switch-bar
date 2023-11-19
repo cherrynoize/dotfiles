@@ -1,0 +1,133 @@
+#!/bin/sh
+
+# last bar used
+hst_file="$HOME/.cache/bar.lst"
+
+# actions when no bar history
+run_default () {
+  run_poly
+}
+
+# whether eww is running
+running_eww () {
+  ~/.config/eww/bar/launch.sh status > /dev/null 2>&1
+}
+
+# whether polybar is running
+running_poly () {
+  pgrep polybar > /dev/null
+}
+
+close_eww () {
+  if running_eww; then
+    # try to close politely
+    ~/.config/eww/bar/launch.sh close
+
+    # make sure it's dead
+    killall eww &
+  fi
+}
+
+close_poly () {
+  if running_poly; then
+    # try to close politely
+    polybar-msg cmd quit
+
+    # make sure it's dead
+    killall polybar &
+  fi
+}
+
+run_eww () {
+  echo eww > "$hst_file"
+  ~/.config/eww/bar/launch.sh
+}
+
+run_poly () {
+  echo polybar > "$hst_file"
+  ~/.config/polybar/launch.sh
+
+# # ensure proper launch
+# if ! running_poly; then
+#   sleep 5
+#   ~/.config/polybar/launch.sh
+# fi
+}
+
+toggle_bar () {
+  if running_poly; then
+    close_poly &
+  elif running_eww; then
+    close_eww &
+  else
+    last_bar="$(cat "$hst_file")"
+
+    case "$last_bar" in
+      eww) run_eww;;
+      polybar) run_poly;;
+      *) run_default;;
+    esac
+  fi
+}
+
+while true; do
+  case "$1" in
+    "")
+      # switch between bars
+      if running_poly; then
+        switch-bar eww &
+      elif running_eww; then
+        switch-bar polybar &
+      else
+        # launch last open bar
+        toggle_bar &
+      fi
+      ;;
+    toggle)
+      # toggle bar
+      toggle_bar &
+      ;;
+    reload)
+      # reload bar if running
+      if "$0" status>/dev/null; then
+        "$0" close
+        "$0" launch
+      fi
+      ;;
+    status)
+      # is any bar running
+      if running_eww || running_poly; then
+        exit
+      else
+        exit 1
+      fi
+      ;;
+    launch)
+      # launch bar
+      if running_eww || running_poly; then
+        echo "already running"
+      else
+        toggle_bar &
+      fi
+      ;;
+    close|none)
+      # close all bars
+      close_eww
+      close_poly
+      ;;
+    eww)
+      close_poly &
+      run_eww &
+      ;;
+    polybar)
+      close_eww &
+      run_poly &
+      ;;
+    *)
+      echo "unknown option $1"
+      exit 1
+      ;;
+  esac
+  shift
+  [ -z "$1" ] && break
+done

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# author: cherrynoize (https://github.com/cherrynoize)
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+cat << EOF
+usage:
+ get-endianness [-h|--help | -H|--human]
+
+description:
+ returns 0 for big endian and 1 for little endian
+EOF
+  exit
+fi
+
+# 0=big 1=little
+get-endian () {
+  echo -n I | od -to2 | awk '{ print substr($2,6,1); exit }'
+}
+endian="$(get-endian)"
+
+if [ "$1" = "-H" ] || [ "$1" = "--human" ]; then
+  if [ "$endian" = "1" ]; then
+    echo "little"
+  else
+    echo "big"
+  fi
+else
+  echo "$endian"
+fi

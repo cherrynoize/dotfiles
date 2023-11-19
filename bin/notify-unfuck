@@ -1,0 +1,4 @@
+#!/bin/sh
+notify-send "󰚩 Hold on..." "Unfucking everything"
+unfuck everything
+notify-send "󱜙 Great" "Unfuck successful!"

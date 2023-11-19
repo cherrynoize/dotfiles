@@ -1,0 +1,7 @@
+#!/bin/sh
+header="CPU"
+if [ "$1" = "--header" ]; then
+  notify-send "$header" "$(cpu-usage)%"
+else
+  notify-send "$(cpu-usage)%"
+fi

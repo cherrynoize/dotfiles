@@ -1,0 +1,105 @@
+#!/bin/sh
+# author | cherrynoize
+
+s_on="$HOME/.local/bin/lockscreen"
+s_off="${s_on}.off"
+
+case "$1" in
+  mine)
+    shift
+
+    screenlock_on () {
+      if [ -e "$s_off" ]; then
+        mv "$s_off" "$s_on"
+      elif [ ! -e "$s_on" ]; then
+        echo "error: $s_on not found"
+        exit 2
+      fi
+    }
+
+    screenlock_off () {
+      if [ -e "$s_on" ]; then
+        mv "$s_on" "$s_off"
+      elif [ ! -e "$s_off" ]; then
+        echo "error: $s_off not found"
+        exit 2
+      fi
+    }
+
+    if [ -e "$s_on" ]; then
+      status=on
+      icon=
+    else
+      status=off
+      icon=""
+    fi
+
+    case "$1" in
+      ""|toggle)
+        if [ -e "$s_on" ]; then
+          screenlock_off
+        else
+          screenlock_on
+        fi
+        ;;
+      on|enable)
+        screenlock_on
+        ;;
+      off|disable)
+        screenlock_off
+        ;;
+      status)
+        echo "$status"
+        exit
+        ;;
+      icon)
+        echo "$icon"
+        exit
+        ;;
+      *)
+        echo "unknown option: $1"
+        exit 1
+        ;;
+    esac
+    ;;
+  systemd)
+    shift
+
+    # fetch current status
+    status="$(systemctl status suspend@noize | head -n2 | tail -n1 | awk '{ print $4; }' | sed 's/;$//')"
+
+    case "$1" in
+      ""|toggle)
+        # initialize cmd to enable
+        cmd=enable
+
+        # switch cmd if already enabled
+        if [ "$status" = "enabled" ]; then
+          cmd=disable
+        fi
+        ;;
+      status)
+        echo "$status"
+        exit
+        ;;
+      status)
+        echo "$status"
+        exit
+        ;;
+      *)
+        # pass everything as argument
+        cmd="$*"
+        ;;
+    esac
+
+    # toggle suspend service
+    systemctl $cmd suspend@noize
+    ;;
+  ""|*)
+    if [ -e "$s_on" ] || [ -e "$s_off" ]; then
+      "$0" mine "$@"
+    else
+      "$0" systemd "$@"
+    fi
+    ;;
+esac

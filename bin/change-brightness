@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# uses set-light to change brightness level and displays
+# notification
+# author | cherrynoize
+
+# Available commands are
+# |  up  |
+# | down |
+# |  to  |
+# |  on  |
+# | off  |
+
+step=5
+
+[ -n "$2" ] && step="$2"
+
+function get_brightness {
+  set-light -r
+}
+
+function send_notification {
+  brightness="$(get_brightness)"
+  brightness=$((brightness*95/100)) # resize to better fit icon on 100%
+  # Send the notification
+  notify-percent compact "$brightness" "☼"
+}
+
+case $1 in
+  up)
+    # Turn brightness up
+    set-light -ur "$step"
+    send_notification
+    ;;
+  down)
+    # Turn brightness down
+    set-light -dr "$step"
+    send_notification
+    ;;
+  to)
+    # Set brightness to value
+    # Sends notification only if no additional argument is passed
+    set-light -r "$2"
+    send_notification
+    ;;
+  on)
+    # Turn on screen
+    screen-on
+    ;;
+  off)
+    # Turn off screen
+    screen-off
+    ;;
+esac

@@ -1,0 +1,10 @@
+#!/bin/sh
+# author | cherrynoize
+case "$1" in
+  "")
+    bluetooth toggle
+    ;;
+  *)
+    bluetooth "$@"
+    ;;
+esac

@@ -1,0 +1,53 @@
+#!/bin/sh
+# notify value with a visual bar
+# author | cherrynoize
+
+# send notification
+send_notification () {
+  if [ -n "$use_compact" ]; then
+    dunstify "$icon $bar" -t 2000 --replace=555
+  else
+    dunstify "$bar" "<span size='x-large' weight='bold'>$icon</span>$val" -t 2000 --replace=555
+  fi
+}
+
+# close other notifications if any then send notification
+close_notifs_then_send () {
+  if [ "$(dunstctl count displayed)" -gt "1" ]; then
+    dunstctl close-all
+    send_notification
+  fi
+}
+
+if [ "$1" = "compact" ]; then
+  use_compact=1
+  shift
+fi
+
+val="$1"
+
+if [ -n "$use_compact" ]; then
+  # make space for icon
+  val=$((val*9/10)) # allocate 9/10ths for bar
+fi
+
+if [ -z "$val" ]; then
+  echo "error: at least one parameter required."
+  exit 1
+fi
+
+bar="$(seq -s "─" $((val/5+1)) | sed 's/[0-9]//g')"
+
+if [ -n "$2" ]; then
+  icon="$2 "
+fi
+
+close_notifs_then_send # first close any other notifs
+# here because it's looking cleaner when there's more than one
+# already
+
+send_notification # then send ours
+# here in case there's none
+
+close_notifs_then_send # now verify that there is only ours
+# here in case there was only one

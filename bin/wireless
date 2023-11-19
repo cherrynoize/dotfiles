@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+essid="$(nmcli c | grep "$WLAN" | awk '{ print $1; }')"
+if [ "$(systemctl status NetworkManager | grep 'inactive')" ]; then
+  status="inactive"
+  icon="󰤯"
+elif [ "$(nmcli g | grep -oE 'disconnected')" ]; then
+  status="disabled"
+  essid="offline"
+  icon="󰤭" # disconnected
+else
+  status="enabled"
+  s="$(wireless-signal)"
+  icon="󰤯"
+  if [ "$s" -gt "79" ]; then
+    icon="󰤨"
+  elif [ "$s" -gt "59" ]; then
+    icon="󰤥"
+  elif [ "$s" -gt "39" ]; then
+    icon="󰤢"
+  elif [ "$s" -gt "19" ]; then
+    icon="󰤟"
+  fi
+fi
+
+case "$1" in
+  ""|status)
+    echo "$status"
+    ;;
+  essid)
+    echo "$essid"
+    ;;
+  icon)
+    echo "$icon"
+    ;;
+esac

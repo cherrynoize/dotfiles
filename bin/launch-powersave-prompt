@@ -1,0 +1,3 @@
+#!/bin/sh
+notify-send "cpupower" "Please enter your password"
+"$TERMINAL" -e toggle-powersave

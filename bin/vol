@@ -1,0 +1,49 @@
+#!/bin/sh
+# author | cherrynoize
+# https://github.com/cherrynoize
+
+ctl=Master
+icon_on=󰕾
+icon_off=󰖁
+
+if [ "$1" = "mic" ]; then
+  ctl=Capture
+  icon_on=
+  icon_off=
+  shift
+fi
+
+# return current volume
+fetch_vol () {
+  # strip square brackets and percent sign
+  vol_left="$(amixer -D pulse sget "$ctl" | grep 'Left:' | awk -F'[][]' '{ print $2; }' | tr -d '%')"
+  vol_right="$(amixer -D pulse sget "$ctl" | grep 'Right:' | awk -F'[][]' '{ print $2; }' | tr -d '%')"
+  mean $vol_left $vol_right
+}
+
+# fetch audio status
+status="$(amixer -D pulse sget "$ctl" | grep 'Left:' | awk -F'[][]' '{ print $4; }')"
+if [ ! "$status" = "on" ]; then
+  status="$(amixer -D pulse sget "$ctl" | grep 'Right:' | awk -F'[][]' '{ print $4; }')"
+fi
+
+if [ "$status" = "on" ]; then
+  icon="$icon_on"
+else
+  icon="$icon_off"
+fi
+
+case "$1" in
+  ""|vol)
+    echo "$(fetch_vol)%"
+    ;;
+  raw)
+    echo "$(fetch_vol)"
+    ;;
+  icon)
+    echo "$icon"
+    ;;
+  status)
+    echo "$status"
+    ;;
+esac

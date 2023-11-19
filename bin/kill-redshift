@@ -1,0 +1,3 @@
+#!/bin/sh
+killall redshift -9 # send KILL signal
+redshift -x # remove adjustment from screen

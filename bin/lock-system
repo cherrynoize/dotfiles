@@ -1,0 +1,3 @@
+#!/bin/sh
+toggle-screenlock on
+tomb slam all

@@ -1,0 +1,17 @@
+#!/bin/sh
+# assemble and run
+# author | cherrynoize
+basename="${1%.*}"
+
+if [ ! -e "$1" ]; then
+  echo "error: file not found: \`$1\`"
+  exit 1
+elif [ "$1" = "$basename" ]; then
+  echo "error in fetching basename: maybe try adding a file ext?"
+  exit 1
+fi
+
+as "$1" -o "$basename.o" || exit 2
+ld "$basename.o" -o "$basename" || exit 2
+chmod +x "$basename" || exit 2
+"./$basename"

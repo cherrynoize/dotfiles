@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+
+# !!!
+# todo
+# - format total_time (not in seconds)
+# !!!
+
+declare -a tasks=(
+  remote
+  disk
+)
+
+default_task="disk"
+
+# run specified task
+task () {
+  eval "run_$1" || {
+    echo "error: unrecognized option: \`$1\`"
+    exit 1
+  }
+}
+
+# print error and set res variable
+set_err () {
+  echo "error: failed to complete task"
+  res=failed
+}
+
+run_all () {
+  for t in "${tasks[@]}"; do
+    task "$t"
+  done
+}
+
+run_remote () {
+  res=done
+  echo "===running backup: system...==="
+  sync-system || set_err
+  echo "===$res==="
+
+  echo # newline
+}
+
+run_disk () {
+  res=done
+  echo "===running backup: sync...==="
+  sudo clone sync/main || set_err
+  echo "===$res==="
+
+  echo # newline
+
+  echo "===running backup: inc...==="
+  sudo clone inc/main || set_err
+  echo "===$res==="
+
+  echo # newline
+}
+
+case "$1" in
+  "")
+    task="all"
+    ;;
+  default)
+    task="$default_task"
+    ;;
+  *)
+    task="$1"
+    ;;
+esac
+shift
+
+# fetch start time
+start_time="$(date +%s)"
+
+# run task
+task "$task" "$@"
+
+# calculate expired time in seconds
+total_time=$(( $(date +%s) - start_time ))
+
+echo "total runtime: ${total_time}s."

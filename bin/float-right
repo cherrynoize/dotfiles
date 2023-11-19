@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+win_size=9999
+txt="${1/\\n/}"
+txt="$(echo "$txt" | sed 's/^[ \t]*//;s/[ \t]*$//')"
+txt_len="$(( ${#txt} - 1 ))"
+printf "\033[${win_size}C\033[${txt_len}D${1}"

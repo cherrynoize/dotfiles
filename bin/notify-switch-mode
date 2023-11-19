@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# author | cherrynoize
+
+while [ "$1" ]; do
+  case "$1" in
+    -i|--icon)
+      set_icon=1
+      shift
+      ;;
+    -s|--show)
+      dry_run=1
+      shift
+      ;;
+  esac
+done
+
+set_now=" on"
+if [ -z "$dry_run" ]; then
+  switch-mode
+  set_now=" set"
+fi
+mode="$(switch-mode -c)"
+
+if [ "$set_icon" ]; then
+  icon="󰤄 "
+  [ "$mode" = "light" ] && icon="󰖨 "
+fi
+
+notify-send "${icon}${mode^} mode${set_now}"

@@ -1,0 +1,24 @@
+#!/bin/sh
+if [ "$(toggle-powersave -C)" = "powersave" ]; then
+  status="enabled"
+  icon=""
+else
+  status="disabled"
+  icon=""
+fi
+
+case "$1" in
+  status)
+    echo "$status"
+    ;;
+  icon)
+    echo "$icon"
+    ;;
+  toggle)
+    shift
+    toggle-powersave "$@"
+    ;;
+  *)
+    echo "unknown option: $1"
+    exit 1
+esac

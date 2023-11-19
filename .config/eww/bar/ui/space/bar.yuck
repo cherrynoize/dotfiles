@@ -1,0 +1,520 @@
+;; modules
+
+(defwidget closer [window]
+  (eventbox :onclick "${pop_script} ${window} || ${eww} close ${window}"))
+ 
+;; widgets
+
+(defwidget wireless [] 
+  (eventbox :onhover "${eww} update wireless_reveal=true netspeed_reveal=false"
+            :onhoverlost "${eww} update wireless_reveal=false netspeed_reveal=true"
+            :onclick "netmenu -p"
+    (box :class "wireless_module" :space-evenly "false"
+      (button :class "icon" :wrap "false" :limit-width 12 :style "color: ${wlan_fg};" wireless_icon)
+      (revealer :transition "slideleft"
+                :reveal netspeed_reveal
+                :duration "350ms"
+        (label :class "netspeed"
+               :text net_speed))
+      (revealer :transition "slideright"
+                :reveal wireless_reveal
+                :duration "350ms"
+        (label :class "essid"
+               :orientation "h"
+               :limit-width 8
+               :text wlan_essid)))))
+
+(defwidget volume []
+  (eventbox :onhover "${eww} update vol_reveal=true"
+            :onhoverlost "${eww} update vol_reveal=false"
+    (box :class "volume widget"
+         :space-evenly "false" :spacing 10
+         :orientation "h"
+      (button
+        :onclick "${pop_script} audio"
+        :class "volume_icon"
+        "")
+      (revealer :transition "slideleft"
+                :reveal vol_reveal
+                :duration "350ms"
+        (scale
+               :value vol
+               :orientation "h"
+               :tooltip "${vol}%"
+               :min 0
+               :max 100
+               :onchange "change-volume {}%")))))
+
+(defwidget bright []
+  (eventbox :onhover "${eww} update br_reveal=true" :onhoverlost "${eww} update br_reveal=false"
+    (box :class "brightness widget"
+         :space-evenly "false" :spacing 10
+         :orientation "h"
+      (button :onclick "screen-off"
+        (label :text "" :class "bright_icon"))
+      (revealer :transition "slideleft"
+                :reveal br_reveal
+                :duration "350ms"
+        (scale
+               :value brightness
+               :orientation "h"
+               :tooltip "${brightness}%"
+               :min 0
+               :max 100
+               :onchange "set-light -r {}")))))
+
+(defwidget icons []
+  (box :class "icons"
+       :halign "center"
+       :spacing 10
+       :space-evenly "false"
+    (bright)
+    (volume)
+    (wireless)))
+
+(defwidget workspaces []
+  (literal :content workspace))
+
+(defwidget sys []
+  (eventbox :onclick "${pop_script} system"
+    (box :spacing 18
+      (temp)
+      (bat)
+      (cpu)
+      (mem))))
+
+;; circular-progress version
+
+(defwidget temp []
+  (box :class "temp sys_indicator"
+    (circular-progress :value temperature
+        :class "temp sys_tray_prog"
+        :thickness 4
+      (label
+          :class "temp prog_icon"
+          :show_truncated false
+          :wrap false
+          :tooltip "Temp: ${temperature}°C"
+          :text ""))))
+
+(defwidget bat []
+  (box :class "bat sys_indicator"
+    (circular-progress :value battery
+        :class "bat sys_tray_prog"
+        :thickness 4
+      (label
+          :class "bat prog_icon"
+          :show_truncated false
+          :wrap false
+          :tooltip "Bat: ${battery}%"
+          :text ""))))
+
+(defwidget cpu []
+  (box :class "cpu sys_indicator"
+    (circular-progress :value cpu
+        :class "cpu sys_tray_prog"
+        :thickness 4
+      (label
+          :class "cpu prog_icon"
+          :show_truncated false
+          :wrap false
+          :tooltip "CPU: ${cpu}%"
+          :text ""))))
+
+(defwidget mem []
+  (box :class "mem sys_indicator" 
+    (circular-progress :value memory
+        :class "mem sys_tray_prog"
+        :thickness 4
+      (label 
+          :class "mem prog_icon"
+          :show_truncated false
+          :wrap false
+          :tooltip "Mem: ${memory}%"
+          :text ""))))
+
+;; label version
+;
+;(defwidget temp []
+;  (box :class "temp sys_indicator"
+;    (label :text "○ ${temperature}°C"
+;           :class "temp sys_tray_prog")))
+;
+;(defwidget bat []
+;  (box :class "bat sys_indicator"
+;    (label :text " ${battery}%"
+;           :class "bat sys_tray_prog")))
+;
+;(defwidget cpu []
+;  (box :class "cpu sys_indicator"
+;    (label :text " ${cpu}%"
+;           :class "cpu sys_tray_prog")))
+;
+;(defwidget mem []
+;  (box :class "mem sys_indicator" 
+;    (label :text " ${memory}%"
+;           :class "mem sys_tray_prog")))
+
+(defwidget sep []
+  (box
+    (label :class "bar_sep" :text "|")))
+
+(defwidget clock_module []
+  (eventbox :onclick "${pop_script} calendar"
+            :tooltip "${cal_day_name}, ${cal_date}"
+    (box :class "clock_module" :space-evenly "false" :orientation "h" :spacing "15"
+      (label :text clock_hour :class "clock_time" )
+      (label :text "/" :class "clock_time_sep" )
+      (label :text clock_minute :class "clock_minute"))))
+
+(defwidget player [] 
+  (eventbox :onhover "${eww} update music_reveal=true"
+            :onhoverlost "${eww} update music_reveal=false"
+    (box :orientation "h"
+         :space-evenly "false" :spacing 5
+      (box :class "player_cover"
+           :style "background-image: url('${cover_loc}');")
+      (button :class "player"
+              :wrap "true"
+              :onclick "${pop_script} music"
+        (label :text player_title
+            :limit-width 36
+            :show_truncated false
+            :wrap false))
+      (revealer :transition "slideright"
+                :reveal music_reveal
+                :duration "350ms"
+        (box :spacing 5
+          (button :class "player_btn_prev" :onclick "playerctl previous" "")
+          (button :class "player_btn_play" :onclick "playerctl play-pause" player_status)
+          (button :class "player_btn_next" :onclick "playerctl next" ""))))))
+
+(defwidget system []
+  (box :class "sys_win popup border" :orientation "v" :space-evenly "false" :spacing 0
+    (box :class "temp sys_box"
+         :orientation "h" :space-evenly "false"
+         :spacing system_progress_margin
+      (circular-progress :value temperature
+            :class "sys temp"
+            :thickness sys_win_prog_thickness
+        (label :text ""
+               :class "temp sys_icon"
+               :limit-width 2
+               :show_truncated false
+               :wrap false))
+      (box :orientation "v" :space-evenly "false" :spacing 5
+           :valign "center"
+        (label :text "thermal" ; "warmth"
+               :halign "start"
+               :class "temp sys_text"
+               :show_truncated false
+               :wrap false)
+        (label :text "${temperature}°C | ${temperature_f}°F"
+               :halign "start"
+               :class "temp sys_text_sub"
+               :show_truncated false
+               :wrap false)
+        (label :text "${temp_status}"
+               :halign "start"
+               :class "temp sys_text_sub"
+               :show_truncated false
+               :wrap false)))
+    (box :class "sys sep")
+    (box :class "bat sys_box"
+         :orientation "h" :space-evenly "false"
+         :spacing system_progress_margin
+      (circular-progress :value battery
+            :class "sys bat"
+            :thickness sys_win_prog_thickness
+        (label :text ""
+               :class "bat sys_icon"
+               :limit-width 2
+               :show_truncated false
+               :wrap false))
+      (box :orientation "v" :space-evenly "false" :spacing 5
+           :valign "center"
+        (label :text "power" ; "battery"
+               :halign "start"
+               :class "bat sys_text"
+               :limit-width 9
+               :show_truncated false
+            :wrap false)
+        (label :text "${battery}%"
+               :halign "start"
+               :class "bat sys_text_sub"
+               :limit-width 22
+               :show_truncated false
+               :wrap false)
+        (label :text "${battery_status}"
+               :halign "start"
+               :class "bat sys_text_sub"
+               :limit-width 22
+               :show_truncated false
+               :wrap false)))
+    (box :class "sys sep")
+    (box :class "cpu sys_box"
+         :orientation "h" :space-evenly "false" :halign "start"
+         :spacing system_progress_margin
+      (circular-progress :value cpu
+            :class "sys cpu"
+            :thickness sys_win_prog_thickness
+        (label :text "󰍛"
+               :class "cpu sys_icon"
+               :limit-width 2
+               :show_truncated false
+               :wrap false
+               :angle 0.0))
+      (box :orientation "v" :space-evenly "false" :spacing 5
+           :valign "center"
+        (label :text "cpu"
+               :halign "start"
+               :class "cpu sys_text"
+               :limit-width 9
+               :show_truncated false
+               :wrap false)
+        (label :text "${cpu}%"
+               :halign "start"
+               :class "cpu sys_text_sub"
+               :limit-width 28
+               :show_truncated false
+               :wrap false)
+        (label :text "${cpu_gov}"
+               :halign "start"
+               :class "cpu sys_text_sub"
+               :limit-width 22
+               :show_truncated false
+               :wrap false)))
+    (box :class "sys sep")
+    (box :class "mem sys_box"
+         :orientation "h" :space-evenly "false" :halign "start"
+         :spacing system_progress_margin
+      (circular-progress :value memory
+            :class "sys mem"
+            :thickness sys_win_prog_thickness
+        (label :text ""
+               :class "mem sys_icon"
+               :limit-width 2
+               :show_truncated false
+               :wrap false
+               :angle 0.0))
+      (box :orientation "v" :space-evenly "false" :spacing 5
+           :valign "center"
+        (label :text "memory"
+               :halign "start"
+               :class "mem sys_text"
+               :limit-width 9
+               :show_truncated false
+               :wrap false)
+        (label :text "${memory}% | ${memory_used}${memory_used_unit}"
+               :halign "start"
+               :class "mem sys_text_sub"
+               :limit-width 28
+               :show_truncated false
+               :wrap false)
+        (label :text "${memory_free}/${memory_total} free"
+               :halign "start"
+               :class "mem sys_text_sub"
+               :limit-width 22
+               :show_truncated false
+               :wrap false)))))
+
+(defwidget cal []
+  (box :class "cal popup border" :orientation "v"
+    (box :class "cal-in" :space-evenly "false"
+      (box :class "date" :space-evenly "false" :spacing 0
+                         :valign "center" :orientation "v"
+        (label :class "cal_date_header"
+               :text "${cal_day_name},")
+        (label :class "cal_date"
+               :text cal_date)
+        (label :class "cal_date_footer"
+               :text cal_year))
+      (box :class "sep")
+      (calendar :class "cal" 
+                :day cal_day 
+                :year cal_year_short))))
+
+(defwindow calendar
+  :geometry (geometry :x "-18px" 
+                      :y "6%" 
+                      :anchor "top right"
+                      :width "270px" 
+                      :height "60px")
+    (cal))
+
+(defwidget audio []
+  (box :class "audio_win popup border"
+       :orientation "v" :hexpand "true"
+       :spacing 12 :space-evenly "false"
+    (box :spacing 20 :space-evenly "false"
+      (button :onclick "change-volume -q toggle"
+        (label :class "speaker icon" :text vol_icon
+               :valign "center" :halign "left"))
+      (box :orientation "v" :halign "center" :spacing 8
+        (label :class "speaker text" :text "speaker" :valign "center" :halign "left")
+        (box :class "speaker bar" :halign "center"
+          (scale :value vol
+                 :orientation "h"
+                 :onchange "change-volume -q {}%" 
+                 :tooltip "${vol}%"
+                 :max 100
+                 :min 0))))
+    (box :class "sep border" :hexpand "true")
+    (box :spacing 20 :space-evenly "false"
+      (button :onclick "change-volume -q mic toggle"
+        (label :class "mic icon" :text mic_icon :valign "center" :halign "left"))
+      (box :orientation "v" :halign "center" :spacing 8
+        (label :class "mic text" :text "mic" :valign "center" :halign "left")
+        (box :class "mic bar" :halign "center"
+          (scale :value mic
+                 :orientation "h"
+                 :tooltip "${mic}%"
+                 :onchange "change-volume -q mic {}%" 
+                 :max 100
+                 :min 0))))))
+
+(defwindow audio
+  :geometry (geometry :x "-18px" 
+                      :y "6%" 
+                      :anchor "top right")
+  (audio))
+
+(defwindow system
+  :geometry (geometry :x "-18px"
+                      :y "6%" 
+                      :anchor "top right"
+                      :width "290px" 
+                      :height "120px")
+  (system))
+
+;; music
+
+(defwidget music []
+  (box :class "music_win popup border" :halign "center"
+       :orientation "h" :space-evenly "false"
+    (box :class "music_cover"
+         :style "background-image: url('${cover_loc}');")
+    (box :orientation "v" :valign "center"
+         :space-evenly "false" :spacing 15
+      (box :orientation "v" :halign "center"
+           :space-evenly "false" :spacing 10
+        (label :class "music"
+               :halign "center" :wrap "true"
+               :limit-width title_max_chars
+               :text player_scroll_title)
+        (label :class "music_artist"
+               :halign "center" :wrap "true"
+               :limit-width artist_max_chars
+               :text player_scroll_artist))
+      (box :orientation "v"
+           :space-evenly "false" :spacing 25
+        (box :orientation "h" :spacing 15
+             :halign "center" :space-evenly "false"
+          (button :class "music_btn_prev"
+                  :onclick "playerctl previous" "")
+          (button :class "music_btn_play"
+                  :onclick "playerctl play-pause" player_status)
+          (button :class "music_btn_next"
+                  :onclick "playerctl next" ""))
+        (box :class "music_bar"
+                  :halign "center" :space-evenly "false"
+          (scale :active "true"
+                  :min 0 :max player_ttime
+                  :onscroll "playerctl position {}"
+                  :value player_time))))))
+
+(defwindow music :geometry (geometry :x "0"
+                                     :y "6%"
+                                     :width 425
+                                     :height 200
+                                     :anchor "top center")
+  (music))
+
+(defwidget pfp []
+  (eventbox :onclick "${pop_script} panel"
+    (box :class "pfp_icon"
+         :style "background-image: url('${pfp_loc}');")))
+
+(defwindow calendar-container
+  :geometry (geometry :y "50px"
+                      :width "100%"
+                      :height "100%")
+  :stacking "fg"
+  :focusable false
+  (closer :window "calendar"))
+
+(defwindow system-container
+  :geometry (geometry :y "50px"
+                      :width "100%"
+                      :height "100%")
+  :stacking "fg"
+  :focusable false
+  (closer :window "system"))
+
+(defwindow music-container
+  :geometry (geometry :y "50px"
+                      :width "100%"
+                      :height "100%")
+  :stacking "fg"
+  :focusable false
+  (closer :window "music"))
+
+(defwindow audio-container
+  :geometry (geometry :y "50px"
+                      :width "100%"
+                      :height "100%")
+  :stacking "fg"
+  :focusable false
+  (closer :window "audio"))
+
+(defwindow panel-container
+  :geometry (geometry :y "50px"
+                      :width "100%"
+                      :height "100%")
+  :stacking "fg"
+  :focusable false
+  (closer :window "panel"))
+
+(defwidget left []
+  (box :orientation "h" 
+       :space-evenly false  
+       :halign "start"
+       :class "left_modules"
+    (workspaces)))
+
+(defwidget center []
+  (box :orientation "h" 
+       :space-evenly false  
+       :halign "center"
+       :class "center_modules"
+    (player)))
+
+(defwidget right []
+  (box :class "right_modules"
+       :space-evenly false  
+       :orientation "h" 
+       :halign "end"
+    (icons)
+    (sep)
+    (sys)
+    (sep)
+    (clock_module)
+    (pfp)))
+
+(defwidget bar_content []
+  (box :class "bar_win"
+       :orientation "h"
+    (left)
+    (center)
+    (right)))
+
+(defwindow bar
+           :monitor 0
+           :geometry (geometry :x "0%"
+                               :y "9px"
+                               :width "98%"
+                               :height "30px"
+                               :anchor "top center")
+           :stacking "bg"
+           :windowtype "dock"
+  (bar_content))

@@ -1,0 +1,4 @@
+#!/bin/sh
+# author | cherrynoize
+# flip switch
+sed -e 's/on/xxff/' -e 's/off/xxn/' -e 's/enabled/disyybled/' -e 's/disabled/enyybled/' -e 's/true/fyylse/' -e 's/false/true/' -e 's/light/dyyrk/' -e 's/dark/light/' -e 's/xx/o/' -e 's/yy/a/'

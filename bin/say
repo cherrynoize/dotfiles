@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# say things out loud
+# author | cherrynoize (ft. google translate)
+
+# locale for TTS conversion
+LOCALE=En-us
+
+# maximum substring length
+STRING_MAX_LENGTH=100
+
+usage () {
+cat<<EOF
+say | speak words out loud
+
+synopsis:
+say [words]
+cmd | say
+EOF
+}
+
+main () {
+  # use argument list as input
+  declare -a input=("$@")
+
+  # stdin fallback
+  if [ "${#input}" = "0" ]; then
+    stdin="$(cat </dev/stdin)"
+    [ -n "$stdin" ] && exec say "$stdin"
+  fi
+
+  # split input into shorter strings
+  for word_index in "${!input[@]}"; do
+    partial_string+="${input[word_index]} "
+
+    # check partial string length
+    if [ "${#partial_string}" -lt "$STRING_MAX_LENGTH" ]; then
+      input_strings[${#input_strings}]="$partial_string"
+    else
+      partial_string="" # reset partial string
+
+      # store partial input string
+      input_strings[${#input_strings}]="${input[word_index]}"
+    fi
+  done
+
+  # parse each substring and generate tts_query
+  for string_index in "${!input_strings[@]}"; do
+    tts_query="$(xxd -plain <<< "${input_strings[string_index]}" | tr -d '\n' | sed 's/\(..\)/%\1/g')"
+    mpv --force-window=no --really-quiet "http://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&q=$tts_query&tl=$LOCALE"
+  done
+}
+
+case "$1" in
+  -h|--help)
+    usage
+    ;;
+  *)
+    main "$@"
+    ;;
+esac

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# source variables
+. "$(eval "$(wherecmd)")"/access-windows -dry-run || exit 1
+
+echo "[$(iso-8601)] exit-windows: starting..." | tee -a "$log_file" > /dev/null
+
+cd /
+sudo umount -r "$WIN_MOUNT_POINT" 2>> "$log_file"
+sudo umount "$WIN_PART" 2>> "$log_file"
+sudo rmdir "$WIN_MOUNT_POINT" || exit 2
+
+echo "[$(iso-8601)] exit-windows: completed successfully." | tee -a "$log_file" > /dev/null

@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# minimal bulk rename utility
+#
+# author  cherrynoize
+# https://github.com/cherrynoize
+#
+
+glob="*"
+oldp=" "
+newp="_"
+
+err () {
+  echo "$1"
+  exit "$2"
+}
+
+while [ -n "$1" ]; do
+  case $1 in
+    -o|--old)
+      [ -z "$2" ] && err "missing argument after -o" 1
+      oldp="$2"
+      shift 2
+      ;;
+    -n|--new)
+      newp="$2"
+      shift 2
+      ;;
+    -s|--sudo)
+      cmd_prefix+="sudo"
+      shift
+      ;;
+    *)
+      glob="$1"
+      shift
+      ;;
+  esac
+done
+
+for f in $glob; do
+  echo "$f" | grep -q "$oldp" &&
+    $cmd_prefix mv -n "$f" "${f//$oldp/$newp}"
+done

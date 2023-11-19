@@ -1,0 +1,15 @@
+#!/bin/sh
+# adds all git submodules in dir
+# author | cherrynoize
+
+[ -n "$1" ] && dir="$1"
+[ -z "$dir" ] && dir="."
+
+for x in $(find "$dir" -type d); do
+  if [ -d "$x/.git" ] && [ ! "$x" = "." ]; then
+    cd "$x" || exit 1
+    origin="$(git config --get remote.origin.url)"
+    cd - 1>/dev/null || exit 1
+    [ -n "$origin" ] && git submodule add "$origin" "$x"
+  fi
+done

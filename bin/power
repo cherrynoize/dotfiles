@@ -1,0 +1,36 @@
+#!/bin/sh
+
+case "$1" in
+  off|shutdown)
+    sudo systemctl poweroff
+    ;;
+  reboot)
+    sudo systemctl reboot
+    ;;
+  freeze|hibernate)
+    suspend-system hibernate
+    ;;
+  hybrid-sleep)
+    suspend-system hybrid-sleep
+    ;;
+  suspend-then-hibernate|deep-sleep)
+    suspend-system suspend-then-hibernate
+    ;;
+  sleep|suspend)
+    suspend-system
+    ;;
+  exit|logout)
+    exit-session
+    ;;
+  lock|lockscreen)
+    lockscreen &
+    ;;
+  force)
+    case "$2" in
+      lock|lockscreen)
+        "$0" lock
+        lockscreen.off & # lock even if screenlock is disabled
+        ;;
+    esac
+    ;;
+esac

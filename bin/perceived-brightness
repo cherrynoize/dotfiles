@@ -1,0 +1,39 @@
+#!/bin/sh
+
+shift_toggle=kill
+step=.1
+[ -n "$2" ] && step="$2"
+
+case "$1" in
+  up|+)
+    val=$( echo "$(perceived-brightness) + $step" | bc)
+    ;;
+  down|-)
+    val=$( echo "$(perceived-brightness) - $step" | bc)
+    ;;
+  normal|1)
+    shift_toggle=on
+    val=1
+    ;;
+  "")
+    xrandr --verbose | grep Brightness | awk '{ print $2; }'
+    exit
+    ;;
+  -*)
+    echo "error: \`$1\` option not recognized"
+    exit 1
+    ;;
+  *)
+    val="$1"
+    ;;
+esac
+
+if [ "$shift_toggle" = "on" ]; then
+  # first reset brightness then launch light shift
+  xrandr --output "$(xrandr | grep -w connected  | awk -F'[ \+]' '{print $1}' 2>/dev/null)" --brightness "$val"
+  light-shift "$shift_toggle"
+else
+  # kill light shift first then modify brightness
+  light-shift "$shift_toggle"
+  xrandr --output "$(xrandr | grep -w connected  | awk -F'[ \+]' '{print $1}' 2>/dev/null)" --brightness "$val"
+fi

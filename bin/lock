@@ -1,0 +1,7 @@
+#!/bin/sh
+# lock system
+# author | cherrynoize
+
+ssh-add -D # remove all keys from agent
+pass close # lock password store
+safe slam # lock safe

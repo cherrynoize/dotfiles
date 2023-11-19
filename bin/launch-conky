@@ -1,0 +1,7 @@
+#!/bin/sh
+if [ "$1" = "-r" ]; then killall conky; fi
+cd ~/.config/conky || exit 1
+conky
+conky -c ~/.config/conky/todo.conf
+conky -c ~/.config/conky/daily.conf
+conky -c ~/.config/conky/shortcuts.conf

@@ -1,0 +1,25 @@
+#!/bin/sh
+# author | cherrynoize
+icon="󱄐"
+status="$(xset dpms q | grep Enabled -c)"
+case "$1" in
+  "")
+    xset "$(echo "$status" | sed -e 's/1/-/' | sed -e 's/0/+/')"dpms
+    ;;
+  on)
+    xset +dpms
+    ;;
+  off)
+    xset -dpms
+    ;;
+  status)
+    echo "$status" | sed -e 's/1/on/' | sed -e 's/0/off/'
+    ;;
+  icon)
+    echo "$icon"
+    ;;
+  *)
+    echo "unknown option: $1"
+    exit 1
+    ;;
+esac

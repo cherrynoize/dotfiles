@@ -1,0 +1,159 @@
+#!/usr/bin/env bash
+# utility for handling dark/light mode switching system wide
+#
+# author  cherrynoize
+# https://github.com/cherrynoize
+
+cur_mode_file="$HOME/.mode"
+
+# contexts to switch mode for in order when '--all' is passed
+declare -a all_ctx=(
+  "wallpaper"
+  "wpg"
+# "eww-wpg"
+  "alacritty"
+  "nvim"
+  "polybar"
+  "conky"
+)
+
+# returns opposite of param
+mode-switch () {
+  if [ "$1" = "dark" ]; then
+    echo "light"
+  elif [ "$1" = "light" ]; then
+    echo "dark"
+  fi
+}
+
+# actions before exiting
+terminate () {
+  eval "$post_exec"
+  exit 0
+}
+
+# fetch context and mode from args
+_ctx="$1"
+_mode="$2"
+
+if [ -z "$_mode" ]; then
+  _mode="toggle"
+fi
+
+# set old theme to opposite of mode
+old_theme="$(mode-switch "$_mode")"
+
+if [ "$_mode" == "toggle" ]; then
+  # read last theme
+  old_theme="$(cat "$cur_mode_file")"
+  # set mode to opposite
+  _mode="$(mode-switch "$old_theme")"
+elif [ -z "${old_theme}" ]; then
+  echo "error: invalid input. could not find mode \`${_mode}\`"
+  exit 2
+fi
+
+[ -z "$_ctx" ] && _ctx="-a"
+case "$_ctx" in
+  -c|--current)
+    cat "$cur_mode_file"
+    exit
+    ;;
+  -o|--other)
+    mode-switch "$(cat "$cur_mode_file")"
+    exit
+    ;;
+  -f|--file)
+    echo "$cur_mode_file"
+    exit
+    ;;
+  -a|--all)
+    for c in "${all_ctx[@]}"; do
+      # set mode for each context recursively
+      "$0" "$c" "$_mode"
+    done
+    echo "$_mode" > "$cur_mode_file"
+    terminate
+    ;;
+  wallpaper)
+    config_dir="$HOME/.wallpaper/current"
+    current_config="wallpaper"
+    config_ext=""
+    post_exec+="change-wallpaper;"
+    ;;
+  wpg)
+    config_dir=""
+    current_config=""
+    config_ext=""
+
+    wpg_conf="$HOME/.config/wpg/wpg.conf"
+    wpg_mode="$(grep keywords < "$wpg_conf" | awk '{print $3;}')"
+    new_mode="$_mode"
+
+    # if mode is not already set
+    if [ "$wpg_mode" != "$_mode" ]; then
+      # update 'light_theme = true|false'
+      _light_theme="$(sed -e 's/light/true/' -e 's/dark/false/' <<< "$wpg_mode")"
+      post_exec+="sed -i 's/light_theme = $_light_theme/light_theme = $(flip <<< "$_light_theme")/' $wpg_conf;"
+
+      # set 'keywords = new-mode'
+      post_exec+="sed -i 's/keywords = $wpg_mode/keywords = $new_mode/' $wpg_conf;"
+
+      # update wpg
+      post_exec+="wpg -A \"$(wpg -c)\";wpg -s \"$(wpg -c)\";"
+    fi
+    ;;
+  eww-wpg)
+    config_dir="$HOME/.config/wpg/templates"
+    current_config="eww-wpgtk"
+    config_ext=".base"
+    post_exec+="wpg -s \"$(wpg -c)\";rm \"$config_dir/eww-wpgtk-$(switch-mode -c)\";"
+    ;;
+  alacritty)
+    config_dir="$HOME/.config/alacritty"
+    current_config="alacritty"
+    config_ext=".yml"
+    ;;
+  nvim)
+    config_dir="$HOME/.config/nvim/lua/user/lua/core"
+    current_config="colorscheme"
+    config_ext=".lua"
+    post_exec+="launch-nvim -r;"
+    ;;
+  conky)
+    config_dir="$HOME/.config/conky"
+    current_config="colors"
+    config_ext=".lua"
+    post_exec+="pgrep conky && launch-conky -r;"
+    ;;
+  polybar)
+    config_dir="$HOME/.config/polybar/themes/current"
+    current_config="colors"
+    config_ext=".ini"
+    post_exec+="switch-bar reload;"
+    ;;
+  *)
+    echo "error: invalid input. could not find context \`${_ctx}\`"
+    exit 2
+    ;;
+esac
+
+if [ -n "$current_config" ]; then
+  new_config="${config_dir:-.}/${current_config}-${_mode}${config_ext}"
+  old_config="${config_dir:-.}/${current_config}-${old_theme}${config_ext}"
+  config_file="${config_dir:-.}/${current_config}${config_ext}"
+
+  if [ -e "$new_config" ]; then
+    if [ -e "$config_file" ]; then
+      mv "${config_file}" "${old_config}"
+    fi
+    mv "${new_config}" "${config_file}"
+  elif [ -e "$old_config" ]; then
+    echo "${_ctx}: ${_mode} mode already set."
+  else
+    echo "error: mode file '$new_config' not found."
+    exit 3
+  fi
+fi
+
+terminate

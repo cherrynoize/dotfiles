@@ -1,0 +1,10 @@
+#!/bin/sh
+# update script for:
+# https://github.com/cherrynoize/dotfiles
+
+# fetch latest config
+cfg pull
+
+# update packages
+sudo pacman -Syu
+yay -Syu

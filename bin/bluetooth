@@ -1,0 +1,27 @@
+#!/bin/sh
+# author | cherrynoize
+case "$1" in
+  ""|status)
+    rfkill list bluetooth | grep Soft | grep yes -c | sed -e 's/1/off/' | sed -e 's/0/on/'
+    ;;
+  off|disable)
+    rfkill block bluetooth
+    ;;
+  on|enable)
+    rfkill unblock bluetooth
+    ;;
+  toggle)
+    rfkill toggle bluetooth
+    ;;
+  icon)
+    if [ "$(bluetooth status)" = "off" ]; then
+      echo "󰂲" # off
+    else
+      echo "󰂯" # on
+    fi
+    ;;
+  *)
+    echo "unknown option: '$1'"
+    exit 1
+    ;;
+esac

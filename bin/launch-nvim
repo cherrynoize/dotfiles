@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+nvim_dir="/tmp/nvim-socket"
+
+# reload all current instances listening to a socket
+case $1 in
+  -r|--reload)
+    for f in "${nvim_dir}"/*; do
+      if [ -e "$f" ]; then
+        nvr --servername "$f" --remote-send '<esc><space>r' --nostart
+      fi
+    done
+    exit
+    ;;
+esac
+
+# generate random sockets until an available name is found
+while [ -z "$sock_file" ] || [ -e "${nvim_dir}/${sock_file}" ]; do
+  sock_file="$RANDOM"
+done
+
+# create socket dir
+mkdir -p "$nvim_dir"
+# launch nvim
+nvim --listen "${nvim_dir}/${sock_file}" "$@"

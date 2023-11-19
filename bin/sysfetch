@@ -1,0 +1,246 @@
+#!/usr/bin/env bash
+
+# sysfetch
+# Thanks to u/x_ero, gh0stzk
+# https://github.com/cherrynoize/dotfiles
+
+if [ "$#" -eq "0" ]; then
+  exec sysfetch -f -k
+fi
+
+# color escapes
+CBK=$(tput setaf 0)
+CRE=$(tput setaf 1)
+CGR=$(tput setaf 2)
+CYE=$(tput setaf 3)
+CBL=$(tput setaf 4)
+
+CMA=$(tput setaf 5)
+CCY=$(tput setaf 6)
+CWH=$(tput setaf 7)
+CBD=$(tput bold)
+CNC=$(tput sgr0)
+
+# vars
+FULL=━
+EMPTY=━
+
+name=$USER
+host=$(uname -n)
+distro=$(uname -o | awk -F '"' '/PRETTY_NAME/ { print $2 }' /etc/os-release)
+wm=$(xprop -id $(xprop -root -notype | awk '$1=="_NET_SUPPORTING_WM_CHECK:"{print $5}') -notype -f _NET_WM_NAME 8t | grep "WM_NAME" | cut -f2 -d \")
+
+get_pkg_count() {
+  package_managers=('xbps-install' 'apk' 'apt' 'pacman' 'nix' 'dnf' 'rpm' 'emerge')
+  for package_manager in ${package_managers[@]}; do
+    if command -v "$package_manager" 2>/dev/null>&2; then
+      case "$package_manager" in
+        xbps-install ) xbps-query -l | wc -l ;;
+        apk ) apk search | wc -l ;;
+        apt ) apt list --installed 2>/dev/null | wc -l ;;
+        pacman ) pacman -Q | wc -l ;;
+        nix ) nix-env -qa --installed '*' | wc -l ;;
+        dnf ) dnf list installed | wc -l ;;
+        rpm ) rpm -qa | wc -l ;;
+        emerge ) qlist -I | wc -l ;;
+      esac
+
+      # if a package manager is found return from the function
+      return
+    fi
+  done
+  echo 'Unknown'
+}
+
+storage=$(df -h / | awk '/^\//{print $3}')
+term=$(ps -o sid= -p "$$" | xargs ps -o ppid= -p | xargs ps -o comm= -p)
+uptm=$(uptime -p | sed -e 's/hour/hr/' -e 's/hours/hrs/' -e 's/minutes/mins/' -e 's/minute/min/' -e 's/up //')
+
+# find the center of the screen
+COL=$(tput cols)
+ROW=$(tput lines)
+((PADX = COL / 2 - 16))
+((PADY = ROW / 2 - ROW / 10 - 10))
+
+# slightly decrease padding for large windows
+if [ "$COL" -gt "125" ]; then
+  ((PADX -= 1))
+fi
+
+for ((i = 0; i < PADX; ++i)); do
+  PADC="$PADC "
+done
+
+for ((i = 0; i < PADY; ++i)); do
+  PADR="$PADR\n"
+done
+
+PADXX=$((PADX - 3))
+for ((i = 0; i < PADXX; ++i)); do
+  PADCC="$PADCC "
+done
+
+# progress bar
+draw () {
+  perc=$1
+  size=$2
+  inc=$((perc * size / 100))
+  out=
+  color="$3"
+  for v in $(seq 0 $((size - 1))); do
+    test "$v" -le "$inc" &&
+      out="${out}\e[1;${color}m${FULL}" ||
+      out="${out}\e[0;37m${CWH}${EMPTY}"
+  done
+  printf $out
+}
+
+# hide cursor and wait for input
+standby () {
+  tput civis
+  read -n 1
+  # give the cursor back
+  tput cnorm
+}
+
+# vertical padding
+pad_vert () {
+  printf "%b" "$PADR"
+}
+
+# print options
+usage () {
+cat << EOF
+sysfetch -h|--help
+         -c|--cleanup
+         -k|--keep
+         -H|--header
+         -g|--greeting
+         -s|--sys
+         -S|--stats
+
+options must be space separated (order defines output order)
+if no options are passed arguments default to -f -k
+EOF
+
+  exit
+}
+
+# show header
+header () {
+# archlinux ascii art
+cat << EOF
+$PADCC$CBD                   $CBL.
+$PADCC                  $CBL/ $CMA\\
+$PADCC                 $CBL/   $CMA\\
+$PADCC                $CBL/^.   $CMA\\
+$PADCC               $CBL/  .$CWH-$CMA.  \\
+$PADCC              $CBL/  (   $CMA) _\\
+$PADCC             $CBL/ _.~   $CMA~._^\\
+$PADCC            $CBL/.^         $CMA^.\\
+
+EOF
+
+  BAR=" ▓▒░"
+  OUTT="$CBK$BAR$CRE$BAR$CGR$BAR$CYE$BAR$CBL$BAR$CMA$BAR$CCY$BAR$CWH$BAR$CNC"
+  printf "%s%b\n\n" "$PADC" "$OUTT"
+}
+
+# show greeting
+greeting () {
+  user_msg="Hi, $CGR$CBD$name$CNC"
+  host_msg="and welcome to $CGR$CBD$host$CNC"
+  uptm_msg="up $CGR$CBD$uptm$CNC"
+
+  offset=23
+
+  # username padding
+  for ((i = 0; i < ( offset - ${#user_msg}/2 ); ++i)); do
+    USER_PAD="$USER_PAD "
+  done
+
+  # hostname padding
+  for ((i = 0; i < ( offset - ${#host_msg}/2 ); ++i)); do
+    HOST_PAD="$HOST_PAD "
+  done
+
+  # uptime padding
+  for ((i = 0; i < ( offset - ${#uptm_msg}/2 ); ++i)); do
+    UPTM_PAD="$UPTM_PAD "
+  done
+
+  # greetings
+  printf "%s%s%b\n" "$PADC" "$USER_PAD" "$user_msg"
+  printf "%s%s%b\n" "$PADC" "$HOST_PAD" "$host_msg"
+  printf "%s%s%b\n\n" "$PADC" "$UPTM_PAD" "$uptm_msg"
+}
+
+# show system info
+info () {
+  printf "%s%b" "$PADC" "$CRE       distro $CWH⏹ $CNC$distro\n"
+  printf "%s%b" "$PADC" "$CBL       kernel $CWH⏹ $CNC$(uname -r)\n"
+# printf "%s%b" "$PADC" "$CMA     packages $CWH⏹ $CNC$(get_pkg_count)\n"
+# printf "%s%b" "$PADC" "$CGR        shell $CWH⏹ $CNC${SHELL##*/}\n"
+  printf "%s%b" "$PADC" "$CYE         term $CWH⏹ $CNC$term\n"
+  printf "%s%b" "$PADC" "$CCY           wm $CWH⏹ $CNC${wm}\n"
+  printf "%s%b" "$PADC" "$CBL         disk $CWH⏹ $CNC$storage used\n"
+  printf " $CNC\n"
+}
+
+# show stats
+stats () {
+  # cpu
+  cpu=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}' | cut -d'.' -f1)
+  c_lvl=$(printf $cpu)
+  printf "%b" "$PADC"
+  printf "   $CMA%-4s $CWH%-5s %-25s \n" " cpu" "$c_lvl%" $(draw $c_lvl 15 35)
+
+  # ram
+  ram=$(free | awk '/Mem:/ {print int($3/$2 * 100.0)}')
+  printf "%b" "$CNC" "$PADC"
+  printf "   $CMA%-4s $CWH%-5s %-25s \n" " ram" "$ram%" $(draw $ram 15 35)
+}
+
+# parse options
+while [ -n "$1" ]; do
+  case $1 in
+    -h|--help)
+      usage ;;
+    -c|--cleanup)
+      # cleanup first
+      clear
+      # pad vertically on top twice
+      vpad=1
+      pad_vert
+      pad_vert
+      ;;&
+    -k|--keep)
+      standby
+      ;;&
+    -p|--padding)
+      # set next argument as new horizontal padding
+      PADC="$2"
+      PADCC="$2"
+      shift
+      ;;&
+    -H|--header|-f|--full)
+      header
+      ;;&
+    -g|--greeting|-f|--full)
+      greeting
+      ;;&
+    -s|--sys|-f|--full)
+      info
+      ;;&
+    -S|--stats|-f|--full)
+      stats
+      ;;&
+    -*)
+      shift ;;&
+  esac
+done
+
+if [ "$vpad" = "1" ]; then
+  # pad vertically on the bottom
+  pad_vert
+fi

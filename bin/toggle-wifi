@@ -1,0 +1,21 @@
+#!/bin/sh
+# author | cherrynoize
+status="$(nmcli r wifi | grep enabled -c)"
+case "$1" in
+  "")
+    nmcli radio wifi "$(echo "$status" | sed -e 's/1/off/' | sed -e 's/0/on/')"
+    ;;
+  on)
+    nmcli radio wifi on
+    ;;
+  off)
+    nmcli radio wifi off
+    ;;
+  status)
+    echo "$status" | sed -e 's/1/on/' | sed -e 's/0/off/'
+    ;;
+  *)
+    echo "unknown option: $1"
+    exit 1
+    ;;
+esac

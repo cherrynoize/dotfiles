@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+# author | cherrynoize
+# https://github.com/cherrynoize
+
+# available commands are
+# --------
+# |  up  |
+# | down |
+# | mute |
+# --------
+
+ctl=Master
+icon_on=󰕾
+icon_off=󰝟
+
+# delta value
+step=5%
+
+# command to turn on control
+on_cmd=on
+
+function get_volume {
+  amixer -D pulse get "$ctl" | grep '%' | head -n 1 | cut -d '[' -f 2 | cut -d '%' -f 1
+}
+
+function set_volume {
+  # Volume up
+  amixer -D pulse sset "$ctl" "$1" > /dev/null || exit 2
+  # Turn volume on
+  amixer -D pulse set "$ctl" "$on_cmd" > /dev/null || exit 2
+  send_notification
+}
+
+function is_mute {
+  amixer -D pulse get "$ctl" | grep '%' | grep -oE '[^ ]+$' | grep off > /dev/null
+}
+
+function mute {
+  # Toggle mute
+  amixer -D pulse set "$ctl" mute > /dev/null
+
+  # Send notification
+  if [ -z "$quiet" ]; then
+    if is_mute; then
+      dunstify --replace=555 -t 2000 -u normal "$icon_off Mute"
+    fi
+  fi
+}
+
+function unmute {
+  # Toggle mute
+  amixer -D pulse set "$ctl" unmute > /dev/null
+
+  # Send notification
+  if [ -z "$quiet" ]; then
+    if ! is_mute; then
+      send_notification
+    fi
+  fi
+}
+
+function toggle_mute {
+  # Toggle mute
+  amixer -D pulse set "$ctl" toggle > /dev/null
+
+  # Send notification
+  if [ -z "$quiet" ]; then
+    if is_mute; then
+      dunstify --replace=555 -t 2000 -u normal "$icon_off Mute"
+    else
+      send_notification
+    fi
+  fi
+}
+
+function send_notification {
+  if [ -z "$quiet" ]; then
+    volume="$(get_volume)"
+    volume=$((volume*98/100)) # resize to make notification look nicer on 100%
+    # Send the notification
+    notify-percent compact "$volume" "$icon_on"
+  fi
+}
+
+while [ -n "$1" ]; do
+  case "$1" in
+    mic)
+      ctl=Capture
+      icon_on=
+      icon_off=
+      on_cmd=cap
+      ;;
+    -q|--quiet)
+      quiet=1
+      ;;
+    -*)
+      echo "unknown option: $1"
+      exit 1
+      ;;
+    *)
+      if [ -n "$arg" ]; then
+        echo "error: too many commands: $cmd $1"
+        exit 1
+      elif [ -n "$cmd" ]; then
+        arg="$1"
+      else
+        cmd=$1
+      fi
+      ;;
+  esac
+  shift
+done
+
+case "$cmd" in
+  "")
+    send_notification
+    ;;
+  up)
+    [ -z "$arg" ] && arg="$step"
+    set_volume "$arg"+
+    ;;
+  down)
+    [ -z "$arg" ] && arg="$step"
+    set_volume "$arg"-
+    ;;
+  mute)
+    mute
+    ;;
+  unmute)
+    unmute
+    ;;
+  toggle)
+    toggle_mute
+    ;;
+  *)
+    set_volume "$cmd" || {
+      echo "unknown command: $cmd"
+      exit 1
+    }
+    ;;
+esac

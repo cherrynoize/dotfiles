@@ -1,0 +1,12 @@
+#!/bin/sh
+day="$(date '+%-d')"
+case "$day" in
+  1)
+    echo st;;
+  2)
+    echo nd;;
+  3)
+    echo rd;;
+  *)
+    echo th;;
+esac
