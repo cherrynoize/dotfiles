@@ -22,3 +22,6 @@
 [submodule ".dotfiles/.config/awesome"]
 	path = .dotfiles/.config/awesome
 	url = https://github.com/cherrynoize/awesome
+[submodule ".config/eww/bar/themes/wpgtk/.config/awesome"]
+	path = .config/eww/bar/themes/wpgtk/.config/awesome
+	url = https://github.com/cherrynoize/awesome
