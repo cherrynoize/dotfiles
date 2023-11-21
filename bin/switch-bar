@@ -1,6 +1,8 @@
 #!/bin/sh
 
-# last bar used
+eww_dir="$HOME/.config/eww"
+
+# file containing last used bar
 hst_file="$HOME/.cache/bar.lst"
 
 # actions when no bar history
@@ -10,7 +12,7 @@ run_default () {
 
 # whether eww is running
 running_eww () {
-  ~/.config/eww/bar/launch.sh status > /dev/null 2>&1
+  "$eww_dir"/launch.sh status > /dev/null 2>&1
 }
 
 # whether polybar is running
@@ -21,7 +23,7 @@ running_poly () {
 close_eww () {
   if running_eww; then
     # try to close politely
-    ~/.config/eww/bar/launch.sh close
+    "$eww_dir"/launch.sh close
 
     # make sure it's dead
     killall eww &
@@ -40,7 +42,7 @@ close_poly () {
 
 run_eww () {
   echo eww > "$hst_file"
-  ~/.config/eww/bar/launch.sh
+  "$eww_dir"/launch.sh
 }
 
 run_poly () {

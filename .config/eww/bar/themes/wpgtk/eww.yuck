@@ -1,3 +1,0 @@
-(include "../../ui/current/config.yuck")
-(include "../../ui/current/bar.yuck")
-(include "../../ui/current/panel.yuck")

@@ -4,8 +4,8 @@
 
 # List of files to source
 declare -a sources=(
-  "/etc/bash.bashrc"
-  ".bash_aliases"
+  /etc/bash.bashrc
+  ~/.bash_aliases
 )
 
 # Source each file if found

@@ -10,7 +10,6 @@ cur_mode_file="$HOME/.mode"
 declare -a all_ctx=(
   "wallpaper"
   "wpg"
-# "eww-wpg"
   "alacritty"
   "nvim"
   "polybar"
@@ -102,12 +101,6 @@ case "$_ctx" in
       # update wpg
       post_exec+="wpg -A \"$(wpg -c)\";wpg -s \"$(wpg -c)\";"
     fi
-    ;;
-  eww-wpg)
-    config_dir="$HOME/.config/wpg/templates"
-    current_config="eww-wpgtk"
-    config_ext=".base"
-    post_exec+="wpg -s \"$(wpg -c)\";rm \"$config_dir/eww-wpgtk-$(switch-mode -c)\";"
     ;;
   alacritty)
     config_dir="$HOME/.config/alacritty"

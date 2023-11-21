@@ -30,6 +30,15 @@ should generally work. Please note that I've added the `-n`
 no-clobber flag in `mv` commands, meaning existing files won't
 be replaced and you should manually take care of that.
 
+You also need to run
+
+```
+./setup.sh
+```
+
+from the repo directory. This is just a stub for a full installer
+which should replace this `README` section entirely.
+
 ## Update
 
 From now on you can just run
@@ -50,10 +59,10 @@ during startup. It provides configuration used all over the
 place. To do this you can add something like:
 
 ```
-[ -f "~/.initrc" ] && . "~/.initrc"
+[ -f ~/.initrc ] && . ~/.initrc
 ```
 
-to your `~/.xinitrc`, `~/.profile` file or whatever does the
+to your `~/.xinitrc`, `~/.xprofile` or whatever does the
 magic for you.
 
 `~/.initrc` is the recommended location, as that would be the
@@ -61,6 +70,18 @@ default install path once an installation script is completed.
 
 Right now it's just a stub, but I plan on condensing
 dotfiles-wide config as much as possible into this file.
+
+### Wpgtk
+
+This config uses [`wpgtk`](https://github.com/deviantfero/wpgtk)
+for easier global theming and automatic colorscheme generation
+with `pywal`.
+
+You're going to need to refer to the [wiki](https://github.com/deviantfero/wpgtk/wiki)
+if you want to start editing themes or creating your own.
+
+Also, for better portability template symlinks are not hardcoded
+and can be (re-)generated at anytime using `fix-wpg-templates`.
 
 ### Pfp
 
@@ -266,6 +287,14 @@ to any key (such as the text-editor launcher).
 #### Random wallpaper
 
     change-wallpaper # Super+Ctrl+w
+
+#### Dark mode on/off
+
+    switch-mode # Super+<
+
+#### Toggle bar
+
+    toggle-bar # Super+z
 
 #### Fix common issues
 
