@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# zscroll wrapper for music
+# author | cherrynoize
+# https://github.com/cherrynoize/dotfiles
+
+# default scroll values
+default_span_length="24"
+default_scroll_delay="0.3"
+default_scroll_padding_text="  "
+
+# show usage
+usage () {
+cat<<EOF
+usage:
+  scroll-music [options]
+options:
+  -n|--no-scroll      do not scroll
+  -l|--length LENGTH  buffer length for scrolling
+  -d|--delay DELAY    delay for scroll updates in seconds
+  -P|--padding TEXT   padding text between scrolls
+  -h|--help           show this help message
+
+any other argument is passed as is to 'music'.
+EOF
+}
+
+# parse args
+while [ -n "$1" ]; do
+  case "$1" in
+    -h|--help)
+      usage
+      exit
+      ;;
+    -n|--no-scroll)
+      no_scroll=1
+      ;;
+    -l|--length)
+      span_length="$2"
+      shift
+      ;;
+    -d|--delay)
+      scroll_delay="$2"
+      shift
+      ;;
+    -P|--padding)
+      scroll_padding_text="$2"
+      shift
+      ;;
+    *)
+      opts+=" $1"
+  esac
+  shift
+done
+
+if [ -n "$no_scroll" ]; then
+  music "$opts"
+else
+  zscroll -l "${span_length:-$default_span_length}" \
+          --delay "${scroll_delay:-$default_scroll_delay}" \
+          --scroll-padding "${scroll_padding_text:-$default_scroll_padding_text}" \
+          --match-command "music status" \
+          --match-text "Playing" "--scroll 1" \
+          --match-text "Paused" "--scroll 0" \
+          --match-text "no player" "--scroll 0" \
+          --update-check=true "music $opts ${scroll_delay:-$default_scroll_delay}"
+fi

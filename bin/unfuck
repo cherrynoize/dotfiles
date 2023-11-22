@@ -16,6 +16,7 @@ declare -a everything=(
   keyboard
   monitor
   profile
+# spotify
 )
 
 # minimum usage list item length
@@ -133,6 +134,13 @@ unfuck_bar () {
     killall eww
     killall polybar
     switch-bar launch
+  fi
+}
+
+unfuck_spotify () {
+  if pgrep spotify; then
+    killall -s KILL spotify
+    spotify
   fi
 }
 

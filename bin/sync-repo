@@ -5,11 +5,7 @@
 msg="auto sync (sync-repo: $(date "+%Y-%m-%d %H:%M"))"
 remote="origin"
 
-# error: no repo
-[ -n "$1" ] || {
-  echo "no repo specified."
-  exit 1
-}
+repo="${1:-.}"
 
 # overwrite default msg
 [ -n "$2" ] && {
@@ -22,8 +18,8 @@ remote="origin"
 }
 
 # try to change dir
-pushd "$1" || {
-  echo "error: could not move to repo path: $1"
+pushd "$repo" || {
+  echo "error: could not move to repo path: $repo"
   exit 2
 }
 

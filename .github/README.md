@@ -239,16 +239,22 @@ contribute.
 ## Dependencies
 
 ```
-bash
+pacman -S bash
 ```
 
 Optional (some are still needed for certain functionalities):
 
 ```
-wpgtk pywalfox expect playerctl
+yay -S wpgtk pywalfox expect playerctl
 ```
 
-Not in the AUR* (optional):
+`python` packages (optional):
+
+```
+pipx install country-converter
+```
+
+Not in the AUR* (nor in the official repo) (optional):
 
 - [set-light](https://github.com/cherrynoize/set-light)
 - [n3lock](https://github.com/cherrynoize/n3lock)

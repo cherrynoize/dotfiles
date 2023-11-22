@@ -1,6 +1,6 @@
 [colors]
-    background = "#2f3142"
-    foreground = "#fff8ff"
+    background = "#372126"
+    foreground = "#ffffe9"
 
 [global]
     ### Display ###
@@ -18,9 +18,9 @@
     horizontal_padding = 12
     frame_width = 3
 
-    frame_color = "#ad85bb"
+    frame_color = "#cbac84"
 #   separator_color = auto
-    separator_color = "#ad85bb"
+    separator_color = "#cbac84"
 #   gaps = true
 #   gap_size = 5
 
@@ -29,7 +29,7 @@
 
     ### Text ###
     # font = inter 10
-    font = JetBrains Mono Nerd Font Medium 9
+    font = JetBrainsMono NF Medium 9
     line_height = 0
 
     markup = full
@@ -81,5 +81,5 @@
     timeout = 10
 
 [urgency_critical]
-    frame_color = "#d18bc7"
+    frame_color = "#c55563"
     timeout = 0

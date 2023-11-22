@@ -5,71 +5,95 @@
 # /_/_/_/\_,_/___/_/\__/
 #
 # author  cherrynoize (https://github.com/cherrynoize)
-# stole some stuff from some script I can't remember from where
-#
-# it can seem a bit messy because I wanted to embed very specific
-# features for my widgets (such as scrolling text), therefore I
-# actually relegated most grabbing into external scripts.
+# based upon some stuff from somewhere I can't remember
 #
 
-#
-# config
-#
+# location to store cover image in
+cover_loc="/tmp/cover"
+# fallback for when no cover is found
+#fallback_cover_loc="$HOME/.config/music/fallback.cover"
+
+# Set the source audio player here.
+# Players supporting the MPRIS spec are supported.
+# Examples: spotify, vlc, chrome, mpv and others.
+# Use `playerctld` to always detect the latest player.
+# See more here: https://github.com/altdesktop/playerctl/#selecting-players-to-control
+player="playerctld"
 
 # placeholders
-#no_artist_msg="artist unavailable"
 no_artist_msg="No artist"
 no_album_msg="No album"
 
-status="$(get-player-status --status 2>/dev/null)"
-
-[ "$status" = "stopped" ] ||
-[ "$status" = "Paused" ] ||
-[ "$status" = "no player" ] ||
-  is_playing=1
-
-status () {
-  echo "$status"
-}
-
-title () {
-  get-player-status --title 2>/dev/null
-}
-
-artist () {
-  get-player-status --artist 2>/dev/null
-}
-
-album () {
-  get-player-status --album 2>/dev/null
-}
-
-# get current time
-ctime () {
-  get-player-status --ctime 2>/dev/null
-}
-
-# get current time in seconds
-atime () {
-  get-player-status --atime 2>/dev/null
-}
-
-# get total time in seconds
-attime () {
-  get-player-status --attime 2>/dev/null
-}
-
-# get total duration
-ttime () {
-  get-player-status --ttime 2>/dev/null
-}
+if playerctl_status="$(playerctl --player=$player status 2>/dev/null)"; then
+  status="$playerctl_status"
+else
+  status="no player"
+  rm "$cover_loc"
+fi
 
 # show usage
 usage () {
-  echo "usage: music [option [params]]"
+cat<<EOF
+usage:
+  music [options] [command]
+options:
+  -p|--placeholder           
+commands:
+  song                       show formatted output
+  title                      show title
+  artist                     show artist
+  artist-or-placeholder|aop  show artist or placeholder
+  artist-or-empty|aon        show artist or empty
+  album                      show album
+  track                      show track number
+  status                     show status
+  status-icon                show status icon
+  now|ctime                  show reproduction time
+  secs|atime                 show reproduction time in seconds
+  totsecs|attime             show track duration in seconds
+  duration|ttime             show track duration
+  cover                      show cover
+  coverloc                   show cover location
+  lyrics                     show lyrics
+  fill                       show fill
+  placeholder                show placeholder
+  toggle|play-pause          toggle reproduction
+  next                       next track
+  prev|previous              previous track
+  seek|position              move to time position
+  loop                       show loop status
+  loop-icon                  show loop icon
+  help                       show this help message
+EOF
 }
 
-# placeholder text
+run_cmd () {
+  cmd="$*"
+
+  if [ "$status" = "no player" ] && [ -n "$placeholder" ]; then
+    cmd="echo $placeholder"
+  fi
+
+  $cmd
+}
+
+playerctl_get () {
+  playerctl --player="$player" metadata --format "{{ $* }}" 2>/dev/null
+}
+
+# if $1 is set then print $2 else print current status
+# if $2 is not set then $1 is used
+# if $3 is set use $3 instead of current status
+if_set_then_echo () {
+  if [ -n "$1" ]; then
+    run_cmd echo "${2:-$1}"
+  else
+    output="${status^}"
+    run_cmd echo "${3:-$output}" # capitalize first letter
+  fi  
+}
+
+# returns placeholder text
 get_filler () {
   echo "ılı.lıllılı.ıllı."
 # echo ".ılılılllıılılıllllıılılllıllı."
@@ -78,28 +102,86 @@ get_filler () {
 # echo "---˖⁺. ༶ ⋆˙⊹❀♡❀˖⁺. ༶ ⋆˙⊹---"
 }
 
-# return placeholder text if idle
+# returns either title or placeholder text
 get_placeholder () {
-  [ -n "$(title)" ] || get_filler
+  title="$(playerctl_get title)"
+  echo "${title:-"$(get_filler)"}"
 }
 
-# player status
+# get player status
 get_status () {
-  if [ "$(status)" = "stopped" ] || [ "$(status)" = "Paused" ]; then
+  if [ "$status" = "stopped" ] || [ "$status" = "Paused" ]; then
     echo "paused"
   else
-    echo "$(status)"
+    echo "$status"
   fi
 }
 
-# get placeholder cover location
+# currently playing
+get_song () {
+  title="$(playerctl_get title)"
+  artist="$(playerctl_get artist)"
+  if_set_then_echo "$title" "$title - $artist"
+}
+
+# track title
+get_title () {
+  title="$(playerctl_get title)"
+  if_set_then_echo "$title"
+}
+
+# track artist
+get_artist () {
+  artist="$(playerctl_get artist)"
+  if_set_then_echo "$artist" "$artist" "$no_artist_msg"
+}
+
+# track album
+get_album () {
+  album="$(playerctl_get album)"
+  if_set_then_echo "$album" "$album" "$no_album_msg"
+}
+
+get_track_number () {
+  track="$(playerctl --player="$player" metadata xesam:trackNumber 2>/dev/null)"
+  [ -z "$track" ] && track="0/0"
+  echo "$track"
+}
+
+# get current formatted time
+get_current_time () {
+  get-player-status --ctime 2>/dev/null
+}
+
+# get current time in seconds
+get_current_time_in_seconds () {
+  get-player-status --atime 2>/dev/null
+}
+
+# get total time in seconds
+get_total_time_in_seconds () {
+  get-player-status --attime 2>/dev/null
+}
+
+# get total duration
+get_total_duration () {
+  get-player-status --ttime 2>/dev/null
+}
+
+# get fallback cover location
 get_fallback_cover () {
-  echo "${HOME}/.cache/music/fallback_cover"
+  cover="${fallback_cover_lock:-"$HOME/.config/music/fallback.cover"}"
+  [ -e "$cover" ] && echo "$cover"
 }
 
 # get next status icon
 get_status_icon () {
-  if [ ! "$is_playing" ]; then
+  [ "$status" = "stopped" ] ||
+  [ "$status" = "Paused" ] ||
+  [ "$status" = "no player" ] ||
+    is_playing=1
+
+  if [ -z "$is_playing" ]; then
 #   echo "奈"
     echo ""
   else
@@ -108,215 +190,151 @@ get_status_icon () {
   fi
 }
 
-# currently playing
-get_song () {
-  if [ "$2" = "--scroll" ] || { [ "$2" = "--auto" ] && [ "$is_playing" ]; }; then
-    shift 2
-    exec scroll-player-status --song "$@" 2>/dev/null
-  elif [ -z "$(title)" ]; then
-    if [ "$2" = "--placeholder" ]; then
-      echo "$3"
-    else
-      echo "No player"
-    fi
-  elif [ "$(title)" = "no player" ]; then
-    echo "${title^}" # capitalize first letter
-  else
-    echo "$title - $artist"
-  fi  
-}
-
-# track title
-get_title () {
-  if [ "$2" = "--scroll" ] || { [ "$2" = "--auto" ] && [ "$is_playing" ]; }; then
-    shift 2
-    exec scroll-player-status --title "$@" 2>/dev/null
-  elif [ -z "$(title)" ]; then
-    if [ "$2" = "--placeholder" ]; then
-      echo "$3"
-    else
-#     echo "song unavailable"
-      echo "No player"
-    fi
-  elif [ "$(title)" = "no player" ]; then
-    # capitalize first letter
-    echo "${title^}"
-  else
-    title
-  fi  
-}
-
-# current artist
-get_artist () {
-  if [ "$2" = "--scroll" ] || { [ "$2" = "--auto" ] && [ "$is_playing" ]; }; then
-    shift 2
-    exec scroll-player-status --artist "$@" 2>/dev/null
-  elif [ -z "$(artist)" ]; then
-    echo "$no_artist_msg"
-  else
-    artist
-  fi  
-}
-
-# current album
-get_album () {
-  if [ "$2" = "--scroll" ] || { [ "$2" = "--auto" ] && [ "$is_playing" ]; }; then
-    exec scroll-player-status --album "$@" 2>/dev/null
-  elif [ -z "$(album)" ]; then
-    echo "$no_album_msg"
-  else
-    album
-  fi  
-}
-
-get_track_number () {
-  get-player-status --track
-}
-
-# get cover
-get_cover () {
-  ffmpeg -i "${MUSIC_DIR}/$(mpc current -f %file%)" "${COVER}" -y &> /dev/null
-  STATUS=$?
-
-  # check if the file has embbeded album art
-  if [ "$(status)" -eq 0 ];then
-    echo "$COVER"
-  fi
-}
-
-# get cover location
-get_cover_loc () {
-  if [ "$(status)" = "no player" ]; then
+# fetch and update cover image
+update_cover () {
+  if [ "$status" = "no player" ]; then
     get_fallback_cover
   else
-    get-player-status --cover-loc
+    albumart="$(playerctl --player="$player" metadata mpris:artUrl | sed -e 's/open.spotify.com/i.scdn.co/g' 2>/dev/null)"
+    if [ "$(playerctl --player="$player" metadata mpris:artUrl)" ]; then
+      curl -s "$albumart" --output "$cover_loc" || {
+        [ -n "$(get_fallback_cover)" ] &&
+          cp "$(get_fallback_cover)" "$cover_loc"
+      }
+    fi
   fi
+}
+
+# show cover image
+show_cover () {
+  feh "$cover_loc"
 }
 
 # get loop status icon
-loop_stat_ic () {
-  get-player-status --loop-stat-ic
+get_loop_stat_ic () {
+  loop_status="$(playerctl --player="$player" loop 2>/dev/null)"
+  if [[ "$loop_status" = *"Track"* ]] || [[ "$loop_status" = "on"* ]]; then
+      icon="󰑘 "
+  elif [[ "$loop_status" = *"Playlist"* ]]; then
+      icon="凌"
+  else
+      icon="稜"
+  fi
+  echo "$icon"
 }
 
 # get lyrics
 get_lyrics () {
-  [ "$is_playing" = 1 ] &&
-    lyrics="$(get-player-status --lyrics)"
-  if [ -z "$lyrics" ] || [ "$lyrics" = "no lyrics available" ] || [ "$lyrics" = "no lyrics found" ]; then
-    lyrics="No lyrics available"
+  title="$(playerctl_get title)"
+  artist="$(playerctl_get artist)"
+  if [ -n "$title" ] && [ -n "$artist" ]; then
+      url="https://api.lyrics.ovh/v1/$artist/$title"
+      lyrics="$(curl -s "$( echo "$url" | sed s/" "/%20/g | sed s/"&"/%26/g | sed s/,/%2C/g | sed s/-/%2D/g)" | jq '.lyrics' )"
+      [ "$lyrics" = "null" ] && lyrics="No lyrics found"
+  else
+      lyrics="No lyrics available"
   fi
-  echo "$lyrics"
+  printf "$lyrics"
 }
 
-#
 # parse args
-#
+while [ -n "$1" ]; do
+  case "$1" in
+    -p|--placeholder)
+      placeholder="$2"
+      shift 2
+      ;;
+    song)
+      cmd=get_song
+      ;;
+    title)
+      cmd=get_title
+      ;;
+    artist)
+      cmd=get_artist
+      ;;
+    artist-or-placeholder|aop)
+      # artist placeholder if idle
+      no_artist_msg="$(get_filler)"
+      cmd=get_artist
+      ;;
+    artist-or-empty|aon)
+      # current artist or empty string
+      no_artist_msg=""
+      cmd=get_artist
+      ;;
+    album)
+      cmd=get_album
+      ;;
+    track)
+      cmd=get_track_number
+      ;;
+    status)
+      cmd=get_status
+      ;;
+    status-icon)
+      cmd=get_status_icon
+      ;;
+    now|ctime)
+      cmd=get_current_time
+      ;;
+    secs|atime)
+      cmd=get_current_time_in_seconds
+      ;;
+    totsecs|attime)
+      cmd=get_total_time_in_seconds
+      ;;
+    duration|ttime)
+      cmd=get_total_duration
+      ;;
+    cover)
+      cmd=show_cover
+      ;;
+    coverloc)
+      update_cover
+      echo "$cover_loc"
+      exit
+      ;;
+    lyrics)
+      cmd=get_lyrics
+      ;;
+    fill)
+      cmd=get_filler
+      ;;
+    placeholder)
+      cmd=get_placeholder
+      ;;
+    toggle|play-pause)
+      playerctl play-pause
+      exit
+      ;;
+    next)
+      playerctl next
+      update_cover
+      exit
+      ;;
+    prev|previous)
+      playerctl previous
+      update_cover
+      exit
+      ;;
+    seek|position)
+      playerctl position "$2"
+      exit
+      ;;
+    loop)
+      playerctl loop "$2"
+      exit
+      ;;
+    loop-icon)
+      cmd=get_loop_stat_ic
+      ;;
+    help)
+      usage
+      exit
+      ;;
+  esac
+  shift
+done
 
-case "$1" in
-  "song")
-    get_song "$@"
-    shift
-    ;;
-  "title")
-    get_title "$@"
-    shift
-    ;;
-  "artist")
-    get_artist "$@"
-    shift
-    ;;
-  "aop")
-    # artist placeholder if idle
-    no_artist_msg="$(get_filler)"
-    get_artist "$@"
-    shift
-    ;;
-  "aon")
-    # current artist or empty string
-    no_artist_msg=""
-    get_artist "$@"
-    shift
-    ;;
-  "album")
-    get_album "$@"
-    shift
-    ;;
-  "track")
-    get_track_number
-    shift
-    ;;
-  "status")
-    get_status
-    shift
-    ;;
-  "status-icon")
-    get_status_icon
-    shift
-    ;;
-  "ctime")
-    ctime
-    shift
-    ;;
-  "atime")
-    atime
-    shift
-    ;;
-  "ttime")
-    ttime
-    shift
-    ;;
-  "attime")
-    attime
-    shift
-    ;;
-  "cover")
-    get_cover
-    shift
-    ;;
-  "coverloc")
-    get_cover_loc
-    shift
-    ;;
-  "lyrics")
-    get_lyrics
-    shift
-    ;;
-  "fill")
-    get_filler
-    shift
-    ;;
-  "placeholder")
-    get_placeholder
-    shift
-    ;;
-  "toggle"|"play-pause")
-    playerctl play-pause
-    shift
-    ;;
-  "next")
-    playerctl next
-    get_cover
-    shift
-    ;;
-  "prev"|"previous")
-    playerctl previous
-    get_cover
-    shift
-    ;;
-  "seek"|"position")
-    playerctl position "$2"
-    shift 2
-    ;;
-  "loop")
-    playerctl loop "$2"
-    shift 2
-    ;;
-  "loop-icon")
-    loop_stat_ic
-    shift
-    ;;
-  "help")
-    usage
-    shift
-    ;;
-esac
+"${cmd:-get_song}" "$@"

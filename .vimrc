@@ -200,11 +200,13 @@ nnoremap <esc>w :tabc<cr>
 
 " write all files
 nnoremap <c-s> :w!<cr>
-inoremap <c-s> <cmd>:w!<cr>
+inoremap <c-s> <cmd>:w<cr>
 " write all and save default session
-nnoremap <esc>s :wa!<cr>:mksession! ~/.vim/sessions/main.vim<cr>
+nnoremap <esc>s :w<cr>
+"nnoremap <esc>s :wa!<cr>:mksession! ~/.vim/sessions/main.vim<cr>
 " save and close all files
-nnoremap <esc>q :xa<cr>
+nnoremap <esc>q :qa<cr>
+"nnoremap <esc>q :xa<cr>
 nnoremap <esc>Q :q!<cr>
 
 " vim: sw=2:ts=2

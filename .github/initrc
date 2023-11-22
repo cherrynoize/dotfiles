@@ -4,9 +4,18 @@
 # https://github.com/cherrynoize/dotfiles
 #
 
-# Network interfaces
+# Automatically detect network interfaces.
+# You can manually override these with your preferred value.
 export WLAN="$(ls /sys/class/net | grep -m 1 wl)"
 export ETH="$(ls /sys/class/net | grep -m 1 et)"
+
+# Location preferences to manually override geolocation.
+# Here it's set for autocorrection and it only applies within a
+# given region: snaps to 'Cerulean City' while in 'Kanto'.
+#if [ "$(get-ip-info region)" = "Kanto" ]; then
+#  export CITY="Cerulean City"
+#  export COUNTRY="Pokémon Green"
+#fi
 
 # Restore wallpaper and `wpgtk` theme
 . ~/.config/wpg/wp_init.sh

@@ -16,11 +16,12 @@ STATUS="$($get_status --status)"
 
 [ "$is_playing" = "0" ] && zscroll_delay="3"
 
-# pare args
+# parse args
 while [ -n "$1" ]; do
   case "$1" in
     -d|--delay)
-      zscroll_delay="$1"
+      zscroll_delay="$2"
+      shift
       ;;
     -s|--slow)
       zscroll_delay="3"
@@ -29,7 +30,8 @@ while [ -n "$1" ]; do
       zscroll_delay="0.1"
       ;;
     -p|--padding)
-      scroll_padding="$1"
+      scroll_padding="$2"
+      shift
       ;;
     -*)
       get_status+=" $1"
@@ -47,7 +49,7 @@ done
 zscroll -l "$span_length" \
         --delay "$zscroll_delay" \
         --scroll-padding "$scroll_padding" \
-        --match-command "${get_status} --status" \
+        --match-command "$get_status --status" \
         --match-text "Playing" "--scroll 1" \
         --match-text "Paused" "--scroll 0" \
-        --update-check=true "${get_status} ${zscroll_delay}"
+        --update-check=true "$get_status $zscroll_delay"
