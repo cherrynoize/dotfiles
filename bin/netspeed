@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 # tiny data-packets watch-tool
-#
 # author  cherrynoize
 # https://github.com/cherrynoize
-#
 
 # test duration in seconds
 interval=1
