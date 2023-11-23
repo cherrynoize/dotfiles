@@ -50,7 +50,7 @@ if status is-interactive
 #     printf "\033[""$msg_row_offset"A
 #     printf "\033[100D"
 
-      show-pokemon
+#     show-pokemon
       printf "\033[1A"
   end
 

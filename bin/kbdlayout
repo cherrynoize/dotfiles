@@ -1,0 +1,123 @@
+#!/bin/bash
+# script for managing x keyboard layouts
+# author | cherrynoize
+# https://github.com/cherrynoize/dotfiles
+
+layout="$(setxkbmap -query | grep layout | awk '{ print $2 }')"
+variant="$(setxkbmap -query | grep variant | awk '{ print $2 }')"
+
+get () {
+  IFS=',' read -r -a split_elements <<< "$1"
+  index="${2:-0}"
+  echo "${split_elements[$index]}"
+}
+
+swap_elements () {
+  IFS=',' read -r -a split_elements <<< "$1"
+
+  first_index="${2:-0}"
+  second_index="${3:-"-1"}"
+  first_element="${split_elements[$first_index]}"
+  second_element="${split_elements[$second_index]}"
+
+  split_elements[first_index]="$second_element"
+  split_elements[second_index]="$first_element"
+
+  # concat elements with a comma
+  local IFS=,
+  echo "${split_elements[*]}"
+}
+
+shift_elements () {
+  local index="${2:-1}"
+  IFS=',' read -r -a split_elements <<< "$1"
+
+  [[ $1 == *, ]] && # if last element was empty
+    split_elements+=("") # compensate for it
+
+  if [ "$index" = "0" ]; then
+    echo "$1"
+  elif [ "$index" -gt "0" ]; then
+    first_element="${split_elements[0]}"
+    split_elements=("${split_elements[@]:1}")
+
+    last_index="$(tr -dc ',' <<< "$1" | wc -c)"
+
+    split_elements[last_index]="$first_element"
+
+    # concat elements
+    for ((i=0;;i++)); do
+      current=${split_elements[$i]}
+      [ -z "$(get "$layout" $i)" ] && break
+      [ $i -gt 0 ] && list+=","
+      list+="$current"
+    done
+
+    # call recursively
+    shift_elements "$list" $(( --index ))
+  elif [ "$index" -lt "0" ]; then
+    last_element="${split_elements[-1]}"
+    split_elements=("$last_element" "${split_elements[@]}")
+    unset "split_elements[-1]"
+
+    # concat elements
+    for ((i=0;;i++)); do
+      current=${split_elements[$i]}
+      [ -z "$(get "$layout" $i)" ] && break
+      [ $i -gt 0 ] && list+=","
+      list+="$current"
+    done
+
+    # call recursively
+    shift_elements "$list" $(( ++index ))
+  fi
+}
+
+list () {
+  for ((i=0;;i++)); do
+    current="$(get "${!1}" $i)"
+    [ -z "$(get "$layout" $i)" ] && break
+    [ $i -gt 0 ] && list+=","
+    list+="$current"
+  done
+  echo "$list"
+}
+
+case "$1" in
+  ""|status)
+    position="${2:-0}"
+    current_layout="$(get "$layout" "$position")"
+    current_variant="$(get "$variant" "$position")"
+    output="$current_layout"
+    [ -n "$current_variant" ] && output+="($current_variant)"
+    echo "$output"
+    ;;
+  layout)
+    position="${2:-0}"
+    get "$layout" "$position"
+    ;;
+  variant)
+    position="${2:-0}"
+    get "$variant" "$position"
+    ;;
+  list)
+    cmd="${2:-status}"
+    if [ "$cmd" = "status" ]; then
+      echo "$(list layout) $(list variant)"
+    else
+      list "$cmd"
+    fi
+    ;;
+  swap)
+    first="${2:-0}"
+    second="${3:-"-1"}"
+    layout="$(swap_elements "$layout" "$first" "$second")"
+    variant="$(swap_elements "$variant" "$first" "$second")"
+    setxkbmap -layout "$layout" -variant "$variant"
+    ;;
+  shift)
+    layout="$(shift_elements "$layout" "$2")"
+    variant="$(shift_elements "$variant" "$2")"
+    setxkbmap -layout "$layout" -variant "$variant"
+    ;;
+esac
