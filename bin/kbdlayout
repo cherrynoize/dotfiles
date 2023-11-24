@@ -100,6 +100,15 @@ case "$1" in
     position="${2:-0}"
     get "$variant" "$position"
     ;;
+  compact)
+    position="${2:-0}"
+    current_variant="$(get "$variant" "$position")"
+    current_layout="$(get "$layout" "$position")"
+    echo "${current_variant:-"$current_layout"}"
+    ;;
+  code)
+    "$0" compact | sed 's/dvorak/dvr/'
+    ;;
   list)
     cmd="${2:-status}"
     if [ "$cmd" = "status" ]; then

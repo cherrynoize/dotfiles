@@ -80,6 +80,10 @@ super + ctrl + w
 super + ctrl + alt + w
     change-wallpaper -r
 
+# switch keyboard layout
+alt + space
+    kbdlayout shift
+
 # screen to clipboard
 Print
     snip -x
