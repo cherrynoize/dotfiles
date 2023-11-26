@@ -54,13 +54,14 @@ cd "$working_dir" || {
 
 case "$1" in
   "")
-    # pick random files until we get a new wallpaper
-    while [ -z "$wall" ] || [ "$wall" = "$current_wall" ]; do
-      wall="$(random-file "$wallpaper_dir")"
+    if [ ! -d "$wallpaper_dir" ]; then
+      echo "error: no wallpaper theme currently set"
+      echo "try running \`switch-theme wallpaper [theme]\`"
+      exit 5
+    fi
 
-      # stop if there isn't more than one wallpaper
-      [ "$(ls -1 | wc -l)" -le "1" ] && break
-    done
+    # pick random file in wall dir excluding current wall
+    wall="$(random-file "$wallpaper_dir" -I "$current_wall")"
     ;;
   -r|--reload)
     wall="$current_wall"
@@ -73,22 +74,25 @@ esac
 
 wall_path="$wallpaper_dir/$wall"
 
-# set wallpaper and generate colorscheme with wpg
-wpg -a "$wall_path" # add wallpaper and generate colorscheme
-wpg -A "$wall" # auto-adjust colorscheme
-wpg -s "$wall" # set wallpaper and colorscheme
-
-wpg_inactive_mode="$wpg_dir/eww-wpgtk-$(switch-mode -o)"
-
-if [ -f "$wpg_inactive_mode" ]; then
-  rm "$wpg_inactive_mode" || echo "failed to remove '$wpg_inactive_mode'"
+# if wallpaper is not in wpgtk yet
+if ! wpg -l | grep -q "$wall"; then
+  # add wallpaper and generate colorscheme with wpgtk
+  wpg -a "$wall_path" && # add wallpaper and generate colorscheme
+    wpg --sat "$wall" -0.1 && # decrease saturation
+    wpg --sat "$wall" 0.12 # increase saturation
 fi
+
+wpg -s "$wall" # set wallpaper and colorscheme
 
 update_wall_symlink "$wall_link" # update link to current wallpaper
 [ -n "$ff_wall_link" ] && update_ff_wall_link "$ff_wall_link" # update link to wallpaper in ff
 
-# update firefox
+# update firefox colorscheme
 pywalfox update
 
-# update screenlock cache
+# update screenlock wallpaper cache
 n3lock -w "$wall_path"
+
+# TODO
+# - auto-check wpgtk wallpapers dir for size or number of files
+#   and remove older ones

@@ -89,6 +89,12 @@ You might want to place your own profile picture inside of
 `~/.pfp`. It can be any picture file with any name, such as
 `~/.pfp/pfp.jpg`.
 
+### Neovim
+
+The `nvim` configuration is based upon [AstroNvim](https://github.com/AstroNvim/AstroNvim),
+an IDE layer for **Neovim**. Check out the [docs](https://docs.astronvim.com/#%EF%B8%8F-configuration)
+for info about configuration.
+
 ## Binaries
 
 The repo also includes a large collection of shell scripts, some

@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
-# utility for handling dark/light mode switching system wide
-#
-# author  cherrynoize
-# https://github.com/cherrynoize
+# switch between dark and light modes
+# author | cherrynoize
+# https://github.com/cherrynoize/dotfiles
 
 cur_mode_file="$HOME/.mode"
 
-# contexts to switch mode for in order when '--all' is passed
+# contexts to switch mode for in order when '--global' is passed
 declare -a all_ctx=(
   "wallpaper"
   "wpg"
@@ -16,6 +15,12 @@ declare -a all_ctx=(
   "conky"
 )
 
+# actions before exiting
+terminate () {
+  eval "$post_exec"
+  exit 0
+}
+
 # returns opposite of param
 mode-switch () {
   if [ "$1" = "dark" ]; then
@@ -23,12 +28,6 @@ mode-switch () {
   elif [ "$1" = "light" ]; then
     echo "dark"
   fi
-}
-
-# actions before exiting
-terminate () {
-  eval "$post_exec"
-  exit 0
 }
 
 # fetch context and mode from args
@@ -66,7 +65,7 @@ case "$_ctx" in
     echo "$cur_mode_file"
     exit
     ;;
-  -a|--all)
+  -g|--global)
     for c in "${all_ctx[@]}"; do
       # set mode for each context recursively
       "$0" "$c" "$_mode"

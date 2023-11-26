@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 # switch between different themes
-#
-# author  cherrynoize
-# https://github.com/cherrynoize
+# author | cherrynoize
+# https://github.com/cherrynoize/dotfiles
 
 # where to store theme history
 cache_dir="$HOME/.cache/theme-history"
 # size for each file
 hst_size=10
 
-# list of contexts to call when calling switch --all
+# keep preferred theme where already set and do not change
+preferred_theme=wpgtk
+
+# list of contexts to call when calling switch --global
 declare -a all_ctx=(
   "wallpaper"
   "eww-bar"
@@ -24,21 +26,39 @@ terminate () {
   eval "$post_exec"
 }
 
+# show help message
+usage () {
+local program_name="$(basename -- "$0")"
+cat<<EOF
+usage: $program_name [context|-g|--global] [theme|options]
+context:
+  list available contexts with $program_name -l
+  -g|--global runs on all contexts
+options:
+  -t|--toggle   toggle between themes
+  -c|--current  show current theme
+  -l|--list     list available contexts/themes
+  -r|--random   set random theme
+  -q|--quiet    quiet mode
+  -h|--help     show this help message
+EOF
+}
+
 # add entry if theme changed
 update_history () {
   cur_theme="$(readlink "$config_link")"
 
   # if theme has changed
-  if [ ! "$cur_theme" = "$_theme" ]; then
+  if [ ! "$cur_theme" = "$new_theme_name" ]; then
     # verify cache dir exists
     mkdir -p "$cache_dir"
     # history file
-    hst_file="${cache_dir}/${_ctx}"
+    hst_file="$cache_dir/$_ctx"
 
     # update history
     if [ -f "$hst_file" ]; then
       # remove duplicate entries
-      sed -i "/${cur_theme}/d" "$hst_file"
+      sed -i "/$cur_theme/d" "$hst_file"
       # remove old entries
       hist_buf="$(tail -n $hst_size < "$hst_file")"
       echo "$hist_buf" > "$hst_file"
@@ -62,11 +82,15 @@ toggle_theme () {
 # parse args
 while [ -n "$1" ]; do
   case "$1" in
+    -h|--help)
+      usage
+      exit
+      ;;
     -t|--toggle)
       toggle_theme
       exit
       ;;
-    -s|--show)
+    -c|--current)
       show=1
       shift
       ;;
@@ -74,17 +98,21 @@ while [ -n "$1" ]; do
       list=1
       shift
       ;;
+    -r|--random)
+      random=1
+      shift
+      ;;
     -q|--quiet)
       quiet=1
       shift
       ;;
-    -a|--all)
+    -a|--global)
       # if we had already set a context
       if [ -n "$_ctx" ]; then
         # it becomes the theme
-        _theme="$_ctx"
+        new_theme_name="$_ctx"
       fi
-      # cause context is --all
+      # set context to global
       _ctx="$1"
       shift
       ;;
@@ -94,7 +122,7 @@ while [ -n "$1" ]; do
         _ctx="$1"
       else
         # then theme
-        _theme="$1"
+        new_theme_name="$1"
       fi
       shift
       ;;
@@ -102,10 +130,10 @@ while [ -n "$1" ]; do
 done
 
 case "$_ctx" in
-  -a|--all)
+  -g|--global)
     for c in "${all_ctx[@]}"; do
       # set mode for each context recursively
-      "$0" "$c" "$_theme"
+      "$0" "$c" "$new_theme_name"
     done
     terminate
     ;;
@@ -146,7 +174,7 @@ case "$_ctx" in
   rofi)
     config_dir="$HOME/.config/rofi/themes/"
     config_link_name="current"
-    config_ext=""
+    config_ext=".rasi"
     post_exec+=""
     ;;
   bspwm)
@@ -162,47 +190,63 @@ case "$_ctx" in
     post_exec+="bspc wm -r"
     ;;
   *)
-    echo "error: invalid input. could not find context \`${_ctx}\`"
+    echo "error: invalid input. could not find context \`$_ctx\`"
     exit 2
     ;;
 esac
 
-new_config="${config_dir}/${_theme}${config_ext}"
-config_link="${config_dir}/${config_link_name}"
+new_theme_with_ext="$new_theme_name$config_ext"
+config_link_name_with_ext="$config_link_name$config_ext"
+config_link="$config_dir/$config_link_name_with_ext"
 
-# print current theme
-[ -n "$show" ] &&
-  exec readlink "$config_link"
+current_theme="$(readlink "$config_link")"
 
-# list available themes
-[ -n "$list" ] &&
-  exec ls "$config_dir"
-
-if [ -e "$new_config" ]; then
-  if [ -e "$config_link" ]; then
-    if [ -L "$config_link" ]; then
-      # append current theme to history file
-      [ -z "$quiet" ] && update_history
-      # remove current link
-      rm "${config_link}"
-    else
-      echo "error: \`${config_link}\` is not a symlink."
-      exit 3
-    fi
+if [ -n "$show" ]; then
+  # print current theme
+  echo "$current_theme"
+  exit
+elif [ -n "$list" ]; then
+  # list available themes
+  ls "$config_dir" -I "$config_link_name_with_ext"
+  exit
+elif [ -z "$current_theme" ] || [ "$current_theme" != "$preferred_theme" ]; then
+  if [ -n "$random" ]; then
+    # set random theme
+    new_theme_with_ext="$(random-file "$config_dir" -I "$config_link_name_with_ext" -I "$current_theme")"
+  elif [ -z "$new_theme_name" ]; then
+    # if no theme is set show usage then exit
+    usage
+    exit
   fi
-  # point link to new theme
-  ln -s "${_theme}${config_ext}" "${config_link}"
-else
-  echo "error: theme \`${_theme}\` not found."
-  exit 3
+
+  # set new theme if not preferred theme
+  if [ -e "$config_dir/$new_theme_name$config_ext" ]; then
+    if [ -e "$config_link" ]; then
+      if [ -L "$config_link" ]; then
+        # append current theme to history file
+        [ -z "$quiet" ] && update_history
+        # remove current link
+        rm "$config_link"
+      else
+        echo "error: \`$config_link\` is not a symlink."
+        exit 3
+      fi
+    fi
+    # point link to new theme
+    ln -s "$new_theme_with_ext" "$config_link"
+  else
+    echo "error: theme \`$new_theme_name\` not found."
+    exit 3
+  fi
+  terminate
 fi
 
-terminate
-
 # TODO
-# - add global theme like in switch-mode
-# - add optional theme option to toggle command to toggle
+# - global theme abstraction layer like in switch-mode
+# - optional theme option to toggle command to toggle
 #   between last two themes only if either is given
 #   theme, otherwise set given theme
 # - prev and next options
-# - list all available contexts
+# - modular structure making it easy to add/remove themes defined
+#   in conf files (also providing theme name to be read from
+#   selector - if not provided defaults to name currently used)
