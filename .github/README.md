@@ -333,11 +333,14 @@ In case it conflicts with other programs in your system, just use
 
 #### eww
 
-Widget windows closers sometimes get stuck open, causing you to
+- Widget windows closers sometimes get stuck open, causing you to
 accidentally open popup windows when clicking on other windows
 rather than close them. To fix this you could restart `eww`,
 but usually it's enough to click on the pfp icon that open the
 panel window once to open it, then a second time to close it.
+- `eww` tends to get on top of other windows after being
+restarted during the session. I still haven't found how I could
+prevent it from happening (all suggestions are welcome).
 
 #### Music player cover
 
@@ -349,11 +352,15 @@ metadata mpris:artUrl`) and I'll add it.
 
 ## TODO
 
+### Bar
+
+- Auto memorize bar status (open or closed) between sessions
+
 ### Wallpapers
 
 - Convert to a higher compression format
 
-### Scripts
+### Install and configuration
 
 - Installation script
 - Finish making initrc
