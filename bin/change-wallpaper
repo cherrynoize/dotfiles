@@ -74,7 +74,7 @@ esac
 
 wall_path="$wallpaper_dir/$wall"
 
-# if wallpaper is not in wpgtk yet
+# if wallpaper is not in list
 if ! wpg -l | grep -q "$wall"; then
   # add wallpaper and generate colorscheme with wpgtk
   wpg -a "$wall_path" && # add wallpaper and generate colorscheme
@@ -88,10 +88,10 @@ update_wall_symlink "$wall_link" # update link to current wallpaper
 [ -n "$ff_wall_link" ] && update_ff_wall_link "$ff_wall_link" # update link to wallpaper in ff
 
 # update firefox colorscheme
-pywalfox update
+pywalfox update&
 
 # update screenlock wallpaper cache
-n3lock -w "$wall_path"
+n3lock -w "$wall_path"&
 
 # TODO
 # - auto-check wpgtk wallpapers dir for size or number of files

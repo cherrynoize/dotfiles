@@ -329,6 +329,24 @@ use a function because that would enter an infinite loop.)
 In case it conflicts with other programs in your system, just use
 `sudo`.
 
+### Known bugs
+
+#### eww
+
+Widget windows closers sometimes get stuck open, causing you to
+accidentally open popup windows when clicking on other windows
+rather than close them. To fix this you could restart `eww`,
+but usually it's enough to click on the pfp icon that open the
+panel window once to open it, then a second time to close it.
+
+#### Music player cover
+
+I currently use Spotify and as such I only set [`music`](bin/music)
+to fetch cover arts from Spotify metadata. I will try to expand
+on this but, please, if anyone has a specific request provide me
+with a metadata sample (output of `playerctl --player="$player"
+metadata mpris:artUrl`) and I'll add it.
+
 ## TODO
 
 ### Wallpapers

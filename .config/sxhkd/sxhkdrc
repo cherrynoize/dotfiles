@@ -28,13 +28,13 @@ super + alt + m
 super + alt + w
     "$BROWSER"
 
-# conky
-#super + ctrl + c
-#    pgrep conky && killall conky || launch-conky
+# toggle conky
+super + ctrl + c
+    pgrep conky && killall conky || launch-conky
 
 # restart conky
-#super + alt + shift + c
-#    launch-conky -r
+super + ctrl + shift + c
+    launch-conky -r
 
 # network menu
 super + alt + n
@@ -52,11 +52,11 @@ super + x
 super + q
     powermenu
 
-# toggle dark mode
+# toggle light/dark mode
 super + less
-    notify-switch-mode -i
+    switch-mode -N -i
 
-# switch bar
+# switch between bars
 super + greater
     switch-bar
 
@@ -68,15 +68,15 @@ super + z
 super + shift + z
     switch-bar reload
 
-# switch theme
-super + {less,greater}
-    switch-theme {prev,next}
+# switch to previous/next theme
+#super + alt + {less,greater}
+#    switch-theme {prev,next}
 
 # change wallpaper
 super + ctrl + w
     change-wallpaper
 
-# reload wpg
+# reload wpg colorscheme and templates
 super + ctrl + alt + w
     change-wallpaper -r
 
@@ -157,7 +157,6 @@ XF86MonBrightness{Down,Up}
 
 # brightness min or max
 super + XF86MonBrightness{Down,Up}
-#   set-light -a {0,$(cat /sys/class/backlight/*/max_brightness)}
 #   set-light -{m,M}
     change-brightness {down,up} 100
 
@@ -174,13 +173,11 @@ super + shift + b ; {0-9} ; {0-9} ; period
 #   set-light -r {0-9}{0-9}
     change-brightness to {0-9}{0-9}
 
-## perceived brightness down or up
-##super + shift + b ; XF86MonBrightness{Down,Up}
+# perceived brightness down or up
 #super + alt + {minus,plus}
-#    perceived-brightness {down,up}
-#
-## perceived brightness to normal
-##super + shift + b ; 0
+#   perceived-brightness {down,up}
+
+# perceived brightness to normal
 #super + alt + 0
 #    perceived-brightness normal
 
@@ -188,7 +185,7 @@ super + shift + b ; {0-9} ; {0-9} ; period
 super + Delete
     screen-off
 
-# replace systemd suspend
+# sleep
 XF86PowerOff
     suspend-system
 

@@ -3,22 +3,46 @@
 # author | cherrynoize
 # https://github.com/cherrynoize/dotfiles
 
+# file to save mode to
 cur_mode_file="$HOME/.mode"
 
-# contexts to switch mode for in order when '--global' is passed
+# notification id
+nid="6699"
+
+# contexts to switch when using global mode
 declare -a all_ctx=(
-  "wallpaper"
   "wpg"
-  "alacritty"
+  "wallpaper"
+# "alacritty" # either wpg or alacritty
   "nvim"
-  "polybar"
+# "polybar"
   "conky"
 )
 
-# actions before exiting
+# contexts to ignore post exec for in global mode
+global_no_post_exec=("wpg" "polybar" "conky")
+
+notification () {
+  if [ -n "$use_notification" ]; then
+    if [ -n "$use_icon" ] && [ -z "$1" ]; then
+      icon="󰤄 "
+      [ "$_mode" = "light" ] && icon="󰖨 "
+    fi
+
+    title="${1:-"$icon${_mode^} mode ${show_current_mode:-set}"}"
+    body="$2"
+
+    notify-send -r "$nid" "$title" "$body"
+  fi
+}
+
+# do stuff then exit
 terminate () {
-  eval "$post_exec"
-  exit 0
+  if [ "$RUN_CMD" != "0" ]; then
+    eval "$post_exec"
+  fi
+  notification
+  exit
 }
 
 # returns opposite of param
@@ -30,15 +54,77 @@ mode-switch () {
   fi
 }
 
-# fetch context and mode from args
-_ctx="$1"
-_mode="$2"
+set_mode () {
+  local context="$1"
+  local new_mode="$2"
 
-if [ -z "$_mode" ]; then
-  _mode="toggle"
-fi
+  if [ -n "$current_config" ]; then
+    new_config="${config_dir:-.}/$current_config-$new_mode$config_ext"
+    old_config="${config_dir:-.}/$current_config-$old_theme$config_ext"
+    config_file="${config_dir:-.}/$current_config$config_ext"
 
-# set old theme to opposite of mode
+    if [ -e "$new_config" ]; then
+      if [ -e "$config_file" ]; then
+        mv "$config_file" "$old_config"
+      fi
+      mv "$new_config" "$config_file"
+    elif [ -e "$old_config" ]; then
+      echo "$context: $new_mode mode already set."
+    else
+      echo "error: mode file '$new_config' not found."
+      exit 3
+    fi
+  fi
+}
+
+while [ -n "$1" ]; do
+  case "$1" in
+    -c|--current)
+      cat "$cur_mode_file"
+      exit
+      ;;
+    -o|--other)
+      mode-switch "$(cat "$cur_mode_file")"
+      exit
+      ;;
+    -f|--file)
+      echo "$cur_mode_file"
+      exit
+      ;;
+    -g|--global)
+      _ctx="$1"
+      ;;
+    -N|--notification)
+      use_notification=1
+      shift
+      ;;
+    -i|--icon)
+      use_icon=1
+      shift
+      ;;
+    -s|--show)
+      show_current_mode=on
+      exit
+      ;;
+    -*)
+      echo "error: unknown option $1"
+      exit 2
+      ;;
+    *)
+      # set context first then mode
+      if [ -z "$_ctx" ]; then
+        _ctx="$1"
+      else
+        _mode="$1"
+      fi
+      shift
+      ;;
+  esac
+done
+
+_mode="${_mode:-toggle}"
+
+# set old theme to opposite mode
 old_theme="$(mode-switch "$_mode")"
 
 if [ "$_mode" == "toggle" ]; then
@@ -46,28 +132,24 @@ if [ "$_mode" == "toggle" ]; then
   old_theme="$(cat "$cur_mode_file")"
   # set mode to opposite
   _mode="$(mode-switch "$old_theme")"
-elif [ -z "${old_theme}" ]; then
-  echo "error: invalid input. could not find mode \`${_mode}\`"
+elif [ -z "$old_theme" ]; then
+  echo "error: unknown mode $_mode"
   exit 2
 fi
 
-[ -z "$_ctx" ] && _ctx="-a"
+[ -z "$_ctx" ] && _ctx="-g"
+
 case "$_ctx" in
-  -c|--current)
-    cat "$cur_mode_file"
-    exit
-    ;;
-  -o|--other)
-    mode-switch "$(cat "$cur_mode_file")"
-    exit
-    ;;
-  -f|--file)
-    echo "$cur_mode_file"
-    exit
-    ;;
   -g|--global)
     for c in "${all_ctx[@]}"; do
-      # set mode for each context recursively
+      # if context is contained in global no post exec group
+      if [[ " ${global_no_post_exec[*]} " =~ " $c " ]]; then
+        RUN_CMD=0
+      else
+        RUN_CMD=1
+      fi
+
+      # set mode for each context
       "$0" "$c" "$_mode"
     done
     echo "$_mode" > "$cur_mode_file"
@@ -90,6 +172,11 @@ case "$_ctx" in
 
     # if mode is not already set
     if [ "$wpg_mode" != "$_mode" ]; then
+      # invert music fallback cover image
+      fallback_cover="$(music fcloc)"
+      [ -f "$fallback_cover" ] &&
+        convert -channel RGB "$fallback_cover" -negate "$fallback_cover"
+
       # update 'light_theme = true|false'
       _light_theme="$(sed -e 's/light/true/' -e 's/dark/false/' <<< "$wpg_mode")"
       post_exec+="sed -i 's/light_theme = $_light_theme/light_theme = $(flip <<< "$_light_theme")/' $wpg_conf;"
@@ -98,7 +185,7 @@ case "$_ctx" in
       post_exec+="sed -i 's/keywords = $wpg_mode/keywords = $new_mode/' $wpg_conf;"
 
       # update wpg
-      post_exec+="wpg -A \"$(wpg -c)\";wpg -s \"$(wpg -c)\";"
+      post_exec+="wpg -s \"$(wpg -c)\";"
     fi
     ;;
   alacritty)
@@ -125,27 +212,10 @@ case "$_ctx" in
     post_exec+="switch-bar reload;"
     ;;
   *)
-    echo "error: invalid input. could not find context \`${_ctx}\`"
+    echo "error: unknown context $_ctx"
     exit 2
     ;;
 esac
 
-if [ -n "$current_config" ]; then
-  new_config="${config_dir:-.}/${current_config}-${_mode}${config_ext}"
-  old_config="${config_dir:-.}/${current_config}-${old_theme}${config_ext}"
-  config_file="${config_dir:-.}/${current_config}${config_ext}"
-
-  if [ -e "$new_config" ]; then
-    if [ -e "$config_file" ]; then
-      mv "${config_file}" "${old_config}"
-    fi
-    mv "${new_config}" "${config_file}"
-  elif [ -e "$old_config" ]; then
-    echo "${_ctx}: ${_mode} mode already set."
-  else
-    echo "error: mode file '$new_config' not found."
-    exit 3
-  fi
-fi
-
+set_mode "$_ctx" "$_mode"
 terminate

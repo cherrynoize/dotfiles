@@ -4,26 +4,34 @@
 # https://github.com/cherrynoize/dotfiles
 
 # where to store theme history
-cache_dir="$HOME/.cache/theme-history"
+cache_dir="$HOME/.cache/themes/hst"
 # size for each file
 hst_size=10
 
-# keep preferred theme where already set and do not change
+# theme to preserve when run in global mode
 preferred_theme=wpgtk
+# always keep preferred theme where already set and do not change.
+# by default this is only set when run in global mode (can be
+# inhibited by commenting out preferred_theme.)
+#preserve_preferred_theme=false
 
 # list of contexts to call when calling switch --global
 declare -a all_ctx=(
   "wallpaper"
-  "eww-bar"
-  "eww-bar-ui"
+  "eww"
   "polybar"
   "bspwm"
   "bspwm-colors"
 )
 
+error () {
+  printf "%s\n" "${@:2}"
+  exit "$1"
+}
+
 # run actions and exit
 terminate () {
-  eval "$post_exec"
+  eval "$post_exec" || true
 }
 
 # show help message
@@ -44,16 +52,30 @@ options:
 EOF
 }
 
+get_current_theme () {
+  cur_theme="$(readlink "$config_link")"
+  echo "${cur_theme%"$config_ext"}"
+}
+
+get_history_file () {
+  if [ ! -d "$cache_dir" ]; then
+    mkdir -p "$cache_dir"
+  fi
+
+  hst_file="$cache_dir/$_ctx"
+  echo "$hst_file"
+  if [ ! -f "$hst_file" ]; then
+    exit 3
+  fi
+}
+
 # add entry if theme changed
 update_history () {
-  cur_theme="$(readlink "$config_link")"
+  cur_theme="$(get_current_theme)"
 
   # if theme has changed
   if [ ! "$cur_theme" = "$new_theme_name" ]; then
-    # verify cache dir exists
-    mkdir -p "$cache_dir"
-    # history file
-    hst_file="$cache_dir/$_ctx"
+    hst_file="$(get_history_file)"
 
     # update history
     if [ -f "$hst_file" ]; then
@@ -69,49 +91,160 @@ update_history () {
   fi
 }
 
-# toggle most recent theme in history
-toggle_theme () {
-  # history file
-  hst_file="$cache_dir/$_ctx"
-  # most recent theme
-  lst_theme="$(tail -n 1 < "$hst_file")"
-  # set last theme recursively
-  exec "$0" "$_ctx" "$lst_theme"
+set_theme () {
+  get_new_theme_with_ext () {
+    echo "${new_theme_with_ext:-"$new_theme_name$config_ext"}"
+  }
+
+  update_config_link () {
+    if [ -e "$config_link" ]; then
+      if [ -L "$config_link" ]; then
+        # append current theme to history file
+        [ -z "$quiet" ] && update_history
+        # remove current link
+        rm "$config_link"
+      else
+        error 3 "error: $config_link is not a symlink"
+      fi
+    fi
+
+    # point link to new theme
+    ln -s "${themes_dir:+"$themes_dir/"}$(get_new_theme_with_ext)" "$config_link"
+  }
+
+  if [ -z "$preferred_theme" ] || [ "$preserve_preferred_theme" != "true" ] || [ "$current_theme" != "$preferred_theme" ]; then
+    if [ -n "$random" ]; then
+      # set random theme
+      new_theme_with_ext="$(random-file "${themes_dir:-"$config_dir"}" -I "$config_link_name_with_ext" -I "$current_theme")"
+    elif [ -z "$new_theme_name" ]; then
+      # if no theme is set show usage then exit
+      usage
+      exit
+    fi
+
+    # set new theme if not preferred theme
+    if [ -e "${themes_dir:-"$config_dir"}/$(get_new_theme_with_ext)" ]; then
+      update_config_link
+    else
+      error 3 "error: could not find theme $new_theme_name"
+    fi
+    terminate
+  fi
 }
 
-# parse args
+run_command () {
+  config_link_name="$1"
+  config_ext="$2"
+
+  config_link_name_with_ext="$config_link_name$config_ext"
+  config_link="$config_dir/$config_link_name_with_ext"
+
+  current_theme="$(get_current_theme)"
+
+  no_hst_file_err () {
+    error 3 "error: could not find history file" "try setting a new theme first or verify write permissions"
+  }
+
+  case "$cmd" in
+    "")
+      set_theme
+      ;;
+    --show)
+      # show current theme
+      echo "$current_theme"
+      exit
+      ;;
+    --history)
+      if hst_file="$(get_history_file)"; then
+        # show recently used themes
+        tail -n "$history_count" < "$hst_file"
+        exit
+      else
+        no_hst_file_err
+      fi
+      ;;
+    --pop)
+      if hst_file="$(get_history_file)"; then
+        # delete number of themes from history
+        new_history="$(head -n "-$pop_count" < "$hst_file")"
+        echo "$new_history" > "$hst_file"
+        exit
+      else
+        no_hst_file_err
+      fi
+      ;;
+    --toggle)
+      if hst_file="$(get_history_file)"; then
+        # most recent theme
+        lst_theme="$(tail -n 1 < "$hst_file")"
+        # set most recent theme
+        "$0" "$_ctx" "$lst_theme"
+        exit
+      else
+        no_hst_file_err
+      fi
+      ;;
+    --list)
+      # list available themes
+      ls "${themes_dir:-"$config_dir"}" -I "$config_link_name_with_ext"
+      exit
+      ;;
+    *)
+      error 1 "error: unknown command $cmd"
+      ;;
+  esac
+}
+
+# parse cli args
 while [ -n "$1" ]; do
   case "$1" in
     -h|--help)
       usage
       exit
       ;;
-    -t|--toggle)
-      toggle_theme
-      exit
-      ;;
     -c|--current)
-      show=1
+      cmd=--show
       shift
       ;;
+    -t|--toggle)
+      cmd=--toggle
+      shift
+      ;;
+    -P|--pop)
+      cmd=--pop
+      if [[ ! $2 =~ ^[0-9]+$ ]]; then
+        error 1 "error: must specify number of lines to pop"
+      fi
+      pop_count="$2"
+      shift 2
+      ;;
+    -H|--history)
+      cmd=--history
+      if [[ ! $2 =~ ^[0-9]+$ ]]; then
+        error 1 "error: must specify number of history lines to show"
+      fi
+      history_count="$2"
+      shift 2
+      ;;
     -l|--list)
-      list=1
+      cmd=--list
       shift
       ;;
     -r|--random)
-      random=1
+      cmd=--random
       shift
       ;;
     -q|--quiet)
       quiet=1
       shift
       ;;
-    -a|--global)
-      # if we had already set a context
+    -g|--global)
+      # if we have already set a context
       if [ -n "$_ctx" ]; then
         # it becomes the theme
         new_theme_name="$_ctx"
       fi
+
       # set context to global
       _ctx="$1"
       shift
@@ -129,116 +262,71 @@ while [ -n "$1" ]; do
   esac
 done
 
+# define contexts
 case "$_ctx" in
-  -g|--global)
-    for c in "${all_ctx[@]}"; do
-      # set mode for each context recursively
-      "$0" "$c" "$new_theme_name"
-    done
-    terminate
-    ;;
-  "")
-    if [ -n "$list" ]; then
-      echo "${all_ctx[*]}"
-      exit
-    fi
-
-    config_dir="."
-    config_link_name="current"
-    config_ext=""
+  ""|-g|--global)
+    case "$cmd" in
+      --list)
+        echo "${all_ctx[*]}"
+        exit
+        ;;
+      *)
+        # run command or set theme for each context
+        for c in "${all_ctx[@]}"; do
+          preserve_preferred_theme=true "$0" "$c" "${cmd:-"$new_theme_name"}"
+        done
+        terminate
+        ;;
+    esac
     ;;
   wallpaper)
     config_dir="$HOME/.wallpaper-themes"
-    config_link_name="current"
-    config_ext=""
+    config_link_names=("current")
+    config_exts=("")
     post_exec+="change-wallpaper;"
     ;;
-  eww-bar)
-    config_dir="$HOME/.config/eww/bar/themes"
-    config_link_name="current"
-    config_ext=""
-    post_exec+="switch-bar reload;"
-    ;;
-  eww-bar-ui)
-    config_dir="$HOME/.config/eww/bar/ui"
-    config_link_name="current"
-    config_ext=""
-    post_exec+="switch-bar reload;"
+  eww)
+    config_dir="$HOME/.config/eww/themes"
+    config_link_names=("current")
+    config_exts=("")
+    post_exec+="switch-bar reload eww;"
     ;;
   polybar)
     config_dir="$HOME/.config/polybar/themes"
-    config_link_name="current"
-    config_ext=""
-    post_exec+="switch-bar reload;"
+    config_link_names=("current")
+    config_exts=("")
+    post_exec+="switch-bar reload polybar;"
     ;;
   rofi)
     config_dir="$HOME/.config/rofi/themes/"
-    config_link_name="current"
-    config_ext=".rasi"
+    config_link_names=("current")
+    config_exts=(".rasi")
     post_exec+=""
     ;;
   bspwm)
     config_dir="$HOME/.config/bspwm/themes"
-    config_link_name="current"
-    config_ext=""
+    config_link_names=("current")
+    config_exts=("")
     post_exec+="bspc wm -r"
     ;;
   bspwm-colors)
     config_dir="$HOME/.config/bspwm/colorschemes"
-    config_link_name="current"
-    config_ext=""
+    config_link_names=("current")
+    config_exts=("")
     post_exec+="bspc wm -r"
     ;;
   *)
-    echo "error: invalid input. could not find context \`$_ctx\`"
-    exit 2
+    error 2 "error: could not find context $_ctx"
     ;;
 esac
 
-new_theme_with_ext="$new_theme_name$config_ext"
-config_link_name_with_ext="$config_link_name$config_ext"
-config_link="$config_dir/$config_link_name_with_ext"
-
-current_theme="$(readlink "$config_link")"
-
-if [ -n "$show" ]; then
-  # print current theme
-  echo "$current_theme"
-  exit
-elif [ -n "$list" ]; then
-  # list available themes
-  ls "$config_dir" -I "$config_link_name_with_ext"
-  exit
-elif [ -z "$current_theme" ] || [ "$current_theme" != "$preferred_theme" ]; then
-  if [ -n "$random" ]; then
-    # set random theme
-    new_theme_with_ext="$(random-file "$config_dir" -I "$config_link_name_with_ext" -I "$current_theme")"
-  elif [ -z "$new_theme_name" ]; then
-    # if no theme is set show usage then exit
-    usage
-    exit
-  fi
-
-  # set new theme if not preferred theme
-  if [ -e "$config_dir/$new_theme_name$config_ext" ]; then
-    if [ -e "$config_link" ]; then
-      if [ -L "$config_link" ]; then
-        # append current theme to history file
-        [ -z "$quiet" ] && update_history
-        # remove current link
-        rm "$config_link"
-      else
-        echo "error: \`$config_link\` is not a symlink."
-        exit 3
-      fi
-    fi
-    # point link to new theme
-    ln -s "$new_theme_with_ext" "$config_link"
-  else
-    echo "error: theme \`$new_theme_name\` not found."
-    exit 3
-  fi
-  terminate
+# update each config link for new theme
+if [ "${#config_link_names[@]}" != "${#config_exts[@]}" ]; then
+  error 5 "error: exactly one file ext for each config link name expected"
+else
+  for ((i=0; i<"${#config_link_names[@]}"; i++)); do
+    run_command "${config_link_names[$i]}" "${config_exts[$i]}"
+  done
 fi
 
 # TODO
@@ -246,7 +334,8 @@ fi
 # - optional theme option to toggle command to toggle
 #   between last two themes only if either is given
 #   theme, otherwise set given theme
-# - prev and next options
+# - prev and next options (then uncomment sxhkdrc shortcut)
 # - modular structure making it easy to add/remove themes defined
 #   in conf files (also providing theme name to be read from
 #   selector - if not provided defaults to name currently used)
+# - add rename current theme option

@@ -1,7 +1,9 @@
 #!/bin/sh
 
 polybar_toggle () {
-  if [ "$1" = "-p" ] || [ "$1" = "--polybar" ]; then
+  if pgrep polybar && {
+    [ "$1" = "-p" ] || [ "$1" = "--polybar" ]
+  }; then
     # hide/show cover module
     polybar-msg action "#network-data.module_$1"
     # show/hide inner modules

@@ -6,7 +6,7 @@
 home_lst=".github bin .local/bin .themes .wallpaper* .bashrc .bash_aliases .Xresources .zshrc .inputrc .gtkrc-2.0.mine .emacs .vimrc .mozilla/firefox/q0q5c5do.default-release/chrome .surf/styles"
 #.vim/plugged 
 # paths to be added relative to ~/.config
-config_lst="alacritty awesome/* bash-git-prompt bspwm btop/btop.conf conky dunst eww fish gtk-3.0/gtk.css gtk-3.0/settings.ini n3lock neofetch nvim picom polybar ranger rofi sxhkd vis wpg/*.conf wpg/templates/*.base xsettingsd starship.toml"
+config_lst="alacritty awesome/* bash-git-prompt bspwm btop/btop.conf conky dunst eww fish gtk-3.0/gtk.css gtk-3.0/settings.ini music n3lock neofetch nvim picom polybar ranger rofi sxhkd vis wpg/*.conf wpg/templates/*.base xsettingsd starship.toml"
 msg="update" # default commit message
 [ -n "$1" ] && msg="$*" # user defined message
 

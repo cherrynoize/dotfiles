@@ -14,7 +14,7 @@ done
 # then create the new ones
 ln -s ~/.config/bspwm/colorschemes/current bspwm
 ln -s ~/.config/dunst/dunstrc dunst
-ln -s ~/.config/eww/themes/wpgtk/styles/appearance.scss eww
+ln -s ~/.config/eww/schemes/appearance.scss eww
 ln -s ~/.local/share/themes/FlatColor/gtk-2.0/gtkrc gtk2
 ln -s ~/.local/share/themes/FlatColor/gtk-3.0/gtk.css gtk3.0
 ln -s ~/.local/share/themes/FlatColor/gtk-3.20/gtk.css gtk3.20

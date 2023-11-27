@@ -11,7 +11,7 @@
 # location to store cover image in
 cover_loc="/tmp/cover"
 # fallback for when no cover is found
-#fallback_cover_loc="$HOME/.config/music/fallback.cover"
+#fallback_cover_loc="${XDG_CONFIG_HOME:-"$HOME/.config"}/music/fallback.cover"
 
 # Set the source audio player here.
 # Players supporting the MPRIS spec are supported.
@@ -28,7 +28,7 @@ if playerctl_status="$(playerctl --player=$player status 2>/dev/null)"; then
   status="$playerctl_status"
 else
   status="no player"
-  rm "$cover_loc"
+  [ -e "$cover_loc" ] && rm "$cover_loc"
 fi
 
 # show usage
@@ -168,12 +168,6 @@ get_total_duration () {
   get-player-status --ttime 2>/dev/null
 }
 
-# get fallback cover location
-get_fallback_cover () {
-  cover="${fallback_cover_lock:-"$HOME/.config/music/fallback.cover"}"
-  [ -e "$cover" ] && echo "$cover"
-}
-
 # get next status icon
 get_status_icon () {
   [ "$status" = "stopped" ] ||
@@ -190,11 +184,36 @@ get_status_icon () {
   fi
 }
 
+# get fallback cover location
+get_fallback_cover () {
+  fc_default="${XDG_CONFIG_HOME:-"$HOME/.config"}/music/fallback.cover"
+  fallback_cover="${fallback_cover_lock:-"$fc_default"}"
+  [ -e "$fallback_cover" ] && echo "$fallback_cover"
+}
+
+# get cover location
+get_cover_loc () {
+  fallback_cover="$(get_fallback_cover)"
+  if [ -f "$cover_loc" ]; then
+    echo "$cover_loc"
+  elif [ -f "$fallback_cover" ]; then
+    echo "$fallback_cover"
+  fi
+}
+
+# show cover image
+show_cover () {
+  cover="$(get_cover_loc)"
+  if [ -n "$cover" ]; then
+    feh "$fallback_cover"
+  else
+    exit 4
+  fi
+}
+
 # fetch and update cover image
 update_cover () {
-  if [ "$status" = "no player" ]; then
-    get_fallback_cover
-  else
+  if [ "$status" != "no player" ]; then
     albumart="$(playerctl --player="$player" metadata mpris:artUrl | sed -e 's/open.spotify.com/i.scdn.co/g' 2>/dev/null)"
     if [ "$(playerctl --player="$player" metadata mpris:artUrl)" ]; then
       curl -s "$albumart" --output "$cover_loc" || {
@@ -203,11 +222,6 @@ update_cover () {
       }
     fi
   fi
-}
-
-# show cover image
-show_cover () {
-  feh "$cover_loc"
 }
 
 # get loop status icon
@@ -292,7 +306,12 @@ while [ -n "$1" ]; do
       ;;
     coverloc)
       update_cover
-      echo "$cover_loc"
+      get_cover_loc
+      exit
+      ;;
+    fcloc)
+      update_cover
+      get_fallback_cover
       exit
       ;;
     lyrics)

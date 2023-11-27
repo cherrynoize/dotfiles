@@ -84,17 +84,7 @@ while true; do
         # launch last open bar
         toggle_bar &
       fi
-      ;;
-    toggle)
-      # toggle bar
-      toggle_bar &
-      ;;
-    reload)
-      # reload bar if running
-      if "$0" status>/dev/null; then
-        "$0" close
-        "$0" launch
-      fi
+      exit
       ;;
     status)
       # is any bar running
@@ -111,19 +101,42 @@ while true; do
       else
         toggle_bar &
       fi
+      exit
+      ;;
+    toggle)
+      # toggle bar
+      toggle_bar &
+      exit
+      ;;
+    reload)
+      # if an additional argument is specified
+      if [ -n "$2" ]; then
+        # exit if it isn't running
+        pgrep "$2" || exit
+      fi
+
+      # reload bar if running
+      if "$0" status>/dev/null; then
+        "$0" close
+        "$0" launch
+      fi
+      exit
       ;;
     close|none)
       # close all bars
       close_eww
       close_poly
+      exit
       ;;
     eww)
       close_poly &
       run_eww &
+      exit
       ;;
     polybar)
       close_eww &
       run_poly &
+      exit
       ;;
     *)
       echo "unknown option $1"
