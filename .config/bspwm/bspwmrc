@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #    _
 #   | |__  ___ _ ____      ___ __ ___
-#   | '_ \/ __| '_ \ \ /\ / / '_  ` _ \  ^ cherry-noize
-#   | |_) \__ \ |_) \ V  V /| | | | | |  ^ https://github.com/cherrynoize
+#   | '_ \/ __| '_ \ \ /\ / / '_  ` _ \  ^ cherrynoize
+#   | |_) \__ \ |_) \ V  V /| | | | | |  ^ https://github.com/cherrynoize/dotfiles
 #   |_.__/|___/ .__/ \_/\_/ |_| |_| |_|  ^ cherrynoize@duck.com
 #             |_|
 
@@ -17,26 +17,26 @@ theme="current"
 themes_dir="$HOME/.config/bspwm/themes"
 
 # bspwm config
-bspc config split_ratio           0.5
-bspc config single_monocle        true
-bspc config gapless_monocle       false
-bspc config focus_follows_pointer false
-bspc config center_pseudo_tiled   true
+bspc config split_ratio                 0.5
+bspc config single_monocle              true
+bspc config gapless_monocle             false
+bspc config focus_follows_pointer       false
+bspc config center_pseudo_tiled         true
 
-bspc config pointer_modifier      mod4 
-bspc config pointer_action1       move 
-bspc config pointer_action2       resize_side 
-bspc config pointer_action3       resize_corner
+bspc config pointer_modifier            mod4 
+bspc config pointer_action1             move 
+bspc config pointer_action2             resize_side 
+bspc config pointer_action3             resize_corner
 
 bspc config pointer_motion_interval     16
 
-bspc config automatic_scheme      longest_side
-bspc config initial_polarity      second_child
+bspc config automatic_scheme            longest_side
+bspc config initial_polarity            second_child
 
 bspc config remove_disabled_monitors    true 
 bspc config merge_overlapping_monitors  true
 
-bspc config external_rules_command "$HOME/.config/bspwm/scripts/external_rules"
+bspc config external_rules_command      "$HOME/.config/bspwm/scripts/external_rules"
 
 # run process if not already running
 run() {
@@ -58,7 +58,7 @@ workspaces() {
 workspaces
 
 # source theme
-. "${themes_dir}/${theme}"
+. "$themes_dir/$theme"
 
 # launch bar
 switch-bar launch

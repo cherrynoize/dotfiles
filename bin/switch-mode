@@ -23,13 +23,15 @@ declare -a all_ctx=(
 global_no_post_exec=("wpg" "polybar" "conky")
 
 notification () {
+  cur_mode="$(get_cur_mode)"
+
   if [ -n "$use_notification" ]; then
     if [ -n "$use_icon" ] && [ -z "$1" ]; then
       icon="󰤄 "
-      [ "$_mode" = "light" ] && icon="󰖨 "
+      [ "$cur_mode" = "light" ] && icon="󰖨 "
     fi
 
-    title="${1:-"$icon${_mode^} mode ${show_current_mode:-set}"}"
+    title="${1:-"$icon${cur_mode^} mode ${show_with_notification:-set}"}"
     body="$2"
 
     notify-send -r "$nid" "$title" "$body"
@@ -43,6 +45,18 @@ terminate () {
   fi
   notification
   exit
+}
+
+get_cur_mode () {
+  if [ -z "$_ctx" ]; then
+    cat "$cur_mode_file"
+  else
+    if [ -e "${config_dir:-.}/${current_config}-dark$config_ext" ]; then
+      echo light
+    elif [ -e "${config_dir:-.}/${current_config}-light$config_ext" ]; then
+      echo dark
+    fi
+  fi
 }
 
 # returns opposite of param
@@ -59,8 +73,8 @@ set_mode () {
   local new_mode="$2"
 
   if [ -n "$current_config" ]; then
-    new_config="${config_dir:-.}/$current_config-$new_mode$config_ext"
-    old_config="${config_dir:-.}/$current_config-$old_theme$config_ext"
+    new_config="${config_dir:-.}/${current_config}-$new_mode$config_ext"
+    old_config="${config_dir:-.}/${current_config}-$old_theme$config_ext"
     config_file="${config_dir:-.}/$current_config$config_ext"
 
     if [ -e "$new_config" ]; then
@@ -77,11 +91,13 @@ set_mode () {
   fi
 }
 
+# parse cli args
 while [ -n "$1" ]; do
   case "$1" in
     -c|--current)
-      cat "$cur_mode_file"
-      exit
+      RUN_CMD=0
+      show_current=1
+      shift
       ;;
     -o|--other)
       mode-switch "$(cat "$cur_mode_file")"
@@ -91,10 +107,7 @@ while [ -n "$1" ]; do
       echo "$cur_mode_file"
       exit
       ;;
-    -g|--global)
-      _ctx="$1"
-      ;;
-    -N|--notification)
+    -n|--notification)
       use_notification=1
       shift
       ;;
@@ -103,8 +116,14 @@ while [ -n "$1" ]; do
       shift
       ;;
     -s|--show)
-      show_current_mode=on
-      exit
+      RUN_CMD=0
+      _mode="$(cat "$cur_mode_file")"
+      use_notification=1
+      show_with_notification=on
+      shift
+      ;;
+    -g|--global)
+      _ctx="$1"
       ;;
     -*)
       echo "error: unknown option $1"
@@ -137,9 +156,13 @@ elif [ -z "$old_theme" ]; then
   exit 2
 fi
 
-[ -z "$_ctx" ] && _ctx="-g"
+if [ -z "$_ctx" ] && [ -z "$show_current" ] && [ -z "$show_with_notification" ]; then
+  _ctx="-g"
+fi
 
 case "$_ctx" in
+  "")
+    ;;
   -g|--global)
     for c in "${all_ctx[@]}"; do
       # if context is contained in global no post exec group
@@ -216,6 +239,14 @@ case "$_ctx" in
     exit 2
     ;;
 esac
+
+[ -n "$show_current" ] && {
+  get_cur_mode
+  terminate
+}
+
+[ -n "$show_with_notification" ] &&
+  terminate
 
 set_mode "$_ctx" "$_mode"
 terminate

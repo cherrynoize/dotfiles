@@ -2,7 +2,7 @@
 # clear common mistakes that leave you like 'wtf?'
 # author | cherrynoize
 
-profile="$HOME/.xprofile"
+profiles=(~/.profile ~/.xprofile)
 
 # list to run when unfucking everything
 declare -a everything=(
@@ -72,7 +72,7 @@ unfuck_everything () {
 }
 
 unfuck_profile () {
-  . "$profile"
+  . "${profiles[@]}"
 }
 
 unfuck_keyboard () {

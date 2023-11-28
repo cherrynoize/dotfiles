@@ -79,7 +79,7 @@ if status is-interactive
 
   # user shortcuts
   abbr fishrc '$EDITOR ~/.config/fish/config.fish'
-  abbr :: '. ~/.config/fish/config.fish'
+  abbr reload '. ~/.config/fish/config.fish'
   abbr -- - 'cd ~'
   abbr -- -- 'cd ~'
   abbr hw 'echo hello, world!'
@@ -89,7 +89,6 @@ if status is-interactive
   abbr l 'lsd'
   abbr e 'echo'
   abbr d 'dirs'
-  abbr cat 'bat'
   abbr cls 'clear'
   abbr h 'history'
   abbr % 'fg'
@@ -146,11 +145,14 @@ if status is-interactive
   abbr pacr 'sudo pacman -Rs'
   abbr pacq 'pacman -Q'
   abbr paci 'pacman -Qi'
+  abbr pacl 'pacman -Ql'
   abbr pace 'sudo pacman -D --asexplicit'
   abbr pacu 'sudo pacman -Syu; yay -Syu'
   abbr list-orphaned-packages 'pacman -Qtdq'
   abbr clear-orphaned-packages 'sudo pacman -Rns $(pacman -Qtdq)'
-  abbr clear-pacman-cache 'sudo pacman -Sc'
+  abbr clear-pacman-cache 'paccache -ruk0; paccache -rk 1'
+  abbr clear-yay-cache 'yay -Sc'
+  abbr show-pacnew-files 'pacdiff -o'
   abbr show-packages-by-size 'LC_ALL=C pacman -Qi | awk \'/^Name/{name=$3} /^Installed Size/{print $4$5, name}\' | sort -h'
   abbr reset-lock 'su -c "faillock --user \"$USER\" --reset"'
   abbr sha 'shasum -a 256' # test sha256

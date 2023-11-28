@@ -54,7 +54,7 @@ super + q
 
 # toggle light/dark mode
 super + less
-    switch-mode -N -i
+    switch-mode -n -i
 
 # switch between bars
 super + greater
@@ -70,7 +70,7 @@ super + shift + z
 
 # switch to previous/next theme
 #super + alt + {less,greater}
-#    switch-theme {prev,next}
+#    switch-theme -n {prev,next}
 
 # change wallpaper
 super + ctrl + w

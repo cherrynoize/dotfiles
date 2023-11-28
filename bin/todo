@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+todo_file=~/.cache/todo/todo.lst
+
+function random_entry () {
+  sort -R | grep -v -e '^[ ]*$' | head -1
+}
+
+case "$1" in
+  list)
+    head -n "${2:-"-0"}" < "$todo_file"
+    ;;
+  random)
+    random_entry < "$todo_file"
+    ;;
+# daily)
+#   random_entry < "$daily_file"
+#   ;;
+# today)
+#   random_entry < "$today_file"
+#   ;;
+# check)
+#   # check (mark as done) item in list 
+#   ;;
+  *)
+    echo "error: unknown option $1"
+    ;;
+esac

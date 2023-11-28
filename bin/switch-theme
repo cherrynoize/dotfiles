@@ -15,6 +15,9 @@ preferred_theme=wpgtk
 # inhibited by commenting out preferred_theme.)
 #preserve_preferred_theme=false
 
+# notification id
+nid="6699"
+
 # list of contexts to call when calling switch --global
 declare -a all_ctx=(
   "wallpaper"
@@ -27,6 +30,19 @@ declare -a all_ctx=(
 error () {
   printf "%s\n" "${@:2}"
   exit "$1"
+}
+
+notification () {
+  if [ -n "$use_notification" ]; then
+    if [ -n "$use_icon" ] && [ -z "$1" ]; then
+      icon="🖼 "
+    fi
+
+    title="${1:-"$icon${_ctx^} theme set"}"
+    body="$2"
+
+    notify-send -r "$nid" "$title" "$body"
+  fi
 }
 
 # run actions and exit
@@ -92,6 +108,8 @@ update_history () {
 }
 
 set_theme () {
+  old_theme_mode="$(switch-mode "$_ctx" -c)"
+
   get_new_theme_with_ext () {
     echo "${new_theme_with_ext:-"$new_theme_name$config_ext"}"
   }
@@ -112,6 +130,13 @@ set_theme () {
     ln -s "${themes_dir:+"$themes_dir/"}$(get_new_theme_with_ext)" "$config_link"
   }
 
+  enforce_old_theme_mode () {
+    # if previous theme mode was different from new one
+    if [ -n "$old_theme_mode" ] && [ "$old_theme_mode" != "$(switch-mode "$_ctx" -c)" ]; then
+      switch-mode "$_ctx" "$old_theme_mode"
+    fi
+  }
+
   if [ -z "$preferred_theme" ] || [ "$preserve_preferred_theme" != "true" ] || [ "$current_theme" != "$preferred_theme" ]; then
     if [ -n "$random" ]; then
       # set random theme
@@ -125,6 +150,7 @@ set_theme () {
     # set new theme if not preferred theme
     if [ -e "${themes_dir:-"$config_dir"}/$(get_new_theme_with_ext)" ]; then
       update_config_link
+      enforce_old_theme_mode
     else
       error 3 "error: could not find theme $new_theme_name"
     fi
@@ -234,6 +260,10 @@ while [ -n "$1" ]; do
       cmd=--random
       shift
       ;;
+    -n|--notification)
+      use_notification=1
+      shift
+      ;;
     -q|--quiet)
       quiet=1
       shift
@@ -338,4 +368,4 @@ fi
 # - modular structure making it easy to add/remove themes defined
 #   in conf files (also providing theme name to be read from
 #   selector - if not provided defaults to name currently used)
-# - add rename current theme option
+# - add rename (current) theme option

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+crontab_file="/var/spool/cron/$USER"
+nid=3434
+
+add_entry () {
+  echo "$*" >> "$crontab_file"
+}
+
+case "$1" in
+# list)
+#   # rem: you can grep for 'dunstify -r \'$nid\''
+#   # but it's probably best to keep a separate data file
+#   # (maybe a file for each event)
+#   ;;
+  add)
+    cmd="env DBUS_SESSION_BUS_ADDRESS='$DBUS_SESSION_BUS_ADDRESS' dunstify -r '$nid' ${*:3}"
+    add_entry "$2" "$cmd"
+    ;;
+# edit)
+#   ;;
+# delete)
+#   ;;
+esac
