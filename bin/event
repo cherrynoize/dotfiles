@@ -1,24 +1,48 @@
 #!/usr/bin/env bash
+# create and manage events
+# author | cherrynoize
+# https://github.com/cherrynoize/dotfiles
+
+events_dir="$HOME/.events"
 
 crontab_file="/var/spool/cron/$USER"
 nid=3434
 
+get_event_file () {
+  echo "$events_dir/$event_name"
+}
+
 add_entry () {
-  echo "$*" >> "$crontab_file"
+  event_name="$1"
+  event_date="$2"
+  cmd="$3"
+
+  # write crontab task
+  echo "$event_date" "$cmd" >> "$crontab_file"
+
+  # write event file
+  echo "$event_date" > "$(get_event_file)"
+  echo "$cmd" >> "$(get_event_file)"
 }
 
 case "$1" in
-# list)
-#   # rem: you can grep for 'dunstify -r \'$nid\''
-#   # but it's probably best to keep a separate data file
-#   # (maybe a file for each event)
-#   ;;
-  add)
-    cmd="env DBUS_SESSION_BUS_ADDRESS='$DBUS_SESSION_BUS_ADDRESS' dunstify -r '$nid' ${*:3}"
-    add_entry "$2" "$cmd"
+  list)
+    ls "$events_dir"
     ;;
-# edit)
-#   ;;
+  add)
+    event_name="$2"
+    event_date="$3"
+    cmd="env DBUS_SESSION_BUS_ADDRESS='$DBUS_SESSION_BUS_ADDRESS' dunstify -r '$nid' ${*:3}"
+    add_entry "$event_name" "$event_date" "$cmd"
+    ;;
+  edit)
+    event_name="$1"
+    event_date="$(head -n 1 < "$(get_event_file)")"
+    # get file contents here first
+    "$EDITOR" "$(get_event_file)"
+    # then update in crontab (you can form string from event file before editing, then replace in crontab with edited file)
+    ;;
 # delete)
+# # do similar as editing but it's easier
 #   ;;
 esac

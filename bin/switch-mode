@@ -55,6 +55,8 @@ get_cur_mode () {
       echo light
     elif [ -e "${config_dir:-.}/${current_config}-light$config_ext" ]; then
       echo dark
+    else
+      cat "$cur_mode_file"
     fi
   fi
 }
@@ -182,7 +184,7 @@ case "$_ctx" in
     config_dir="$HOME/.wallpaper-themes/current"
     current_config="wallpaper"
     config_ext=""
-    post_exec+="change-wallpaper;"
+    post_exec+="change-wallpaper -n -v;"
     ;;
   wpg)
     config_dir=""
@@ -193,22 +195,38 @@ case "$_ctx" in
     wpg_mode="$(grep keywords < "$wpg_conf" | awk '{print $3;}')"
     new_mode="$_mode"
 
-    # if mode is not already set
-    if [ "$wpg_mode" != "$_mode" ]; then
-      # invert music fallback cover image
+    # invert music fallback cover image
+    gen_fallback_cover () {
       fallback_cover="$(music fcloc)"
       [ -f "$fallback_cover" ] &&
         convert -channel RGB "$fallback_cover" -negate "$fallback_cover"
+    }
 
-      # update 'light_theme = true|false'
+    # update 'light_theme = true|false'
+    toggle_light_theme () {
       _light_theme="$(sed -e 's/light/true/' -e 's/dark/false/' <<< "$wpg_mode")"
       post_exec+="sed -i 's/light_theme = $_light_theme/light_theme = $(flip <<< "$_light_theme")/' $wpg_conf;"
+    }
 
-      # set 'keywords = new-mode'
-      post_exec+="sed -i 's/keywords = $wpg_mode/keywords = $new_mode/' $wpg_conf;"
+    # set keywords from old mode (and only in that case) to new mode
+    update_keywords_set () {
+      # verify wpg mode set is the opposite of mode to be set
+      if [ "$wpg_mode" = "$(mode-switch "$new_mode")" ]; then
+        post_exec+="sed -i 's/keywords = $wpg_mode/keywords = $new_mode/' $wpg_conf;"
+      fi
+    }
 
-      # update wpg
+    # regenerate colorscheme
+    update_wpg () {
       post_exec+="wpg -s \"$(wpg -c)\";"
+    }
+
+    # if mode is not already set
+    if [ "$wpg_mode" != "$_mode" ]; then
+      gen_fallback_cover
+      toggle_light_theme
+      update_keywords_set
+      update_wpg
     fi
     ;;
   alacritty)

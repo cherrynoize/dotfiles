@@ -1,11 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # change-wallpaper
 # author | cherrynoize
 # https://github.com/cherrynoize
-#
-# BUGS:
-# - seems not to work with filenames containing spaces, but I
-#   believe it might be wpgtk, not us (testing needed)
 
 # we cd here to set a relative wallpaper dir symlink
 working_dir="$HOME"
@@ -19,11 +15,17 @@ wall_link="$HOME/.current-wallpaper"
 # link to ff wallpaper
 [ -n "$FF_DEFAULT_PROFILE" ] && ff_wall_link="$HOME/.mozilla/firefox/$FF_DEFAULT_PROFILE/chrome/images/wallpaper"
 
-# wpgtk templates directory
-wpg_dir="$HOME/.config/wpg/templates"
-
 # current wallpaper name
 current_wall="$(wpg -c)"
+
+# notification id
+nid="1234"
+
+notification () {
+  if [ -n "$use_notification" ]; then
+    notify-send -r "$nid" "$1" "$2"
+  fi
+}
 
 # update symlink to current wallpaper
 update_wall_symlink () {
@@ -52,35 +54,67 @@ cd "$working_dir" || {
   exit 4
 }
 
-case "$1" in
-  "")
+while [ -n "$1" ]; do
+  case "$1" in
+    -l|--list)
+      cmd=list
+      ;;
+    -R|--random)
+      cmd=random
+      ;;
+    -r|--reload)
+      cmd=set
+      wall="$current_wall"
+      ;;
+    -n|--notification)
+      use_notification=1
+      ;;
+    -v|--verbose)
+      verbose=1
+      ;;
+    *)
+      cmd=set
+      wall="$1" # set wallpaper name
+      ;;
+  esac
+  shift
+done
+
+case "$cmd" in
+  list)
+    ls "$wallpaper_dir" "$@"
+    exit
+    ;;
+  ""|random)
     if [ ! -d "$wallpaper_dir" ]; then
       echo "error: no wallpaper theme currently set"
       echo "try running \`switch-theme wallpaper [theme]\`"
+      notification "No wallpaper theme"
       exit 5
+    elif [ -z "$(ls "$wallpaper_dir")" ]; then
+      echo "error: no wallpaper available for current mode"
+      echo "try switching mode or theme"
+      if [ -z "$verbose" ]; then
+        notification "No wallpaper found"
+      else
+        cur_mode="$(switch-mode -c)"
+        notification "${cur_mode^} wallpaper not found"
+      fi
+      exit 6
     fi
 
     # pick random file in wall dir excluding current wall
     wall="$(random-file "$wallpaper_dir" -I "$current_wall")"
     ;;
-  -r|--reload)
-    wall="$current_wall"
-    ;;
-  *)
-    # set wallpaper name
-    wall="$1"
-    ;;
 esac
 
 wall_path="$wallpaper_dir/$wall"
 
-# if wallpaper is not in list
-if ! wpg -l | grep -q "$wall"; then
-  # add wallpaper and generate colorscheme with wpgtk
-  wpg -a "$wall_path" && # add wallpaper and generate colorscheme
-    wpg --sat "$wall" -0.1 && # decrease saturation
-    wpg --sat "$wall" 0.12 # increase saturation
-fi
+wpg -a "$wall_path" # add wallpaper
+
+wpg -R "$wall" && # reset wallpaper and regenerate colorscheme
+  wpg --sat "$wall" -0.1 && # decrease saturation
+  wpg --sat "$wall" 0.12 # increase saturation
 
 wpg -s "$wall" # set wallpaper and colorscheme
 
@@ -94,5 +128,9 @@ pywalfox update&
 n3lock -w "$wall_path"&
 
 # TODO
-# - auto-check wpgtk wallpapers dir for size or number of files
+# - auto-check wpgtk wallpapers cache for size or number of files
 #   and remove older ones
+#
+# BUGS
+# - seems not to work with filenames containing spaces, but I
+#   believe it might be wpgtk, not us (testing needed)

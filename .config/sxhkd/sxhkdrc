@@ -48,6 +48,10 @@ super + r
 super + x
     rofi -show drun
 
+# view windows
+super + w
+    rofi -show window
+
 # powermenu
 super + q
     powermenu
@@ -72,13 +76,17 @@ super + shift + z
 #super + alt + {less,greater}
 #    switch-theme -n {prev,next}
 
+# select theme
+super + space
+    theme-selector
+
 # change wallpaper
 super + ctrl + w
-    change-wallpaper
+    change-wallpaper -n -v
 
 # reload wpg colorscheme and templates
 super + ctrl + alt + w
-    change-wallpaper -r
+    change-wallpaper -n -r -v
 
 # switch keyboard layout
 alt + space

@@ -154,6 +154,7 @@ if status is-interactive
   abbr clear-yay-cache 'yay -Sc'
   abbr show-pacnew-files 'pacdiff -o'
   abbr show-packages-by-size 'LC_ALL=C pacman -Qi | awk \'/^Name/{name=$3} /^Installed Size/{print $4$5, name}\' | sort -h'
+  abbr update-mirrorlist 'reflector --save /etc/pacman.d/mirrorlist --protocol https --latest 5 --sort age'
   abbr reset-lock 'su -c "faillock --user \"$USER\" --reset"'
   abbr sha 'shasum -a 256' # test sha256
   abbr con 'ping -c 5 8.8.8.8' # check network
@@ -186,6 +187,7 @@ if status is-interactive
   abbr --set-cursor venv-new 'python -m venv %venv' # create python virtual environment
   abbr --set-cursor venv-on 'source %venv/bin/activate.fish' # enter ve
   abbr venv-off 'deactivate' # exit ve
+  abbr prepare-arduino 'sudo chmod 660 /dev/ttyACM0'
 
   # git --auto-skip death when I'm coding 
   abbr --set-cursor gitnew 'git init;git branch -M main;git remote add origin git@github.com:cherrynoize/%.git'

@@ -115,15 +115,13 @@ set_theme () {
   }
 
   update_config_link () {
-    if [ -e "$config_link" ]; then
-      if [ -L "$config_link" ]; then
-        # append current theme to history file
-        [ -z "$quiet" ] && update_history
-        # remove current link
-        rm "$config_link"
-      else
-        error 3 "error: $config_link is not a symlink"
-      fi
+    if [ -L "$config_link" ]; then
+      # append current theme to history file
+      [ -z "$quiet" ] && update_history
+      # remove current link
+      rm "$config_link"
+    elif [ -e "$config_link" ]; then
+      error 3 "error: $config_link is not a symlink"
     fi
 
     # point link to new theme
@@ -212,7 +210,7 @@ run_command () {
       ;;
     --list)
       # list available themes
-      ls "${themes_dir:-"$config_dir"}" -I "$config_link_name_with_ext"
+      ls "${list_opts[@]}" "${themes_dir:-"$config_dir"}" -I "$config_link_name_with_ext"
       exit
       ;;
     *)
@@ -256,6 +254,10 @@ while [ -n "$1" ]; do
       cmd=--list
       shift
       ;;
+    -1)
+      list_opts+=("-1")
+      shift
+      ;;
     -r|--random)
       cmd=--random
       shift
@@ -297,7 +299,11 @@ case "$_ctx" in
   ""|-g|--global)
     case "$cmd" in
       --list)
-        echo "${all_ctx[*]}"
+        if [[ ${list_opts[*]} == *-1* ]]; then
+          echo "${all_ctx[@]}"
+        else
+          echo "${all_ctx[*]}"
+        fi
         exit
         ;;
       *)
@@ -313,7 +319,7 @@ case "$_ctx" in
     config_dir="$HOME/.wallpaper-themes"
     config_link_names=("current")
     config_exts=("")
-    post_exec+="change-wallpaper;"
+    post_exec+="change-wallpaper -n -v;"
     ;;
   eww)
     config_dir="$HOME/.config/eww/themes"

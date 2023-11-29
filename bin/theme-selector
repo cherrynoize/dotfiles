@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# rofi theme selector
+# https://github.com/cherrynoize/dotfiles
+# Author: cherrynoize
+# Based on: https://github.com/gh0stzk/dotfiles
+
+rofi_command="rofi -dmenu -i -theme $HOME/.config/rofi/theme-selector/theme-selector.rasi"
+current_theme="$(switch-theme wallpaper -c)"
+
+mapfile -t themes < <(switch-theme wallpaper -l)
+
+# list themes
+for theme_name in "${themes[@]}"; do
+  options+=("${theme_name^}")
+
+  # select current theme by index
+  if [[ "$current_theme" == "$theme_name" ]]; then
+      selected_index="$index"
+  fi
+
+  (( index++ ))
+done
+
+# launch rofi menu and store result
+selected=$(printf "%s\n" "${options[@]}" | $rofi_command -selected-row "${selected_index:-0}")
+
+[ -n "$selected" ] || exit 1
+switch-theme -n wallpaper "${selected~}"
