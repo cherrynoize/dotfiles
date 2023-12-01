@@ -5,4 +5,4 @@ configuration {
   terminal: "alacritty";
 }
 
-@theme "~/.config/rofi/themes/wpgtk.rasi"
+@theme "~/.config/rofi/themes/current.rasi"

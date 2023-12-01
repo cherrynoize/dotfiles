@@ -28,3 +28,6 @@
 [submodule ".config/wpg/.config/awesome"]
 	path = .config/wpg/.config/awesome
 	url = https://github.com/cherrynoize/awesome
+[submodule ".config/rofi/irnm/.config/awesome"]
+	path = .config/rofi/irnm/.config/awesome
+	url = https://github.com/cherrynoize/awesome

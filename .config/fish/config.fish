@@ -119,8 +119,8 @@ if status is-interactive
   abbr vi-win 'pushd $(access-windows -home); nvim tmp.winsock; popd; exit-windows'
   abbr nvim 'launch-nvim'
   abbr define 'dict -d gcide'
-  abbr translate 'dict -d fd-eng-ita'
-  abbr traduci 'dict -d fd-ita-eng'
+  abbr translate 'dict -d fd-ita-eng'
+  abbr traduci 'dict -d fd-eng-ita'
   abbr --set-cursor find-by-content 'grep -rnw . -e "%"'
   abbr find-empty 'find . -size 0 -type f' # list empty files
   abbr --set-cursor remove-dirs 'find . -type d -name "%" -print -exec rmdir {} \;'

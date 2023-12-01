@@ -28,6 +28,7 @@ rofi_win () {
 # launch powermenu
 choice="$(echo -e "$lock\n$suspend\n$logout\n$hibernate\n$reboot\n$shutdown" | rofi_win)"
 
+# actions
 case "$choice" in
   "$shutdown")
     confirm power off

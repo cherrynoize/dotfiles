@@ -23,6 +23,8 @@ declare -a all_ctx=(
   "wallpaper"
   "eww"
   "polybar"
+  "rofi"
+  "rofi-colors"
   "bspwm"
   "bspwm-colors"
 )
@@ -335,6 +337,12 @@ case "$_ctx" in
     ;;
   rofi)
     config_dir="$HOME/.config/rofi/themes/"
+    config_link_names=("current")
+    config_exts=(".rasi")
+    post_exec+=""
+    ;;
+  rofi-colors)
+    config_dir="$HOME/.config/rofi/colors/"
     config_link_names=("current")
     config_exts=(".rasi")
     post_exec+=""

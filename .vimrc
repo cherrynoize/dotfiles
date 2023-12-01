@@ -1,9 +1,11 @@
 " __     ___
 " \ \   / (_)_ __ ___
-"  \ \ / /| | '_ ` _ \  " cherrynoize
-"   \ V / | | | | | | | " https://github.com/cherrynoize/dotfiles
-" o  \_/  |_|_| |_| |_|rc
+"  \ \ / /| | '_ ` _ \
+"   \ V / | | | | | | |
+"(.) \_/  |_|_| |_| |_|rc
 "     vim config file
+" https://github.com/cherrynoize/dotfiles
+" author | cherrynoize
 "
 " if alt key does not send esc try adding to .Xresources
 "  URxvt*altSendsEscape: true
@@ -11,9 +13,9 @@
 " <m-key> instead of <esc>key also works
 
 " if using fish revert shell to sh
-if &shell =~# 'fish$'
-    set shell=sh
-endif
+"if &shell =~# 'fish$'
+    se shell=sh
+"endif
 
 " blamer
 let g:blamer_enabled = 1
@@ -29,11 +31,14 @@ syntax on
 " window counter per tab
 "hi Title ctermfg=Black
 
+" line width marker
+se colorcolumn=65
+
 " custom modes
 au BufNewFile,BufRead /*.rasi setf css
 
 " switch between hybrid/absolute line numbers with different modes
-:set number
+:se number
 :augroup numbertoggle
 :  autocmd!
 :  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
@@ -50,33 +55,33 @@ autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:las
 """""""""""
 
 " select with shift + cursor keys
-set keymodel=startsel
-set keymodel=startsel,stopsel
+se keymodel=startsel
+se keymodel=startsel,stopsel
 
 " behaviour
 """""""""""
 
 " make cw behave like it should
-set cpoptions-=_
+se cpoptions-=_
 
 " search defaults to case sensitive if pattern contains
 " an uppercase character
-set ignorecase smartcase
+se ignorecase smartcase
 
 " disable search highlighting
-set nohlsearch
+se nohlsearch
 
 " backspace, del, c-w and c-u behavior
-set backspace=indent,eol,start " run over pretty much everything
-" set which characters wrap around lines
-set whichwrap+=<,>,[,]
+se backspace=indent,eol,start " run over pretty much everything
+" se which characters wrap around lines
+se whichwrap+=<,>,[,]
 
 " show tab as number of spaces
-"set tabstop=4
+"se tabstop=4
 " normal mode '>' number of spaces
-"set shiftwidth=4
+"se shiftwidth=4
 " tab indents with spaces
-set expandtab
+se expandtab
 
 " indentation
 """""""""""""
@@ -151,7 +156,8 @@ vnoremap A :s/$/
 """"""""""""""""""""
 
 " toggle search highlighting and move to next match
-nnoremap <f3> :set hlsearch!<cr>
+noremap <f3> <cmd>se hlsearch!<cr>
+inoremap <f3> <cmd>se hlsearch!<cr>
 
 " indent
 """"""""
@@ -198,15 +204,15 @@ nnoremap <esc>w :tabc<cr>
 " session and file handling
 """""""""""""""""""""""""""
 
-" write all files
-nnoremap <c-s> :w!<cr>
-inoremap <c-s> <cmd>:w<cr>
+" save file
+nnoremap <c-s> <cmd>w!<cr>
+inoremap <c-s> <cmd>w<cr>
+nnoremap <esc>s <cmd>w<cr>
 " write all and save default session
-nnoremap <esc>s :w<cr>
 "nnoremap <esc>s :wa!<cr>:mksession! ~/.vim/sessions/main.vim<cr>
 " save and close all files
-nnoremap <esc>q :qa<cr>
+nnoremap <esc>q <cmd>qa<cr>
 "nnoremap <esc>q :xa<cr>
-nnoremap <esc>Q :q!<cr>
+nnoremap <esc>Q <cmd>q!<cr>
 
 " vim: sw=2:ts=2
