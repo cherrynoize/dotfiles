@@ -26,7 +26,7 @@ notification () {
   cur_mode="$(get_cur_mode)"
 
   if [ -n "$use_notification" ]; then
-    if [ -n "$use_icon" ] && [ -z "$1" ]; then
+    if [ -z "$no_icon" ]; then
       icon="󰤄 "
       [ "$cur_mode" = "light" ] && icon="󰖨 "
     fi
@@ -113,8 +113,8 @@ while [ -n "$1" ]; do
       use_notification=1
       shift
       ;;
-    -i|--icon)
-      use_icon=1
+    -I|--no-icon)
+      no_icon=1
       shift
       ;;
     -s|--show)

@@ -269,7 +269,7 @@ Not in the AUR* (nor in the official repo) (optional):
 
 ## Usage
 
-### Commands/aliases & shortcuts
+### Useful commands, aliases & shortcuts
 
 You can find the whole configuration under
 `.config/sxhkd/sxhkdrc`, but this is just some basic commands to
@@ -311,6 +311,22 @@ to any key (such as the text-editor launcher).
 #### Fix common issues
 
     unfuck everything # Super+Shift+Esc
+
+### Keys
+
+#### Neovim
+
+    {Alt,Shift}+Tab            Move to next/previous tab
+    Space;{Shift}+Tab          Move to next/previous buffer
+    Alt+{h,j,k,l}              Move to adjacent window
+    Ctrl+{h,j,k,l}             Move to adjacent window (wraparound)
+    Ctrl+{Left,Up,Down,Right}  Resize window
+    Space                      Help menu
+
+#### Rofi
+
+    {Tab,Shift}+Tab  Move to next/previous entry
+    Shift+{h,j,k,l}  Vi-like navigation
 
 ### Tricks & tips
 

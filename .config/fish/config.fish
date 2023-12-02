@@ -145,6 +145,7 @@ if status is-interactive
   abbr pacr 'sudo pacman -Rs'
   abbr pacq 'pacman -Q'
   abbr paci 'pacman -Qi'
+  abbr paco 'pacman -Qo'
   abbr pacl 'pacman -Ql'
   abbr pace 'sudo pacman -D --asexplicit'
   abbr pacu 'sudo pacman -Syu; yay -Syu'

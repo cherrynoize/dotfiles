@@ -72,9 +72,13 @@ super + z
 super + shift + z
     switch-bar reload
 
-# switch to previous/next theme
-#super + alt + {less,greater}
-#    switch-theme -n {prev,next}
+# previous/next theme
+super + alt + {less,greater}
+    theme -n {prev,next}
+
+# random theme
+super + ctrl + r
+    theme -n random
 
 # select theme
 super + space

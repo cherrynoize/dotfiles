@@ -20,4 +20,4 @@ ln -s ~/.local/share/themes/FlatColor/gtk-3.0/gtk.css gtk3.0
 ln -s ~/.local/share/themes/FlatColor/gtk-3.20/gtk.css gtk3.20
 ln -s ~/.config/polybar/themes/current/colors.ini poly
 ln -s ~/.config/eww/scripts/powersave-tray powersave-tray
-ln -s ~/.config/rofi/colors/wpgtk.rasi rofi
+ln -s ~/.config/rofi/templates/wpgtk.rasi rofi

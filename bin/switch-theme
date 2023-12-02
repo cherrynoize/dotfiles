@@ -15,8 +15,7 @@ preferred_theme=wpgtk
 # inhibited by commenting out preferred_theme.)
 #preserve_preferred_theme=false
 
-# notification id
-nid="6699"
+nid="6699" # notification id
 
 # list of contexts to call when calling switch --global
 declare -a all_ctx=(
@@ -36,7 +35,7 @@ error () {
 
 notification () {
   if [ -n "$use_notification" ]; then
-    if [ -n "$use_icon" ] && [ -z "$1" ]; then
+    if [ -z "$no_icon" ]; then
       icon="🖼 "
     fi
 
@@ -52,21 +51,22 @@ terminate () {
   eval "$post_exec" || true
 }
 
-# show help message
 usage () {
 local program_name="$(basename -- "$0")"
 cat<<EOF
 usage: $program_name [context|-g|--global] [theme|options]
 context:
   list available contexts with $program_name -l
-  -g|--global runs on all contexts
+  -g|--global        runs for each context
 options:
-  -t|--toggle   toggle between themes
-  -c|--current  show current theme
-  -l|--list     list available contexts/themes
-  -r|--random   set random theme
-  -q|--quiet    quiet mode
-  -h|--help     show this help message
+  -t|--toggle        toggle between themes
+  -c|--current       show current theme
+  -l|--list          list available contexts/themes
+  -r|--random        set random theme
+  -n|--notification  show notifications
+  -I|--no-icon       do not use icons in notification
+  -q|--quiet         quiet mode
+  -h|--help          show this help message
 EOF
 }
 
@@ -138,7 +138,7 @@ set_theme () {
   }
 
   if [ -z "$preferred_theme" ] || [ "$preserve_preferred_theme" != "true" ] || [ "$current_theme" != "$preferred_theme" ]; then
-    if [ -n "$random" ]; then
+    if [ "$cmd" = "--random" ]; then
       # set random theme
       new_theme_with_ext="$(random-file "${themes_dir:-"$config_dir"}" -I "$config_link_name_with_ext" -I "$current_theme")"
     elif [ -z "$new_theme_name" ]; then
@@ -172,7 +172,7 @@ run_command () {
   }
 
   case "$cmd" in
-    "")
+    ""|--random)
       set_theme
       ;;
     --show)
@@ -266,6 +266,10 @@ while [ -n "$1" ]; do
       ;;
     -n|--notification)
       use_notification=1
+      shift
+      ;;
+    -I|--no-icon)
+      no_icon=1
       shift
       ;;
     -q|--quiet)
@@ -375,6 +379,10 @@ fi
 
 # TODO
 # - global theme abstraction layer like in switch-mode
+# - global themes that define which themes are set for each
+#   context separately
+#   - listed with -g -l
+#   - set with -g [theme] like any other theme
 # - optional theme option to toggle command to toggle
 #   between last two themes only if either is given
 #   theme, otherwise set given theme
