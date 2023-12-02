@@ -204,7 +204,7 @@ case "$_ctx" in
 
     # update 'light_theme = true|false'
     toggle_light_theme () {
-      _light_theme="$(sed -e 's/light/true/' -e 's/dark/false/' <<< "$wpg_mode")"
+      _light_theme="$(sed -e 's/light/false/' -e 's/dark/true/' <<< "$_mode")"
       post_exec+="sed -i 's/light_theme = $_light_theme/light_theme = $(flip <<< "$_light_theme")/' $wpg_conf;"
     }
 

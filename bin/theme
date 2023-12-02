@@ -1,0 +1,156 @@
+#!/usr/bin/env bash
+# theme handling utility for global themes
+# Author | cherrynoize
+# https://github.com/cherrynoize/dotfiles
+
+config_dir="${XDG_CONFIG_HOME:-"$HOME/.config"}"
+themes_dir=${themes_dir:-"$config_dir/themes"}
+current_theme_file=${current_theme_file:-"$HOME/.current-theme"}
+
+nid="6699" # notification id
+
+notification () {
+  if [ -n "$use_notification" ]; then
+    if [ -z "$no_icon" ]; then
+      icon="🖼 "
+    fi
+
+    title="${1:-"${icon}Theme $theme_name set"}"
+    body="$2"
+
+    notify-send -r "$nid" "$title" "$body"
+  fi
+}
+
+update_theme () {
+  echo "$theme_file" > "$current_theme_file"
+}
+
+usage () {
+local program_name="$(basename -- "$0")"
+cat<<EOF
+usage: $program_name [command] [options] [theme]
+commands:
+  show               show current theme
+  list               list available themes
+  name [theme]       show theme name (defaults to current)
+  prev               set previous theme
+  next               set next theme
+  random             set random theme
+  set [theme]        set theme
+options:
+  -d|--dir [dir]     use theme directory
+  -t|--theme [theme] use theme (-t|--theme can be omitted after command)
+  -e|--ext [ext]     use theme file extension (defaults to none)
+  -n|--notification  show notifications
+  -I|--no-icon       do not use icons in notification
+  -h|--help          show this help message
+EOF
+}
+
+do_cmd () {
+  [ -f "$themes_dir/$theme_file$theme_ext" ] &&
+    . "$themes_dir/$theme_file$theme_ext"
+
+  current_theme="$(cat "$current_theme_file")"
+  mapfile -t themes < <(ls "$themes_dir")
+
+  case "$1" in
+    show)
+      if [ -z "$show_dir" ]; then
+        echo "$current_theme"
+      else
+        echo "$themes_dir"
+      fi
+      ;;
+    list)
+      printf "%s\n" "${themes[@]}"
+      ;;
+    name)
+      if [ -n "$theme_name" ]; then
+        echo "$theme_name"
+      else
+        theme_file="$current_theme"
+        do_cmd name
+      fi
+      ;;
+    prev|next)
+      for ((i=0; i<${#themes[@]}; i++)); do
+        if [ "${themes[$i]}" = "$current_theme" ]; then
+          if [ "$1" = "prev" ]; then
+            new_index=$((i-1))
+          else
+            new_index=$((i+1))
+          fi
+          theme_file="${themes[$new_index]}"
+          do_cmd set
+        fi
+      done
+      ;;
+    random)
+      theme_file="$(random-file "$themes_dir" -I "$current_theme$theme_ext")"
+      theme_file="${theme_file%.*}"
+      do_cmd set
+      ;;
+    set)
+      if [ -n "$theme_file" ]; then
+        set_theme
+        update_theme
+        notification
+      fi
+      ;;
+    *)
+      echo "error: unknown command $1"
+      exit 1
+      ;;
+  esac
+}
+
+while [ -n "$1" ]; do
+  case "$1" in
+    -h|--help)
+      usage
+      exit
+      ;;
+    -d|--dir)
+      if [ -n "$2" ]; then
+        themes_dir="$2"
+        shift 2
+      else
+        show_dir=1
+        shift
+      fi
+      ;;
+    -t|--theme)
+      theme_file="$2"
+      shift 2
+      ;;
+    -e|--ext)
+      theme_ext="$2"
+      shift 2
+      ;;
+    -n|--notification)
+      use_notification=1
+      shift
+      ;;
+    -I|--no-icon)
+      no_icon=1
+      shift
+      ;;
+    -*)
+      echo "error: unknown option $1"
+      exit 1
+      ;;
+    *)
+      # set command first then theme name
+      if [ -z "$cmd" ]; then
+        cmd="$1"
+      else
+        theme_file="$1"
+      fi
+      shift
+      ;;
+  esac
+done
+
+do_cmd "$cmd"
