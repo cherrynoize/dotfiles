@@ -1,3 +1,6 @@
+## Currently reworking the entire theme structure for better
+## handling of global themes, please be patient
+
 # Dotfiles
 
 [Click here for a preview](https://youtu.be/ph19WxzsCRg)
