@@ -142,11 +142,7 @@ A `rofi` GUI for global theme switching is a *TODO* thing. But
 first `switch-theme` needs some more cleaning, in case you want to
 contribute.
 
-## Screenshots
-
-### Themes
-
-#### wpgtk
+### wpgtk
 
 <details>
 <summary></summary>
@@ -157,7 +153,7 @@ contribute.
 
 </details>
 
-#### Dash
+### Dash
 
 <details>
 <summary></summary>
@@ -165,80 +161,6 @@ contribute.
 ![preview](images/dash_ani1.gif)
 
 ![screenshot](images/dash1.png)
-
-</details>
-
-#### awesome (deprecated)
-
-<details>
-<summary></summary>
-
-![screenshot](images/awesome1.png)
-
-</details>
-
-### Modules
-
-#### eww
-
-<details>
-<summary></summary>
-
-![screenshot](images/eww1.png)
-
-</details>
-
-#### Polybar
-
-<details>
-<summary></summary>
-
-![screenshot](images/poly1.png)
-
-</details>
-
-#### Powermenu
-
-<details>
-<summary></summary>
-
-![screenshot](images/powermenu1.png)
-
-</details>
-
-#### Screenlock
-
-<details>
-<summary></summary>
-
-![screenshot](images/screenlock1.png)
-
-</details>
-
-#### ranger
-
-<details>
-<summary></summary>
-
-![screenshot](images/ranger1.png)
-
-</details>
-
-#### rofi
-
-<details>
-<summary></summary>
-
-![screenshot](images/rofi1.png)
-
-</details>
-
-#### Firefox
-
-<details>
-<summary></summary>
-
-![screenshot](images/firefox1.png)
 
 </details>
 
@@ -265,7 +187,7 @@ Not in the AUR* (nor in the official repo) (optional):
 - [set-light](https://github.com/cherrynoize/set-light)
 - [n3lock](https://github.com/cherrynoize/n3lock)
 
-*\*Do submit a PR or else let me know if this is wrong.*
+*\*Do submit a PR or let me know if this is outdated.*
 
 ## Usage
 
