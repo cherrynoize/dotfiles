@@ -121,11 +121,6 @@ if status is-interactive
   abbr define 'dict -d gcide'
   abbr translate 'dict -d fd-ita-eng'
   abbr traduci 'dict -d fd-eng-ita'
-  abbr --set-cursor find-by-content 'grep -rnw . -e "%"'
-  abbr find-empty 'find . -size 0 -type f' # list empty files
-  abbr --set-cursor remove-dirs 'find . -type d -name "%" -print -exec rmdir {} \;'
-  abbr --set-cursor remove-nonempty-dirs 'find . -type d -name "%" -print -prune -exec rm -rf {} \; # WARNING: handle with care!'
-  abbr --set-cursor uncomment-file 'sed \'s/^#.*//\' "%"' # cat file without lines starting with a #
   abbr loop 'music-bot previous & disown'
   abbr quit-loop 'music-bot quit'
   abbr kill-bot 'music-bot quit'
@@ -156,6 +151,12 @@ if status is-interactive
   abbr show-pacnew-files 'pacdiff -o'
   abbr show-packages-by-size 'LC_ALL=C pacman -Qi | awk \'/^Name/{name=$3} /^Installed Size/{print $4$5, name}\' | sort -h'
   abbr update-mirrorlist 'reflector --save /etc/pacman.d/mirrorlist --protocol https --latest 5 --sort age'
+  abbr --set-cursor find-by-content 'grep -rnw . -e "%"'
+  abbr find-empty 'find . -size 0 -type f' # list empty files
+  abbr --set-cursor remove-dirs 'find . -type d -name "%" -print -exec rmdir {} \;'
+  abbr --set-cursor remove-nonempty-dirs 'find . -type d -name "%" -print -prune -exec rm -rf {} \; # WARNING: handle with care!'
+  abbr --set-cursor uncomment-file 'sed \'s/^#.*//\' "%"' # cat file without lines starting with a #
+  abbr clear-windows-stuff 'remove-duplicates-with-suffix ".wwka"; remove-duplicates-with-suffix ".asd"; find . -type f -name \'AProject.ico\' -delete; find . -type f -name \'desktop.ini\' -delete; find . -type f -name \'Desktop.ini\' -delete'
   abbr reset-lock 'su -c "faillock --user \"$USER\" --reset"'
   abbr sha 'shasum -a 256' # test sha256
   abbr con 'ping -c 5 8.8.8.8' # check network

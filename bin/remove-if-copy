@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+if [ -z "$2" ]; then
+  echo "error: not enough arguments"
+  exit 1
+fi
+file="$1"
+suffix="$2"
+basename="${file%"$suffix"}"
+if [ -e "$basename" ]; then
+  rm "$basename$suffix"
+fi

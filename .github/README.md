@@ -1,9 +1,20 @@
-## Currently reworking the entire theme structure for better
-## handling of global themes, please be patient
+## Now transitioning towards fully-featured global themes, please be patient
 
-# Dotfiles
+<div align="center">
+    <h1>【 Cherrynoize dotfiles 】</h1>
+    <h3></h3>
+</div>
 
-[Click here for a preview](https://youtu.be/ph19WxzsCRg)
+<div align="center"> 
+
+![](https://img.shields.io/github/last-commit/cherrynoize/dotfiles?&style=for-the-badge&color=FFB1C8&logoColor=D9E0EE&labelColor=292324)
+![](https://img.shields.io/github/stars/cherrynoize/dotfiles?style=for-the-badge&logo=andela&color=FFB686&logoColor=D9E0EE&labelColor=292324)
+[![](https://img.shields.io/github/repo-size/cherrynoize/dotfiles?color=CAC992&label=SIZE&logo=googledrive&style=for-the-badge&logoColor=D9E0EE&labelColor=292324)](https://github.com/cherrynoize/hyprland)
+![](https://img.shields.io/badge/need-love-green?style=for-the-badge&color=CCE8E9&logoColor=D9E0EE&labelColor=292324) 
+
+</div>
+
+[Link to showcase](https://youtu.be/ph19WxzsCRg)
 
 ![preview](images/wpgtk1.png)
 
@@ -16,7 +27,7 @@ moments along the way, sometimes for separate programs too.
 That is why you will see a list of submodules which are actually
 just parts of these dotfiles, but also standalone repos.
 
-## Install
+## 🔧 Install
 
 Though I'm planning to provide a setup script, you can just clone
 the repo for now and then manually move things where they belong.
@@ -42,7 +53,7 @@ You also need to run
 from the repo directory. This is just a stub for a full installer
 which should replace this `README` section entirely.
 
-## Update
+## 󰚰 Update
 
 From now on you can just run
 
@@ -53,7 +64,7 @@ cfg pull
 and it should automatically update your dotfiles. (Please take
 care of your own unstaged changes.)
 
-## Configuration
+##  Configuration
 
 ### .initrc
 
@@ -98,7 +109,7 @@ The `nvim` configuration is based upon [AstroNvim](https://github.com/AstroNvim/
 an IDE layer for **Neovim**. Check out the [docs](https://docs.astronvim.com/#%EF%B8%8F-configuration)
 for info about configuration.
 
-## Binaries
+##  Binaries
 
 The repo also includes a large collection of shell scripts, some
 [collected around the internet](.local/bin), but [most of
@@ -109,7 +120,7 @@ into my everyday system usage and used in most of my
 configuration it made little sense leaving them out (or
 separating them).
 
-## Shell
+##  Shell
 
 Active development is currently only on `fish`. Config for other
 shells such as `bash` or `zsh` is currently unmantained. They have
@@ -118,7 +129,7 @@ had previous support though and I occasionally work on `bash`
 are still there. (Not to mention `bash` is actually my current
 login shell, `fish` gets launched from there.)
 
-## Themes
+##  Themes
 
 Themes are currently in alpha so please be nice. I'm setting up
 themes for all sorts of things though - it just takes some time.
@@ -167,7 +178,7 @@ contribute.
 
 </details>
 
-## Dependencies
+## 🗎 Dependencies
 
 ```
 pacman -S bash
@@ -192,9 +203,9 @@ Not in the AUR* (nor in the official repo) (optional):
 
 *\*Do submit a PR or let me know if this is outdated.*
 
-## Usage
+##  Usage
 
-### Useful commands, aliases & shortcuts
+### 󰘳 Useful commands, aliases & shortcuts
 
 You can find the whole configuration under
 `.config/sxhkd/sxhkdrc`, but this is just some basic commands to
@@ -237,7 +248,7 @@ to any key (such as the text-editor launcher).
 
     unfuck everything # Super+Shift+Esc
 
-### Keys
+###  Keys
 
 #### Neovim
 
@@ -253,7 +264,7 @@ to any key (such as the text-editor launcher).
     {Tab,Shift}+Tab  Move to next/previous entry
     Shift+{h,j,k,l}  Vi-like navigation
 
-### Tricks & tips
+###  Tricks & tips
 
 #### Auto-refresh sudo timeout
 
@@ -270,7 +281,7 @@ use a function because that would enter an infinite loop.)
 In case it conflicts with other programs in your system, just use
 `sudo`.
 
-### Known bugs
+###  Known bugs
 
 #### eww
 
@@ -291,7 +302,14 @@ on this but, please, if anyone has a specific request provide me
 with a metadata sample (output of `playerctl --player="$player"
 metadata mpris:artUrl`) and I'll add it.
 
-## TODO
+## 󰕹 Thanks
+
+- [gh0stzk's dotfiles](https://github.com/gh0stzk/dotfiles) for
+inspiration as well as a lot of code stolen especially from the
+Rofi rice selector style
+- https://www.pixiv.net/en/users/46612726
+
+##  TODO
 
 ### Bar
 

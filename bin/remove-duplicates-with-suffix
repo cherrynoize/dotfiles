@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+suffix="$1"
+find . -type f -name '*'"$suffix" -exec remove-if-copy "{}" "$suffix" ';'
