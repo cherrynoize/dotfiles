@@ -26,7 +26,7 @@
 
 ## 🔧 Install
 
-Though I'm planning to provide a setup script, you can just clone
+I'm working on a setup script. You can just clone
 the repo for now and then manually move things where they belong.
 
 Something like
