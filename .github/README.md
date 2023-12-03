@@ -53,7 +53,7 @@ You also need to run
 from the repo directory. This is just a stub for a full installer
 which should replace this `README` section entirely.
 
-## 󰚰 Update
+## 🔄 Update
 
 From now on you can just run
 
@@ -178,7 +178,7 @@ contribute.
 
 </details>
 
-## 🗎 Dependencies
+## 🧱 Dependencies
 
 ```
 pacman -S bash
@@ -203,9 +203,9 @@ Not in the AUR* (nor in the official repo) (optional):
 
 *\*Do submit a PR or let me know if this is outdated.*
 
-##  Usage
+## 🛠 Usage
 
-### 󰘳 Useful commands, aliases & shortcuts
+### ⌘ Useful commands, aliases & shortcuts
 
 You can find the whole configuration under
 `.config/sxhkd/sxhkdrc`, but this is just some basic commands to
@@ -248,7 +248,7 @@ to any key (such as the text-editor launcher).
 
     unfuck everything # Super+Shift+Esc
 
-###  Keys
+### ⌨ Keys
 
 #### Neovim
 
@@ -264,7 +264,7 @@ to any key (such as the text-editor launcher).
     {Tab,Shift}+Tab  Move to next/previous entry
     Shift+{h,j,k,l}  Vi-like navigation
 
-###  Tricks & tips
+### ✨ Tricks & tips
 
 #### Auto-refresh sudo timeout
 
@@ -281,7 +281,7 @@ use a function because that would enter an infinite loop.)
 In case it conflicts with other programs in your system, just use
 `sudo`.
 
-###  Known bugs
+### 🐛 Known bugs
 
 #### eww
 
@@ -302,14 +302,14 @@ on this but, please, if anyone has a specific request provide me
 with a metadata sample (output of `playerctl --player="$player"
 metadata mpris:artUrl`) and I'll add it.
 
-## 󰕹 Thanks
+## 🙏 Thanks
 
 - [gh0stzk's dotfiles](https://github.com/gh0stzk/dotfiles) for
 inspiration as well as a lot of code stolen especially from the
 Rofi rice selector style
 - https://www.pixiv.net/en/users/46612726
 
-##  TODO
+## 📋 TODO
 
 ### Bar
 
