@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# author: cherrynoize
+# author | cherrynoize
 
 bat_info="$(acpi -b)"
 on_bat="$(acpi -b | grep Discharging)"
@@ -10,6 +10,8 @@ ac_msg="AC"
 
 # threshold at or after which battery is shown as 100%
 max_bat=100
+
+nid=5477 # notification id
 
 while [ -n "$1" ]; do
   case "$1" in
@@ -63,16 +65,19 @@ while [ -n "$1" ]; do
       bat_info="$charge ($msg)"
       shift
       ;;
+    -q|--quiet)
+      bat_info=
+      shift
+      ;;
     *)
       status="$1"
       shift
-      break
       ;;
   esac
 done
 
 if [ -n "$status" ]; then
-  notify-send "$status" "$bat_info" "$@"
+  dunstify -r "$nid" "$status" "$bat_info" "$@"
 else
-  notify-send "$bat_info" "$@"
+  dunstify -r "$nid" "$bat_info" "$@"
 fi
