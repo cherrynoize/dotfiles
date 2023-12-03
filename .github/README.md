@@ -1,4 +1,4 @@
-## Now transitioning towards fully-featured global themes, please be patient
+## Fully-featured global themes coming, *be patient*
 
 <div align="center">
     <h1>【 My ⭐ dotfiles 】</h1>
@@ -305,9 +305,11 @@ metadata mpris:artUrl`) and I'll add it.
 ## 🙏 Thanks
 
 - [gh0stzk's dotfiles](https://github.com/gh0stzk/dotfiles) for
-inspiration as well as a lot of code stolen especially from the
-Rofi rice selector style
-- https://www.pixiv.net/en/users/46612726
+inspiration as well as a lot of code stolen especially for the
+Rofi theme selector buttons
+- [wacca〇わっか](https://www.pixiv.net/en/users/46612726) for
+her amazing illustration collection
+([meranii](.wallpaper-themes/meranii) theme)
 
 ## 📋 TODO
 
