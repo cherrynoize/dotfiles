@@ -1,7 +1,7 @@
 ## Now transitioning towards fully-featured global themes, please be patient
 
 <div align="center">
-    <h1>【 Cherrynoize dotfiles 】</h1>
+    <h1>【 My  dotfiles 】</h1>
     <h3></h3>
 </div>
 
