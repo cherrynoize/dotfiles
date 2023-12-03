@@ -21,11 +21,7 @@
 ![preview](images/dash_ani1.gif)
 
 These are my current dotfiles. I update them as I go and try to
-produce *stable* forks to preserve major changes and pivotal
-moments along the way, sometimes for separate programs too.
-
-That is why you will see a list of submodules which are actually
-just parts of these dotfiles, but also standalone repos.
+strip all unnecessary stuff. Little by little.
 
 ## 🔧 Install
 
@@ -309,7 +305,7 @@ inspiration as well as a lot of code stolen especially for the
 Rofi theme selector buttons
 - [wacca〇わっか](https://www.pixiv.net/en/users/46612726) for
 her amazing illustration collection
-([meranii](.wallpaper-themes/meranii) theme)
+([meranii theme](.wallpaper-themes/meranii))
 
 ## 📋 TODO
 
