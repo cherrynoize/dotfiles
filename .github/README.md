@@ -20,7 +20,7 @@
 
 ![preview](images/dash_ani1.gif)
 
-#### These are my current dotfiles. I update them as I go and try to strip all unnecessary stuff.
+##### These are my current dotfiles. I update them as I go and try to strip all unnecessary stuff.
 
 ##### Little by little.
 
