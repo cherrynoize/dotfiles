@@ -64,7 +64,7 @@ cfg pull
 and it should automatically update your dotfiles. (Please take
 care of your own unstaged changes.)
 
-##  Configuration
+## ⚙ Configuration
 
 ### .initrc
 
@@ -109,7 +109,7 @@ The `nvim` configuration is based upon [AstroNvim](https://github.com/AstroNvim/
 an IDE layer for **Neovim**. Check out the [docs](https://docs.astronvim.com/#%EF%B8%8F-configuration)
 for info about configuration.
 
-##  Binaries
+## 📁 Binaries
 
 The repo also includes a large collection of shell scripts, some
 [collected around the internet](.local/bin), but [most of
@@ -120,7 +120,7 @@ into my everyday system usage and used in most of my
 configuration it made little sense leaving them out (or
 separating them).
 
-##  Shell
+## $ Shell
 
 Active development is currently only on `fish`. Config for other
 shells such as `bash` or `zsh` is currently unmantained. They have
@@ -129,7 +129,7 @@ had previous support though and I occasionally work on `bash`
 are still there. (Not to mention `bash` is actually my current
 login shell, `fish` gets launched from there.)
 
-##  Themes
+## 🎨 Themes
 
 Themes are currently in alpha so please be nice. I'm setting up
 themes for all sorts of things though - it just takes some time.
