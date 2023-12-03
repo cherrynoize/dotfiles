@@ -177,6 +177,8 @@ contribute.
 
 ## 🧱 Dependencies
 
+Official repo:
+
 ```
 pacman -S bash
 ```
@@ -185,6 +187,12 @@ Optional (some are still needed for certain functionalities):
 
 ```
 yay -S wpgtk pywalfox expect playerctl
+```
+
+or
+
+```
+paru -S wpgtk pywalfox expect playerctl
 ```
 
 `python` packages (optional):
