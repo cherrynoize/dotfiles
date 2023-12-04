@@ -125,6 +125,14 @@ super + alt + p
 #   passmenu --type
     rofi-pass
 
+# character picker
+super + alt + i
+    rofimoji
+
+# long em dash
+#ctrl + shift + minus
+#    xdotool type --window "%0" --clearmodifiers --delay "0ms" -- '—'
+
 #
 # player controls
 #
