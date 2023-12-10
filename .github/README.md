@@ -186,6 +186,7 @@ pacman -S bash
 Optional (some are still needed for certain functionalities):
 
 ```
+pacman -S geoclue2
 yay -S wpgtk pywalfox expect playerctl
 ```
 

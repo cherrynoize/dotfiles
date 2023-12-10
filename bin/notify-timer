@@ -11,7 +11,8 @@ if [ "$1" = "-k" ] || [ "$1" = "--kill" ]; then
   dunstify -C "$nid"
 
   # kill all processes
-  /usr/bin/env killall "$(basename -- "$0")"
+  killall "$(basename -- "$0")"
+  exit
 fi
 
 timer=60
@@ -47,6 +48,7 @@ while [ "$timer" -gt "0" ]; do
 
   sleep "$interval"
 done
+
 
 # Execute $6 if present
 if [ -n "$6" ]; then

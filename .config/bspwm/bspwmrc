@@ -38,14 +38,6 @@ bspc config merge_overlapping_monitors  true
 
 bspc config external_rules_command      "$HOME/.config/bspwm/scripts/external_rules"
 
-# run process if not already running
-run() {
-  if ! pgrep -f "$1" ;
-  then
-  "$@"&
-  fi
-}
-
 # workspaces
 workspaces() {
   name=1
@@ -59,12 +51,3 @@ workspaces
 
 # source theme
 . "$themes_dir/$theme"
-
-# launch bar
-switch-bar launch
-# launch dunst
-run dunst
-# launch sxhkd
-run sxhkd
- 
-xsetroot -cursor_name left_ptr

@@ -83,7 +83,7 @@ if status is-interactive
   abbr -- - 'cd ~'
   abbr -- -- 'cd ~'
   abbr hw 'echo hello, world!'
-  abbr im 'sudo -iu' # run interactive shell as user
+  abbr --set-cursor im 'sudo -iu % fish' # run interactive shell as user
   abbr runas 'sudo -u' # run command as user
   abbr sudo 'sudo -v; sudo' # refresh sudo privileges
   abbr l 'lsd'
