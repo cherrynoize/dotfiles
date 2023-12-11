@@ -211,6 +211,9 @@ Not in the AUR* (nor in the official repo) (optional):
 
 ## 🛠 Usage
 
+>⚠ Please do not use binaries or shell aliases if you don't
+>understand what they do. Always inspect the source code first.
+
 ### ⌘ Useful commands, aliases & shortcuts
 
 You can find the whole configuration under
