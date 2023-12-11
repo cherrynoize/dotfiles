@@ -216,10 +216,12 @@ Not in the AUR* (nor in the official repo) (optional):
 
 ### ⌘ Useful commands, aliases & shortcuts
 
-You can find the whole configuration under
-`.config/sxhkd/sxhkdrc`, but this is just some basic commands to
-get you started. Also to remember commands which are not bound
-to any key (such as the text-editor launcher).
+You can find all binary files in `~/bin` and `~/.local/bin`,
+shell aliases in `~/.config/fish/config.fish` and keyboard
+shortcuts in `.config/sxhkd/sxhkdrc`. Compiling an extensive
+shortcuts/commands help is in the [`TODO`](#todo) list.
+
+This is just some basic commands to get you started.
 
 #### Spawn terminal
 
@@ -322,6 +324,15 @@ her amazing illustration collection
 
 ## 📋 TODO
 
+### Install and configuration
+
+- Installation script
+- Finish making initrc
+
+### Support
+
+- Shortcuts/commands usage popup window
+
 ### Bar
 
 - Auto memorize bar status (open or closed) between sessions
@@ -329,8 +340,3 @@ her amazing illustration collection
 ### Wallpapers
 
 - Convert to a higher compression format
-
-### Install and configuration
-
-- Installation script
-- Finish making initrc
