@@ -156,7 +156,8 @@ if status is-interactive
   abbr --set-cursor remove-dirs 'find . -type d -name "%" -print -exec rmdir {} \;'
   abbr --set-cursor remove-nonempty-dirs 'find . -type d -name "%" -print -prune -exec rm -rf {} \; # WARNING: handle with care!'
   abbr --set-cursor uncomment-file 'sed \'s/^#.*//\' "%"' # cat file without lines starting with a #
-  abbr --set-cursor chmod-non-executable-files 'find . -type f -executable \( -exec sh -c 'file -b "$1" | grep -q executable' Test {} \; -o -exec chmod a-x {} \; \)'
+  abbr --set-cursor chmod-files-in-subdirs 'find . -type f -exec chmod % -- {} +'
+  abbr --set-cursor chmod-non-executable-files 'find . -type f -executable \( -exec sh -c \'file -b "$1" | grep -q executable\' Test {} \; -o -exec chmod a-x {} \; \)'
   abbr clear-windows-stuff 'remove-duplicates-with-suffix ".wwka"; remove-duplicates-with-suffix ".asd"; find . -type f -name \'AProject.ico\' -delete; find . -type f -name \'desktop.ini\' -delete; find . -type f -name \'Desktop.ini\' -delete'
   abbr reset-lock 'su -c "faillock --user \"$USER\" --reset"'
   abbr sha 'shasum -a 256' # test sha256

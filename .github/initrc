@@ -4,14 +4,6 @@
 # https://github.com/cherrynoize/dotfiles
 #
 
-# Run if not already running
-run() {
-  if ! pgrep -f "$1" ;
-  then
-    "$@"&
-  fi
-}
-
 # Automatically detect network interfaces
 # You can manually override these with your preferred value
 export WLAN="$(ls /sys/class/net | grep -m 1 wl)"
@@ -30,10 +22,7 @@ export ETH="$(ls /sys/class/net | grep -m 1 et)"
 #done
 #)&
 
-run sxhkd
 switch-bar launch &
-run dunst
-picom -b &
 
 . ~/.config/wpg/wp_init.sh & # Restore wallpaper and wpgtk theme
 change-wallpaper & # Set random new wallpaper
