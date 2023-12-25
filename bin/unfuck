@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# clear common mistakes that leave you like 'wtf?'
+# auto handle common issues that make you go 'wtf?'
 # author | cherrynoize
 
 profiles=(~/.profile ~/.xprofile)
@@ -119,8 +119,9 @@ unfuck_dunst () {
 }
 
 unfuck_picom () {
-  killall picom
-  picom -b
+  if ! pgrep picom; then
+    picom -b
+  fi
 }
 
 unfuck_bar () {

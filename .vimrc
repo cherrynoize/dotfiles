@@ -17,9 +17,6 @@
     se shell=sh
 "endif
 
-" blamer
-let g:blamer_enabled = 1
-
 " appearance
 """"""""""""
 
@@ -203,10 +200,9 @@ nnoremap <esc>w :tabc<cr>
 
 " session and file handling
 """""""""""""""""""""""""""
-
 " save file
-nnoremap <c-s> <cmd>w!<cr>
-inoremap <c-s> <cmd>w<cr>
+"nnoremap <c-s> <cmd>w!<cr>
+"inoremap <c-s> <cmd>w<cr>
 nnoremap <esc>s <cmd>w<cr>
 " write all and save default session
 "nnoremap <esc>s :wa!<cr>:mksession! ~/.vim/sessions/main.vim<cr>
@@ -214,5 +210,12 @@ nnoremap <esc>s <cmd>w<cr>
 nnoremap <esc>q <cmd>qa<cr>
 "nnoremap <esc>q :xa<cr>
 nnoremap <esc>Q <cmd>q!<cr>
+
+" codeium
+"""""""""""""""""""""""""""
+let g:codeium_disable_bindings = 1 " disable default bindings
+imap <script><silent><nowait><expr> <C-f> codeium#Accept()
+nnoremap <silent> <C-f> :<C-u>Codeium Disable<CR>
+vnoremap <silent> <C-f> :<C-u>Codeium Disable<CR>
 
 " vim: sw=2:ts=2

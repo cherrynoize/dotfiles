@@ -1,0 +1,6 @@
+#!/bin/sh
+reflector --save /etc/pacman.d/mirrorlist \
+--protocol http,https \
+--threads 20 \
+--sort rate \
+#--country "$COUNTRY,Italy,Switzerland,France,Austria,Spain,Germany"

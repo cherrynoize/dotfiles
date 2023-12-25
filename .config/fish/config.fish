@@ -95,9 +95,7 @@ if status is-interactive
   abbr --set-cursor xcopy '% | xclip -selection clipboard'
   abbr copy-dir 'pwd | xclip -selection clipboard'
   abbr compress 'tar -czvf' # compress ze vucking files
-  abbr targz 'tar -czvf'
   abbr extract 'tar -xzvf' # xtract ze vucking files
-  abbr untar 'tar -xzvf'
   abbr tarzstd 'tar -c -I"zstd -19 -T0" -f' # overall best one
   abbr tarpxz 'tar -c -I"pxz -9" -f' # may occasionally compress further
   abbr priv 'fish --private' # fish incognito mode
@@ -144,13 +142,16 @@ if status is-interactive
   abbr pacl 'pacman -Ql'
   abbr pace 'sudo pacman -D --asexplicit'
   abbr pacu 'sudo pacman -Syu; yay -Syu'
+  abbr --set-cursor yays 'yay -S % && yay -Sc --noconfirm'
+  abbr --set-cursor yayr 'yay -Rs % && yay -Sc --noconfirm'
+  abbr paclist 'cat /etc/pacman.d/pkglist'
+  abbr aurlist 'cat /etc/pacman.d/pkglist_aur'
   abbr list-orphaned-packages 'pacman -Qtdq'
   abbr clear-orphaned-packages 'sudo pacman -Rns $(pacman -Qtdq)'
   abbr clear-pacman-cache 'paccache -ruk0; paccache -rk 1'
   abbr clear-yay-cache 'yay -Sc'
   abbr show-pacnew-files 'pacdiff -o'
   abbr show-packages-by-size 'LC_ALL=C pacman -Qi | awk \'/^Name/{name=$3} /^Installed Size/{print $4$5, name}\' | sort -h'
-  abbr update-mirrorlist 'reflector --save /etc/pacman.d/mirrorlist --protocol https --latest 5 --sort age'
   abbr --set-cursor find-by-content 'grep -rnw . -e "%"'
   abbr find-empty 'find . -size 0 -type f' # list empty files
   abbr --set-cursor remove-dirs 'find . -type d -name "%" -print -exec rmdir {} \;'
@@ -188,6 +189,7 @@ if status is-interactive
   abbr das 'objdump -d -Mintel' # disassemble
 
   # development
+  abbr python-server 'python -m http.server 5555'
   abbr --set-cursor venv-new 'python -m venv %venv' # create python virtual environment
   abbr --set-cursor venv-on 'source %venv/bin/activate.fish' # enter ve
   abbr venv-off 'deactivate' # exit ve

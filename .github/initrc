@@ -4,6 +4,17 @@
 # https://github.com/cherrynoize/dotfiles
 #
 
+# Current theme loading screen
+loading_screen="$HOME/.wallpaper-themes/current/loading_frames"
+if [ ! -e "$loading_screen" ]; then
+  # Fallback to default
+  loading_screen="$HOME/.wallpaper-themes/.default/loading_frames"
+fi
+if [ -e "$loading_screen" ]; then
+  # Set loading screen if it is found
+  livewall set "$loading_screen" &
+fi
+
 # Automatically detect network interfaces
 # You can manually override these with your preferred value
 export WLAN="$(ls /sys/class/net | grep -m 1 wl)"
@@ -18,11 +29,17 @@ export ETH="$(ls /sys/class/net | grep -m 1 et)"
 #    export CITY="Cerulean City"
 #    export COUNTRY="Pokémon Green"
 #  fi
+#  export CITY="$(get-ip-info city)"
+#  export COUNTRY="$(get-ip-info country)"
 #  sleep 30
 #done
 #)&
 
 switch-bar launch &
 
-. ~/.config/wpg/wp_init.sh & # Restore wallpaper and wpgtk theme
+(
+sleep 1
+#. ~/.config/wpg/wp_init.sh & # Restore wallpaper and wpgtk theme
 change-wallpaper & # Set random new wallpaper
+livewall stop
+)&

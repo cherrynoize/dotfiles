@@ -1,8 +1,14 @@
 /* newtab, home and loading screen */
-@-moz-document url(about:blank), url(about:newtab), url(about:home), url(about:privatebrowsing), url(chrome://browser/content/browser.xul) {
-  html:not(#ublock0-epicker), html:not(#ublock0-epicker) body, #newtab-customize-overlay {
-    background: linear-gradient(45deg, #531a255c 25%, #282c34, #531a2560 90%, #531a255c) no-repeat right top fixed !important;
-    background-color: #312839 !important;
+@-moz-document
+url(about:blank),
+url(about:newtab),
+url(about:home),
+url(about:privatebrowsing),
+url(chrome://browser/content/browser.xul) {
+  html:not(#ublock0-epicker),
+  html:not(#ublock0-epicker) body,
+  #newtab-customize-overlay {
+    background: var(--newtab-background-color) !important;
     background-size: cover !important;
   }
 }
@@ -16,8 +22,8 @@
 /* proton stuff */
 @media (-moz-proton) {
   @-moz-document url("about:home"), url("about:newtab") {
-    /** Activity Stream - Search Focus Border: like URL ***********************/
-    /* At DarkMode, Color */
+    /* Activity Stream searchbar focused border (like URL) */
+    /* dark mode */
     body[style*="--newtab-background-color:rgba(28, 27, 34, 1);"],
     body[style*="--newtab-background-color:rgba(42, 42, 46, 1);"],
     body[style*="--newtab-background-color: rgba(42, 42, 46, 1);"] {
@@ -26,14 +32,14 @@
       --newtab-focus-border-selected: rgba(0, 221, 255, 0.5) !important; /* Original: #B5D3FF */
     }
 
-    /** Activity Stream - Web Site Icon: full size ****************************/
+    /* Activity Stream icon */
     .top-site-outer .tile .icon-wrapper {
       width:  100% !important; /* Original: 48px */
       height: 100% !important; /* Original: 48px */
     }
   }
 
-  /** Error Page - Restore illustrations **************************************/
+  /* restore error page illustrations */
   @-moz-document url-prefix("about:neterror"),
   url("about:restartrequired"), url("chrome://browser/content/aboutRestartRequired.xhtml"),
   url("about:sessionrestore"),  url(chrome://browser/content/aboutSessionRestore.xhtml) {
@@ -53,39 +59,43 @@
       padding-inline-start: 38%;
     }
 
-    /* Container */
     .container {
       min-width: var(--in-content-container-min-width); /* 13em */
       max-width: var(--in-content-container-max-width); /* 52em */
     }
 
-    /* Text Position */
+    /* text position */
     #text-container {
       margin: auto;
       padding-inline-start: 38%;
     }
   }
 
-  @-moz-document url-prefix("about:neterror?e=connectionFailure"),
+  @-moz-document
+  url-prefix("about:neterror?e=connectionFailure"),
   url-prefix("about:neterror?e=netInterrupt"),
   url-prefix("about:neterror?e=netTimeout"),
   url-prefix("about:neterror?e=netReset"),
   url-prefix("about:neterror?e=netOffline"),
-  url("about:restartrequired"), url("chrome://browser/content/aboutRestartRequired.xhtml") {
+  url("about:restartrequired"),
+  url("chrome://browser/content/aboutRestartRequired.xhtml") {
     #errorPageContainer {
       background-image: url("chrome://browser/skin/illustrations/error-connection-failure.svg");
     }
   }
+
   @-moz-document url-prefix("about:neterror?e=dnsNotFound") {
     #errorPageContainer {
       background-image: url("chrome://browser/skin/illustrations/error-server-not-found.svg");
     }
   }
+
   @-moz-document url-prefix("about:neterror?e=malformedURI") {
     #errorPageContainer {
       background-image: url("chrome://browser/skin/illustrations/error-malformed-url.svg");
     }
   }
+
   @-moz-document url-prefix("about:neterror?e=clockSkewError"),
   url-prefix("about:neterror?e=nssFailure") {
     #errorPageContainer {
@@ -112,6 +122,7 @@
       padding-inline-start: 0;
     }
   }
+
   @-moz-document url-prefix("about:tabcrashed") {
     @media (min-width: 970px) {
       .title {
@@ -119,6 +130,7 @@
       }
     }
   }
+
   @-moz-document url("about:robots"), url("chrome://browser/content/aboutRobots.xhtml") {
     @media (min-width: 970px) {
       .title {
@@ -126,6 +138,7 @@
       }
     }
   }
+
   @-moz-document url("about:welcomeBack"), url("chrome://browser/content/aboutWelcomeBack.xhtml") {
     @media (min-width: 970px) {
       .title {

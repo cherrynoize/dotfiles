@@ -2,9 +2,13 @@
 # update script for:
 # https://github.com/cherrynoize/dotfiles
 
-# fetch latest config
-cfg pull
+echo "Fetching latest config..."
+cfg pull || exit 1
+echo
 
-# update packages
-sudo pacman -Syu
-yay -Syu
+echo "Updating packages from official repo..."
+sudo pacman -Syu --noconfirm || exit 2
+echo
+
+echo "Updating packages from aur..."
+yay -Syu --noconfirm || exit 3

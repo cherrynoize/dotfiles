@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+# A live wallpaper engine that works
+# author: cherrynoize
+# freely based on: https://github.com/Creator54/livewall/
+
+# default location for extracted frames
+buffer_location=/tmp/livewall-buf
+save_location=/tmp/livewall-out
+
+# default frame image format and interval
+frame_format=png
+frame_interval=20
+
+lock_file=/tmp/livewall-lck
+
+usage () {
+cat<<EOF
+USAGE
+  livewall COMMAND [OPTIONS]
+
+COMMANDS
+  start INPUT [FRAME_FORMAT] [FRAME_INTERVAL]
+  extract INPUT [FRAMES_DIR] [FRAME_FORMAT] [FRAME_INTERVAL]
+  set [FRAMES_DIR]
+  stop
+
+FORMAT
+  jpg,png
+EOF
+}
+
+check_input_file_or_die () {
+  if [ ! -e "$1" ]; then
+    echo "error: input file $1 not found"
+    exit 4
+  fi
+}
+
+check_frames_dir_or_die () {
+  if [ ! -d "$1" ]; then
+    echo "error: invalid frames dir $1"
+    exit 3
+  fi
+}
+
+extract_frames () {
+  save_location="${2:-$save_location}"
+  mkdir -p "$save_location"
+  echo "Extracting frames from $1..."
+  ffmpeg -i "$1" -r "$frame_interval" "$save_location/%d.$frame_format" >/dev/null 2>&1
+  echo "Saved to $save_location"
+}
+
+start () {
+  input_file="$1"
+  frames_dir="$buffer_location"
+  echo "Extracting frames from $input_file..."
+  extract_frames "$input_file" "$frames_dir" >/dev/null 2>&1
+  set_live_wallpaper "$frames_dir" &
+}
+
+stop () {
+  rm "$lock_file"
+}
+
+set_wall_sequence () {
+  for frame in "$frames_dir"/*; do
+    [ -e "$lock_file" ] || exit
+    feh --bg-fill "$frame"
+  done
+}
+
+has_frames () {
+  [ "$(ls "$1" | wc -l)" -gt 0 ]
+}
+
+set_live_wallpaper () {
+  frames_dir="$1"
+  if ! has_frames "$frames_dir"; then
+    echo "error: no frames found in $frames_dir"
+    exit 4
+  fi
+
+  touch "$lock_file"
+
+  while true; do
+    set_wall_sequence
+  done
+}
+
+case "$1" in
+  start)
+    check_input_file_or_die "$1"
+    frame_format="${3:-$frame_format}"
+    frame_interval="${4:-$frame_interval}"
+    stop &>/dev/null
+    start "$2"
+    ;;
+  extract)
+    check_input_file_or_die "$1"
+    save_location="${3:-$save_location}"
+    frame_format="${4:-$frame_format}"
+    frame_interval="${5:-$frame_interval}"
+    extract_frames "$2" "$save_location"
+    ;;
+  set)
+    check_frames_dir_or_die "$2"
+    frame_format="${3:-$frame_format}"
+    stop &>/dev/null
+    set_live_wallpaper "$2"
+    ;;
+  stop)
+    stop
+    ;;
+  *)
+    usage
+    ;;
+esac

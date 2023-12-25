@@ -14,11 +14,11 @@ super + Return
 
 # discord
 super + alt + d
-    discord
+    pgrep discord && killall discord || discord
 
 # spotify
 super + alt + s
-    pgrep spotify && killall spotify || spotify
+    pgrep spotify && killall spotify || spotify-launcher
 
 # mail
 super + alt + m
