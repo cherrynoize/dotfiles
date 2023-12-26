@@ -156,7 +156,6 @@
   --toolbarbutton-active-background: color-mix(in srgb, var(--toolbar-bgcolor) 84%, black) !important;        /*"button_background_active": "#131217"*/
   --toolbarbutton-hover-personal: color-mix(in srgb, var(--arrowpanel-background) 87%, black) !important;     /* Button :hover color personal*/
 
-  
   --lwt-sidebar-background-color: var(--toolbar-bgcolor) !important;                    /*Sidebar-background*/
   
   --toolbarbutton-inner-padding: 6px !important;                                        /*Toolbar buttons más pequeños*/

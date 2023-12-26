@@ -211,4 +211,8 @@ nnoremap <esc>q <cmd>qa<cr>
 "nnoremap <esc>q :xa<cr>
 nnoremap <esc>Q <cmd>q!<cr>
 
+" codeium
+"""""""""""""""""""""""""""
+inoremap <script><silent><nowait><expr> <c-f> codeium#Accept()
+
 " vim: sw=2:ts=2

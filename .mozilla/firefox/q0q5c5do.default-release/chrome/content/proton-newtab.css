@@ -1,24 +1,3 @@
-/* newtab, home and loading screen */
-@-moz-document
-url(about:blank),
-url(about:newtab),
-url(about:home),
-url(about:privatebrowsing),
-url(chrome://browser/content/browser.xul) {
-  html:not(#ublock0-epicker),
-  html:not(#ublock0-epicker) body,
-  #newtab-customize-overlay {
-    background: var(--newtab-background-color) !important;
-    background-size: cover !important;
-  }
-}
-
-@-moz-document url(about:newtab) {
-  html:not(#ublock0-epicker), html:not(#ublock0-epicker) body, #newtab-customize-overlay {
-    background-image: url('../images/wallpaper') !important;
-  }
-}
-
 /* proton stuff */
 @media (-moz-proton) {
   @-moz-document url("about:home"), url("about:newtab") {
