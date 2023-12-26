@@ -9,4 +9,4 @@
 
 safe open # unlock safe
 pass open # open password store
-sadd -a # add all keys to agent
+sadd -a # add all keys to ssh agent

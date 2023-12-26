@@ -211,11 +211,4 @@ nnoremap <esc>q <cmd>qa<cr>
 "nnoremap <esc>q :xa<cr>
 nnoremap <esc>Q <cmd>q!<cr>
 
-" codeium
-"""""""""""""""""""""""""""
-let g:codeium_disable_bindings = 1 " disable default bindings
-imap <script><silent><nowait><expr> <C-f> codeium#Accept()
-nnoremap <silent> <C-f> :<C-u>Codeium Disable<CR>
-vnoremap <silent> <C-f> :<C-u>Codeium Disable<CR>
-
 " vim: sw=2:ts=2

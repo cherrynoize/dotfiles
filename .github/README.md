@@ -22,7 +22,7 @@
 
 ##### These are my current dotfiles. I update them as I go and try to strip all unnecessary stuff.
 
-##### Little by little.
+##### *One commit at a time.
 
 ## 🔧 Install
 
@@ -149,9 +149,23 @@ And finally list available themes for given item:
 switch-theme [item] -l
 ```
 
-A `rofi` GUI for global theme switching is a *TODO* thing. But
-first `switch-theme` needs some more cleaning, in case you want to
-contribute.
+### Global themes
+
+You can run
+
+```
+theme-selector
+```
+
+to switch between available global themes.
+
+Global themes are configuration files in
+[.config/themes](.config/themes) and they can be easily edited,
+created or removed manually.
+
+> Though provided global themes are still primitive, the
+> infrastructure is already capable of supporting endlessly
+> complex themes. You just need to set them up.
 
 ### wpgtk
 
@@ -207,12 +221,12 @@ Not in the AUR* (nor in the official repo) (optional):
 - [set-light](https://github.com/cherrynoize/set-light)
 - [n3lock](https://github.com/cherrynoize/n3lock)
 
-*\*Do submit a PR or let me know if this is outdated.*
+> *Do submit a PR or let me know if this is outdated.*
 
 ## 🛠 Usage
 
->⚠ Please do not use binaries or shell aliases if you don't
->understand what they do. Always inspect the source code first.
+>⚠ Please do not use binaries or shell aliases unless you
+>understand what they do. Take the time to inspect the code first.
 
 ### ⌘ Useful commands, aliases & shortcuts
 
@@ -230,6 +244,10 @@ This is just some basic commands to get you started.
 #### Application launcher
 
     rofi -show drun # Super+x
+
+#### Theme selector
+
+    theme-selector # Super+space
 
 #### Run prompt
 
@@ -313,6 +331,18 @@ on this but, please, if anyone has a specific request provide me
 with a metadata sample (output of `playerctl --player="$player"
 metadata mpris:artUrl`) and I'll add it.
 
+### 🔩 Troubleshooting
+
+In case something's not working as expected, or if you suddenly
+notice a lag in your system and you don't know what's causing it:
+
+```
+unfuck everything
+```
+
+This should help. If it doesn't, you'll have to find the issue
+and actually do something about it.
+
 ## 🙏 Thanks
 
 - [gh0stzk's dotfiles](https://github.com/gh0stzk/dotfiles) for
@@ -336,6 +366,7 @@ her amazing illustration collection
 ### Bar
 
 - Auto memorize bar status (open or closed) between sessions
+- Fix bar auto closing on resume after sleep
 
 ### Wallpapers
 
