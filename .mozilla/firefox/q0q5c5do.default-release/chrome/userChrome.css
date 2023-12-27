@@ -1,6 +1,6 @@
+@import url('root-personal.css');
 /*********************  ogx  **********************/
 @import url('components/ogx_root.css');
-@import url('components/ogx_root-personal.css');
 @import url('components/ogx_containers.css');
 @import url('components/ogx_urlbar-searchbar.css');
 @import url('components/ogx_sound.css');

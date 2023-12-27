@@ -1,5 +1,6 @@
+@import url('root-personal.css');
 @import url("content/main.css");
 @import url("content/firefox.css");
-@import url("content/proton-newtab.css");
+@import url("content/proton-firefox.css");
 @import url("content/blocker.css");
 @import url("content/mode.css");

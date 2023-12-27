@@ -58,7 +58,7 @@ super + q
 
 # toggle light/dark mode
 super + less
-    switch-mode -n -i
+    switch-mode -n
 
 # switch between bars
 super + greater

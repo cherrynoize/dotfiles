@@ -312,6 +312,10 @@ In case it conflicts with other programs in your system, just use
 
 ### 🐛 Known bugs
 
+#### Firefox
+
+Some issues with text visibility in light mode.
+
 #### eww
 
 - Widget windows closers sometimes get stuck open, causing you to

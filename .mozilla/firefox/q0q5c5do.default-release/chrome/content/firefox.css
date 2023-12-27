@@ -287,16 +287,6 @@ url(about:privatebrowsing) {
         border-image: var(--panel-separator-zap-gradient1) 1 !important;
     }
 
-    /* Searchbox */
-    .search-inner-wrapper {
-        --newtab-background-color-secondary: transparent !important;
-        position: relative;
-        background: transparent !important;
-        opacity: var(--searchbar-on-off, 1) !important;
-        display: var(--searchbar-display, flex) !important;
-        margin-top: 16px !important;
-    }
-
     /* Recent activity */
     .card-outer .card { 
         backdrop-filter: var(--personal-blur);
@@ -331,7 +321,7 @@ url(about:privatebrowsing) {
     }
 
     .top-site-outer .tile .icon-wrapper {
-        height: 38px !important;
+        height: 40px !important;
         width: 45px !important;
     }
 
@@ -377,7 +367,12 @@ url(about:privatebrowsing) {
         outline: 1px solid var(--border-contrast-color) !important;
     }
 
-    /*------------------------ background, logo and wordmark ------------------------*/
+    main {
+        margin-top: var(--newtab-pinnedsites-position-top, auto) !important;
+        transform: translateY(var(--newtab-pinnedsites-transform-y));
+    }
+
+    /*------------------------ searchbox, logo and wordmark ------------------------*/
     .logo {
         background: url("../images/foxlogo.svg") no-repeat !important;
         background-size: cover !important;
@@ -386,10 +381,6 @@ url(about:privatebrowsing) {
         transform: scale(.75) !important;
         opacity: var(--logo-wordmark-visibility) !important;
         display: var(--logo-wordmark-display) !important;
-    }
-
-    .search-wrapper .search-handoff-button, .search-wrapper input {
-        background-blend-mode: var(--search-logo-blend-mode);
     }
 
     .wordmark {
@@ -407,13 +398,34 @@ url(about:privatebrowsing) {
         color: #cacaca !important;
     }
 
-    main {
-        margin-top: var(--newtab-pinnedsites-position-top, auto) !important;
-        transform: translateY(var(--newtab-pinnedsites-transform-y));
+    /* searchbox */
+    .search-inner-wrapper {
+        --newtab-background-color-secondary: transparent !important;
+        position: relative;
+        background: transparent !important;
+        opacity: var(--searchbar-on-off, 1) !important;
+        display: var(--searchbar-display, flex) !important;
+        margin-top: 16px !important;
+    }
+
+    /* align private window watermark with search box */
+    .showPrivate.showSearch.container {
+        display: flex !important;
+        flex-flow: column nowrap !important;
+        align-items: center !important;
+    }
+
+    .showPrivate.showSearch.container .search-inner-wrapper {
+        min-width: 400px !important;
+    }
+
+    /* hide private window info box */
+    .showPrivate.showSearch.container .info-border {
+        display: none !important;
     }
 
     /* logo wordmark and searchbox oneliner */
-    @media screen and (min-width: 1000px){
+    @media screen and (min-width: 1000px) {
         .wordmark {
             margin-inline-end: 50px !important;
         }
@@ -424,7 +436,8 @@ url(about:privatebrowsing) {
             padding: 15px 0 !important;
         }
 
-        .search-wrapper, .search-inner-wrapper {
+        .search-wrapper,
+        .search-inner-wrapper {
             display: flex !important;
             flex-flow: row nowrap !important;
         }
