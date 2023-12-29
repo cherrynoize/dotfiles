@@ -16,6 +16,7 @@ declare -a all_ctx=(
 # "alacritty" # either wpg or alacritty
   "nvim"
 # "polybar"
+  "pywalfox"
   "conky"
 )
 
@@ -239,6 +240,9 @@ case "$_ctx" in
     current_config="colorscheme"
     config_ext=".lua"
     post_exec+="launch-nvim -r;"
+    ;;
+  pywalfox)
+    post_exec+="pywalfox \"$_mode\";"
     ;;
   conky)
     config_dir="$HOME/.config/conky"

@@ -1,15 +1,15 @@
-/* Source file made available under Mozilla Public License v. 2.0 See the main repository for updates as well as full license text. 
+/* Source file made available under Mozilla Public License v. 2.0 See the main repository for updates as well as full license text.
    https://github.com/Godiesc/opera-gx */
 
 :root {
-/* --------------------- Variables de colores, puedes poner tu color personalizado y utilizarlo -----------------------------*/  
+/* --------------------- Variables de colores, puedes poner tu color personalizado y utilizarlo -----------------------------*/
   --fuchsia: #fa1e4e;     --blue: #4c4cff;     --aqua: #00bfff;         --cyan: #00ffff;          --lightblue: #45a1ff;     --pink: #FF0F7E;
   --purple: #8d35e2;      --green: #05b694;    --aquamarine: #00ffa2;   --lightgreen: #36ff4e;    --yellowbrown: #febd60;   --swampautumn: #fdf008;
-  --gray: #bfb6d2;        --orange: #ff6c22;   --yellow: #ffe20f;       --red: #ff3230;           --navyblue: #0050cE;      --poison: #cb17cf; 
+  --gray: #bfb6d2;        --orange: #ff6c22;   --yellow: #ffe20f;       --red: #ff3230;           --navyblue: #0050cE;      --poison: #cb17cf;
   --darkgray: #6f6792dd;  --bluegray: #5c6cb2d8;                        --darkfuchsia: #8a0080;   --grayfuchsia: #ca6eaea5; --darkindigo: #2a009077;
   --transparent: #ccc3;
- 
-/*                                                                                                                                 
+
+/*
     Accent color -----> UI del navegador.  -----|                  |---- userContent <------------ Accent color
                                                 |                  |     (Add-ons, preferences and newtab page.)
                                                 v                  v                                                          */
@@ -19,27 +19,27 @@
 /*--------------------------<-Personalizaciones Varias->----------------------------*/
 
 @media (prefers-color-scheme: dark){ :root{
-  --lwt-main-image:  url("../images/newtab/wallpaper-dark.png") !important;                  /* new-tab page image - dark theme */ 
+  --lwt-main-image:  url("../images/newtab/wallpaper-dark.png") !important;                  /* new-tab page image - dark theme */
   --lwt-private-image:  url("../images/newtab/private-dark.png") !important;                 /* new-tab private-page image - dark theme */
   --brightness-wallpaper: brightness(100%);                                                  /* 100% -> default ; 51% -> to <<main-image>> config */ }}
-  
+
 @media (prefers-color-scheme: light){ :root{
   --lwt-main-image:  url("../images/newtab/wallpaper-light.png") !important;                 /* new-tab page image - white theme*/
   --lwt-private-image:  url("../images/newtab/private-light.png") !important;                /* new-tab private-page image - white theme*/
   --brightness-wallpaper: brightness(100%);                                                  /* 100% -> default and Main-image config */ }}
 
 :root[privatebrowsingmode="temporary"]{ --general-color: var(--purple) !important; }         /* Accent color private mode */
- 
-:root{  
+
+:root{
   --wallpaper-size: cover;                                                                   /* cover-> default ; auto auto -> to <<main-image>> config */
-  
+
   --tab-height-personal: 45px ;                                                              /* Tamaño altura de pestañas - 30px mínimo*/
   --tab-width-personal: auto ;                                                              /* Tamaño altura de pestañas - 30px mínimo*/
   --tab-min-width-personal: 85px ;                                                              /* Tamaño altura de pestañas - 30px mínimo*/
   --tab-active-width-personal: 140px ;                                                              /* Tamaño altura de pestañas - 30px mínimo*/
   --tab-stack-active-width-personal: auto ;                                                              /* Tamaño altura de pestañas - 30px mínimo*/
   --toolbar-height-personal: 45px ;                                                          /* Toolbar height - 32px mínimo*/
-  
+
   --menu-label: "Menu" ;                                                                     /* Label botón -Menú- */
   --padding-left-tab: 74px ;                                                                 /* Tamaño horizontal botón -Menú- */
   /* Account label in panel menu */
@@ -48,13 +48,13 @@
   --account-label: "𝒄𝒉𝒆𝒓𝒓𝒚𝒏𝒐𝒊𝒛𝒆";
 */
   --account-label: "𝕔𝕙𝕖𝕣𝕣𝕪𝕟𝕠𝕚𝕫𝕖";
-  
+
   --left-color: var(--general-color);                                                        /* Color left logo y wordmark */
   --right-color: #0060bfdd ;                                                                 /* Color right logo y wordmark */
 
   --tab-primary: var(--darkgray);
   --tab-secondary: var(--bluegray);
- 
+
   --logo-wordmark-visibility: .8 ;                                                            /* :1 visible, :0 invisible ; Logo-wordmark*/
   --logo-wordmark-display: flex ;                                                            /* :none ->eliminar , :flex ->Mostrar;  Logo-wordmark*/
   --logo-wordmark-scale: .8 ;                                                            /* :none ->eliminar , :flex ->Mostrar;  Logo-wordmark*/
@@ -62,17 +62,17 @@
   --searchbar-on-off: 1 ;                                                                    /* :1 visible, :0 invisible ; searchbar*/
   --searchbar-display: flex ;                                                                /* :none ->eliminar , :flex ->Mostrar; searchbar*/
   --orientation-display: flex ;                                                              /* :block -> vertical , :flex -> horizontal ; Logo-wordmark y searchbar*/
-  
+
   --newtab-pinnedsites-background: color-mix(in srgb, white 1%, var(--transparent)) ;               /* color - fondo de sitios fijados y barra de búsqueda*/
   --newtab-pinnedsites-position-top: auto ;                                                   /* Posición pinnedsites - top-> : 0px ; default-> : auto*/
   --newtab-pinnedsites-transform-y: -3vh ;                                                   /* Posición pinnedsites - top-> : 0px ; default-> : auto*/
-  
+
   --selected-text-background: var(--general-color);                                          /* Selected text background */
-   
+
   --personal-blur: blur(22px);
-  
-  /*--background-align-y: -70px ;                                                              /* Alinear new-tab wallpaper to <<main-image>> config 
-                                                                                                -70px  ventana normal; 
+
+  /*--background-align-y: -70px ;                                                              /* Alinear new-tab wallpaper to <<main-image>> config
+                                                                                                -70px  ventana normal;
                                                                                                 -98px  con Barra de Marcadores;
                                                                                                 -128px con B.Marcadores y B.Menu  */
 }

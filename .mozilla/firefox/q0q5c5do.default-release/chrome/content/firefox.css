@@ -54,8 +54,16 @@ url(chrome://browser/content/browser.xul) {
 url(about:newtab),
 url(about:home),
 url(about:privatebrowsing) {
+    body, body * {
+        /* View and radio buttons background color and searchbox focus border */
+        --newtab-primary-action-background: var(--button-active-bgcolor) !important;
+
+        /* searchbox search icon */
+        --newtab-search-icon: url(chrome://global/skin/icons/search-glass.svg) !important;
+    }
+
     @media (prefers-color-scheme: light) {
-        body {
+        body, body * {
             --newtab-text-primary-color: var(--newtab-wordmark-color) !important;
             --newtab-text-secondary-color: var(--general-color) !important;
             --newtab-background-color: var(--fuchsia) !important;
@@ -98,7 +106,6 @@ url(about:privatebrowsing) {
                 var(--newtab-wordmark-color)
             ) !important;
 
-            --newtab-search-icon: url(chrome://global/skin/icons/search-glass.svg) !important;
             --contrast-color: white !important;
             --border-contrast-color: #acacac50 !important;
 
@@ -107,16 +114,13 @@ url(about:privatebrowsing) {
             /* sidebar background color */
             --lwt-sidebar-background-color: #efeff5 !important;
 
-            /* View button and radio buttons background color */
-            --newtab-primary-action-background: var(--button-active-bgcolor) !important;
-
             /* radio button foreground color */
             --newtab-primary-element-text-color: var(--arrowpanel-background-personal) !important;
         }
     }
 
     @media (prefers-color-scheme: dark) {
-        body {
+        body, body * {
             --contrast-color: black !important;
             --border-contrast-color: #09080d !important;
 
@@ -140,8 +144,6 @@ url(about:privatebrowsing) {
             --newtab-text-secondary-color: var(--general-color) !important;
 
             --newtab-overlay-color: color-mix(in srgb, #090909 54%, transparent) !important;
-
-            --newtab-primary-action-background: var(--button-active-bgcolor) !important;
 
             --newtab-element-secondary-color: color-mix( in srgb,
             var(--newtab-background-color) 90%, var(--newtab-wordmark-color) ) !important;
@@ -402,10 +404,24 @@ url(about:privatebrowsing) {
     .search-inner-wrapper {
         --newtab-background-color-secondary: transparent !important;
         position: relative;
-        background: transparent !important;
+        color:  !important;
         opacity: var(--searchbar-on-off, 1) !important;
         display: var(--searchbar-display, flex) !important;
         margin-top: 16px !important;
+    }
+
+    .search-inner-wrapper,
+    .search-wrapper .search-handoff-button,
+    .search-wrapper input {
+        background-color: transparent !important;
+    }
+
+    .search-handoff-button .fake-textbox {
+        color: var(--newtab-primary-element-text-color) !important;
+    }
+
+    .search-handoff-button .fake-caret {
+        background-color: var(--newtab-primary-element-text-color) !important;
     }
 
     /* align private window watermark with search box */
