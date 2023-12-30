@@ -125,6 +125,7 @@ if status is-interactive
   abbr wpg-reload 'wpg -s "$(wpg -c)"'
   abbr --set-cursor timer 'timer (math "%") -n; play -n synth 0.05 sine 440 vol 0.1'
   abbr beep 'play -n synth 0.05 sine 440 vol 0.1'
+  abbr capture-webcam 'mpv av://v4l2:/dev/video0 --profile=low-latency --untimed'
 
   # bash emulation
   function last_history_item
