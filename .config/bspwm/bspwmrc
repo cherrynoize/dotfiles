@@ -42,8 +42,8 @@ bspc config external_rules_command      "$HOME/.config/bspwm/scripts/external_ru
 workspaces() {
   name=1
   for monitor in $(bspc query -M); do
-    # > 🌐 󱃫 󱌰 󱌬    󱀤   🎵󰲋  󰀘  󰢚 󰙯 󰻞󰭹 󰂫
-    bspc monitor "${monitor}" -n "$name" -d ' ' ' ' ' ' ' ' ' ' ' ' '  ' ' ' '  ' ' ' ' '
+    # > 🌐 󱃫 󱌰 󱌬    󱀤   🎵󰲋  󰀘  󰢚 󰙯 󰻞󰭹 󰂫      
+    bspc monitor "${monitor}" -n "$name" -d ' ' ' ' ' ' ' ' ' ' ' ' '  ' ' ' '  ' ' ' ' '
     (( name++ ))
   done
 }
