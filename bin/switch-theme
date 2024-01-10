@@ -363,7 +363,7 @@ case "$_ctx" in
     post_exec+="bspc wm -r"
     ;;
   alacritty)
-    config_dir="$HOME/.config/alacritty"
+    config_dir="$HOME/.config/alacritty/themes"
     config_link_names=("current")
     config_exts=("")
     ;;

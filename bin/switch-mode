@@ -231,7 +231,7 @@ case "$_ctx" in
     fi
     ;;
   alacritty)
-    config_dir="$HOME/.config/alacritty/current"
+    config_dir="$HOME/.config/alacritty/themes/current"
     current_config="colors"
     config_ext=".toml"
     ;;
