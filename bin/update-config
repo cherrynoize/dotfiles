@@ -8,12 +8,13 @@ remote="origin" # remote to push to
 commit-config "$@"
 
 echo
+exit
 # push commit
 if [ -n "$(wireless-signal)" ]; then
   echo "* pushing changes to $remote"
   cfg push -u "$remote" || # push updates
     { # if it fails
-      sadd # try to add ssh key first
+#     sadd # try to add ssh key first
       echo # newline
       exec "$0" # then start again
     }
