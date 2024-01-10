@@ -26,6 +26,7 @@ declare -a all_ctx=(
   "rofi-colors"
   "bspwm"
   "bspwm-colors"
+  "alacritty"
 )
 
 error () {
@@ -343,13 +344,11 @@ case "$_ctx" in
     config_dir="$HOME/.config/rofi/themes/"
     config_link_names=("current")
     config_exts=(".rasi")
-    post_exec+=""
     ;;
   rofi-colors)
     config_dir="$HOME/.config/rofi/colors/"
     config_link_names=("current")
     config_exts=(".rasi")
-    post_exec+=""
     ;;
   bspwm)
     config_dir="$HOME/.config/bspwm/themes"
@@ -362,6 +361,11 @@ case "$_ctx" in
     config_link_names=("current")
     config_exts=("")
     post_exec+="bspc wm -r"
+    ;;
+  alacritty)
+    config_dir="$HOME/.config/alacritty"
+    config_link_names=("current")
+    config_exts=("")
     ;;
   *)
     error 2 "error: could not find context $_ctx"

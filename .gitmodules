@@ -34,3 +34,6 @@
 [submodule ".config/eww/themes/wpgtk/styles/.config/awesome"]
 	path = .config/eww/themes/wpgtk/styles/.config/awesome
 	url = https://github.com/cherrynoize/awesome
+[submodule ".config/alacritty/.config/awesome"]
+	path = .config/alacritty/.config/awesome
+	url = https://github.com/cherrynoize/awesome

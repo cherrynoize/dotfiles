@@ -231,9 +231,9 @@ case "$_ctx" in
     fi
     ;;
   alacritty)
-    config_dir="$HOME/.config/alacritty"
-    current_config="alacritty"
-    config_ext=".yml"
+    config_dir="$HOME/.config/alacritty/current"
+    current_config="colors"
+    config_ext=".toml"
     ;;
   nvim)
     config_dir="$HOME/.config/nvim/lua/user/lua/core"

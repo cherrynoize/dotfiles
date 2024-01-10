@@ -79,6 +79,7 @@ if status is-interactive
 
   # user shortcuts
   abbr fishrc '$EDITOR ~/.config/fish/config.fish'
+  abbr :: '. ~/.config/fish/config.fish'
   abbr reload '. ~/.config/fish/config.fish'
   abbr -- - 'cd ~'
   abbr -- -- 'cd ~'
@@ -126,6 +127,7 @@ if status is-interactive
   abbr --set-cursor timer 'timer (math "%") -n; play -n synth 0.05 sine 440 vol 0.1'
   abbr beep 'play -n synth 0.05 sine 440 vol 0.1'
   abbr capture-webcam 'mpv av://v4l2:/dev/video0 --profile=low-latency --untimed'
+  abbr list-fonts 'fc-list | cut -f 2- -d " " | less'
 
   # bash emulation
   function last_history_item
@@ -142,7 +144,7 @@ if status is-interactive
   abbr paco 'pacman -Qo'
   abbr pacl 'pacman -Ql'
   abbr pace 'sudo pacman -D --asexplicit'
-  abbr pacu 'sudo pacman -Syu; yay -Syu'
+  abbr pacu 'sudo pacman -Syu --noconfirm; yay -Syu --noconfirm'
   abbr --set-cursor yays 'yay -S % && yay -Sc --noconfirm'
   abbr --set-cursor yayr 'yay -Rs % && yay -Sc --noconfirm'
   abbr paclist 'cat /etc/pacman.d/pkglist'
