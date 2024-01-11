@@ -323,9 +323,14 @@ accidentally open popup windows when clicking on other windows
 rather than close them. To fix this you could restart `eww`,
 but usually it's enough to click on the pfp icon that open the
 panel window once to open it, then a second time to close it.
+
 - `eww` tends to get on top of other windows after being
 restarted during the session. I still haven't found how I could
 prevent it from happening (all suggestions are welcome).
+
+> My workaround for the time being is to just
+> [toggle the bar](#toggle-bar). Besides, if you don't ever
+> toggle it this shouldn't come up.
 
 #### Music player cover
 

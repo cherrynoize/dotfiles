@@ -78,7 +78,7 @@ if status is-interactive
   abbr --add dotdot --regex '^\.\.+$' --function multicd
 
   # user shortcuts
-  abbr fishrc '$EDITOR ~/.config/fish/config.fish'
+  abbr fishrc '$EDITOR ~/.config/fish/config.fish && . ~/.config/fish/config.fish'
   abbr :: '. ~/.config/fish/config.fish'
   abbr reload '. ~/.config/fish/config.fish'
   abbr -- - 'cd ~'
@@ -128,6 +128,7 @@ if status is-interactive
   abbr beep 'play -n synth 0.05 sine 440 vol 0.1'
   abbr capture-webcam 'mpv av://v4l2:/dev/video0 --profile=low-latency --untimed'
   abbr list-fonts 'fc-list | cut -f 2- -d " " | less'
+  abbr --set-cursor memo 'echo "REM %" >> ~/.config/remind/memo.rem && remind \'-k:dunstify -r 7370 %s &\' ~/.config/remind/memo.rem'
 
   # bash emulation
   function last_history_item
@@ -186,7 +187,7 @@ if status is-interactive
   abbr destroy 'kill -9' # kill aka dio
   abbr transfer 'rsync -aPhv --info=progress2 --hard-links --ignore-existing' # transfer SOURCE DEST
   abbr rclone 'rclone --password-command "pass show cloud/rclone" -P'
-  abbr pass 'begin;safe open;pass open;end >/dev/null 2>&1;pass'
+  abbr pass 'unlock >/dev/null 2>&1;pass'
 
   # hacking
   abbr hex 'xxd' # hexdump
