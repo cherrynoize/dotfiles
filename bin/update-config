@@ -2,12 +2,10 @@
 # author | cherrynoize
 # update and push dotfiles
 
-remote="origin" # remote to push to
-
-# first create commit
-commit-config "$@"
-
+remote="origin"
+commit-config "$@" # create commit first
 echo
+
 if [ -n "$(wireless-signal)" ]; then
   echo "* pushing changes to $remote"
   cfg push -u "$remote" || {
