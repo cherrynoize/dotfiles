@@ -23,24 +23,15 @@ stash_files () {
 
 create_commit () {
   git commit -a -m "$commit_message" || {
-    echo "error while creating new commit in $repo repo."
+    echo "error while creating new commit in $(basename "$(pwd)") repo."
     echo "attempting to push anyway."
   }
 }
 
 push_commit () {
-  git push -u "$remote" "$branch" || {
-    # if not running interactively, quit
-    if [[ ! $- = *i* ]]; then
-      echo "error while pushing changes to remote in $repo repo."
-      exit 7
-    fi
-    sadd || { # try to add ssh key first
-      echo "error: failed to add ssh keys to agent"
-      exit 8
-    }
-    echo
-    push_commit
+  git push -u "$remote" ${branch:+"$branch"} || {
+    echo "error while pushing changes to remote in $(basename "$(pwd)") repo."
+    exit 7
   }
 }
 

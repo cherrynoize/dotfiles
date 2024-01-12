@@ -24,13 +24,11 @@ update-config "$msg" &
 for repo in "${repos[@]}"; do
   [ -n "$repo" ] || continue
   repo="$(eval echo "$repo")" # expand variables inside repo name
-  notify-send "vcs-sync" "working on $repo."
   if [ -n "$repo" ]; then
     echo "$sep"
     echo "syncing $repo ..."
     notify-sync-repo "$repo" "$msg" || exit 1
   fi
-  notify-send "vcs-sync" "repo $repo done."
 done
 
 echo "$sep"
