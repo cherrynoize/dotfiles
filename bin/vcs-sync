@@ -8,7 +8,7 @@ repo_file="$HOME/.repos"
 msg="auto sync (vcs-sync: $(date "+%Y-%m-%d %H:%M"))"
 sep="===================="
 
-success_msg=" successfully"
+success_msg="successfully"
 
 # read and store repos into array
 # (ignore lines starting with a #)
@@ -31,10 +31,10 @@ for repo in "${repos[@]}"; do
     echo "syncing $repo ..."
     notify-sync-repo "$repo" "$msg" || {
       notify-send "vcs-sync" "failed to sync $repo repo."
-      success_msg=
+      success_msg="with errors"
     }
   fi
 done
 
 echo "$sep"
-notify-send "vcs-sync" "backup completed$success_msg."
+notify-send "vcs-sync" "backup completed $success_msg."
