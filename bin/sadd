@@ -39,7 +39,11 @@ safe state || {
 
 case "$2" in
   -i|--interactive)
-    ssh-add "$key"
+    if [ -x /usr/bin/keychain ]; then
+      /usr/bin/keychain --quiet --clear "$HOME/.ssh/id_rsa"
+    else
+      ssh-add "$key"
+    fi
     ;;
   *)
     # unlock password store
