@@ -29,10 +29,11 @@ create_commit () {
 }
 
 push_commit () {
-  git push -u "$remote" ${branch:+"$branch"} || {
-    echo "error while pushing changes to remote in $(basename "$(pwd)") repo."
-    exit 7
-  }
+  echo
+# git push -u "$remote" ${branch:+"$branch"} || {
+#   echo "error while pushing changes to remote in $(basename "$(pwd)") repo."
+#   exit 7
+# }
 }
 
 if [ -z "$repo" ]; then
