@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
+echo starting > /tmp/res
 err="$(sync-repo "$@")" || {
+  echo "error msg: $err" > /tmp/res
   dunstify -r 777 sync-repo "$(tail -n1 <<<"$err")"
   exit 1
 }
-dunstify test
+echo all good > /tmp/res
