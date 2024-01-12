@@ -33,6 +33,7 @@ push_commit () {
     echo "error while pushing changes to remote in $(basename "$(pwd)") repo."
     exit 7
   }
+  notify-send pushed
 }
 
 if [ -z "$repo" ]; then
@@ -58,3 +59,5 @@ popd > /dev/null || {
   echo "error: could not go back to start dir."
   exit 2
 }
+
+notify-send eof
