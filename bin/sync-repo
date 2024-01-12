@@ -15,7 +15,7 @@ stash_files () {
   if [ -z "$TRACKING_OFF" ]; then
     git add . || {
       echo "error while stashing files."
-      exit 5
+      echo "attempting to push anyway."
     }
     add-submodules . 2>/dev/null
   fi
@@ -24,7 +24,7 @@ stash_files () {
 create_commit () {
   git commit -a -m "$commit_message" || {
     echo "error while creating new commit in $repo repo."
-    exit 6
+    echo "attempting to push anyway."
   }
 }
 
@@ -49,7 +49,7 @@ if [ -z "$repo" ]; then
   exit 1
 fi
 
-pushd "$repo" || {
+pushd "$repo" > /dev/null || {
   echo "error: failed to access repo path: $repo"
   exit 2
 }
@@ -63,7 +63,7 @@ untracked_changes || {
 create_commit
 push_commit
 
-popd || {
+popd > /dev/null || {
   echo "error: could not go back to start dir."
   exit 2
 }
