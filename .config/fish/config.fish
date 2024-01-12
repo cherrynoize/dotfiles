@@ -166,7 +166,7 @@ if status is-interactive
   abbr --set-cursor chmod-files-in-subdirs 'find . -type f -exec chmod % -- {} +'
   abbr --set-cursor chmod-non-executable-files 'find . -type f -executable \( -exec sh -c \'file -b "$1" | grep -q executable\' Test {} \; -o -exec chmod a-x {} \; \)'
   abbr clear-windows-stuff 'remove-duplicates-with-suffix ".wwka"; remove-duplicates-with-suffix ".asd"; find . -type f -name \'AProject.ico\' -delete; find . -type f -name \'desktop.ini\' -delete; find . -type f -name \'Desktop.ini\' -delete'
-  abbr reset-lock 'su -c "faillock --user \"$USER\" --reset"'
+  abbr reset-lock 'su -c "faillock --user \"$USER\" --reset"' # reset failed login attempts
   abbr sha 'shasum -a 256' # test sha256
   abbr con 'ping -c 5 8.8.8.8' # check network
   abbr myip 'curl ifconfig.co' # print public ip
