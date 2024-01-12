@@ -8,7 +8,6 @@ remote="origin" # remote to push to
 commit-config "$@"
 
 echo
-# push commit
 if [ -n "$(wireless-signal)" ]; then
   echo "* pushing changes to $remote"
   cfg push -u "$remote" || {
