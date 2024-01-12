@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 ssh_cmd=(ssh-add)
 if [ -x /usr/bin/keychain ]; then
-  ssh_cmd=(/usr/bin/keychain --quiet --clear "$1")
+  ssh_cmd=(/usr/bin/keychain --quiet --clear)
 fi
 expect << EOF
-  spawn "${ssh_cmd[@]}" "$1"
+  spawn ${ssh_cmd[@]} "$1"
   expect "Enter passphrase"
   send "$2\n"
   expect eof
