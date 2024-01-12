@@ -11,13 +11,10 @@ echo
 # push commit
 if [ -n "$(wireless-signal)" ]; then
   echo "* pushing changes to $remote"
-  cfg push -u "$remote" || # push updates
-    { # if it fails
-      sadd # try to add ssh key first
-      echo # newline
-      exec "$0" # then start again
-    }
+  cfg push -u "$remote" || {
+    echo "[!] error: failed to push to $remote"
+  }
 else
-  echo "! no network found: can't push to $remote"
+  echo "[!] no network found: can't push to $remote"
   exit 2
 fi
