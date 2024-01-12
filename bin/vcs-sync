@@ -30,7 +30,6 @@ for repo in "${repos[@]}"; do
     echo before launching > /tmp/res
     notify-sync-repo "$repo" "$msg" || {
       notify-send "vcs-sync" "failed to sync $repo repo."
-      exit 5
     }
   fi
 done
