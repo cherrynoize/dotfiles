@@ -27,8 +27,9 @@ for repo in "${repos[@]}"; do
   if [ -n "$repo" ]; then
     echo "$sep"
     echo "syncing $repo ..."
-    notify-sync-repo "$repo" "$msg" || exit 1
+    DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus notify-sync-repo "$repo" "$msg" || exit 1
   fi
+  notify-send "vcs-sync" "done: $repo."
 done
 
 echo "$sep"

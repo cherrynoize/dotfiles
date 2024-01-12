@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus dunstify -r 777 hiii
 if ! err="$(sync-repo "$@")"; then
-  dunstify -r 777 sync-repo "$(tail -n1 <<<"$err")"
+  DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus dunstify -r 777 sync-repo "$(tail -n1 <<<"$err")"
   exit 1
 fi
