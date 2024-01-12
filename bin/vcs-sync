@@ -31,7 +31,6 @@ for repo in "${repos[@]}"; do
       notify-send "vcs-sync" "failed to sync $repo repo."
     }
   fi
-  notify-send "repo: $repo"
 done
 
 echo "$sep"
