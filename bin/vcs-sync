@@ -8,8 +8,6 @@ repo_file="$HOME/.repos"
 msg="auto sync (vcs-sync: $(date "+%Y-%m-%d %H:%M"))"
 sep="===================="
 
-program_location="$(eval 'dirname "$(readlink -f "$0")"')"
-
 # read and store repos into array
 # (ignore lines starting with a #)
 mapfile -t repos <<< "$(sed 's/^#.*//' "$repo_file")"
@@ -18,9 +16,9 @@ mapfile -t repos <<< "$(sed 's/^#.*//' "$repo_file")"
 echo "$sep"
 echo "syncing dotfiles ..."
 # fetch latest config
-"$program_location/cfg pull"
+cfg pull
 # push local changes
-"$program_location/update-config" "$msg" &
+update-config "$msg" &
 
 # sync for each repo
 for repo in "${repos[@]}"; do
@@ -30,7 +28,7 @@ for repo in "${repos[@]}"; do
     echo "$sep"
     echo "syncing $repo ..."
     echo before launching > /tmp/res
-    "$program_location/notify-sync-repo" "$repo" "$msg" || {
+    notify-sync-repo "$repo" "$msg" || {
       notify-send "vcs-sync" "failed to sync $repo repo."
       exit 5
     }
