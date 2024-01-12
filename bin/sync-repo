@@ -59,5 +59,3 @@ popd > /dev/null || {
   echo "error: could not go back to start dir."
   exit 2
 }
-
-notify-send eof
