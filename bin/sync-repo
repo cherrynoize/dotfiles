@@ -2,45 +2,67 @@
 # sync local repo with remote
 # author | cherrynoize
 
-msg="auto sync (sync-repo: $(date "+%Y-%m-%d %H:%M"))"
-remote="origin"
+repo="$1"
+commit_message="${2:-"auto sync (sync-repo: $(date "+%Y-%m-%d %H:%M"))"}"
+remote="${3:-"origin"}"
+branch="${4:-$branch}"
 
-repo="${1:-.}"
-
-# overwrite default msg
-[ -n "$2" ] && {
-  msg="$2"
+untracked_changes () {
+  ! git diff-index --quiet HEAD --
 }
 
-# overwrite default remote
-[ -n "$3" ] && {
-  remote="$3"
+stash_files () {
+  if [ -z "$TRACKING_OFF" ]; then
+    git add . || {
+      echo "error while stashing files."
+      exit 5
+    }
+    add-submodules . 2>/dev/null
+  fi
 }
 
-# try to change dir
+create_commit () {
+  git commit -a -m "$commit_message" || {
+    echo "error while creating new commit in $repo repo."
+    exit 6
+  }
+}
+
+push_commit () {
+  git push -u "$remote" "$branch" || {
+    # if not running interactively, quit
+    if [[ ! $- = *i* ]]; then
+      echo "error while pushing changes to remote in $repo repo."
+      exit 7
+    fi
+    sadd || { # try to add ssh key first
+      echo "error: failed to add ssh keys to agent"
+      exit 8
+    }
+    echo
+    push_commit
+  }
+}
+
+if [ -z "$repo" ]; then
+  echo "error: no repo specified."
+  exit 1
+fi
+
 pushd "$repo" || {
-  echo "error: could not move to repo path: $repo"
+  echo "error: failed to access repo path: $repo"
   exit 2
 }
 
-# pull from repo first
 git pull
-# add all files in path
-if [ -z "$TRACKING_OFF" ]; then
-  git add .
-  add-submodules . 2>/dev/null
-fi
-# then push local changes
-git commit -a -m "$msg"
-git push -u "$remote" || { # if it fails
-  sadd # try to add ssh key first
-  echo # newline
-
-  # if running interactively, try again
-  [[ $- = *i* ]] && exec "$0" "$@"
+stash_files
+untracked_changes || {
+  echo "nothing to commit."
+  exit
 }
+create_commit
+push_commit
 
-# try to popd back
 popd || {
   echo "error: could not go back to start dir."
   exit 2

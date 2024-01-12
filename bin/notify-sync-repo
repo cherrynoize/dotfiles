@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+if ! err="$(sync-repo "$@")"; then
+  dunstify -r 777 sync-repo "$(tail -n1 <<<"$err")"
+  exit 1
+fi

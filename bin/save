@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-# !!!
-# todo
-# - format total_time (not in seconds)
-# !!!
-
 declare -a tasks=(
   remote
   disk
@@ -15,7 +10,7 @@ default_task="disk"
 # run specified task
 task () {
   eval "run_$1" || {
-    echo "error: unrecognized option: \`$1\`"
+    echo "error: unrecognized option: $1"
     exit 1
   }
 }
@@ -35,10 +30,9 @@ run_all () {
 run_remote () {
   res=done
   echo "===running backup: system...==="
-  sync-system || set_err
+  vcs-sync || set_err
   echo "===$res==="
-
-  echo # newline
+  echo
 }
 
 run_disk () {
@@ -46,14 +40,12 @@ run_disk () {
   echo "===running backup: sync...==="
   sudo clone sync/main || set_err
   echo "===$res==="
-
-  echo # newline
+  echo
 
   echo "===running backup: inc...==="
   sudo clone inc/main || set_err
   echo "===$res==="
-
-  echo # newline
+  echo
 }
 
 case "$1" in
@@ -79,3 +71,6 @@ task "$task" "$@"
 total_time=$(( $(date +%s) - start_time ))
 
 echo "total runtime: ${total_time}s."
+
+# todo
+# - format total_time (not in seconds)

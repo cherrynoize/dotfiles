@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# vcs-sync
+# sync changes inside git repositories
+# author | cherrynoize
+
+repo_file="$HOME/.repos"
+
+msg="auto sync (vcs-sync: $(date "+%Y-%m-%d %H:%M"))"
+sep="===================="
+
+# read and store repos into array
+# (ignore lines starting with a #)
+mapfile -t repos <<< "$(sed 's/^#.*//' "$repo_file")"
+
+# sync dotfiles
+echo "$sep"
+echo "syncing dotfiles ..."
+# fetch latest config
+cfg pull
+# push local changes
+update-config "$msg" &
+
+# sync for each repo
+for repo in "${repos[@]}"; do
+  notify-send "vcs-sync" "working on $repo."
+  repo="$(eval echo "$repo")" # expand variables inside repo name
+  if [ -n "$repo" ]; then
+    echo "$sep"
+    echo "syncing $repo ..."
+    notify-sync-repo "$repo" "$msg" || exit 1
+  fi
+  notify-send "vcs-sync" "repo $repo done."
+done
+
+echo "$sep"
+echo done.
+notify-send "vcs-sync" "backup completed successfully."
