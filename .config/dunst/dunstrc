@@ -1,6 +1,6 @@
 [colors]
-    background = "#171f38"
-    foreground = "#ffd1c3"
+    background = "#1c143b"
+    foreground = "#d5f0ff"
 
 [global]
     ### Display ###
@@ -18,9 +18,9 @@
     horizontal_padding = 12
     frame_width = 3
 
-    frame_color = "#162b4b"
+    frame_color = "#5051b4"
 #   separator_color = auto
-    separator_color = "#162b4b"
+    separator_color = "#5051b4"
 #   gaps = true
 #   gap_size = 5
 
@@ -81,5 +81,5 @@
     timeout = 10
 
 [urgency_critical]
-    frame_color = "#7f3022"
+    frame_color = "#6466e2"
     timeout = 0
