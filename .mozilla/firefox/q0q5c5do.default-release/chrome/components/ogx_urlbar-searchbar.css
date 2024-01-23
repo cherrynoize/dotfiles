@@ -1,83 +1,3 @@
-/* Source file made available under Mozilla Public License v. 2.0 See the main repository for updates as well as full license text. 
-   https://github.com/Godiesc/opera-gx */
-
-/*"bookmark_text": "#b3d9ff"*/
-.browser-toolbar:not(.titlebar-color) {
-    color: var(--lwt-text-color) !important;
-}              
-/*"personalizar barra de busqueda"*/
-findbar:-moz-lwtheme {
-    background-color: var(--toolbar-bgcolor) !important;
-    color: var(--lwt-tab-text) !important;  
-    border-color: var(--input-border-color) !important; }     
-.findbar-find-status[status="notfound"] { 
-    color: var(--general-color) !important; 
-    font-weight: 600 !important; 
-}
-/*Vizualización correcta del porcentaje de zoom mostrado en la urlbar*/
-#urlbar-zoom-button { 
-    padding: 0px 4px !important; 
-    border-radius: 2px !important; 
-}
-/* "popup_highlight" -> 1.- keyboard highlight 2.-mouse highlight*/
-.urlbarView-row:not([type="tip"], [type="dynamic"])[selected] > .urlbarView-row-inner, .urlbarView-row-inner[selected] {
-    background-color: var(--button-bgcolor) !important; 
-    color: var(--lwt-tab-text) !important; 
-    border-radius: 0px !important; }
-.urlbarView-row .urlbarView-row-inner {
-    border-radius: 0px !important;}
-.urlbarView-row .urlbarView-url {
-    font-weight: 501 !important}
-.urlbarView-title{
-    font-size: 1.06em !important; }
-.urlbarView-tags, .urlbarView-url, .urlbarView-title:not(:empty) ~ .urlbarView-action { 
-    font-size: 1.0em !important; }
-.urlbarView-row:hover .urlbarView-url { 
-    color: var(--toolbar-field-focus-color) !important;
-}
-/* tamaño letras urlbar */
-#urlbar-input { font-weight: 501 !important; opacity: 0.9 !important;
-}
-/* Sugerencias de búsqueda */
-.urlbarView { 
-    margin-inline: -11px !important; width: -moz-available !important; }
-.urlbarView-row{ 
-    margin-top:-7px !important;  margin-bottom: 5px !important; }
-.urlbarView-results{ 
-    margin-bottom: -14px !important; }
-.urlbarView-row-inner{ 
-    padding-left: 14px !important; }
-#urlbar .search-panel-header{ 
-    padding-left: 14px !important; }
-#urlbar .search-one-offs{
-    padding-right: 14px !important;  }
-#urlbar .searchbar-engine-one-off-item{ 
-    border-radius: 3px !important; }
-.urlbarView-row:hover .urlbarView-favicon { 
-    background: var(--toolbar-field-focus-background-color) !important; }
-.urlbarView-favicon{
-    padding: 6px !important; border-radius: 8px !important;
-    margin-top: -2px !important; margin-bottom:  -2px !important;
-    clip-path: circle(50%);
-}
-/* Botones de acciones rápidas urlbar open */
-.urlbarView-row[dynamicType="quickactions"] .urlbarView-quickaction-row {
-    box-shadow: 0px 0px 1px rgba(128, 128, 142, 0.9) !important;
-}
-.urlbarView-row[dynamicType="quickactions"] .urlbarView-quickaction-row:hover {
-    box-shadow: 0px 0px 0px 1px var(--autocomplete-popup-hover-background) !important;
-}
-/* Label "Sugerencias de firefox - Sugerencias de google" */
-.urlbarView-row[label] {
-    margin-top: 16px !important; }
-.urlbarView-row[label]::before {    
-    margin-inline-start: 12px !important;
-    font-weight: bold !important;
-    letter-spacing: 0.04em !important;
-}
-#nav-bar{ min-height: var(--toolbar-height-personal) !important; }
-
-/* Urlbar */
 #urlbar{
     min-height: calc(var(--toolbar-height-personal) - 9px) !important; 
     padding-left: 10px !important;
@@ -112,7 +32,8 @@ findbar:-moz-lwtheme {
 @media (-moz-platform: windows-win7),(-moz-platform: windows-win10){ #urlbar-input, #urlbar-scheme{
     padding-bottom: 2px !important;
 }}
-/* Brighness when urlbar [open]*/
+
+/* Open URL bar brightness */
 #nav-bar[urlbar-exceeds-toolbar-bounds="true"]::before{
   position: fixed;
   content: "";
