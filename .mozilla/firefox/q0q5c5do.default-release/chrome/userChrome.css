@@ -9,5 +9,6 @@
 @import url('components/ogx_UC-settings-addons-pages.css');
 /*********************  new  **********************/
 /* @import url('components/titlebar-controls.css'); */
+@import url('components/tabs-bar.css');
 @import url('components/button-styles.css');
 @import url('components/settings.css');
