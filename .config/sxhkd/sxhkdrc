@@ -93,7 +93,7 @@ super + ctrl + alt + w
     change-wallpaper -n -r -v
 
 # switch keyboard layout
-alt + space
+ctrl + alt + space
     kbdlayout shift
 
 # screen to clipboard
