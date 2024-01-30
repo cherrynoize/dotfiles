@@ -1,0 +1,51 @@
+@-moz-document url(chrome://browser/content/browser.xhtml) {
+  :root {
+    /* Titlebar buttons */
+    --firefoxcss-control-buttons-margin: 95px;
+  }
+
+  /* Hide on Linux */
+  @media (-moz-platform: linux) {
+    .titlebar-buttonbox-container {
+      display: none !important;
+    }
+  }
+
+  #navigator-toolbox:not([inFullscreen])
+  #TabsToolbar
+  .titlebar-buttonbox-container {
+    visibility: visible !important;
+    display: flex !important;
+    position: absolute !important;
+    top: 2px !important;
+    left: unset !important;
+    right: 0 !important;
+    padding-top: 10px !important;
+    padding-bottom: 2px !important;
+    padding-right: 8px  !important;
+    padding-left: 2px !important; 
+  }
+
+  #navigator-toolbox[inFullscreen]
+  #TabsToolbar .titlebar-buttonbox-container {
+	  padding-top: 4px !important;
+	  padding-bottom: 4px !important;
+	  padding-right: 8px !important;
+	  padding-left: 4px !important;
+	  margin: 0 !important;
+	  align-items: center !important;
+  }
+
+  #TabsToolbar .titlebar-buttonbox-container .titlebar-button {
+    min-width: 14px !important;
+    min-height: 14px !important;
+	  width: 14px !important;
+    height: 14px !important;
+  }
+
+  :root:-moz-window-inactive:not([customizing])
+  :is(.titlebar-buttonbox)
+  > toolbarbutton:not(:hover) {
+    opacity: .65 !important;
+  }
+}

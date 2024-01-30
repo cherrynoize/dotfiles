@@ -5,16 +5,15 @@
 "(.) \_/  |_|_| |_| |_|rc
 "     vim config file
 " https://github.com/cherrynoize/dotfiles
-" author | cherrynoize
+" author || cherrynoize
 "
 " if alt key does not send esc try adding to .Xresources
 "  URxvt*altSendsEscape: true
 "  xterm*altSendsEscape: true
-" <m-key> instead of <esc>key also works
+" <m-key> instead of <esc>key should also work
 
-" if using fish revert shell to sh
-"if &shell =~# 'fish$'
-    se shell=sh
+"if &shell =~# 'fish$' " if using fish
+    se shell=sh " revert shell to sh
 "endif
 
 " appearance
