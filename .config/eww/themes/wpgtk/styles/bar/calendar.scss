@@ -1,0 +1,84 @@
+.clock_module {
+    margin: 0px 15px 0px 0px;
+}
+
+.clock_time_sep {
+    font-size: 14px;
+}
+
+.clock_time, .clock_minute {
+    font-size: 23px;
+}
+
+.clock_time {
+    font-weight: bold;
+    opacity: .9;
+}
+
+.clock_minute {
+    opacity: .5;
+}
+
+.cal_date {
+    font-size: 56px;
+    letter-spacing: 0px;
+}
+
+.cal_date_header {
+    font-size: 36px;
+}
+
+.cal_date_footer {
+    font-size: 48px;
+}
+
+.cal {
+    font-family: $font1;
+    font-size: 18px;
+    
+    .date,
+    .cal-in {
+        padding: 0px 10px 0px 10px;
+    }
+
+    .date {
+        color: $primary;
+        font-size: 18px;
+        margin: 0px 15px;
+    }
+
+    .cal-in {
+        .cal {
+            &.highlight {
+                padding: 20px;
+            }
+
+            padding: 5px 5px 5px 5px;
+            margin-left: 10px;
+        }
+    }
+
+    .sep {
+        border-width: 1px 1px 0px 0px;
+    }
+}
+
+calendar {
+    color: $primary-alt;
+}
+
+calendar:selected {
+    color: $fg-alt;
+}
+
+calendar.header {
+    color: $fg-alt;
+}
+
+calendar.highlight {
+    color: $primary-alt;
+}
+
+calendar.button {
+    color: $fg-alt;
+}

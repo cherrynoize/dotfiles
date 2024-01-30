@@ -1,0 +1,22 @@
+#!/bin/bash
+status="$(toggle-screenlock status)"
+
+if [ "$status" = "on" ]; then
+  bg="#bbc5d7"
+  fg="#0f0f17"
+else
+  bg="transparent"
+  fg="#bbc5d7"
+fi
+
+case "$1" in
+  fg)
+    echo "$fg"
+    ;;
+  bg)
+    echo "$bg"
+    ;;
+  *)
+    toggle-screenlock "$@"
+    ;;
+esac

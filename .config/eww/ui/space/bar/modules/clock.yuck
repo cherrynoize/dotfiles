@@ -1,0 +1,7 @@
+(defwidget clock_module []
+  (eventbox :onclick "${pop_script} calendar"
+;           :tooltip "${cal_day_name}, ${cal_date}"
+    (box :class "clock_module" :space-evenly "false" :orientation "h" :spacing "15"
+      (label :text clock_hour :class "clock_time" )
+      (label :text "/" :class "clock_time_sep" )
+      (label :text clock_minute :class "clock_minute"))))

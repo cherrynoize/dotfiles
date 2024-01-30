@@ -1,0 +1,48 @@
+/*
+ * ROFI colorscheme
+ *
+ * User: cherrynoize
+ * https://github.com/cherrynoize/dotfiles
+ */
+
+/*****----- Global Properties -----*****/
+* {
+  /********----- apperance ----********/
+  radius:         3px;
+
+  /********------- font -------********/
+  font:           "JetBrainsMono NF Bold 10";
+
+  /*******------ palette ------********/
+  blue:           #6272a4;
+  purple:         #bd93f9;
+  light-grey:     #bbc5d7;
+
+  /******----- colorscheme -----******/
+//primary:        #1f1d2f;
+  primary:        #566F9D;
+  secondary:      #1d2845;
+  bg:             #0f1422;
+//bg-alt:         #73b4ff;
+  bg-alt:         #50a1ff;
+  bg-trans:       #0f142263;
+  fg:             #fff9ee;
+//selected:       @light-grey;
+  selected:       #1d2845;
+  accent:         #688DC1;
+  highlight:      #e1cfc6;
+  active:         @selected;
+  urgent:         @accent;
+
+  /*******----- backgrounds -----******/
+  selected-bg:    @accent;
+
+  /********------ images ------********/
+  img:            url("~/.current-wallpaper", both);
+  img-width:      url("~/.current-wallpaper", width);
+  img-height:     url("~/.current-wallpaper", height);
+
+  /******------ properties ------******/
+  background-color: @bg;
+  text-color: @fg;
+}

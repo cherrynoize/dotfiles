@@ -1,0 +1,25 @@
+.workspaces {
+    font-size: 27px;
+    font-weight: normal;
+    margin: 5px 0px 0px 10px;
+}
+
+.workspaces button:not(.focused):not(.occupied),
+.workspaces button.occupied {
+    color: $primary-alt;
+}
+
+.workspaces button.focused,
+.workspaces button.occupied {
+    padding: 0px 17px 0px 17px;
+}
+
+.workspaces button.focused {
+    $btn-color: $primary;
+    color: $btn-color;
+    border-bottom: 1px solid $btn-color;
+}
+
+.workspaces button.urgent {
+    color: $accent;
+}

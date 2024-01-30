@@ -1,0 +1,24 @@
+.indicator_module .icon {
+    font-size: 22px;
+    color: $primary;
+}
+
+.kbdlayout_module {
+    margin: 6px;
+    font-family: $font3;
+    font-size: .9em;
+    font-weight: bold;
+    opacity: .7;
+}
+
+.widget scale trough highlight {
+    border-radius: 10px;
+}
+
+.wireless_module {
+    color: $fg-alt;
+}
+
+.wireless_module .icon {
+    margin: 0px 15px 0px 0px;
+}

@@ -1,0 +1,4 @@
+(defwidget pfp []
+  (eventbox :onclick "${pop_script} panel"
+    (box :class "pfp_icon"
+         :style "background-image: url('${pfp_loc}');")))

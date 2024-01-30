@@ -1,0 +1,30 @@
+#!/bin/bash
+if [ "$(toggle-powersave -C)" = "powersave" ]; then
+  icon=""
+  title="powersave on"
+  fg="#0f0f17"
+  bg="#bfc9db"
+else
+  icon=""
+  title="powersave off"
+  fg="#fff9ee"
+  bg="#688DC1"
+fi
+
+case "$1" in
+  icon)
+    echo "$icon"
+    ;;
+  title)
+    echo "$title"
+    ;;
+  fg)
+    echo "$fg"
+    ;;
+  bg)
+    echo "$bg"
+    ;;
+  *)
+    toggle-powersave "$@"
+    ;;
+esac

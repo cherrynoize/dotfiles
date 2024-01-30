@@ -1,0 +1,3 @@
+; window closer
+(defwidget closer [window]
+  (eventbox :onclick "${pop_script} ${window} || ${eww} close ${window}"))

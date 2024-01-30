@@ -1,0 +1,78 @@
+(defwidget indicator_module []
+  (box :class "indicator_module"
+       :halign "center"
+       :spacing 10
+       :space-evenly "false"
+    (kbdlayout)
+    (bright)
+    (volume)
+    (wireless)))
+
+(defwidget kbdlayout [] 
+  (box :class "kbdlayout_module" :space-evenly "false"
+    (button :wrap "false" :limit-width 12
+      :onclick "kbdlayout shift"
+      kbdlayout)))
+
+(defwidget wireless [] 
+  (eventbox :onhover "${eww} update wireless_reveal=true netspeed_reveal=false"
+            :onhoverlost "${eww} update wireless_reveal=false netspeed_reveal=true"
+            :onclick "netmenu -p"
+    (box :class "wireless_module" :space-evenly "false"
+      (button :class "icon" :wrap "false" :limit-width 12
+      (label :text wireless_icon
+               :valign "center" :halign "left"))
+      (revealer :transition "slideleft"
+                :reveal netspeed_reveal
+                :duration "350ms"
+        (label :class "netspeed"
+               :text net_speed))
+      (revealer :transition "slideright"
+                :reveal wireless_reveal
+                :duration "350ms"
+        (label :class "essid"
+               :orientation "h"
+               :limit-width 8
+               :text wlan_essid)))))
+
+(defwidget volume []
+  (eventbox :onhover "${eww} update vol_reveal=true"
+            :onhoverlost "${eww} update vol_reveal=false"
+    (box :class "volume widget"
+         :space-evenly "false" :spacing 10
+         :orientation "h"
+      (button
+        :onclick "${pop_script} audio"
+        :class "volume icon"
+        (label :text vol_icon
+               :valign "center" :halign "left"))
+      (revealer :transition "slideleft"
+                :reveal vol_reveal
+                :duration "350ms"
+        (scale
+               :value vol
+               :orientation "h"
+               :tooltip "${vol}%"
+               :min 0
+               :max 100
+               :onchange "change-volume {}%")))))
+
+(defwidget bright []
+  (eventbox :onhover "${eww} update br_reveal=true"
+            :onhoverlost "${eww} update br_reveal=false"
+    (box :class "brightness widget"
+         :space-evenly "false" :spacing 10
+         :orientation "h"
+      (button :class "bright icon"
+;             :onclick "screen-off"
+        (label :text ""))
+      (revealer :transition "slideleft"
+                :reveal br_reveal
+                :duration "350ms"
+        (scale
+               :value brightness
+               :orientation "h"
+               :tooltip "${brightness}%"
+               :min 0
+               :max 100
+               :onchange "set-light -r {}")))))

@@ -1,0 +1,28 @@
+.audio_win {
+    padding: 15px 20px;
+    color: $fg-alt;
+    border-radius: $win-border-radius;
+
+    .icon {
+        font-size: 28px;
+    }
+
+    .text {
+        font-size: 22px;
+        font-weight: 600;
+    }
+
+    .bar {
+        background: $win-bg;
+    }
+
+    .bar scale trough {
+        min-width: 150px;
+        margin: 0px;
+    }
+
+    .sep {
+        border: 1px solid $bar-sep-color;
+        margin: 0px 8px;
+    }
+}

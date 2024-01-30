@@ -1,0 +1,126 @@
+#!/bin/sh
+# toggle eww windows
+
+eww_cmd="eww -c $HOME/.config/eww"
+eww_windows="system calendar music audio power panel"
+
+# open window
+run () {
+  # close other open windows
+  if [ -n "$other_eww_windows" ]; then
+    $eww_cmd close $other_eww_windows
+  fi
+
+  $eww_cmd open-many --toggle $1
+}
+
+# launch and close widgets
+launch () {
+  run "$eww_win" & echo "Ok, good!"
+}
+
+calendar () {
+  eww_win="calendar"
+  other_eww_windows="$(echo "$eww_windows" | sed 's/'$eww_win'//')"
+  launch
+}
+
+calendar_container () {
+  eww_win="calendar-container"
+  other_eww_windows=""
+  launch
+}
+
+system () {
+  eww_win="system"
+  other_eww_windows="$(echo "$eww_windows" | sed 's/'$eww_win'//')"
+  launch
+}
+
+system_container () {
+  eww_win="system-container"
+  other_eww_windows=""
+  launch
+}
+
+music () {
+  eww_win="music"
+  other_eww_windows="$(echo "$eww_windows" | sed 's/'$eww_win'//')"
+  launch
+}
+
+music_container () {
+  eww_win="music-container"
+  other_eww_windows=""
+  launch
+}
+
+audio () {
+  eww_win="audio"
+  other_eww_windows="$(echo "$eww_windows" | sed 's/'$eww_win'//')"
+  launch
+}
+
+audio_container () {
+  eww_win="audio-container"
+  other_eww_windows=""
+  launch
+}
+
+power () {
+  eww_win="power"
+  other_eww_windows="$(echo "$eww_windows" | sed 's/'$eww_win'//')"
+  launch
+}
+
+power_container () {
+  eww_win="power-container"
+  other_eww_windows=""
+  launch
+}
+
+panel () {
+  eww_win="panel"
+  other_eww_windows="$(echo "$eww_windows" | sed 's/'$eww_win'//')"
+  launch
+}
+
+panel_container () {
+  eww_win="panel-container"
+  other_eww_windows=""
+  launch
+}
+
+# select windows
+case "$1" in
+  calendar)
+    calendar
+    calendar_container
+    ;;
+  system)
+    system
+    system_container
+    ;;
+  music)
+    music
+    music_container
+    ;;
+  audio)
+    audio
+    audio_container
+    ;;
+  power)
+    power
+    power_container
+    ;;
+  panel)
+    panel
+    panel_container
+    ;;
+  --close)
+    $eww_cmd close panel system calendar music audio
+    ;;
+  *)
+    echo "unknown option: $1"
+    ;;
+esac

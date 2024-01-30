@@ -1,0 +1,268 @@
+(include "ui/current/modules.yuck")
+
+;; window widgets
+
+(defwidget music []
+  (box :class "music_win bar_win border" :halign "center"
+       :orientation "h" :space-evenly "false"
+    (box :class "music_cover"
+         :style "background-image: url('${cover_loc}');")
+    (box :orientation "v" :valign "center"
+         :space-evenly "false" :spacing 15
+      (box :orientation "v" :halign "center"
+           :space-evenly "false" :spacing 10
+        (label :class "music"
+               :halign "center" :wrap "true"
+               :limit-width title_max_chars
+               :text player_scroll_title)
+        (label :class "music_artist"
+               :halign "center" :wrap "true"
+               :limit-width artist_max_chars
+               :text player_scroll_artist))
+      (box :orientation "v"
+           :space-evenly "false" :spacing 25
+        (box :orientation "h" :spacing 15
+             :halign "center" :space-evenly "false"
+          (button :class "music_btn_prev"
+                  :onclick "playerctl previous" "")
+          (button :class "music_btn_play"
+                  :onclick "playerctl play-pause" player_status)
+          (button :class "music_btn_next"
+                  :onclick "playerctl next" ""))
+        (box :class "music_bar"
+                  :halign "center" :space-evenly "false"
+          (scale :active "true"
+                  :min 0 :max player_ttime
+                  :onscroll "playerctl position {}"
+                  :value player_time))))))
+
+(defwindow music :geometry (geometry :x "0"
+                                     :y "6%"
+                                     :width 425
+                                     :height 200
+                                     :anchor "top center")
+  (music))
+
+(defwidget audio []
+  (box :class "audio_win bar_win border"
+       :orientation "v" :hexpand "true"
+       :spacing 12 :space-evenly "false"
+    (box :spacing 20 :space-evenly "false"
+      (button :onclick "change-volume -q toggle"
+        (label :class "speaker icon" :text vol_icon
+               :valign "center" :halign "left"))
+      (box :orientation "v" :halign "center" :spacing 8
+        (label :class "speaker text" :text "speaker" :valign "center" :halign "left")
+        (box :class "speaker bar" :halign "center"
+          (scale :value vol
+                 :orientation "h"
+                 :onchange "change-volume -q {}%" 
+                 :tooltip "${vol}%"
+                 :max 100
+                 :min 0))))
+    (box :class "sep border" :hexpand "true")
+    (box :spacing 20 :space-evenly "false"
+      (button :onclick "change-volume -q mic toggle"
+        (label :class "mic icon" :text mic_icon :valign "center" :halign "left"))
+      (box :orientation "v" :halign "center" :spacing 8
+        (label :class "mic text" :text "mic" :valign "center" :halign "left")
+        (box :class "mic bar" :halign "center"
+          (scale :value mic
+                 :orientation "h"
+                 :tooltip "${mic}%"
+                 :onchange "change-volume -q mic {}%" 
+                 :max 100
+                 :min 0))))))
+
+(defwindow audio
+  :geometry (geometry :x "-18px" 
+                      :y "6%" 
+                      :anchor "top right")
+  (audio))
+
+(defwidget system []
+  (box :class "sys_win bar_win border" :orientation "v" :space-evenly "false" :spacing 0
+    (box :class "temp sys_box"
+         :orientation "h" :space-evenly "false"
+         :spacing system_progress_margin
+      (circular-progress :value temperature
+            :class "sys temp"
+            :thickness sys_win_prog_thickness
+        (label :text ""
+               :class "temp sys_icon"
+               :limit-width 2
+               :wrap false))
+      (box :orientation "v" :space-evenly "false" :spacing 5
+           :valign "center"
+        (label :text "thermal" ; "warmth"
+               :halign "start"
+               :class "temp sys_text"
+               :wrap false)
+        (label :text "${temperature}°C | ${temperature_f}°F"
+               :halign "start"
+               :class "temp sys_text_sub"
+               :wrap false)
+        (label :text "${temp_status}"
+               :halign "start"
+               :class "temp sys_text_sub"
+               :wrap false)))
+    (box :class "sys sep")
+    (box :class "bat sys_box"
+         :orientation "h" :space-evenly "false"
+         :spacing system_progress_margin
+      (circular-progress :value battery
+            :class "sys bat"
+            :thickness sys_win_prog_thickness
+        (label :text ""
+               :class "bat sys_icon"
+               :limit-width 2
+               :wrap false))
+      (box :orientation "v" :space-evenly "false" :spacing 5
+           :valign "center"
+        (label :text "power" ; "battery"
+               :halign "start"
+               :class "bat sys_text"
+               :limit-width 9
+            :wrap false)
+        (label :text "${battery}%"
+               :halign "start"
+               :class "bat sys_text_sub"
+               :limit-width 22
+               :wrap false)
+        (label :text "${battery_status}"
+               :halign "start"
+               :class "bat sys_text_sub"
+               :limit-width 22
+               :wrap false)))
+    (box :class "sys sep")
+    (box :class "cpu sys_box"
+         :orientation "h" :space-evenly "false" :halign "start"
+         :spacing system_progress_margin
+      (circular-progress :value cpu
+            :class "sys cpu"
+            :thickness sys_win_prog_thickness
+        (label :text "󰍛"
+               :class "cpu sys_icon"
+               :limit-width 2
+               :wrap false
+               :angle 0.0))
+      (box :orientation "v" :space-evenly "false" :spacing 5
+           :valign "center"
+        (label :text "cpu"
+               :halign "start"
+               :class "cpu sys_text"
+               :limit-width 9
+               :wrap false)
+        (label :text "${cpu}%"
+               :halign "start"
+               :class "cpu sys_text_sub"
+               :limit-width 28
+               :wrap false)
+        (label :text "${cpu_gov}"
+               :halign "start"
+               :class "cpu sys_text_sub"
+               :limit-width 22
+               :wrap false)))
+    (box :class "sys sep")
+    (box :class "mem sys_box"
+         :orientation "h" :space-evenly "false" :halign "start"
+         :spacing system_progress_margin
+      (circular-progress :value memory
+            :class "sys mem"
+            :thickness sys_win_prog_thickness
+        (label :text ""
+               :class "mem sys_icon"
+               :limit-width 2
+               :wrap false
+               :angle 0.0))
+      (box :orientation "v" :space-evenly "false" :spacing 5
+           :valign "center"
+        (label :text "memory"
+               :halign "start"
+               :class "mem sys_text"
+               :limit-width 9
+               :wrap false)
+        (label :text "${memory}% | ${memory_used}${memory_used_unit}"
+               :halign "start"
+               :class "mem sys_text_sub"
+               :limit-width 28
+               :wrap false)
+        (label :text "${memory_free}/${memory_total} free"
+               :halign "start"
+               :class "mem sys_text_sub"
+               :limit-width 22
+               :wrap false)))))
+
+(defwindow system
+  :geometry (geometry :x "-18px"
+                      :y "6%" 
+                      :anchor "top right"
+                      :width "290px" 
+                      :height "120px")
+  (system))
+
+(defwidget cal []
+  (box :class "cal bar_win border" :orientation "v"
+    (box :class "cal-in" :space-evenly "false"
+      (box :class "date" :space-evenly "false" :spacing 0
+                         :valign "center" :orientation "v"
+        (label :class "cal_date_header"
+               :text "${cal_day_name},")
+        (label :class "cal_date"
+               :text cal_date)
+        (label :class "cal_date_footer"
+               :text cal_year))
+      (box :class "sep")
+      (calendar :class "cal" 
+                :day cal_day 
+                :year cal_year_short))))
+
+(defwindow calendar
+  :geometry (geometry :x "-18px" 
+                      :y "6%" 
+                      :anchor "top right"
+                      :width "270px" 
+                      :height "60px")
+    (cal))
+
+;; window closers
+
+(defwindow calendar-container
+  :geometry (geometry :y "50px"
+                      :width "100%"
+                      :height "100%")
+  :stacking "fg"
+  :focusable "false"
+  (closer :window "calendar"))
+
+(defwindow system-container
+  :geometry (geometry :y "50px"
+                      :width "100%"
+                      :height "100%")
+  :stacking "fg"
+  :focusable "false"
+  (closer :window "system"))
+
+(defwindow music-container
+  :geometry (geometry :y "50px"
+                      :width "100%"
+                      :height "100%")
+  :stacking "fg"
+  :focusable "false"
+  (closer :window "music"))
+
+(defwindow audio-container
+  :geometry (geometry :y "50px"
+                      :width "100%"
+                      :height "100%")
+  :stacking "fg"
+  :focusable "false"
+  (closer :window "audio"))
+
+(defwindow panel-container
+  :geometry (geometry :y "50px"
+                      :width "100%"
+                      :height "100%")
+  :stacking "fg"
+  :focusable "false"
+  (closer :window "panel"))

@@ -1,0 +1,540 @@
+;; sections
+
+(defwidget panel_sep []
+  (box :class "panel_sep"))
+
+(defwidget panel_profile []
+  (box :space-evenly "false" :spacing 20
+       :orientation "v"
+    (box :class "panel_profile_picture"
+         :halign "center"
+         :style "background-image: url('${pfp_loc}');")))
+;     (label :class "panel_profile_greeting"
+;            :halign "center" :limit-width 25 :wrap "true"
+;            :text username)))
+
+(defwidget weather []
+  (box :space-evenly "false"
+    (box :space-evenly "false"
+      (eventbox :class "weather-container"
+                :onhover "${eww} update weather_reveal=true"
+                :onhoverlost "${eww} update weather_reveal=false"
+        (button :class "weather"
+          (box :orientation "h"
+               :space-evenly "false" :spacing 5
+               :tooltip weather_loc
+            (label :text weather_icon)
+            (revealer :transition "slideright"
+                      :reveal weather_reveal
+                      :duration "350ms"
+              (label :class "temp" :text weather_temp))))))))
+
+(defwidget panel_date []
+  (box :class "date_module"
+       :orientation "v"
+       :space-evenly "false"
+       :spacing 5
+    (box :orientation "h"
+         :halign "start"
+         :space-evenly "false"
+         :spacing 10
+         :class "time_box"
+      (box :orientation "h"
+           :spacing 20
+           :class "hour_box"
+        (label :class "hour"
+               :valign "start"
+               :halign "start"
+               :wrap "true"
+               :limit-width 25
+               :text clock_hour)
+        (label :class "minute"
+               :valign "start"
+               :halign "start"
+               :wrap "true"
+               :limit-width 25
+               :text clock_minute))
+      (label :class "mer alt"
+             :valign "start"
+             :halign "start"
+             :wrap "true"
+             :text clock_mer))
+    (box :orientation "h"
+         :spacing 18
+         :space-evenly "false"
+         :halign "start"
+         :class "date_box"
+      (box :orientation "h"
+           :spacing 12
+           :space-evenly "false"
+           :halign "start"
+        (label :class "month alt"
+               :valign "start"
+               :text cal_month)
+        (label :class "day alt"
+               :valign "start"
+               :text cal_day))
+      (label :class "year alt"
+             :valign "start"
+             :text cal_year))
+    (box :orientation "h"
+         :spacing 0
+         :space-evenly "false"
+         :halign "start"
+         :class "day_box"
+      (label :class "day_name alt"
+             :valign "start"
+             :text cal_day_name)
+      (label :class "sep alt"
+             :valign "start"
+             :text ", ")
+      (label :class "month_name alt"
+             :valign "start"
+             :text cal_month_name))
+    (weather)))
+
+(defwidget panel_header []
+  (box :class "panel_header"
+       :orientation "h" :halign "center"
+       :space-evenly "false" :spacing 30
+    (panel_profile)
+    (panel_date)))
+
+(defwidget panel_player_progress []
+  (box :class "panel_player_prog"
+       :orientation "h" :halign "center"
+       :space-evenly "false" :spacing 18
+    (scale :class "horiz"
+           :orientation "h" :active "true"
+           :min 0 :max player_ttime
+           :onchange "music seek {}" :value player_time)
+    (label :text player_fmt_time :class "panel_duration_text")))
+
+(defwidget panel_playing_info []
+  (box :orientation "h"
+       :spacing 10 :space-evenly "true"
+    (box :space-evenly "true"
+      (box :class "panel_playing_info"
+           :orientation "v"
+           :spacing 4 :space-evenly "false"
+        (label :class "panel_player_title"
+               :wrap "false" :halign "start"
+               :limit-width title_max_chars
+               :text player_scroll_title)
+        (label :class "panel_player_album"
+               :wrap "false" :halign "start"
+               :limit-width album_max_chars
+               :text player_scroll_album)
+        (label :class "panel_player_artist"
+               :wrap "true" :halign "start"
+               :limit-width artist_max_chars
+               :text player_scroll_artist)))
+    (box :class "panel_cover ${player_title}"
+         :halign "end" :space-evenly "false"
+         :style "background-image: url('${cover_loc}');")))
+
+(defwidget panel_player_ctl []
+  (box :class "panel_player_ctl"
+       :orientation "h" :halign "center"
+       :space-evenly "false"
+    (box :class "panel_track_ctl"
+         :orientation "h" :halign "center"
+         :space-evenly "false" :spacing 30
+      (button :class "panel_player_btn_prev"
+              :onclick "playerctl previous" "") ; 
+      (button :class "panel_player_btn_play"
+              :onclick "playerctl play-pause" player_status)
+      (button :class "panel_player_btn_next"
+              :onclick "playerctl next" "")))) ; 
+;     (button :class "panel_player_btn_loop"
+;             :onclick "playerctl loop" loop_status)
+
+(defwidget panel_volume_ctl []
+  (box :class "panel_volume_bar"
+       :orientation "v" :space-evenly "false" :spacing 20
+    (scale :class "vert" :flipped "true"
+           :orientation "v" :min 0 :max 101
+           :value vol
+           :onchange "change-volume -q {}%")
+    (button :class "tray_icon vol"
+            :onclick "change-volume -q toggle"
+      (label :class "panel_vol_icon"
+        :text vol_icon))))
+
+(defwidget panel_mic_ctl []
+  (box :class "panel_mic_bar"
+       :orientation "v" :space-evenly "false" :spacing 20
+    (scale :class "vert" :flipped "true"
+           :orientation "v" :min 0 :max 101
+           :value mic
+           :onchange "change-volume -q mic {}%")
+    (button :class "tray_icon vol"
+            :onclick "change-volume -q mic toggle"
+      (label :class "panel_mic_icon"
+        :text mic_icon))))
+
+(defwidget panel_player []
+  (box :class "panel_box player_module"
+     :orientation "v" :hexpand "true"
+     :space-evenly "false" :spacing 10
+     :width panel_box_size
+    (panel_playing_info)
+    (panel_player_ctl)
+    (panel_player_progress)))
+
+(defwidget panel_audio_ctl []
+  (box :space-evenly "true" :hexpand "true"
+    (box :class "panel_audio_ctl"
+         :orientation "h" :halign "center" :valign "center"
+         :space-evenly "false" :spacing 20 
+      (panel_volume_ctl)
+      (panel_mic_ctl))))
+
+(defwidget panel_audio []
+  (box :class "audio_module"
+       :orientation "h" :hexpand "true" :halign "start"
+       :spacing 18 :space-evenly "false"
+    (panel_player)
+    (panel_audio_ctl)))
+
+(defwidget sys_toggle []
+  (box :class "panel_sys_toggle"
+       :orientation "v"
+    (button :class "stats ${sys_info_reveal ? "active" : ""}"
+            :onclick "${eww} update sys_disk_reveal=false sys_info_reveal=true"
+            "󰡴")
+    (button :class "disk ${sys_disk_reveal ? "active" : ""}"
+            :onclick "${eww} update sys_info_reveal=false sys_disk_reveal=true"
+            "󱛟")))
+
+(defwidget sys_info []
+  (box :class "panel_box sys_module"
+       :orientation "h" :space-evenly "true"
+       :spacing 0 :width panel_box_size
+    (box :class "sys_box bat"
+         :orientation "v" :halign "center"
+         :space-evenly "false" :spacing 17
+      (circular-progress :value battery
+                         :thickness 100
+        (label :text " "
+               :class "panel_cc_cc"
+               :limit-width 2
+               :wrap false))
+      (box :orientation "h"
+           :spacing 5 :space-evenly false
+        (label :text "BAT"
+               :class "format_icon"
+               :wrap false)
+        (label :text "${battery}%"
+               :class "prog_caption_sub"
+               :wrap false)))
+    (box :class "sys_box"
+         :orientation "v" :halign "center"
+         :space-evenly "false" :spacing 17
+      (circular-progress :value cpu
+                         :thickness 100
+        (label :text " "
+               :class "panel_cc_cc"
+               :limit-width 2
+               :wrap false))
+      (box :orientation "h"
+           :spacing 5 :space-evenly false
+        (label :text "CPU"
+               :class "format_icon"
+               :wrap false)
+        (label :text "${cpu}%"
+               :class "prog_caption_sub"
+               :wrap false)))
+    (box :class "sys_box mem"
+         :orientation "v" :halign "center"
+         :space-evenly "false" :spacing 17
+      (circular-progress :value memory
+                         :thickness 100
+        (label :text " "
+               :class "panel_cc_cc"
+               :limit-width 2
+               :wrap false
+               :angle 0.0))
+      (box :orientation "h"
+           :spacing 5 :space-evenly false
+        (label :text "MEM"
+               :class "format_icon"
+               :wrap false)
+        (label :text "${memory_used}"
+               :class "prog_caption_sub"
+               :wrap false)))))
+
+(defwidget sys_disk []
+  (box :class "panel_box sys_module"
+       :orientation "h" :space-evenly "true"
+       :spacing 0 :width panel_box_size
+    (box :class "sys_box"
+         :orientation "v" :halign "center"
+         :space-evenly "false" :spacing 17
+      (circular-progress :value disk_root_used
+                         :thickness 100
+        (label :text " "
+               :class "panel_cc_cc"
+               :limit-width 2
+               :wrap false))
+      (box :orientation "h"
+           :spacing 5 :space-evenly false
+        (label :text "/"
+               :class "format_icon"
+               :wrap false)
+        (label :text "${disk_root_used}%"
+               :class "prog_caption_sub"
+               :wrap false)))
+    (box :class "sys_box"
+         :orientation "v" :halign "center"
+         :space-evenly "false" :spacing 17
+      (circular-progress :value disk_home_used
+                         :thickness 100
+        (label :text " "
+               :class "panel_cc_cc"
+               :limit-width 2
+               :wrap false))
+      (box :orientation "h"
+           :spacing 5 :space-evenly false
+        (label :text "/home"
+                     :class "format_icon"
+                     :wrap false)
+        (label :text "${disk_home_used}%"
+               :class "prog_caption_sub"
+               :wrap false)))))
+
+(defwidget panel_system []
+  (box :class "panel_system"
+       :orientation "h"
+       :space-evenly "false" :spacing 15
+    (box :orientation "v" :space-evenly "false"
+      (revealer :transition "slidedown"
+                :reveal sys_info_reveal
+                :class "sys_section ${sys_info_reveal ? "active" : ""}"
+                :duration "350ms"
+        (sys_info))
+      (revealer :transition "slideup"
+                :reveal sys_disk_reveal
+                :class "sys_section ${sys_disk_reveal ? "active" : ""}"
+                :duration "350ms"
+        (sys_disk)))
+    (box :space-evenly "true" :hexpand "true" :vexpand "false"
+      (box :space-evenly "false"
+           :halign "center" :valign "center"
+        (sys_toggle)))))
+
+(defwidget tray_module [orientation spacing]
+  (box :class "tray_module"
+       :orientation orientation :halign "center"
+       :hexpand "true" :vexpand "true"
+       :spacing spacing :space-evenly "true"
+    (children)))
+
+(defwidget tray_box [?class orientation spacing]
+  (box :class "tray_box ${class}"
+       :orientation "h" :valign "center"
+       :space-evenly "false"
+    (box :orientation orientation :halign "center"
+         :hexpand "true" :vexpand "true"
+         :spacing spacing :space-evenly "false"
+      (children))))
+
+(defwidget panel_tray_icons
+  [parent-orientation child-orientation parent-spacing child-spacing transition-duration]
+  (tray_module
+    :orientation parent-orientation
+    :spacing parent-spacing
+    (tray_box
+      :orientation child-orientation
+      :spacing child-spacing
+      (eventbox :onhover "${eww} update tray_conn_reveal=true tray_default_reveal=false tray_curtain_reveal=false"
+                :onhoverlost "${eww} update tray_conn_reveal=false tray_default_reveal=true tray_curtain_reveal=true"
+                :space-evenly "false"
+        (tray_box
+          :orientation child-orientation
+          :spacing 0
+          (revealer :transition "slidedown"
+                    :reveal {tray_curtain_reveal}
+                    :duration transition-duration
+            (revealer :transition "slidedown"
+                      :reveal {!tray_conn_reveal}
+                      :duration transition-duration
+              (button :class "tray_icon conn_reveal ${airplane_status == "enabled" ? "disabled" : "enabled"}"
+                (label :text "󰘊"))))
+          (revealer :transition "slidedown"
+                    :reveal tray_conn_reveal
+                    :duration transition-duration
+            (tray_box :class "conn dropdown"
+              :orientation child-orientation
+              :spacing child-spacing
+              (button :class "tray_icon wireless ${wireless_status}"
+                      :onclick "toggle-wifi"
+                      :tooltip "wifi"
+                (label :text wireless_icon))
+              (button :class "tray_icon bluetooth ${bluetooth_status}"
+                      :onclick "toggle-bluetooth"
+                      :tooltip "bluetooth"
+                (label :text bluetooth_icon))
+              (button :class "tray_icon airplane ${airplane_status}"
+                      :onclick "airplane-mode"
+                      :tooltip "${airplane_mode}"
+                (label :text airplane_icon))))))
+      (revealer :transition "slidedown"
+                :reveal {tray_curtain_reveal}
+                :duration transition-duration
+        (tray_box
+          :orientation child-orientation
+          :spacing child-spacing
+          (button :class "tray_icon notif ${notif_status}"
+                  :onclick "notifs toggle"
+                  :tooltip "notifs ${notif_status}"
+            (label :text notif_icon))))
+      (eventbox :onhover "${eww} update tray_screen_reveal=true tray_default_reveal=false tray_curtain_reveal=false"
+                :onhoverlost "${eww} update tray_screen_reveal=false tray_default_reveal=true tray_curtain_reveal=true"
+        (tray_box
+          :orientation child-orientation
+          :spacing 0
+          (revealer :transition "slidedown"
+                    :reveal {tray_curtain_reveal}
+                    :duration transition-duration
+            (revealer :transition "slidedown"
+                      :reveal {!tray_screen_reveal}
+                      :duration transition-duration
+              (button :class "tray_icon screen_reveal enabled"
+                (label :text "󰍹"))))
+          (revealer :transition "slidedown"
+                    :reveal tray_screen_reveal
+                    :duration transition-duration
+            (tray_box :class "screen dropdown"
+              :orientation child-orientation
+              :spacing child-spacing
+              (button :class "tray_icon screenlock ${screenlock_status}"
+                      :onclick "toggle-screenlock"
+                      :tooltip "screenlock ${screenlock_status}"
+                (label :text screenlock_icon))
+              (button :class "tray_icon dpms ${dpms_status}"
+                      :onclick "toggle-dpms"
+                      :tooltip "dpms ${dpms_status}"
+                (label :text dpms_icon))
+              (button :class "tray_icon light-shift ${light_status}"
+                      :onclick "light-shift toggle"
+                      :tooltip "light-shift ${light_status}"
+                (label :text light_icon))
+              (button :class "tray_icon night-mode ${mode_status}"
+                      :onclick "notify-switch-mode -i 2> /dev/null"
+                      :tooltip "${mode_title}"
+                (label :text mode_icon))))))
+      (revealer :reveal tray_default_reveal
+                :transition tray_default_transition
+                :duration transition-duration
+                :orientation child-orientation
+                :spacing child-spacing
+        (tray_box
+          :orientation child-orientation
+          :spacing child-spacing
+          (button :class "tray_icon powersave ${powersave_status}"
+                  :onclick "launch-powersave-prompt"
+                  :tooltip "powersave ${powersave_status}"
+            (label :text powersave_icon))
+          (button :class "tray_icon change_wall fixed"
+                  :onclick "change-wallpaper &"
+                  :tooltip "change wallpaper"
+            (label :text "󰸉"))
+          (button :class "tray_icon reload fixed"
+;                 :onclick "switch-bar reload" ; nicer way
+                  :onclick "killall eww; switch-bar launch" ; brutal way
+                  :tooltip "reload bar"
+            (label :text "󰑓"))))
+      (eventbox :onhover "${eww} update tray_powermenu_reveal=true tray_default_reveal=false tray_curtain_reveal=false"
+                :onhoverlost "${eww} update tray_powermenu_reveal=false tray_default_reveal=true tray_curtain_reveal=true"
+        (tray_box
+          :orientation child-orientation
+          :spacing 0
+          (revealer :transition "slidedown"
+                    :reveal {tray_curtain_reveal}
+                    :duration transition-duration
+            (revealer :transition "slideup"
+                      :reveal {!tray_powermenu_reveal}
+                      :duration transition-duration
+              (button :class "tray_icon powermenu_reveal curtain"
+                (label :text "⏼"))))
+          (revealer :transition "slideup"
+                    :reveal tray_powermenu_reveal ; comment out this line for debugging
+                    :duration transition-duration
+            (tray_box :class "power dropdown"
+              :orientation child-orientation
+              :spacing child-spacing
+              (button :class "tray_icon lock fixed"
+                      :onclick "power force lock"
+                      :tooltip "lock screen"
+                (label :text ""))
+              (button :class "tray_icon sleep fixed"
+                      :onclick "power sleep"
+                      :tooltip "sleep"
+                (label :text ""))
+              (button :class "tray_icon logout fixed"
+                      :onclick "confirm power exit"
+                      :tooltip "logout"
+                (label :text ""))
+              (button :class "tray_icon hibernate fixed"
+                      :onclick "power hybrid-sleep"
+                      :tooltip "hibernate"
+                (label :text ""))
+              (button :class "tray_icon reboot fixed"
+                      :onclick "confirm power reboot"
+                      :tooltip "reboot"
+                (label :text ""))
+              (button :class "tray_icon poweroff fixed"
+                      :onclick "confirm power off"
+                      :tooltip "poweroff"
+                (label :text "")))))))))
+
+(defwidget panel_stats []
+  (box :class "bright_module"
+       :orientation "h" :halign "center" :space-evenly "false"
+       :spacing 18
+    (label :class "tray_icon bright" :text "")
+    (box :class "scale_box"
+         :orientation "h" :space-evenly "false"
+      (scale :class "vert" :orientation "h" :min 0 :max 100
+             :value brightness :onchange "set-light -r {}"
+             :tooltip "${brightness}%"))))
+
+(defwidget main []
+  (box :orientation "v" :valign "center" :halign "start"
+       :spacing 15 :space-evenly "false"
+    (panel_header)
+    (panel_audio)
+    (panel_system)
+;   (panel_tray_icons
+;     :parent-orientation "v" :child-orientation "h"
+;     :parent-spacing 5 :child-spacing 5
+;     :transition-duration "350ms")
+    (panel_stats)))
+
+(defwidget panel_content []
+  (box :class "panel root border"
+       :orientation "h"
+       :spacing 0 :space-evenly "false"
+    (box :class "panel left"
+         :orientation "v"
+         :spacing 25 :space-evenly "false"
+       (panel_tray_icons
+         :parent-orientation "h" :child-orientation "v"
+         :parent-spacing 0 :child-spacing 12
+         :transition-duration "500ms"))
+    (box :class "panel main"
+         :orientation "v"
+         :spacing 25 :space-evenly "false"
+      (main))))
+
+(defwidget panel_container []
+  (eventbox :vexpand "true"
+    (panel_content)))
+
+(defwindow panel
+           :monitor 0
+           :geometry (geometry :anchor "right top"
+           :x "-10px"
+           :y "6%")
+  (panel_container))

@@ -1,0 +1,13 @@
+configuration {
+  me-select-entry: "";
+  me-accept-entry: "MousePrimary";
+  kb-row-up:       "Up,k,Alt+k,Shift+Tab,Shift+ISO_Left_Tab";
+  kb-row-down:     "Down,j,Alt+j";
+  kb-row-left:     "h,Alt+h";
+  kb-row-right:    "l,Alt+l";
+  kb-accept-entry: "space,KP_Space,Control+j,Return,KP_Enter";
+  kb-remove-to-eol: "Control+Shift+e";
+  kb-mode-next: "Shift+Right,Control+Tab";
+  kb-mode-previous: "Shift+Left,Control+Shift+Tab";
+  kb-remove-char-back: "BackSpace";
+}

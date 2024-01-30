@@ -1,0 +1,7 @@
+#!/bin/sh
+theme_name="Shinji"
+theme_id="shinji"
+
+set_theme () {
+  switch-theme wallpaper "$theme_id"
+}

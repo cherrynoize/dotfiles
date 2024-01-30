@@ -32,9 +32,11 @@ default_vid_fmt="${SNIP_VID_FILE:-mp4}"
 
 tmp_dir="${SNIP_TMP_DIR:-/tmp}"
 
+screen_res="$(xrandr | grep '*' | awk '{print $1;}')"
+screen_res="${screen_res:-"1920x1080"}"
+
 # outputs full destination path
 join_dest_path () {
-  screen_res="$(xrandr | grep '*' | awk '{print $1;}')"
   filename="${dest_filename//\$wx\$h/$screen_res}"
   dest="$dest_path/$filename$dest_file_ext"
   echo "$dest"

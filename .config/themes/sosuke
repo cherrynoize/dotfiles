@@ -1,0 +1,7 @@
+#!/bin/sh
+theme_name="Sosuke"
+theme_id="sosuke"
+
+set_theme () {
+  switch-theme wallpaper "$theme_id"
+}

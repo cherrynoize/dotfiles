@@ -1,0 +1,49 @@
+import = [
+  "~/.config/alacritty/themes/current/colors.toml",
+]
+
+live_config_reload = true
+
+[cursor]
+blink_interval = 550
+unfocused_hollow = false
+
+[cursor.style]
+blinking = "On"
+shape = "Block"
+
+[font]
+size = 12
+
+[font.bold]
+family = "JetBrainsMono NF"
+
+[font.bold_italic]
+family = "JetBrainsMono NF"
+
+[font.italic]
+family = "JetBrainsMono NF"
+
+[font.normal]
+family = "JetBrainsMono NF"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "Return"
+mods = "Control|Shift"
+
+[selection]
+save_to_clipboard = false
+
+[window]
+decorations = "full"
+dynamic_title = true
+opacity = 1.0
+
+[window.padding]
+x = 10
+y = 5
+
+[bell]
+color = "#1a1a1a"
+duration = 1000

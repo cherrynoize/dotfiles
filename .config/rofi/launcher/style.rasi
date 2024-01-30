@@ -1,0 +1,31 @@
+@import "~/.config/rofi/themes/astro.rasi"
+@import "~/.config/rofi/bindings.rasi"
+
+configuration {
+  modi:                        "drun";
+  icon-theme:                  "Papirus-Dark";
+  application-fallback-icon:   "Adwaita";
+  show-icons:                  true;
+  drun-display-format:         "{name}";
+  disable-history:             true;
+  sidebar-mode:                false;
+}
+
+/*****----- Main Window -----*****/
+window {
+  /* properties for window widget */
+  transparency:                "real";
+  location:                    center;
+  anchor:                      center;
+  fullscreen:                  false;
+  width:                       500px;
+  height:                      39%;
+  x-offset:                    0px;
+  y-offset:                    0px;
+
+  /* properties for all widgets */
+  enabled:                     true;
+  border-radius:               6px;
+  cursor:                      "default";
+  background-color:            @background;
+}

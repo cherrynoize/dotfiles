@@ -1,0 +1,75 @@
+(defwidget system_module []
+  (eventbox :onclick "${pop_script} system"
+    (box :spacing 18
+      (temp)
+      (bat)
+      (cpu)
+      (mem))))
+
+;; circular-progress version
+
+(defwidget temp []
+  (box :class "temp sys_indicator"
+    (circular-progress :value temperature
+        :class "temp sys_tray_prog"
+        :thickness 4
+      (label
+          :class "temp prog_icon"
+          :wrap false
+          :tooltip "Temp: ${temperature}°C"
+          :text ""))))
+
+(defwidget bat []
+  (box :class "bat sys_indicator"
+    (circular-progress :value battery
+        :class "bat sys_tray_prog"
+        :thickness 4
+      (label
+          :class "bat prog_icon"
+          :wrap false
+          :tooltip "Bat: ${battery}%"
+          :text ""))))
+
+(defwidget cpu []
+  (box :class "cpu sys_indicator"
+    (circular-progress :value cpu
+        :class "cpu sys_tray_prog"
+        :thickness 4
+      (label
+          :class "cpu prog_icon"
+          :wrap false
+          :tooltip "CPU: ${cpu}%"
+          :text ""))))
+
+(defwidget mem []
+  (box :class "mem sys_indicator" 
+    (circular-progress :value memory
+        :class "mem sys_tray_prog"
+        :thickness 4
+      (label 
+          :class "mem prog_icon"
+          :wrap false
+          :tooltip "Mem: ${memory}%"
+          :text ""))))
+
+;; label version
+;
+;(defwidget temp []
+;  (box :class "temp sys_indicator"
+;    (label :text "○ ${temperature}°C"
+;           :class "temp sys_tray_prog")))
+;
+;(defwidget bat []
+;  (box :class "bat sys_indicator"
+;    (label :text " ${battery}%"
+;           :class "bat sys_tray_prog")))
+;
+;(defwidget cpu []
+;  (box :class "cpu sys_indicator"
+;    (label :text " ${cpu}%"
+;           :class "cpu sys_tray_prog")))
+;
+;(defwidget mem []
+;  (box :class "mem sys_indicator" 
+;    (label :text " ${memory}%"
+;           :class "mem sys_tray_prog")))

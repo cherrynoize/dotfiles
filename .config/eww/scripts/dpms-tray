@@ -1,0 +1,20 @@
+#!/bin/bash
+if [ "$(toggle-dpms status)" = "off" ]; then
+  fg="#bfc9db"
+  bg="transparent"
+else
+  fg="#0f0f17"
+  bg="#bfc9db"
+fi
+
+case "$1" in
+  fg)
+    echo "$fg"
+    ;;
+  bg)
+    echo "$bg"
+    ;;
+  *)
+    toggle-dpms "$@"
+    ;;
+esac

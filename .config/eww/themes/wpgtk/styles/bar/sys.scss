@@ -1,0 +1,79 @@
+.sys_indicator {
+    border-radius: $border-radius;
+}
+
+.sys_module {
+    color: $fg-alt;
+    border-radius: 8px;
+    padding: 18px 20px;
+}
+
+.sys {
+    border-radius: 10px;
+}
+
+.sys.sep {
+    margin: 10px 20px -10px 20px;
+    padding: 1px;
+    background: $shadow;
+}
+
+.sys_icon {
+    font-size: 22px;
+    margin: 22px;
+}
+
+.sys_icon.cpu {
+    margin: 22px 23px 22px 21px;
+}
+
+.sys_text {
+    font-size: 19px;
+    font-weight: 900;
+}
+
+.sys_text_sub {
+    font-size: 16px;
+}
+
+.sys_win .sys_box {
+    padding: 30px 22px 15px 22px;
+}
+
+.sys.temp, .sys_icon.temp,
+.temp .prog_icon,
+.temp circular-progress.sys_tray_prog {
+    color: #e5ef96;
+}
+
+.sys.bat, .sys_icon.bat,
+.bat .prog_icon,
+.bat circular-progress.sys_tray_prog {
+    color: #58e7c7;
+}
+
+.sys.cpu, .sys_icon.cpu,
+.cpu .prog_icon,
+.cpu circular-progress.sys_tray_prog {
+    color: #ffa8fb;
+}
+
+.sys.mem, .sys_icon.mem,
+.mem .prog_icon,
+.mem circular-progress.sys_tray_prog {
+    color: #aaaaaa;
+}
+
+.prog_icon {
+    font-size: 15px;
+    margin: 10px;
+}
+
+circular-progress.sys_tray_prog {
+    background-color: $bar-circular-progress-bg;
+    border-radius: 10px;
+}
+
+label.sys_tray_prog {
+    border-radius: 10px;
+}

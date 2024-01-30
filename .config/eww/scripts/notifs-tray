@@ -1,0 +1,21 @@
+#!/bin/bash
+if [ "$(notifs status)" = "disabled" ]; then
+  bg="transparent"
+  fg="#bbc5d7"
+# fg="#d78787"
+else
+  bg="#bbc5d7"
+  fg="#0f0f17"
+fi
+
+case "$1" in
+  fg)
+    echo "$fg"
+    ;;
+  bg)
+    echo "$bg"
+    ;;
+  *)
+    notifs "$@"
+    ;;
+esac

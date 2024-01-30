@@ -1,0 +1,56 @@
+(include "ui/current/bar/modules/workspaces.yuck")
+(include "ui/current/bar/modules/music.yuck")
+(include "ui/current/bar/modules/indicator.yuck")
+(include "ui/current/bar/modules/system.yuck")
+(include "ui/current/bar/modules/clock.yuck")
+(include "ui/current/bar/modules/pfp.yuck")
+(include "ui/current/bar/windows.yuck")
+
+(defwidget bar_sep []
+  (box
+    (label :class "bar_sep" :text "|")))
+
+(defwidget left_modules []
+  (box :orientation "h" 
+       :space-evenly "false"
+       :halign "start"
+       :class "left_modules"
+    (workspaces)))
+
+(defwidget center_modules []
+  (box :orientation "h" 
+       :space-evenly "false"
+       :halign "center"
+       :class "center_modules"
+    (player)))
+
+(defwidget right_modules []
+  (box :class "right_modules"
+       :space-evenly "false"
+       :orientation "h" 
+       :halign "end"
+       :spacing 0
+    (indicator_module)
+    (bar_sep)
+    (system_module)
+    (bar_sep)
+    (clock_module)
+    (pfp)))
+
+(defwidget bar_content []
+  (box :class "bar_content"
+  :align "center"
+    (left_modules)
+    (center_modules)
+    (right_modules)))
+
+(defwindow bar
+           :monitor 0
+           :geometry (geometry :x "0%"
+                               :y "9px"
+                               :width "98%"
+                               :height "30px"
+                               :anchor "top center")
+           :stacking "bg"
+           :windowtype "dock"
+  (bar_content))

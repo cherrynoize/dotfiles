@@ -1,0 +1,71 @@
+@import "bar/workspaces.scss";
+@import "bar/music.scss";
+@import "bar/indicator.scss";
+@import "bar/audio.scss";
+@import "bar/sys.scss";
+@import "bar/calendar.scss";
+@import "bar/pfp.scss";
+
+.bar_win {
+    background: $win-bg;
+    border-radius: $win-border-radius;
+}
+
+.border {
+    border: $win-border-width $win-border-style $win-border-color;
+}
+
+.bar_content {
+    background: $bar-bg;
+    color: $bar-fg;
+    border: $bar-border-width $bar-border-style $bar-border-color;
+    border-radius: $border-radius;
+}
+
+.bar_sep {
+    color: $bar-sep-color;
+    font-weight: bold;
+    font-size: 22px;
+    margin: 0px 12px 0px 12px;
+}
+
+.right_modules {
+    margin: 0 0 0 -100px;
+}
+
+tooltip.background {
+    background: $win-bg;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+tooltip label {
+    margin: 6px;
+}
+
+scale trough,
+scale trough highlight {
+    border-radius: $border-radius;
+}
+
+scale trough {
+    background-color: $bar-scale-bg;
+//  box-shadow: 0px 1px 20px 1px $bg-alt;
+    box-shadow: 0px 0px 2px 1px $shadow;
+    border-radius: 16px;
+    min-height: 10px;
+    min-width: 60px;
+}
+
+scale trough highlight {
+    background-color: $bar-scale-highlight;
+}
+
+scale.vert trough {
+    min-height: 130px;
+    min-width: 14px;
+}
+
+scale.horiz trough {
+    min-height: 14px;
+}

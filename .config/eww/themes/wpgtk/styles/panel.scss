@@ -1,0 +1,464 @@
+.panel {
+    color: $panel-fg;
+    border-radius: 18px;
+    font-family: $font1;
+    padding: 30px 25px;
+}
+
+.panel.border {
+    padding: 0px;
+}
+
+.panel.root {
+    background: $panel-container-bg;
+}
+
+.panel.main {
+    background: $panel-bg;
+}
+
+.panel.left {
+    padding: 20px 0px 20px 10px;
+}
+
+.panel scale trough {
+    background: $panel-scale-bg;
+}
+
+.panel_profile_picture {
+    background-size: 100%;
+    min-height: 180px;
+    min-width: 180px;
+    border-radius: 50px;
+}
+
+.panel_profile_greeting {
+    color: #b5e8e0;
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0 0 0 10px;
+}
+
+.panel_profile_username {
+    color: $fg-alt;
+    font-size: 36px;
+    font-weight: bold;
+    margin: -15px 0 0 0;
+}
+
+.date_module {
+    padding: 12px;
+    color: $panel-fg;
+    font-size: 18px;
+}
+
+.date_module .alt,
+.date_module .day_box {
+    color: $grey;
+}
+
+.date_module .hour_box {
+    font-size: 42px;
+    margin-bottom: -5px;
+}
+
+.date_module .hour {
+    font-weight: bold;
+}
+
+.date_module .mer {
+    font-size: 22px;
+}
+
+.date_module .date_box {
+    font-size: 30px;
+}
+
+.weather {
+    margin: 5px 0;
+    padding: 0 10px 0 15px;
+    font-size: 20px;
+    color: $panel-fg;
+//  background: linear-gradient(225deg, $highlight-alt, $bg-alt 12%, $shadow-alt 95%, $highlight-alt);
+//  background: linear-gradient(225deg, $highlight-alt, $bg-alt 12%, $bg 95%, $highlight-alt);
+//  background: linear-gradient(225deg, $bg, $bg-alt 25%, $bg-alt 75%, $bg);
+    background: $panel-box-bg;
+    border-radius: 30px;
+}
+
+.weather-container:hover .weather {
+//  background-image: linear-gradient(225deg, $highlight-alt, $bg-alt 15%, $shadow-alt 80%, $highlight-alt);
+//  background-image: linear-gradient(225deg, $highlight-alt, $highlight 15%, $highlight 80%, $highlight-alt);
+//  background-image: linear-gradient(225deg, $color0, $bg-alt 15%, $bg 80%, $color0);
+//  background: $highlight;
+//  background: $primary-alt;
+    background: $panel-weather-hover-bg;
+    border: 1px solid $shadow;
+}
+
+.weather .temp {
+    margin-right: 5px;
+}
+
+.panel_system,
+.panel_sys_toggle,
+.panel_sys_toggle button.active {
+    border-radius: 16px;
+}
+
+.panel_sys_toggle {
+    font-size: 24px;
+}
+
+.panel_sys_toggle button {
+    padding: 14px 16px 14px 13px;
+}
+
+.panel_sys_toggle button.stats {
+    padding-left: 11px;
+}
+
+.panel_sys_toggle button.active {
+    color: $panel_bg;
+    background-color: $light-alt;
+}
+
+.panel_cc_cc {
+    font-size: 28;
+    margin: 30px;
+}
+
+.panel_box {
+    $halo-blur: 3px;
+    $halo-width: 1px;
+//  background: linear-gradient(45deg, $panel-box-bg, $shadow-alt 50%, $bg-alt, $color0);
+//  background: linear-gradient(45deg, $panel-bg, $panel-box-bg 4%, $panel-box-bg 96%, $panel-bg);
+    background: $panel-box-bg;
+    box-shadow: 0 0 $halo-blur $halo-width $panel-box-bg;
+    margin: $halo-width;
+    opacity: .9;
+}
+
+.sys_module, .sys_module * {
+    border-radius: 18px;
+}
+
+.sys_module {
+    padding: 20px 10px 10px 10px;
+//  background-image: linear-gradient(45deg, $panel-box-bg, $shadow-alt 50%, $bg-alt, $color0);
+}
+
+.sys_box circular-progress {
+    color: $fg-alt;
+    background-color: $bg-alt;
+    border-radius: 10px;
+}
+
+.sys_box .format_icon {
+    font-size: 22;
+}
+
+.prog_caption_sub {
+    margin: 0px 0px 2px 8px;
+    color: #7f899b;
+    font-size: 20;
+    font-family: $font3;
+    font-weight: 300;
+}
+
+.panel_storage_bar scale trough highlight,
+.panel_volume_bar scale trough highlight,
+.panel_mic_bar scale trough highlight {
+    border-radius: 24px;
+}
+
+.panel_duration_text {
+    font-size: 20px;
+}
+
+.panel_duration_icon, .panel_vol_icon, .panel_brg_icon, .panel_stor_icon, .panel_mic_icon {
+    font-size: 26px;
+}
+
+.panel_brg_icon {
+    color: #e4c9af;
+}
+
+.panel_stor_icon {
+    color: #afbea2;
+}
+
+.panel_fetch_img {
+    background-size: cover;    
+    background-position: center;
+    min-height: 140px;
+    min-width: 100px;
+    margin: 13px;
+    border-radius: 16px;
+}
+
+.panel_fetch_text_2 , .panel_fetch_text_3 {
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0 35px 0 0;
+}
+
+.panel_fetch_text_1 {
+    font-size: 20px;
+    font-weight: normal;
+    margin: 20px 35px 0 0;
+}
+
+.panel_fetch_icon_2 , .panel_fetch_icon_3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 0 35px;
+}
+
+.panel_fetch_icon_1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0 0 35px;
+}
+
+.panel_fetch_sep_1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #95939f;
+    margin: 20px 0 0 0;
+}
+
+.panel_fetch_sep {
+    font-size: 24px;
+    font-weight: bold;
+    color: #95939f;
+    margin: 0 0 0 0;
+}
+
+.panel_fetch_icon_1 {
+    color: #d7beda;
+}
+
+.panel_fetch_text_1 {
+    color: #d7beda;
+}
+
+.panel_fetch_icon_2 {
+    color: #e4c9af;
+}
+
+.panel_fetch_text_2 {
+    color: #e4c9af;
+}
+
+.panel_fetch_icon_3 {
+    color: #d78787;
+}
+
+.panel_fetch_text_3 {
+    color: #d78787;
+}
+
+.audio_module {
+    border-radius: 18px;
+}
+
+.player_module {
+//  background-image: linear-gradient(45deg, $color0, $highlight, $shadow-alt 50%, $bg-alt, $color0);
+    padding: 10px 15px 10px 10px;
+    border-radius: 18px;
+}
+
+.panel_playing_info {
+    margin: 15px 0 0 25px;
+}
+
+.panel_player_title {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.panel_player_album {
+    font-size: 18px;
+    font-weight: 400;
+    opacity: .8;
+}
+
+.panel_player_artist {
+    font-size: 18px;
+    font-weight: 700;
+    opacity: .8;
+}
+
+.panel_cover {
+    background-size: cover;    
+    background-position: center;
+    min-height: 100px;
+    min-width: 100px;
+    margin: 5px;
+    border-radius: 16px;
+}
+
+.panel_player_ctl {
+    border-radius: 12px;
+    margin: 2px 0px 0px 0px;
+}
+
+.panel_player_ctl button:hover {
+//  color: #c3defe;
+}
+
+.panel_player_btn_prev, .panel_player_btn_next,
+.panel_player_btn_play, .panel_player_btn_loop {
+    font-weight: 400;
+}
+
+.panel_player_btn_prev, .panel_player_btn_next {
+    font-size: 20px;
+}
+
+.panel_player_btn_play {
+    font-size: 24px;
+}
+
+.panel_player_btn_loop {
+    font-weight: 700;
+    font-size: 25px;
+}
+
+.panel_player_prog scale trough,
+.panel_player_prog scale trough highlight {
+    border-radius: 8px;
+}
+
+.panel_player_prog scale trough {
+    min-width: 270px;
+}
+
+.tray_module {
+    padding: 0 15px;
+    border-radius: 18px;
+}
+
+.tray_box.conn.dropdown {
+    padding: 159px 0 110px 0;
+}
+
+.tray_box.screen.dropdown {
+    padding: 45px 0 51px 0;
+}
+
+.tray_box.power.dropdown {
+    padding: 35px 0 69px 0;
+}
+
+.tray_icon {
+    font-size: 26px;
+}
+
+.tray_module .tray_icon {
+    color: $panel-tray-icon-bg;
+    border-radius: 18px 10px 18px 10px;
+    border: 2px solid transparent;
+    padding: 15px;
+}
+
+.tray_module .tray_icon:not(.off):not(.disabled) {
+    color: $panel-tray-icon-fg;
+    background-color: $panel-tray-icon-bg;
+}
+
+.tray_module .power.dropdown .tray_icon.fixed {
+    color: $panel-powermenu-btn-fg;
+    background-color: $panel-powermenu-btn-bg;
+}
+
+.tray_module .tray_icon.inactive {
+    color: #d78787;
+    background-color: $panel-box-bg;
+}
+
+.tray_module .tray_icon.wireless {
+    padding: 15px 20px 15px 10px;
+}
+
+.tray_module .tray_icon.airplane.enabled {
+    padding: 15px 16px 15px 14px;
+}
+
+.tray_module .tray_icon.airplane.disabled {
+    padding: 15px 18px 15px 11px;
+}
+
+.tray_module .tray_icon.notif {
+    padding: 15px 18px 15px 12px;
+}
+
+.tray_module .tray_icon.screen_reveal {
+    padding: 15px 18px 15px 12px;
+}
+
+.tray_module .tray_icon.vol {
+    padding: 15px 16px 15px 14px;
+}
+
+.tray_module .tray_icon.dpms {
+    padding: 15px 19px 15px 11px;
+}
+
+.tray_module .tray_icon.light-shift {
+    padding: 15px 20px 15px 10px;
+}
+
+.tray_module .tray_icon.night-mode.disabled {
+    padding: 15px 17px 15px 12px;
+}
+
+.tray_module .tray_icon.change_wall {
+    padding: 15px 17px 15px 13px;
+}
+
+.tray_module .tray_icon.sleep {
+    padding: 15px 14px 15px 16px;
+}
+
+.tray_module .tray_icon.logout {
+    padding: 15px 15px 15px 14px;
+}
+
+.tray_module .tray_icon.hibernate {
+    padding: 15px 14px 15px 15px;
+}
+
+.tray_module .tray_icon.reload {
+    padding: 15px 17px 15px 14px;
+}
+
+.tray_module .tray_icon.reboot {
+    padding: 15px 17px 15px 14px;
+}
+
+.tray_module .tray_icon.poweroff {
+    padding: 15px 14px 15px 15px;
+}
+
+.bright_module .scale_box scale trough {
+//  background-color: $panel-box-bg;
+    border-radius: 8px;
+    min-height: 10px;
+    min-width: 310px;
+    margin: 0 60px 0 0;
+}
+
+.bright_module .scale_box scale trough highlight {
+    border-radius: 8px 20px 2px 8px;
+}
+
+.tray_icon.bright {
+    font-size: 24px;
+}
+
+.panel_sep {
+    border: 1px solid $panel-fg;
+    margin: 0 30px;
+}

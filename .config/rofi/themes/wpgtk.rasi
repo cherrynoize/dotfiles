@@ -1,0 +1,111 @@
+/*
+ * ROFI theme
+ *
+ * Based on Something Found on the Internet
+ *
+ * User: cherrynoize
+ * https://github.com/cherrynoize/dotfiles
+ */
+
+@import "~/.config/rofi/templates/current.rasi"
+
+configuration {
+  run {
+    display-name: "";
+  }
+
+  drun {
+    display-name: "󰲋";
+  }
+
+  window {
+    display-name: "";
+  }
+
+  windowcd {
+    display-name: "";
+  }
+
+  filebrowser {
+    display-name: "";
+  }
+
+  keys {
+    display-name: "";
+  }
+
+  ssh {
+    display-name: "󰢩";
+  }
+
+  combi {
+    display-name: "󰘗";
+  }
+
+  /*
+  dmenu {
+    display-name: "󰮫";
+  }
+  */
+}
+
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+}
+
+window {
+  transparency: "real";
+  border-radius: @radius;
+}
+
+mainbox {
+  children: [inputbar, listview];
+//background-color: @bg-alt;
+}
+
+inputbar {
+  children: [prompt, entry];
+  background-color: inherit;
+  text-color: @accent;
+//margin: 2px 5px;
+//border-radius: @radius;
+}
+
+entry {
+  background-color: inherit;
+  text-color: inherit;
+  padding: 12px 3px;
+}
+
+prompt, textbox-prompt-colon {
+  background-color: inherit;
+  text-color: inherit;
+  padding: 12px;
+}
+
+listview {
+  lines: 8;
+}
+
+element {
+  children: [element-icon, element-text];
+  text-color: @bg-alt;
+}
+
+element-icon {
+  padding: 10px 10px;
+}
+
+element-text {
+  padding: 10px 0;
+  text-color: inherit;
+}
+
+element-icon selected,
+element-text selected {
+  text-color: @selected;
+  background-color: @primary;
+}

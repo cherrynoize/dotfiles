@@ -35,15 +35,15 @@ case "$cmd" in
     ;;
   open|unlock)
     # open tomb if locked
-    "$0" state > /dev/null || sudo tomb open "$HOME/$SAFE" -k "$HOME/$SAFE_KEY"
+    "$0" state > /dev/null || tomb open "$HOME/$SAFE" -k "$HOME/$SAFE_KEY"
     ;;
   close|lock)
     # close tomb if unlocked
-    "$0" state > /dev/null && sudo tomb close "$SAFE"
+    "$0" state > /dev/null && tomb close "$SAFE"
     ;;
   slam)
     # force close tomb
-    sudo tomb slam "$SAFE"
+    tomb slam "$SAFE"
     ;;
   *)
     echo "error: unknown command '$cmd'"

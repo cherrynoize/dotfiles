@@ -1,0 +1,116 @@
+/*****----- Global Properties -----*****/
+* {
+  /******------ appearance ------******/
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+
+  /********------- font -------********/
+  font:           "JetBrains Mono Nerd Font 10";
+
+  /********------ colors ------********/
+  bg:             #11092D;
+  bg-alt:         #1f1d2f;
+  fg:             #fcfcfc;
+  selected:       #bbc5d7;
+  active:         @selected;
+  urgent:         @bg-alt;
+  blue:           #6272a4;
+  purple:         #bd93f9;
+
+  /********------ images ------********/
+  img-width:      url("~/.config/rofi/images/space.jpg", width);
+  img-height:     url("~/.config/rofi/images/space.jpg", height);
+
+  /******------ properties ------******/
+  background-color: @bg;
+  text-color: @fg;
+}
+
+configuration {
+  font: "{font0} 10";
+
+  run {
+    display-name: "";
+  }
+
+  drun {
+    display-name: "󰲋";
+  }
+
+  window {
+    display-name: "";
+  }
+
+  windowcd {
+    display-name: "";
+  }
+
+  filebrowser {
+    display-name: "";
+  }
+
+  keys {
+    display-name: "";
+  }
+
+  ssh {
+    display-name: "󰢩";
+  }
+
+  combi {
+    display-name: "󰘗";
+  }
+
+  /*
+  dmenu {
+    display-name: "󰮫";
+  }
+  */
+}
+
+window {
+  transparency: "real";
+}
+
+mainbox {
+  children: [inputbar, listview];
+}
+
+inputbar {
+  background-color: @blue;
+  children: [prompt, entry];
+}
+
+entry {
+  background-color: inherit;
+  padding: 12px 3px;
+}
+
+prompt, textbox-prompt-colon {
+  background-color: inherit;
+  padding: 12px;
+}
+
+listview {
+  lines: 8;
+}
+
+element {
+  children: [element-icon, element-text];
+  text-color: @blue;
+}
+
+element-icon {
+  padding: 10px 10px;
+}
+
+element-text {
+  padding: 10px 0;
+  text-color: inherit;
+}
+
+element-text selected {
+  text-color: @purple;
+}

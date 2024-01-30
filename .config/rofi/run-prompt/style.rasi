@@ -1,0 +1,34 @@
+@import "~/.config/rofi/themes/saturn.rasi"
+@import "~/.config/rofi/bindings.rasi"
+
+/*****----- Global Properties -----*****/
+* {
+    font:                        "JetBrainsMono Nerd Font Bold 9";
+    background:                  #1A1B26;
+    background-alt:              #1A1B26E0;
+    foreground:                  #c0caf5;
+    selected:                    #7aa2f7;
+}
+
+configuration {
+    disable-history:            true;
+}
+
+/*****----- Main Window -----*****/
+window {
+    /* properties for window widget */
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       500px;
+    height:                      39%;
+    x-offset:                    0px;
+    y-offset:                    0px;
+
+    /* properties for all widgets */
+    enabled:                     true;
+    border-radius:               6px;
+    cursor:                      "default";
+    background-color:            @background;
+}

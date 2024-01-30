@@ -1,0 +1,25 @@
+#!/bin/bash
+status="$(airplane-mode status)"
+
+case "$status" in
+  on)
+    fg="#0f0f17"
+    bg="#bfc9db"
+    ;;
+  *)
+    fg="#bfc9db"
+    bg="transparent"
+    ;;
+esac
+
+case "$1" in
+  fg)
+    echo "$fg"
+    ;;
+  bg)
+    echo "$bg"
+    ;;
+  *)
+    airplane-mode "$@"
+    ;;
+esac
