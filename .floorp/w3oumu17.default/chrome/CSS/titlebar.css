@@ -4,13 +4,6 @@
     --firefoxcss-control-buttons-margin: 95px;
   }
 
-  /* Hide on Linux */
-  @media (-moz-platform: linux) {
-    .titlebar-buttonbox-container {
-      display: none !important;
-    }
-  }
-
   #navigator-toolbox:not([inFullscreen])
   #TabsToolbar
   .titlebar-buttonbox-container {
