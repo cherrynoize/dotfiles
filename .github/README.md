@@ -378,7 +378,7 @@ You can have a look at the [TODO](#-todo) and
 [known bugs](#-known-bugs) lists. Or open a PR/issue if you have
 found more.
 
-### [Buy me a coke](https://cherrynoize.github.io/#/contribute)
+#### [Buy me a coke](https://cherrynoize.github.io/#/contribute)
 
 ## 🙏 Thanks
 
