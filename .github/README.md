@@ -202,11 +202,7 @@ Optional (some are still needed for certain functionalities):
 ```
 pacman -S geoclue2
 yay -S wpgtk pywalfox expect playerctl
-```
-
-or
-
-```
+# or
 paru -S wpgtk pywalfox expect playerctl
 ```
 
