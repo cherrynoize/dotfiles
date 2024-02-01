@@ -131,7 +131,7 @@ for info about configuration.
 
 The repo also includes a large collection of shell scripts, some
 [collected around the internet](.local/bin), but [most of
-them](bin) actually mine. Being each few hundreds LOC tops,
+them actually mine](bin). Being each few hundreds LOC tops,
 they're not very large (`bin` sits at *492K* at the time of
 writing - Nov. 16 2023), and since they're heavily integrated
 into most of the config it made little sense leaving them out.
