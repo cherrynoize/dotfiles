@@ -375,7 +375,7 @@ If you feel like you have something to add please do.
 
 ## 💕 Sponsor
 
-[**Buy me a coke**](https://cherrynoize.github.io/#/contribute)
+[**Buy me a coke 💙**](https://cherrynoize.github.io/#/contribute)
 
 ## 🙏 Thanks
 
