@@ -384,7 +384,7 @@ found more.
 
 - [gh0stzk's dotfiles](https://github.com/gh0stzk/dotfiles) for
 inspiration as well as a lot of code stolen especially for the
-Rofi theme selector buttons
+Rofi theme selector
 - [wacca〇わっか](https://www.pixiv.net/en/users/46612726) for
-her amazing illustration collection
+her amazing collection
 ([meranii theme](.wallpaper-themes/meranii))
