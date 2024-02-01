@@ -95,7 +95,7 @@ place. To do this you can add something like:
 ```
 
 to your `~/.xinitrc`, `~/.xprofile` or whatever does the
-magic for you.
+trick for you.
 
 `~/.initrc` is the recommended location, as that would be the
 default install path once an installation script is completed.
