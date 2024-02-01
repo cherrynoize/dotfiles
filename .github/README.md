@@ -387,4 +387,4 @@ inspiration as well as a lot of code stolen especially for the
 Rofi theme selector
 - [wacca〇わっか](https://www.pixiv.net/en/users/46612726) for
 her amazing collection
-([meranii theme](.wallpaper-themes/meranii))
+([meranii theme](../.wallpaper-themes/meranii))
