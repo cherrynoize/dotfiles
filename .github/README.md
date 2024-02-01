@@ -217,7 +217,9 @@ shell aliases in `~/.config/fish/config.fish` and keyboard
 shortcuts in `.config/sxhkd/sxhkdrc`. Compiling an extensive
 shortcuts/commands help is in the [`TODO`](#todo) list.
 
-This is just some basic commands to get you started.
+<details>
+<summary>This is just some basic commands to get you
+started.</summary>
 
 #### Spawn terminal
 
@@ -274,6 +276,8 @@ This is just some basic commands to get you started.
 
     {Tab,Shift}+Tab  Move to next/previous entry
     Shift+{h,j,k,l}  Vi-like navigation
+
+</details>
 
 ### 📔 Tricks & tips
 
