@@ -352,15 +352,6 @@ unfuck everything
 This should help. If it doesn't, you'll have to find the issue
 and actually do something about it.
 
-## 🙏 Thanks
-
-- [gh0stzk's dotfiles](https://github.com/gh0stzk/dotfiles) for
-inspiration as well as a lot of code stolen especially for the
-Rofi theme selector buttons
-- [wacca〇わっか](https://www.pixiv.net/en/users/46612726) for
-her amazing illustration collection
-([meranii theme](.wallpaper-themes/meranii))
-
 ## 📋 TODO
 
 ### Install and configuration
@@ -380,3 +371,20 @@ her amazing illustration collection
 ### Wallpapers
 
 - Convert to a higher compression format
+
+## ✨ Contribute
+
+You can have a look at the [TODO](#todo) and
+[known bugs](#known-bugs) lists. Or open a PR/issue if you have
+found more.
+
+### [Buy me a coke](https://cherrynoize.github.io/contribute)
+
+## 🙏 Thanks
+
+- [gh0stzk's dotfiles](https://github.com/gh0stzk/dotfiles) for
+inspiration as well as a lot of code stolen especially for the
+Rofi theme selector buttons
+- [wacca〇わっか](https://www.pixiv.net/en/users/46612726) for
+her amazing illustration collection
+([meranii theme](.wallpaper-themes/meranii))
