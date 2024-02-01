@@ -58,8 +58,8 @@ mv -n dotfiles/* ~
 mv -n dotfiles/.* ~
 ```
 
-should generally work. Please note that I've added the `-n`
-no-clobber flag in `mv` commands, meaning existing files won't
+should generally work. Please note that the `-n`
+(no-clobber) flag in `mv` commands means that existing files won't
 be replaced and you should manually take care of that.
 
 You also need to run
