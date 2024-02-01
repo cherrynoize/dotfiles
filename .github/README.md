@@ -43,7 +43,7 @@ Not in the AUR* (or in the official repo) (optional):
 - [set-light](https://github.com/cherrynoize/set-light)
 - [n3lock](https://github.com/cherrynoize/n3lock)
 
-> *Do submit a PR or let me know if this is outdated.*
+> **Do submit a PR or let me know if this is outdated.*
 
 ## 🔧 Install
 
