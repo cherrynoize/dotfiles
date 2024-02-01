@@ -30,7 +30,7 @@
 bash
 ```
 
-Optional (only for some functionalities):
+Optional (for a few functionalities):
 
 ```
 geoclue2 # in the Arch official repos
