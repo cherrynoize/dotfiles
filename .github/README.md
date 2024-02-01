@@ -354,11 +354,22 @@ and actually do something about it.
 
 - Convert to a higher compression format
 
+### Themes
+
+- We're sort of missing a theme (as 11 is a bit of weird
+number). If you feel like it, you can submit a new one. Even
+the wallpapers alone (need at least 2 or 3 for both light and
+dark versions).
+
 ## ✨ Contribute
 
 You can have a look at the [TODO](#-todo) and
 [known bugs](#-known-bugs) lists. Or open a PR/issue if you have
 found more.
+
+If you feel like you have something to add please do.
+
+## 💕 Sponsor
 
 [**Buy me a coke**](https://cherrynoize.github.io/#/contribute)
 

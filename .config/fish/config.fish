@@ -87,7 +87,9 @@ if status is-interactive
   abbr --set-cursor im 'sudo -iu % fish' # run interactive shell as user
   abbr runas 'sudo -u' # run command as user
   abbr sudo 'sudo -v; sudo' # refresh sudo privileges
-  abbr l 'lsd'
+  abbr l 'lsd --group-directories-first'
+  abbr la 'lsd -a --group-directories-first'
+  abbr ll 'lsd -la --group-directories-first'
   abbr e 'echo'
   abbr d 'dirs'
   abbr cls 'clear'
@@ -145,6 +147,7 @@ if status is-interactive
   abbr paco 'pacman -Qo'
   abbr pacl 'pacman -Ql'
   abbr pace 'sudo pacman -D --asexplicit'
+  abbr pacd 'sudo pacman -D --asdeps'
   abbr pacu 'sudo pacman -Syu --noconfirm; yay -Syu --noconfirm'
   abbr --set-cursor yays 'yay -S % && yay -Sc --noconfirm'
   abbr --set-cursor yayr 'yay -Rs % && yay -Sc --noconfirm'
