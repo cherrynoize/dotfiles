@@ -18,7 +18,7 @@ super + alt + d
 
 # spotify
 super + alt + s
-    pgrep spotify && killall spotify || spotify-launcher
+    pgrep spotify && killall spotify || spotify
 
 # mail
 super + alt + m

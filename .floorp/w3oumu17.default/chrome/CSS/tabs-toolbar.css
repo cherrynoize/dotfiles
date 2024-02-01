@@ -321,11 +321,6 @@
         );
   }
 
-  #urlbar-container {
-    flex: auto !important;
-    min-width: 0px !important;
-  }
-
   @media screen and (max-width: 100px) {
     #TabsToolbar {
       margin-right: 0 !important;
