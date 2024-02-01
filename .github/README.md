@@ -381,3 +381,6 @@ Rofi theme selector
 - [wacca〇わっか](https://www.pixiv.net/en/users/46612726) for
 her amazing collection
 ([meranii theme](../.wallpaper-themes/meranii))
+- Also I've removed some watermarks from a few wallpapers just
+for aesthetic reasons, please don't get mad at me. I'll be glad
+to add a link to your original work if you reach out.
