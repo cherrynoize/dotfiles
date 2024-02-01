@@ -293,7 +293,7 @@ This is just some basic commands to get you started.
     {Tab,Shift}+Tab  Move to next/previous entry
     Shift+{h,j,k,l}  Vi-like navigation
 
-### ✨ Tricks & tips
+### 📔 Tricks & tips
 
 #### Auto-refresh sudo timeout
 
