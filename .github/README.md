@@ -138,19 +138,16 @@ into most of the config it made little sense leaving them out.
 
 ## $ Shell
 
-Active development is currently only on `fish`. Config for other
-shells such as `bash` or `zsh` is currently unmantained. They have
-had previous support though and I occasionally work on `bash`
-(whereas `zsh` is just some stolen configs), so the config files
-are still there. (Not to mention `bash` is actually my current
-login shell, `fish` gets launched from there.)
+Active development is currently only on `fish`. `bash` is
+currently my login shell, so the `.bashrc` is maintained but in
+a basic sense.
 
 ## 🎨 Themes
 
 Themes are currently in alpha so please be nice. I'm setting up
-themes for all sorts of things though - it just takes some time.
+themes for everything - just be patient.
 
-To change themes:
+To switch between themes:
 
 ```
 switch-theme [thing-to-change-theme-for] [new-theme]
@@ -162,10 +159,10 @@ List items that have themes:
 switch-theme -l
 ```
 
-And finally list available themes for given item:
+And list themes available for given item (or context):
 
 ```
-switch-theme [item] -l
+switch-theme [context] -l
 ```
 
 ### Global themes
