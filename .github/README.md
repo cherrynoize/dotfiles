@@ -24,6 +24,27 @@
 
 ##### *One commit at a time.
 
+## 🧱 Dependencies
+
+```
+bash
+```
+
+Optional (only for some functionalities):
+
+```
+geoclue2 # in the Arch official repos
+wpgtk pywalfox expect playerctl # AUR
+country-converter # Python (pipx install)
+```
+
+Not in the AUR* (or in the official repo) (optional):
+
+- [set-light](https://github.com/cherrynoize/set-light)
+- [n3lock](https://github.com/cherrynoize/n3lock)
+
+> *Do submit a PR or let me know if this is outdated.*
+
 ## 🔧 Install
 
 I'm working on a setup script. You can just clone
@@ -188,36 +209,6 @@ created or removed manually.
 ![screenshot](images/dash1.png)
 
 </details>
-
-## 🧱 Dependencies
-
-Official repo:
-
-```
-pacman -S bash
-```
-
-Optional (some are still needed for certain functionalities):
-
-```
-pacman -S geoclue2
-yay -S wpgtk pywalfox expect playerctl
-# or
-paru -S wpgtk pywalfox expect playerctl
-```
-
-`python` packages (optional):
-
-```
-pipx install country-converter
-```
-
-Not in the AUR* (nor in the official repo) (optional):
-
-- [set-light](https://github.com/cherrynoize/set-light)
-- [n3lock](https://github.com/cherrynoize/n3lock)
-
-> *Do submit a PR or let me know if this is outdated.*
 
 ## 🛠 Usage
 
