@@ -388,3 +388,7 @@ her amazing collection
 - Also I've removed some watermarks from a few wallpapers just
 for aesthetic reasons, please don't get mad at me. I'll be glad
 to add a link to your original work if you reach out.
+
+## And thanks to you for using my dotfiles
+
+*If you like them please consider giving us a star. Bye!*
