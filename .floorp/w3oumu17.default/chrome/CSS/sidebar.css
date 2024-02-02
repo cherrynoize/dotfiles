@@ -1,0 +1,147 @@
+@-moz-document url(chrome://browser/content/browser.xhtml) {
+  /* Properly center the main browser */
+  #sidebar-box {
+    margin-right: 6px;
+  }
+
+  #sidebar2-box {
+    margin-left: -12px;
+  }
+
+  #sidebar-splitter2 {
+    margin: var(--useless-gaps) 12px;
+    opacity: 0; /* Hide the splitter */
+  }
+
+  /*---------------ff-sidebar---------------*/
+
+  /* Expand sidebar on hover */
+  #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
+    position: relative;
+    min-width: var(--sidebar-width) !important;
+    width: var(--sidebar-width) !important;
+    max-width: var(--sidebar-width) !important;
+    z-index: 1;
+  }
+
+  #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] >
+  #sidebar {
+    transition: min-width .2s ease-in-out !important;
+    min-width: var(--sidebar-width) !important;
+    will-change: min-width;
+    transition-delay: .3s !important;  /* Delay on hover off */
+  }
+
+  #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:hover >
+  #sidebar {
+    min-width: var(--sidebar-hover-width) !important;
+    transition-delay: .1s !important;  /* No delay on hover on */
+  }
+
+  #sidebar-box {
+    opacity: .9;
+  }
+
+  /* Hide sidebar header and line */
+  #sidebar-header,
+  #sidebar-splitter {
+    display: none !important;
+  }
+
+  /*----------------floorp sidebar-----------------*/
+
+  /* Box for selecting sidebars */
+  #sidebar-select-box {
+	  z-index: 0;
+	  position: relative;
+    align-items: center !important;
+    margin: var(--useless-gaps)
+            calc(var(--useless-gaps) - 5px)
+            var(--useless-gaps)
+            var(--useless-gaps) !important;
+    background-color: transparent !important;
+    border: var(--win-brdr-size)
+            var(--win-brdr-style)
+            var(--win-brdr-color) !important;
+    border-radius: var(--win-brdr-radius) !important;
+    box-shadow: var(--win-box-shadow);
+    transition: border-color var(--win-brdr-transition);
+  }
+
+  #sidebar-select-box:hover {
+    border-color: var(--win-brdr-color-hover) !important;
+    box-shadow: var(--win-box-shadow-hover);
+  }
+
+  /* Actual Floorp sidebar window */
+  .browser-sidebar2 {
+	  border: none !important;
+	  border-bottom: none !important;
+  }
+
+  /* Transition when not hovered */
+  #sidebar2-box {
+    transition: width .3s ease-in-out;
+  }
+
+  /* Hide Floorp sidebar when not hovered (buggy) */
+  *:hover ~ #sidebar2-box,
+  #browser:not(:hover) #sidebar2-box,
+  #sidebar2-box:not(:hover):has(~ #appcontent:hover) {
+    width: 20% !important;
+  }
+
+  /* Hide Floorp sidebar header */
+  #sidebar2-header {
+    max-height: .5em !important;
+    min-height: .5em !important;
+    opacity: 0 !important;
+    transition: max-height .3s ease-in-out,
+                min-height .3s ease-in-out,
+                opacity .3s ease-in-out;
+  }
+
+  #sidebar2-header:hover {
+    max-height: 2.5em !important;
+    min-height: 2.5em !important;
+    opacity: 1 !important;
+  }
+
+  /* Sidebar border */
+  #sidebar-box #sidebar,
+  #sidebar-box #webextpanels-window,
+  #sidebar2-box browser {
+    margin: var(--useless-gaps)
+            var(--useless-gaps)
+            var(--useless-gaps)
+            5px;
+    border: var(--win-brdr-size)
+            var(--win-brdr-style)
+            var(--win-brdr-color) !important;
+    border-radius: var(--win-brdr-radius);
+    box-shadow: var(--win-box-shadow);
+    transition: border-color .3s;
+  }
+
+  #sidebar2-box browser {
+    margin-top: 5px;
+  }
+
+  /* Hide box shadow when closed (not working for some reason) */
+  /*
+  #sidebar2-box[max-width="0px"] browser {
+    display: none;
+  }
+  */
+
+  #sidebar2-box browser:hover,
+  #sidebar-box #sidebar:hover,
+  #sidebar-box #webextpanels-window:hover {
+    border-color: var(--win-brdr-color-hover);
+    box-shadow: var(--win-box-shadow-hover);
+  }
+
+  .sidepanel-icon {
+    border-radius: 10px !important;
+  }
+}
