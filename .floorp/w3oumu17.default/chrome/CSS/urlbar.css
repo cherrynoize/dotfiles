@@ -13,10 +13,10 @@
 
   #urlbar {
     z-index: 9999 !important;
-    width: 100% !important;
     margin-top: 0 !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
+    width: 100% !important;
     transition: width .3s, left .3s, margin .3s;
   }
 
@@ -27,6 +27,11 @@
     margin-top: 30vh !important;
     margin-left: auto !important;
     margin-right: auto !important;
+  }
+
+  /* Align vertically when not focused */
+  #urlbar:not([breakout-extend]) {
+    top: unset !important;
   }
 
   #urlbar:not([focused]):not([breakout][breakout-extend])
@@ -62,69 +67,69 @@
     --urlbar-icon-border-radius: calc(var(--toolbarbutton-border-radius)-1px);
   }
 
-  /* Collapse and show on hover icons in URL bar */
+  /* Only show on hover icons in URL bar */
   #nav-bar:not([customizing="true"]):not(.searchButton)
-  > #nav-bar-customization-target
-  > #urlbar-container:not(:hover)
-  > #urlbar:not([focused])
-  > #urlbar-input-container
-  > #page-action-buttons
+  #urlbar-container:not(:hover) >
+  #urlbar:not([focused])
   .urlbar-page-action,
   #nav-bar:not([customizing="true"]):not(.searchButton)
-  > #nav-bar-customization-target
-  > #urlbar-container:not(:hover)
-  > #urlbar:not([focused])
-  > #urlbar-input-container
-  > #identity-box
-  > #identity-permission-box:not([open]) {
+  #urlbar-container:not(:hover) >
+  #urlbar:not([focused])
+  #identity-permission-box:not([open]) {
     opacity: 0;
     transition-delay: .5s;
   }
 
-  #tracking-protection-icon-container,
+  #tracking-protection-icon-box,
   #page-action-buttons .urlbar-page-action,
   #identity-permission-box,
   #notification-popup-box .notification-anchor-icon {
     transition: opacity .2s;
   }
 
-  #identity-box:hover #urlbar #tracking-protection-icon-container,
+  #tracking-protection-icon-container:hover #urlbar #tracking-protection-icon-box,
   #identity-box:hover #urlbar #identity-icon-box,
   #identity-box:hover #urlbar #identity-permission-box {
     opacity: 0;
   }
 
-  #urlbar-container:not(:hover) #tracking-protection-icon-container,
-  #urlbar #identity-icon-box,
-  #urlbar #identity-permission-box {
-    margin-inline-start: calc(-36px + 2 * var(--urlbar-icon-padding));
+  #tracking-protection-icon-container:not(:hover) #tracking-protection-icon-box,
+  #identity-icon-box,
+  #identity-permission-box {
+    margin-inline-start: calc(-16px - 2 * var(--urlbar-icon-padding));
     transition: margin-inline-start .1s linear, opacity .2s linear;
   }
 
-  #urlbar #identity-box.notSecureText #identity-icon-box {
-    margin-inline-start: initial !important;
-    color: #e36f6f !important;
-  }
-
-  #urlbar #identity-box.extensionPage #identity-icon-box {
-    margin-inline-start: initial !important;
-  }
-
+  #tracking-protection-icon-container:hover #tracking-protection-icon-box,
+  #tracking-protection-icon-container:hover ~ #identity-box #identity-icon-box,
+  #tracking-protection-icon-container:hover ~ #identity-box #identity-permission-box,
+  #identity-box:is(.notSecureText, .extensionPage) #identity-icon-box,
   #identity-box:hover #identity-icon-box,
   #identity-box:hover #identity-permission-box,
   #identity-box #identity-permission-box[open="true"] {
     margin-inline-start: initial !important;
   }
 
+  #tracking-protection-icon-container:not(:hover) ~
+  #identity-box:not(:hover) {
+    visibility: collapse;
+    opacity: 0;
+  }
+
+  #identity-box #identity-icon-box {
+    color: #e36f6f !important;
+  }
+
   #urlbar-input-container .urlbar-input-box {
     padding-inline-start: 2px !important;
   }
 
+  #tracking-protection-icon-container:hover ~ .urlbar-input-box > #urlbar-input,
   #identity-box:hover ~ .urlbar-input-box > #urlbar-input {
     mask-image: linear-gradient(
         to right,
         transparent,
-        #000 3ch) !important;
+        #00000095 3ch) !important;
   }
 
   #page-action-buttons {

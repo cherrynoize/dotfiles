@@ -1,0 +1,119 @@
+@-moz-document url(chrome://browser/content/browser.xhtml) {
+  /* Remove line between top bar and website content */
+  #navigator-toolbox {
+    border-bottom: var(--firefoxcss-top-bar-border-bottom-size) solid var(--firefoxcss-top-bar-border-bottom-color) !important;
+    background: none !important;
+  }
+
+  /* Instantly hide the top toolbar in fullscreen mode */
+  /* (override transition) */
+  #navigator-toolbox[inFullscreen]
+  #TabsToolbar {
+    display: none !important;
+  }
+
+  toolbar .toolbarbutton-1 > .toolbarbutton-icon {
+    background: none !important;
+  }
+
+  toolbar .toolbarbutton-1 > .toolbarbutton-text {
+    padding: .08em .15em !important;
+  }
+
+  /* Auto hide icons on the nav bar */
+  #nav-bar-customization-target
+  *:not(#urlbar-container):not(#urlbar-container *),
+  #PanelUI-button,
+  .titlebar-buttonbox-container {
+    transition: opacity .4s !important;
+  }
+
+  #nav-bar:not(:hover) >
+  #nav-bar-customization-target
+  *:not(#urlbar-container):not(#urlbar-container *),
+  #nav-bar:not(:hover) >
+  #PanelUI-button,
+  #navigator-toolbox:not(:hover)
+  .titlebar-buttonbox-container {
+    opacity: 0 !important;
+  }
+
+  /* Remove the all tab and new tab button */
+  #alltabs-button,
+  #tabs-newtab-button {
+    display: none !important;
+  }
+
+  /* Nav bar */
+  #nav-bar {
+    margin-top: calc(
+        var(--TabsHeight) * -1px - var(--TabsBorder) * 1px
+        ) !important;
+    margin-left: 80px !important;
+    height: calc(
+        (var(--TabsHeight) * 1px + var(--TabsBorder) * 1px) + 0px
+        );
+    box-shadow: none !important;
+  }
+
+  @media screen and (max-width: 100px) {
+    #TabsToolbar {
+      margin-right: 0 !important;
+    }
+
+    #nav-bar {
+      margin-left: 0 !important;
+    }
+  }
+
+  /* Fix for Firefox 123 */
+  #nav-bar:not([tabs-hidden="true"]) {
+    position: static !important;
+  }
+
+  #nav-bar-customization-target,
+  #PanelUI-button {
+    position: relative !important;
+    z-index: 3 !important;
+  }
+
+  /* Make active tab hidden */
+  tab:not([selected="true"]), 
+  [part="overflow-start-indicator"], 
+  [part="overflow-end-indicator"], 
+  #scrollbutton-up, 
+  #scrollbutton-down, 
+  #TabsToolbar .titlebar-spacer, 
+  .tabbrowser-tab[selected="true"] .tab-text, 
+  .tabbrowser-tab[selected="true"] .tab-close-button, 
+  .tab-line, 
+  .tab-throbber {
+    display: none !important;
+  }
+
+  .tabbrowser-tab[selected="true"] {
+    min-width: 37px !important;
+    max-width: 37px !important;
+  }
+
+  tab, 
+  .tabbrowser-tab {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  .tabbrowser-tab {
+    margin: -5px;
+  }
+
+  .tab-background {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .tab-icon-image { 
+    height: 23px !important; 
+    width: 23px !important; 
+    border-radius: 10px !important;
+  }
+}

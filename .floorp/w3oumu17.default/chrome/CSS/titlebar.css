@@ -1,7 +1,14 @@
 @-moz-document url(chrome://browser/content/browser.xhtml) {
   :root {
-    /* Titlebar buttons */
-    --firefoxcss-control-buttons-margin: 95px;
+    /* Make room for titlebar buttons */
+    --firefoxcss-control-buttons-margin: 75px;
+  }
+
+  /* Titlebar not hidden */
+  :root:is([chromemargin], [tabsintitlebar])
+  #navigator-toolbox #nav-bar {
+    /* Apply titlebar buttons margin */
+    padding-right: var(--firefoxcss-control-buttons-margin) !important;
   }
 
   #navigator-toolbox:not([inFullscreen])
@@ -21,11 +28,8 @@
 
   #navigator-toolbox[inFullscreen]
   #TabsToolbar .titlebar-buttonbox-container {
-	  padding-top: 4px !important;
-	  padding-bottom: 4px !important;
-	  padding-right: 8px !important;
-	  padding-left: 4px !important;
 	  margin: 0 !important;
+	  padding: 4px 8px 4px 4px !important;
 	  align-items: center !important;
   }
 
@@ -40,5 +44,268 @@
   :is(.titlebar-buttonbox)
   > toolbarbutton:not(:hover) {
     opacity: .65 !important;
+  }
+
+  :is(.titlebar-buttonbox) .toolbarbutton-icon {
+    opacity: 1 !important;
+    appearance: none !important;
+  }
+
+  #TabsToolbar .titlebar-button > .toolbarbutton-icon {
+    width: 14px !important;
+    min-width: 14px !important;
+    min-height: 14px !important;
+    height: 14px !important;
+    stroke: none !important;
+  }
+
+  #TabsToolbar .titlebar-buttonbox {
+    margin: 5px 2px !important;
+  }
+
+  #TabsToolbar .titlebar-button {
+    background-color: transparent !important;
+    appearance: none !important;
+    padding: 0px !important;
+    margin: 0 !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+
+  #TabsToolbar .titlebar-close {
+    appearance: none !important;
+    -moz-box-ordinal-group: 2 !important;
+	  order:2 !important;
+  }
+
+  #TabsToolbar .titlebar-min {
+    appearance: none !important;
+    -moz-box-ordinal-group: 0 !important;
+	  order:0 !important;
+  }
+
+  #TabsToolbar .titlebar-max,
+  #TabsToolbar .titlebar-restore {
+    appearance: none !important;
+    -moz-box-ordinal-group: 1 !important;
+	  order:1!important;
+  }
+
+  #TabsToolbar
+  .titlebar-buttonbox-container:not(:hover)
+  .titlebar-buttonbox
+  .titlebar-button {
+    background-color: hsla(0, 0%, 65%, 1)  !important;
+    transition: background-color .4s ease .4s  !important;
+  }
+
+  #TabsToolbar
+  .titlebar-buttonbox-container
+  .titlebar-button >
+  .toolbarbutton-icon {
+    list-style-image: none  !important;
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+
+  #TabsToolbar
+  .titlebar-buttonbox-container
+  .titlebar-buttonbox
+  .titlebar-button {
+    position: relative !important;
+    margin-left: 8px !important;
+    border-radius: 50% !important;
+  }
+
+  #TabsToolbar
+  .titlebar-buttonbox-container
+  .titlebar-min {
+    background-color: #fac536 !important;
+	  overflow: hidden !important;
+    transition: background-color .2s ease !important;
+  }
+
+  #TabsToolbar
+  .titlebar-buttonbox-container
+  .titlebar-min::before {
+	  content: '';
+	  position: absolute;
+	  top: 100%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	  width: 70%;
+	  height: 2px;
+	  opacity: 0;
+	  background: rgba(0, 0, 0, .6);
+    border-radius: 2px;
+	  transition: .2s;
+  }
+
+  #TabsToolbar
+  .titlebar-buttonbox-container
+  .titlebar-min:hover::before {
+	  opacity: 1;
+	  top: 50%;
+  }
+
+  #TabsToolbar
+  .titlebar-buttonbox-container
+  .titlebar-max,
+  #TabsToolbar
+  .titlebar-buttonbox-container
+  .titlebar-restore {
+	  background: #39ea49 !important;
+	  overflow: hidden !important;
+    transition: background-color .2s ease !important;
+  }
+
+  #TabsToolbar
+  .titlebar-buttonbox-container
+  .titlebar-max::before {
+	  content: '';
+	  position: absolute;
+	  top: 100%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	  width: 55%;
+	  height: 55%;
+	  opacity: 0;
+	  background: rgba(0, 0, 0, .6);
+    border-radius: 2px;
+	  transition: .2s;
+  }
+  #TabsToolbar .titlebar-buttonbox-container .titlebar-max::after{
+	  content: '';
+	  position: absolute;
+	  top: 100%;
+	  left: 50%;
+	  transform: translate(-50%, -50%) rotate(-45deg);
+	  width: 3px;
+	  height: 80%;
+	  opacity: 0;
+	  background: #39ea49;
+	  transition: .2s;
+  }
+  #TabsToolbar .titlebar-buttonbox-container .titlebar-max:hover::before, 
+  #TabsToolbar .titlebar-buttonbox-container .titlebar-max:hover::after{
+	  opacity: 1;
+	  top: 50%;
+  }
+  #TabsToolbar .titlebar-buttonbox-container .titlebar-close{
+	  background: #f25056 !important;
+	  overflow: hidden !important;
+    transition: background-color .2s ease !important;
+  }
+  #TabsToolbar .titlebar-buttonbox-container .titlebar-close::before{
+	  content: '';
+	  position: absolute;
+	  top: 100%;
+	  left: 50%;
+	  transform: translate(-50%, -50%) rotate(-45deg);
+	  width: 2px;
+	  height: 9px;
+	  opacity: 0;
+	  background: rgba(0, 0, 0, .65);
+    border-radius: 1px;
+	  transition: .2s;
+  }
+
+  #TabsToolbar .titlebar-buttonbox-container .titlebar-close::after{
+	  content: '';
+	  position: absolute;
+	  top: 100%;
+	  left: 50%;
+	  transform: translate(-50%, -50%) rotate(45deg);
+	  width: 2px;
+	  height: 9px;
+    opacity: 0;
+	  background: rgba(0, 0, 0, .65);
+    border-radius: 1px;
+	  transition: .2s;
+  }
+
+  #TabsToolbar
+  .titlebar-buttonbox-container
+  .titlebar-close:hover::before, 
+  #TabsToolbar
+  .titlebar-buttonbox-container
+  .titlebar-close:hover::after {
+	  opacity: 1;
+	  top: 50%;
+  }
+
+  #TabsToolbar
+  .titlebar-buttonbox-container
+  .titlebar-restore:before {
+	  content: '';
+	  position: absolute;
+	  top: 100%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	  width: 8px;
+	  height: 8px;
+	  opacity: 0;
+	  background: rgba(0, 0, 0, .65);
+    border-radius: 2px;
+	  transition:.2s;
+  }
+
+  #TabsToolbar
+  .titlebar-buttonbox-container
+  .titlebar-restore:after {
+	  content: '';
+	  position: absolute;
+	  top: 100%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	  width: 4px;
+	  height: 4px;
+	  opacity: 0;
+	  background: #39ea49;
+    border-radius: 0px;
+	  transition: .2s;
+  }
+
+  #TabsToolbar
+  .titlebar-buttonbox-container
+  .titlebar-restore:hover::before, 
+  #TabsToolbar
+  .titlebar-buttonbox-container
+  .titlebar-restore:hover::after {
+	  opacity: 1;
+	  top: 50%;
+  }
+
+  #navigator-toolbox
+  #TabsToolbar
+  .titlebar-buttonbox-container {
+    -moz-box-ordinal-group: 1 !important;
+  }
+
+  #navigator-toolbox[inFullscreen]
+  #navigator-toolbox
+  #TabsToolbar
+  .titlebar-buttonbox-container {
+    -moz-box-ordinal-group: 1 !important;
+  }
+
+  @media only screen and (max-width: 370px) {
+    #main-window
+    #navigator-toolbox:not([inFullscreen])
+    #TabsToolbar
+    .titlebar-buttonbox-container {
+      visibility: visible !important;
+		  position: relative !important;
+		  padding-top: 4px !important;
+		  padding-bottom: 2px !important;
+		  padding-right: 8px  !important;
+		  padding-left: 2px !important; 
+    }
+
+    #main-window
+    #navigator-toolbox:not([inFullscreen])
+    #nav-bar {
+      padding-right: initial !important;
+    }
   }
 }
