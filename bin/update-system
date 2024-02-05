@@ -12,3 +12,5 @@ echo
 
 echo "Updating packages from aur..."
 yay -Syu --noconfirm || exit 3
+
+arkenfox-update

@@ -20,6 +20,11 @@
     padding: .08em .15em !important;
   }
 
+  toolbar #workspaces-toolbar-button {
+    padding: 0px 15px 0 11px !important;
+    border-radius: var(--btn-brdr-radius) !important;
+  }
+
   /* Auto hide icons on the nav bar */
   #nav-bar-customization-target
   *:not(#urlbar-container):not(#urlbar-container *),
@@ -49,7 +54,7 @@
     margin-top: calc(
         var(--TabsHeight) * -1px - var(--TabsBorder) * 1px
         ) !important;
-    margin-left: 80px !important;
+    margin-left: var(--toolbar-left-margin) !important;
     height: calc(
         (var(--TabsHeight) * 1px + var(--TabsBorder) * 1px) + 0px
         );

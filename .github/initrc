@@ -35,8 +35,16 @@ export ETH="$(ls /sys/class/net | grep -m 1 et)"
 #done
 #)&
 
+# Default Firefox profile and profile directory
+# (for change-wallpaper and arkenfox-update)
+#export FF_DEFAULT_PROFILE="$HOME/.mozilla/firefox/abcd1234.default"
+#export FF_DEFAULT_PROFILE="wxyz9876.worksthesame"
+#export FF_PROFILE_DIR="$HOME/.mozilla/firefox"
+
+# Start the bar
 switch-bar launch &
 
+# Set wallpaper
 (
 sleep 1
 #. ~/.config/wpg/wp_init.sh & # Restore wallpaper and wpgtk theme

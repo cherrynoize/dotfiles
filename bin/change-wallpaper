@@ -12,8 +12,21 @@ wallpaper_dir=".wallpaper-themes/current/wallpaper"
 # location for link to current wallpaper
 wall_link="$HOME/.current-wallpaper"
 
-# link to ff wallpaper
-[ -n "$FF_DEFAULT_PROFILE" ] && ff_wall_link="$HOME/.mozilla/firefox/$FF_DEFAULT_PROFILE/chrome/images/wallpaper"
+# default firefox profile
+ff_profile="$FF_DEFAULT_PROFILE"
+
+# set link to ff wallpaper
+if [ -n "$ff_profile" ]; then
+  if [ ! -d "$ff_profile" ]; then
+    ff_profile="${FF_PROFILE_DIR:-"$HOME/.mozilla/firefox"}/$FF_DEFAULT_PROFILE"
+  fi
+
+  if [ ! -d "$ff_profile" ]; then
+    echo "error: Firefox profile '$FF_DEFAULT_PROFILE' not found"
+  else
+    ff_wall_link="$ff_profile/chrome/images/wallpaper"
+  fi
+fi
 
 # current wallpaper name
 current_wall="$(wpg -c)"

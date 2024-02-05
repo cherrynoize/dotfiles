@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# update arkenfox config
+# https://github.com/arkenfox/user.js
+
+profile="${1:-"$FF_DEFAULT_PROFILE"}"
+profile_dir="${FF_PROFILE_DIR:-"$HOME/.mozilla/firefox/"}"
+
+check_is_executable () {
+  if [ ! -x "$1" ]; then
+    echo "${2:-"error"}: no valid $1 found in profile '$profile'"
+    if [ -e "$1" ]; then
+      echo "try running 'chmod +x $1'"
+    fi
+    return 1
+  fi
+}
+
+update_profile () {
+  profile="$1"
+  if [ ! -d "$profile" ]; then
+    echo "error: profile '$profile' not found"
+    return 1
+  fi
+  pushd "$profile" > /dev/null || {
+    echo "error: failed to enter profile '$profile'"
+    return 1
+  }
+
+  if [ ! -f "user.js" ]; then
+    echo "error: user.js not found in profile '$profile'"
+    return 1
+  fi
+
+  check_is_executable "updater.sh" || return 1
+  ./updater.sh
+  check_is_executable "prefsCleaner.sh" warning
+}
+
+update_all_profiles () {
+  for profile in *; do
+    update_profile "$profile"
+  done
+}
+
+pushd "$profile_dir" > /dev/null || {
+  echo "error: failed to enter profile directory '$profile_dir'"
+  exit 1
+}
+
+if [ ! -e "$profile_dir" ]; then
+  echo "error: profile directory '$profile_dir' not found"
+  exit 1
+fi
+
+update_profile "$profile"
+if [ -z "$1" ]; then
+  update_all_profiles
+fi

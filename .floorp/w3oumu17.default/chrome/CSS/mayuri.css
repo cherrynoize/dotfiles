@@ -1,5 +1,8 @@
 @-moz-document url(chrome://browser/content/browser.xhtml) {
   :root {
+    /* General style */
+    --btn-brdr-radius: 6px;
+
     /* Gaps around windows */
     --useless-gaps: 15px;
 
@@ -9,6 +12,9 @@
     --win-brdr-color: transparent;
     --win-brdr-radius: 15px;
     --win-brdr-transition: .3s;
+
+    /* Toolbar */
+    --toolbar-left-margin: 40px;
 
     /* URL bar */
     --urlbar-brdr-radius: .8; /* 0 (square) to 1 (round) */
