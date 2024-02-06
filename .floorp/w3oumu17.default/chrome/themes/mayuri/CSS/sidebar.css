@@ -1,44 +1,34 @@
 @-moz-document url(chrome://browser/content/browser.xhtml) {
-  /* Properly center the main browser */
-  #sidebar-box {
-    margin-right: 6px;
-  }
-
-  #sidebar2-box {
-    margin-left: -12px;
-  }
-
-  #sidebar-splitter2 {
-    margin: var(--useless-gaps) 12px;
-    opacity: 0; /* Hide the splitter */
-  }
-
-  /*---------------ff-sidebar---------------*/
+  /*---------------ff sidebar---------------*/
 
   /* Expand sidebar on hover */
   #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
+    z-index: 1;
     position: relative;
     min-width: var(--sidebar-width) !important;
     width: var(--sidebar-width) !important;
-    max-width: var(--sidebar-width) !important;
-    z-index: 1;
+    transition: border-color var(--win-brdr-transition);
+  }
+
+  :root[inFullscreen] #sidebar-box {
+    --sidebar-width: 2em !important;
   }
 
   #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] >
   #sidebar {
-    transition: min-width .2s ease-in-out !important;
     min-width: var(--sidebar-width) !important;
     will-change: min-width;
-    transition-delay: .3s !important;  /* Delay on hover off */
+    transition: min-width .2s ease-in-out !important;
+    transition-delay: .3s !important;
   }
 
   #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:hover >
   #sidebar {
     min-width: var(--sidebar-hover-width) !important;
-    transition-delay: .1s !important;  /* No delay on hover on */
+    transition-delay: .1s !important;
   }
 
-  #sidebar-box {
+  :root:not([inFullscreen]) #sidebar-box {
     opacity: .9;
   }
 
@@ -55,33 +45,13 @@
 	  z-index: 0;
 	  position: relative;
     align-items: center !important;
-    margin: var(--useless-gaps)
-            calc(var(--useless-gaps) - 5px)
-            var(--useless-gaps)
-            var(--useless-gaps) !important;
     background-color: transparent !important;
-    border: var(--win-brdr-size)
-            var(--win-brdr-style)
-            var(--win-brdr-color) !important;
-    border-radius: var(--win-brdr-radius) !important;
-    box-shadow: var(--win-box-shadow);
-    transition: border-color var(--win-brdr-transition);
-  }
-
-  #sidebar-select-box:hover {
-    border-color: var(--win-brdr-color-hover) !important;
-    box-shadow: var(--win-box-shadow-hover);
   }
 
   /* Actual Floorp sidebar window */
   .browser-sidebar2 {
 	  border: none !important;
 	  border-bottom: none !important;
-  }
-
-  /* Transition when not hovered */
-  #sidebar2-box {
-    transition: width .3s ease-in-out;
   }
 
   /* Hide Floorp sidebar when not hovered (buggy) */
@@ -107,37 +77,41 @@
     opacity: 1 !important;
   }
 
-  /* Sidebar border */
+  #sidebar2-box {
+    margin-left: var(--useless-gaps);
+    margin-right: calc(-1 * var(--useless-gaps));
+    transition: border-color var(--win-brdr-transition),
+                width .3s ease-in-out;
+  }
+
+  /*-----------sidebar border-------------*/
+
+  #sidebar-select-box,
+  :root:not([inFullscreen])
   #sidebar-box #sidebar,
   #sidebar-box #webextpanels-window,
-  #sidebar2-box browser {
-    margin: var(--useless-gaps)
-            var(--useless-gaps)
-            var(--useless-gaps)
-            5px;
+  :root:not([inFullscreen])
+  #sidebar2-box {
     border: var(--win-brdr-size)
             var(--win-brdr-style)
             var(--win-brdr-color) !important;
     border-radius: var(--win-brdr-radius);
     box-shadow: var(--win-box-shadow);
-    transition: border-color .3s;
   }
 
-  #sidebar2-box browser {
-    margin-top: 5px;
+  #sidebar-select-box,
+  #sidebar-box #sidebar,
+  #sidebar-box #webextpanels-window {
+    transition: border-color var(--win-brdr-transition);
   }
 
-  /* Hide box shadow when closed (not working for some reason) */
-  /*
-  #sidebar2-box[max-width="0px"] browser {
-    display: none;
-  }
-  */
-
-  #sidebar2-box browser:hover,
+  #sidebar-select-box:hover,
+  :root:not([inFullscreen])
   #sidebar-box #sidebar:hover,
-  #sidebar-box #webextpanels-window:hover {
-    border-color: var(--win-brdr-color-hover);
+  #sidebar-box #webextpanels-window:hover,
+  :root:not([inFullscreen])
+  #sidebar2-box:hover {
+    border-color: var(--win-brdr-color-hover) !important;
     box-shadow: var(--win-box-shadow-hover);
   }
 

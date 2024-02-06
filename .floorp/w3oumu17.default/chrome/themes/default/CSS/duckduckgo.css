@@ -1,0 +1,12 @@
+@-moz-document domain("duckduckgo.com") {
+  .header--aside__item.showcase.header__label,
+  .feedback-prompt__link,
+  .feedback-btn {
+    display: none !important;
+  }
+
+  /* Fix buggy font size in hamburger menu header */
+  .nav-menu__heading span {
+    font-size: .75rem !important;
+  }
+}

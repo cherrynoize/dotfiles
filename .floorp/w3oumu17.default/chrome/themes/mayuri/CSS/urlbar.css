@@ -1,13 +1,9 @@
 @-moz-document url(chrome://browser/content/browser.xhtml) {
-  #nav-bar {
-    display: flex;
-    justify-content: center;
-  }
-
   #urlbar-container {
     flex: auto;
     min-width: 0;
     max-width: 1000px;
+    min-height: unset !important;
     margin: auto !important;
   }
 
@@ -21,12 +17,12 @@
   }
 
   #urlbar[breakout][breakout-extend] {
-    opacity: .97 !important;
     left: 0;
     right: 0;
     margin-top: 30vh !important;
     margin-left: auto !important;
     margin-right: auto !important;
+    opacity: .97 !important;
   }
 
   /* Align vertically when not focused */
@@ -111,13 +107,23 @@
   }
 
   #tracking-protection-icon-container:not(:hover) ~
-  #identity-box:not(:hover) {
+  #identity-box:not(:hover) #identity-icon-box:not(:hover),
+  #tracking-protection-icon-container:not(:hover) ~
+  #identity-box:not(:hover) #identity-permission-box:not(:hover) {
     visibility: collapse;
     opacity: 0;
   }
 
-  #identity-box #identity-icon-box {
-    color: #e36f6f !important;
+  #tracking-protection-icon-container:hover #tracking-protection-icon-box {
+    color: var(--link-color) !important;
+  }
+
+  #identity-box #identity-icon-box:hover {
+    color: var(--link-color-hover) !important;
+  }
+
+  #page-action-buttons #star-button-box:hover {
+    color: var(--primary-color) !important;
   }
 
   #urlbar-input-container .urlbar-input-box {

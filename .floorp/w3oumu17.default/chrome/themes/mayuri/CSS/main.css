@@ -13,6 +13,10 @@
     --win-brdr-radius: 15px;
     --win-brdr-transition: .3s;
 
+    /* Titlebar */
+    --tab-favicon-size: 37px;
+    --tab-min-width: var(--tab-favicon-size) !important;
+
     /* Toolbar */
     --toolbar-left-margin: 40px;
 
@@ -45,17 +49,32 @@
 
   /*---------------root window----------------*/
 
-  #navigator-toolbox-background,
-  #browser {
+  #browser,
+  #sidebar-select-box,
+  #navigator-toolbox-background {
     background-color: var(--bg-color) !important;
+  }
+
+  /*-------------browser section---------------*/
+
+  #main-window:not([sizemode="fullscreen"])
+  #browser {
+    padding: var(--useless-gaps) !important;
   }
 
   /*-------------content window---------------*/
 
+  /* Hide margin around browser in fullscreen mode */
+  #main-window[sizemode="fullscreen"]
+  #appcontent
+  browser {
+    margin: 0 !important;
+  }
+
   #main-window:not([sizemode="fullscreen"])
   #appcontent
   browser {
-    margin: var(--useless-gaps) !important;
+    margin: 0 var(--useless-gaps) !important;
     background-color: var(--content-bg-color);
     border: var(--win-brdr-size)
             var(--win-brdr-style)
@@ -122,7 +141,9 @@
   /*----------------bookmarks toolbar---------------*/
 
   #PersonalToolbar {
-    position: relative !important;
+    position: absolute !important;
+    top: 1.65rem !important;
+    width: 100vw;
     padding: 1px 6px !important;
   }
 

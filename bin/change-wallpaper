@@ -6,8 +6,8 @@
 # we cd here to set a relative wallpaper dir symlink
 working_dir="$HOME"
 
-# relative path to wallpaper dir (from working dir)
-wallpaper_dir=".wallpaper-themes/current/wallpaper"
+# path to wallpaper dir
+wallpaper_dir="$HOME/.wallpaper-themes/current/wallpaper"
 
 # location for link to current wallpaper
 wall_link="$HOME/.current-wallpaper"
@@ -24,6 +24,7 @@ if [ -n "$ff_profile" ]; then
   if [ ! -d "$ff_profile" ]; then
     echo "error: Firefox profile '$FF_DEFAULT_PROFILE' not found"
   else
+    mkdir -p "$ff_profile/chrome/images"
     ff_wall_link="$ff_profile/chrome/images/wallpaper"
   fi
 fi

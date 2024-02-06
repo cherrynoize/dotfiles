@@ -1,6 +1,14 @@
 @-moz-document url(chrome://browser/content/browser.xhtml) {
   /* Remove line between top bar and website content */
-  #navigator-toolbox {
+  #navigator-toolbox:not([inFullscreen]) {
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+	  height: calc(var(--useless-gaps) * 2);
+    margin: var(--useless-gaps)
+             var(--useless-gaps)
+             0
+             var(--useless-gaps) !important;
     border-bottom: var(--firefoxcss-top-bar-border-bottom-size) solid var(--firefoxcss-top-bar-border-bottom-color) !important;
     background: none !important;
   }
@@ -51,13 +59,7 @@
 
   /* Nav bar */
   #nav-bar {
-    margin-top: calc(
-        var(--TabsHeight) * -1px - var(--TabsBorder) * 1px
-        ) !important;
-    margin-left: var(--toolbar-left-margin) !important;
-    height: calc(
-        (var(--TabsHeight) * 1px + var(--TabsBorder) * 1px) + 0px
-        );
+    flex-grow: 1;
     box-shadow: none !important;
   }
 
@@ -71,15 +73,23 @@
     }
   }
 
-  /* Fix for Firefox 123 */
-  #nav-bar:not([tabs-hidden="true"]) {
-    position: static !important;
-  }
-
   #nav-bar-customization-target,
   #PanelUI-button {
     position: relative !important;
     z-index: 3 !important;
+  }
+
+  #titlebar,
+  #TabsToolbar,
+  .toolbar-items,
+  #TabsToolbar-customization-target {
+    max-width: var(--tab-min-width) !important;
+  }
+
+  #tabbrowser-tabs {
+    flex: unset !important;
+    min-width: var(--tab-favicon-size) !important;
+    min-height: var(--tab-favicon-size) !important;
   }
 
   /* Make active tab hidden */
@@ -89,6 +99,7 @@
   #scrollbutton-up, 
   #scrollbutton-down, 
   #TabsToolbar .titlebar-spacer, 
+  toolbarbutton#new-tab-button,
   .tabbrowser-tab[selected="true"] .tab-text, 
   .tabbrowser-tab[selected="true"] .tab-close-button, 
   .tab-line, 
@@ -97,8 +108,8 @@
   }
 
   .tabbrowser-tab[selected="true"] {
-    min-width: 37px !important;
-    max-width: 37px !important;
+    min-width: var(--tab-min-width) !important;
+    max-width: var(--tab-min-width) !important;
   }
 
   tab, 

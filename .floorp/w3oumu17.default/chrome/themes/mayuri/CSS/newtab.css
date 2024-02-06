@@ -1,0 +1,34 @@
+@-moz-document url(about:newtab) {
+  html:not(#ublock0-epicker),
+  html:not(#ublock0-epicker) body,
+  #newtab-customize-overlay,
+  #background {
+    background-size: cover !important;
+    background-image: url('../images/wallpaper') !important;
+  }
+
+  .search-wrapper {
+    display: none;
+  }
+
+  .personalize-button {
+    color: color-mix(
+      in srgb,
+      var(--newtab-background-color) 60%,
+      var(--newtab-wordmark-color)
+    ) !important;
+    opacity: .6;
+    transition: background-color .3s, border-color .3s, fill .8s, opacity .6s;
+  }
+
+  .personalize-button:hover {
+    background-color: var(--newtab-background-color-secondary) !important;
+    opacity: 1;
+    fill: var(--newtab-wordmark-color) !important;
+  }
+
+  /* Hide Floorp support and release note links */
+  #floorp {
+    display: none;
+  }
+}

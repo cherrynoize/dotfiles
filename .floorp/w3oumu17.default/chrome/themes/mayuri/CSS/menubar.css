@@ -1,0 +1,9 @@
+@-moz-document url(chrome://browser/content/browser.xhtml) {
+  #toolbar-menubar:not([inactive="true"]) {
+	  position: absolute;
+	  height: 100% !important;
+	  width: 100%;
+	  background-color: var(--bg-color) !important;
+	  z-index: 2;
+  }
+}

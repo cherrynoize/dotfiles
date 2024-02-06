@@ -11,6 +11,10 @@
     padding-right: var(--firefoxcss-control-buttons-margin) !important;
   }
 
+  #titlebar {
+    z-index: 4;
+  }
+
   #navigator-toolbox:not([inFullscreen])
   #TabsToolbar
   .titlebar-buttonbox-container {
@@ -307,5 +311,15 @@
     #nav-bar {
       padding-right: initial !important;
     }
+  }
+
+  .tab-content,
+  .tab-icon-image {
+    max-width: var(--tab-favicon-size);
+    max-height: var(--tab-favicon-size);
+  }
+
+  .tab-content {
+    transform: translateX(3px);
   }
 }

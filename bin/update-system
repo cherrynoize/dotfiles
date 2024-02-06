@@ -2,7 +2,7 @@
 # update script for:
 # https://github.com/cherrynoize/dotfiles
 
-echo "Fetching latest config..."
+echo "Fetching latest dotfiles..."
 cfg pull || exit 1
 echo
 
@@ -13,4 +13,5 @@ echo
 echo "Updating packages from aur..."
 yay -Syu --noconfirm || exit 3
 
-arkenfox-update
+echo "Updating arkenfox config..."
+arkenfox-update || exit 4
