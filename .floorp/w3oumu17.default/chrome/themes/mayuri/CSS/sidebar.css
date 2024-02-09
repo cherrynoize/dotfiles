@@ -45,7 +45,6 @@
 	  z-index: 0;
 	  position: relative;
     align-items: center !important;
-    background-color: transparent !important;
   }
 
   /* Actual Floorp sidebar window */
@@ -115,7 +114,15 @@
     box-shadow: var(--win-box-shadow-hover);
   }
 
-  .sidepanel-icon {
-    border-radius: 10px !important;
+  #sidebar-select-box {
+    --brdr-radius: calc((var(--win-brdr-radius) + 4px) / 2);
+  }
+
+  #sidebar-select-box .sidepanel-icon:first-of-type {
+    border-radius: var(--brdr-radius) var(--brdr-radius) 4px 4px !important;
+  }
+
+  #bottomButtonBox toolbarbutton:last-of-type {
+    border-radius: 4px 4px var(--brdr-radius) var(--brdr-radius) !important;
   }
 }

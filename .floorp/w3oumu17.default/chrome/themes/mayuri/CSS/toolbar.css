@@ -4,11 +4,11 @@
     flex-direction: row;
     justify-content: center;
     position: relative;
-	  height: calc(var(--useless-gaps) * 2);
     margin: var(--useless-gaps)
              var(--useless-gaps)
              0
              var(--useless-gaps) !important;
+    height: var(--toolbar-height);
     border-bottom: var(--firefoxcss-top-bar-border-bottom-size) solid var(--firefoxcss-top-bar-border-bottom-color) !important;
     background: none !important;
   }
@@ -31,6 +31,10 @@
   toolbar #workspaces-toolbar-button {
     padding: 0px 15px 0 11px !important;
     border-radius: var(--btn-brdr-radius) !important;
+  }
+
+  toolbar #workspacesToolbarButtonPanel {
+    background: var(--toolbarbutton-active-background) !important;
   }
 
   /* Auto hide icons on the nav bar */
@@ -61,6 +65,7 @@
   #nav-bar {
     flex-grow: 1;
     box-shadow: none !important;
+    transform: translateX(3px);
   }
 
   @media screen and (max-width: 100px) {

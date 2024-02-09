@@ -191,6 +191,9 @@ if status is-interactive
   abbr transfer 'rsync -aPhv --info=progress2 --hard-links --ignore-existing' # transfer SOURCE DEST
   abbr rclone 'rclone --password-command "pass show cloud/rclone" -P'
   abbr pass 'unlock >/dev/null 2>&1;pass'
+  abbr resize 'convert -resize '
+  abbr --set-cursor rotate 'set img "%s";set tmpdst /tmp/"$(basename "$img")";convert "$img" -rotate 90 "$tmpdst";mv "$tmpdst" "$img"'
+  abbr --set-cursor country 'curl -s "http://country.io/names.json" | jq "."'
 
   # hacking
   abbr hex 'xxd' # hexdump

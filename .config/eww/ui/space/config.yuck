@@ -87,7 +87,7 @@
   `echo "$HOME/.pfp/pfp"`)
 ;(defpoll username :interval "48h" "whoami")
 ;(defpoll uptime :interval "50s" "uptime -p | sed -e 's/up //;s/ hours,/h/;s/ hour,/h/;s/ minutes/m/;s/ minute/m/'")
-(defpoll weather_loc :interval "24h" "echo \"$(weather city), $(weather country)\"")
+(defpoll weather_loc :interval "24h" "echo \"$(weather city), $(weather country-name)\"")
 (defpoll weather_temp :interval "1h" "weather temp")
 (defpoll weather_icon :interval "1h" "weather icon")
 

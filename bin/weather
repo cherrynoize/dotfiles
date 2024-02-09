@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
 # api
-api_provider="${api_provider:-wttr.in}"
+api_provider="${api_provider:-wttr}"
 api_key=""
 
 # location
 ip_info_city_name="$(get-ip-info city)"
 city_name="${ip_info_city_name:-Milan}"
 city_name="${CITY:-$city_name}"
-ip_info_country_name="$(coco "$(get-ip-info country)")"
-country_name="${ip_info_country_name:-Italy}"
-country_name="${COUNTRY:-$country_name}"
+ip_info_country_code="$(coco "$(get-ip-info country)")"
+country_code="${ip_info_country_code:-Italy}"
+country_code="${COUNTRY:-$country_code}"
 
 encode_to_url_format () {
   echo "${1// /%20}"
@@ -25,24 +25,32 @@ get_weather_temp () {
 }
 
 get_weather_mini () {
-  weather="$(curl -s wttr.in/${city_name:-$country_name}?format=3)"
-
+  weather="$(wttr_in format=1)"
   if [ "$(echo "$weather" | grep -cE "(Unknown|curl|HTML)")" -gt 0 ]; then
       echo "WEATHER UNAVAILABLE"
-  else
-      echo "$weather" | awk '{print $2" "$3;}'
+      exit 9
   fi
+  echo "$weather"
+}
+
+wttr_in () {
+  loc_fmt="$city_name${country_code:+", $country_code"}"
+  encoded_location="$(encode_to_url_format "$loc_fmt")"
+  curl -s "wttr.in/$encoded_location?$*"
+}
+
+openweathermap () {
+  city_url_encoding=$(encode_to_url_format "$city_name")
+  curl -sf "api.openweathermap.org/data/2.5/weather?q=$city_url_encoding&appid=$api_key&units=metric"
 }
 
 get_weather () {
   case "$api_provider" in
-    wttr.in)
-      encoded_location="$(encode_to_url_format "$city_name, $country_name")"
-      curl -s "wttr.in/$encoded_location?tqp0"
+    wttr)
+      wttr_in tqp0
       ;;
-    openweathermap.org)
-      city_url_encoding=$(encode_to_url_format "$city_name")
-      WEATHER=$(curl -sf "api.openweathermap.org/data/2.5/weather?q=$city_url_encoding&appid=$api_key&units=metric")
+    openweathermap)
+      WEATHER=$(openweathermap)
 
       WEATHER_DESC=$(echo "$WEATHER" | jq -r ".weather[0].main")
       WEATHER_TEMP=$(echo "$WEATHER" | jq ".main.temp" | cut -d "." -f 1)
@@ -166,8 +174,11 @@ esac
 }
 
 case "$1" in
-  country)
-    echo "$country_name"
+  country|country-code)
+    echo "$country_code"
+    ;;
+  country-name)
+    curl -s "http://country.io/names.json" | jq -r ".$country_code"
     ;;
   city)
     echo "$city_name"

@@ -35,6 +35,26 @@ tmp_dir="${SNIP_TMP_DIR:-/tmp}"
 screen_res="$(xrandr | grep '*' | awk '{print $1;}')"
 screen_res="${screen_res:-"1920x1080"}"
 
+throw_error () {
+  case "$1" in
+    codec)
+      echo "error: unable to find $file_format extension for $cmd command"
+      exit 1
+      ;;
+    *)
+      echo "unknown error: exiting"
+      exit 255
+  esac
+}
+
+send_notification () {
+  notification_title="${1:-"$notification_title"}"
+  if [ -z "$1" ] || [ -n "$2" ]; then
+    notification_body="${2:-"Saved to '$(join_dest_path)'"}"
+  fi
+  dunstify --action="default,Default" -t "$notification_timeout" -r "$notification_id" "$notification_title" "$notification_body"
+}
+
 # outputs full destination path
 join_dest_path () {
   filename="${dest_filename//\$wx\$h/$screen_res}"
@@ -49,14 +69,49 @@ run_post_command () {
   eval "$run"
 }
 
+check_running_ffmpeg () {
+  if pgrep -x "ffmpeg" > /dev/null; then
+    echo "error: ffmpeg is already running"
+    echo "snip cannot capture video while ffmpeg is running"
+    exit 5
+  fi
+}
+
+convert_to_gif () {
+  source="$1"
+  ffmpeg -i "$source" \
+    -vf "fps=5,scale=iw:-1:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=32[p];[s1][p]paletteuse=dither=bayer" \
+    -loop 0 \
+    "${source%.*}.gif" &&
+    rm "$source"
+}
+
+record_gif () {
+  record_mp4 "${1:-"output.mp4"}"
+  send_notification "Recording stopped" "Converting video output..."
+  notification_title="Conversion terminated"
+  convert_to_gif "${1:-"output.mp4"}"
+}
+
+record_mkv () {
+  ffmpeg -f x11grab -video_size "$screen_res" \
+    -framerate 25 -stream_loop -1 -i "$DISPLAY" \
+    -c:v ffvhuff \
+    "${1:-"output.mkv"}"
+}
+
+record_mp4 () {
+    ffmpeg -f x11grab -video_size "$screen_res" \
+      -framerate 10 -stream_loop -1 \
+      -i "$DISPLAY" \
+      -c:v libx264 -c:a aac \
+      -preset ultrafast \
+      "${1:-"output.mp4"}"
+}
+
 notification_title="Screenshot taken"
 notification_id=5445
 notification_timeout=5000
-
-send_notification () {
-  notification_body="Saved to '$(join_dest_path)'"
-  dunstify --action="default,Default" -t "$notification_timeout" -r "$notification_id" "$notification_title" "$notification_body"
-}
 
 # image file formats
 declare -A img_fmt_ext=(
@@ -65,21 +120,10 @@ declare -A img_fmt_ext=(
 
 # video file formats
 declare -A vid_fmt_ext=(
+  [gif]=.mp4
   [mkv]=.mkv
   [mp4]=.mp4
 )
-
-throw_error () {
-  case "$1" in
-    codec)
-      echo "error: unable to find $file_format extension for $cmd command"
-      exit 1
-      ;;
-    *)
-      echo "unknown error: exiting"
-      exit 255
-  esac
-}
 
 usage () {
 cat<<EOF
@@ -195,8 +239,6 @@ case "$cmd" in
     else
       throw_error codec
     fi
-
-    notification_title="Recording stopped"
     ;;
   screenshot|clipboard|*)
     file_format="${file_format:-"$default_img_fmt"}"
@@ -221,22 +263,43 @@ case "$cmd" in
   clipboard)
     # save image inside /tmp and to clipboard
     dest_path="$tmp_dir"
-    scrot $params "$(join_dest_path)" -e 'xclip -selection clipboard -t image/png -i \"$f\"'
+    full_dest_path="$(join_dest_path)"
+    scrot $params "$full_dest_path" -e 'xclip -selection clipboard -t image/png -i \"$f\"'
     ;;
   record)
     # try to switch to default screencast path if set
     if [ "$dest_path" = "$SNIP_PATH" ]; then
       dest_path="${SNIP_PATH_SCAST:-"$dest_path"}"
     fi
+    full_dest_path="$(join_dest_path)"
+
+    check_running_ffmpeg
+    send_notification "Recording to '$full_dest_path'"
+
+    if [ -e "$full_dest_path" ]; then
+      echo "error: destination '$full_dest_path' already exists"
+      exit 4
+    fi
+
+    if ! touch "$full_dest_path"; then
+      echo "error: unable to create '$full_dest_path'"
+      exit 4
+    fi
+    rm "$full_dest_path"
 
     case "$file_format" in
+      gif)
+        record_gif "${full_dest_path}"
+        ;;
       mkv)
-        ffmpeg -f x11grab -video_size "$screen_res" -framerate 25 -stream_loop -1 -i "$DISPLAY" -c:v ffvhuff "$(join_dest_path)"
+        record_mkv "$full_dest_path"
         ;;
       mp4|*)
-        ffmpeg -f x11grab -video_size "$screen_res" -framerate 25 -stream_loop -1 -i "$DISPLAY" -f alsa -i default -c:v libx264 -preset ultrafast -c:a aac "$(join_dest_path)"
+        record_mp4 "$full_dest_path"
         ;;
     esac
+
+    notification_title="Recording stopped"
     ;;
   screenshot|*)
     # take screenshot

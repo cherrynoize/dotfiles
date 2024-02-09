@@ -125,11 +125,7 @@ esac
 wall_path="$wallpaper_dir/$wall"
 
 wpg -a "$wall_path" # add wallpaper
-
-wpg -R "$wall" && # reset wallpaper and regenerate colorscheme
-# wpg --sat "$wall" -0.1 && # decrease saturation
-# wpg --sat "$wall" 0.12 # increase saturation
-
+wpg -R "$wall" # reset wallpaper and regenerate colorscheme
 wpg -s "$wall" # set wallpaper and colorscheme
 
 update_wall_symlink "$wall_link" # update link to current wallpaper

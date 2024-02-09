@@ -1,6 +1,6 @@
 #
 # ~/.initrc
-# Configuration file for dotfiles
+# Global dotfiles config file
 # https://github.com/cherrynoize/dotfiles
 #
 
@@ -20,20 +20,14 @@ fi
 export WLAN="$(ls /sys/class/net | grep -m 1 wl)"
 export ETH="$(ls /sys/class/net | grep -m 1 et)"
 
-# Location preferences to manually override geolocation
-# Here it's set for autocorrection and it only applies within a
-# given region: snaps to 'Cerulean City' while in 'Kanto'.
-#(
-#while [ "$(netspeed)" != "0 B" ]; do
-#  if [ "$(get-ip-info region)" = "Kanto" ]; then
-#    export CITY="Cerulean City"
-#    export COUNTRY="Pokémon Green"
-#  fi
-#  export CITY="$(get-ip-info city)"
-#  export COUNTRY="$(get-ip-info country)"
-#  sleep 30
-#done
-#)&
+# Set location
+#export CITY="$(get-ip-info city)"
+#export COUNTRY="$(get-ip-info country)"
+
+# Manually pinpoint imprecise results
+#if [ "$(get-ip-info region)" = "Kanto" ]; then
+#  export CITY="Cerulean City"
+#fi
 
 # Default Firefox profile and profile directory
 # (for change-wallpaper and arkenfox-update)
@@ -49,5 +43,5 @@ switch-bar launch &
 sleep 1
 #. ~/.config/wpg/wp_init.sh & # Restore wallpaper and wpgtk theme
 change-wallpaper & # Set random new wallpaper
-livewall stop
+livewall stop # Stop loading sequence
 )&

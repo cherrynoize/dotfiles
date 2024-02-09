@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # rofi theme selector
-# Author | cherrynoize
 # https://github.com/cherrynoize/dotfiles
-# Based on: https://github.com/gh0stzk/dotfiles
+# Author:= cherrynoize
+# Thanks:= https://github.com/gh0stzk/dotfiles
 
-rofi_cmd="rofi -dmenu -i -theme $HOME/.config/rofi/theme-selector/theme-selector.rasi"
+rofi_cmd="rofi -dmenu -i -theme ~/.config/rofi/theme-selector/theme-selector.rasi"
 current_theme="$(theme show)"
 
 mapfile -t themes < <(theme list)

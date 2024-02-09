@@ -41,7 +41,16 @@ url(chrome://browser/content/browser.xhtml) {
   @media (prefers-color-scheme: dark) {
     :root, body {
       /* General */
-      --bg-color: var(--toolbar-bgcolor, var(--dark));
+      --bg-color: color-mix(in lch,
+          var(--toolbar-bgcolor, var(--dark)),
+          var(--dark)
+      );
+
+      /* Toolbar */
+      --toolbarbutton-hover-background: color-mix(in lch,
+          var(--bg-color) 80%,
+          var(--light)
+      );
 
       /* Windows */
       --win-brdr-color-hover: rgba(204, 204, 204, .6);
@@ -60,7 +69,17 @@ url(chrome://browser/content/browser.xhtml) {
   @media (prefers-color-scheme: light) {
     :root, body {
       /* General */
-      --bg-color: var(--toolbar-bgcolor, var(--light));
+      /* General */
+      --bg-color: color-mix(in lch,
+          var(--toolbar-bgcolor, var(--light)),
+          var(--light)
+      );
+
+      /* Toolbar */
+      --toolbarbutton-hover-background: color-mix(in lch,
+          var(--bg-color) 80%,
+          var(--dark)
+      );
 
       /* Windows */
       --win-brdr-color-hover: rgba(51, 51, 51, .6);

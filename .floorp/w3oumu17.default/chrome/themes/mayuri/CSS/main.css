@@ -18,7 +18,7 @@
     --tab-min-width: var(--tab-favicon-size) !important;
 
     /* Toolbar */
-    --toolbar-left-margin: 40px;
+    --toolbar-height: 2.25rem;
 
     /* URL bar */
     --urlbar-brdr-radius: .8; /* 0 (square) to 1 (round) */
@@ -50,9 +50,17 @@
   /*---------------root window----------------*/
 
   #browser,
+  #sidebar-box,
+  #sidebar2-box,
   #sidebar-select-box,
-  #navigator-toolbox-background {
-    background-color: var(--bg-color) !important;
+  #navigator-toolbox-background,
+  #nav-bar,
+  #nav-bar-customization-target,
+  #PanelUI-button,
+  .tab-content,
+  .tab-background,
+  stack.browserStack {
+    background: var(--bg-color) !important;
   }
 
   /*-------------browser section---------------*/

@@ -6,4 +6,8 @@
 	  background-color: var(--bg-color) !important;
 	  z-index: 2;
   }
+
+  #toolbar-menubar[inactive="true"] {
+    width: 0;
+  }
 }

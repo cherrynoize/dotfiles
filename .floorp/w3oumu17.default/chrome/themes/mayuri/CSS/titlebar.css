@@ -298,12 +298,9 @@
     #navigator-toolbox:not([inFullscreen])
     #TabsToolbar
     .titlebar-buttonbox-container {
-      visibility: visible !important;
 		  position: relative !important;
-		  padding-top: 4px !important;
-		  padding-bottom: 2px !important;
-		  padding-right: 8px  !important;
-		  padding-left: 2px !important; 
+		  padding: 4px 8px 2px 2px !important;
+      visibility: visible !important;
     }
 
     #main-window
@@ -313,13 +310,12 @@
     }
   }
 
-  .tab-content,
-  .tab-icon-image {
-    max-width: var(--tab-favicon-size);
-    max-height: var(--tab-favicon-size);
+  /* Align favicon with toolbar items */
+  #TabsToolbar .toolbar-items {
+    display: unset !important;
   }
 
-  .tab-content {
-    transform: translateX(3px);
+  #tabbrowser-tabs .tab-label-container {
+    height: unset !important;
   }
 }

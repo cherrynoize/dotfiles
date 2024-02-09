@@ -109,7 +109,8 @@ This config uses [`wpgtk`](https://github.com/deviantfero/wpgtk)
 for easier global theming and automatic colorscheme generation
 with `pywal`.
 
-You're going to need to refer to the [wiki](https://github.com/deviantfero/wpgtk/wiki)
+You're going to need to refer to the
+[wiki](https://github.com/deviantfero/wpgtk/wiki)
 if you want to start editing themes or creating your own.
 
 Also, for better portability template symlinks are not hardcoded
@@ -123,14 +124,16 @@ You might want to place your own profile picture inside of
 
 ### Neovim
 
-The `nvim` configuration is based upon [AstroNvim](https://github.com/AstroNvim/AstroNvim),
-an IDE layer for **Neovim**. Check out the [docs](https://docs.astronvim.com/#%EF%B8%8F-configuration)
+The `nvim` configuration is based upon
+[AstroNvim](https://github.com/AstroNvim/AstroNvim),
+an IDE layer for **Neovim**. Check out the
+[docs](https://docs.astronvim.com/#%EF%B8%8F-configuration)
 for info about configuration.
 
 ## 📁 Binaries
 
 The repo also includes a large collection of shell scripts, some
-[collected around the internet](.local/bin), but [most of
+[collected around the internet](../.local/bin), but [most of
 them actually mine](bin). Being each few hundreds LOC tops,
 they're not very large (`bin` sits at *492K* at the time of
 writing - Nov. 16 2023), and since they're heavily integrated
@@ -176,7 +179,7 @@ theme-selector
 to switch between available global themes.
 
 Global themes are configuration files in
-[.config/themes](.config/themes) and they can be easily edited,
+[.config/themes](../.config/themes) and they can be easily edited,
 created or removed manually.
 
 > Though provided global themes are still primitive, the
@@ -215,7 +218,7 @@ created or removed manually.
 You can find all binary files in `~/bin` and `~/.local/bin`,
 shell aliases in `~/.config/fish/config.fish` and keyboard
 shortcuts in `.config/sxhkd/sxhkdrc`. Compiling an extensive
-shortcuts/commands help is in the [`TODO`](#todo) list.
+shortcuts/commands help is in the [`TODO`](#-todo) list.
 
 <details>
 <summary>This is just some basic commands to get you
@@ -284,7 +287,7 @@ started.</summary>
 #### Auto-refresh sudo timeout
 
 `sudo` privilege timeout for the shell is refreshed with `sudo
--v`. `fish` already has [an abbreviation set](.config/fish/fishrc)
+-v`. `fish` already has [an abbreviation set](../.config/fish/fishrc)
 to replace `sudo` with `sudo -v; sudo` so that it gets updated
 each time. However, I find that cumbersome as well as annoying
 to have that prefix to each command and it doesn't work well
@@ -315,12 +318,12 @@ restarted during the session. I still haven't found how I could
 prevent it from happening (all suggestions are welcome).
 
 > My workaround for the time being is to just
-> [toggle the bar](#toggle-bar). Besides, if you don't ever
+> [toggle the bar](#-toggle-bar). Besides, if you don't ever
 > toggle it this shouldn't come up.
 
 #### Music player cover
 
-I currently use Spotify and as such I only set [`music`](bin/music)
+I currently use Spotify and as such I only set [`music`](../bin/music)
 to fetch cover arts from Spotify metadata. I will try to expand
 on this but, please, if anyone has a specific request provide me
 with a metadata sample (output of `playerctl --player="$player"
@@ -360,10 +363,11 @@ and actually do something about it.
 
 ### Themes
 
-- We're sort of missing a theme (as 11 is a bit of weird
-number). If you feel like it, you can submit a new one. Even
-the wallpapers alone (need at least 2 or 3 for both light and
-dark versions).
+- I'm not convinced about wallpaper
+[`111639598_p0_master1200.jpg`](../.wallpaper-themes/misato/111639598_p0_master1200.jpg)
+in the *[Misato](../.wallpaper-themes/misato)* theme but I
+would like to have a better replacement before I cut it out.
+**Suggestions welcome.**
 
 ## ✨ Contribute
 
@@ -372,6 +376,17 @@ You can have a look at the [TODO](#-todo) and
 found more.
 
 If you feel like you have something to add please do.
+
+### Community themes
+
+If you feel like it, you can submit your own theme. I'm not
+exactly sure what I'm going to do with those but I would like
+people to be able to share and browse custom themes.
+Or I might add them to the main repo if they fit.
+
+Even the wallpapers alone are worth consideration if it's a well
+curated selection of at least 2 or 3 for both light and
+dark versions.
 
 ## 💕 Sponsor
 
