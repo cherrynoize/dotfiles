@@ -4,16 +4,20 @@
 # Author:= cherrynoize
 # Thanks:= https://github.com/gh0stzk/dotfiles
 
-rofi_cmd="rofi -dmenu -i -theme ~/.config/rofi/theme-selector/theme-selector.rasi"
+wallpaper_dir="$HOME/.wallpaper-themes"
 current_theme="$(theme show)"
+rofi_cmd="rofi -dmenu -i -theme ~/.config/rofi/theme-selector/theme-selector.rasi"
 
-mapfile -t themes < <(theme list)
-
-rofi_win () {
+launch_rofi () {
   printf "%s\n" "${options[@]}" |
-    $rofi_cmd -selected-row "${selected_index:-0}"
+    while read -r theme_name; do
+      theme="${theme_map[$theme_name]}"
+      preview_dir="$wallpaper_dir/$theme/wallpaper"
+      echo -en "$theme\x00icon\x1f$preview_dir/$(random-file "$preview_dir")\n"
+    done | $rofi_cmd -selected-row "${selected_index:-0}"
 }
 
+mapfile -t themes < <(theme list)
 declare -A theme_map
 
 # list themes
@@ -32,7 +36,7 @@ for theme in "${themes[@]}"; do
 done
 
 # launch rofi menu and store result
-selected="$(rofi_win)"
+selected="$(launch_rofi)"
 
 [ -n "$selected" ] || exit 1
 theme -n set "${theme_map[$selected]}"

@@ -21,8 +21,8 @@ export WLAN="$(ls /sys/class/net | grep -m 1 wl)"
 export ETH="$(ls /sys/class/net | grep -m 1 et)"
 
 # Set location
-#export CITY="$(get-ip-info city)"
-#export COUNTRY="$(get-ip-info country)"
+export CITY="$(get-ip-info city)"
+export COUNTRY="$(get-ip-info country)"
 
 # Manually pinpoint imprecise results
 #if [ "$(get-ip-info region)" = "Kanto" ]; then

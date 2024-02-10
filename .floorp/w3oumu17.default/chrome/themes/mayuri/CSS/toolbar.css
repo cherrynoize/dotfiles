@@ -65,6 +65,9 @@
   #nav-bar {
     flex-grow: 1;
     box-shadow: none !important;
+  }
+
+  #nav-bar:not([urlbar-exceeds-toolbar-bounds="true"]) {
     transform: translateX(3px);
   }
 

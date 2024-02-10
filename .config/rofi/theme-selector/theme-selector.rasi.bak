@@ -22,11 +22,10 @@ configuration {
 window {
   enabled:                     true;
   transparency:                "real";
-  location:                    east;
-  anchor:                      east;
+  location:                    center;
+  anchor:                      center;
   fullscreen:                  false;
-  width:                       33%;
-  height:                      100%;
+  width:                       800px;
   x-offset:                    0px;
   y-offset:                    0px;
   background-image:            @img-height;
@@ -56,21 +55,32 @@ listbox {
 /*----- Inputbar -----*/
 
 inputbar {
-  children:                    [ "entry" ];
+  children:                    [ "textbox-prompt-colon", "entry" ];
   enabled:                     true;
   spacing:                     10px;
   margin:                      0;
-  padding:                     40px;
+  padding:                     40px 40px 40px;
   background-color:            transparent;
   border-radius:               0;
   text-color:                  @fg;
   orientation:                 horizontal;
 }
 
+textbox-prompt-colon {
+  enabled:                     true;
+  expand:                      false;
+  font:                        "JetBrainsMono NF Bold 9";
+  str:                         "";
+  padding:                     10px 15px 0px 10px;
+  border-radius:               @radius;
+  background-color:            @bg-alt;
+  text-color:                  inherit;
+}
+
 entry {
   enabled:                     true;
   expand:                      true;
-  padding:                     22px 24px;
+  padding:                     11px 11px;
   border-radius:               @radius;
   background-color:            @bg-alt;
   text-color:                  inherit;
@@ -84,17 +94,16 @@ entry {
 
 listview {
   enabled:                     true;
-  columns:                     1;
-  lines:                       6;
-  spacing:                     40px;
-  padding:                     20px;
+  columns:                     3;
+  lines:                       4;
   cycle:                       true;
-  dynamic:                     false;
+  dynamic:                     true;
   scrollbar:                   false;
   layout:                      vertical;
   reverse:                     false;
   fixed-height:                true;
   fixed-columns:               true;
+  spacing:                     30px;
   background-color:            transparent;
   text-color:                  @fg;
   cursor:                      "default";
@@ -103,24 +112,14 @@ listview {
 /*----- Elements -----*/
 
 element {
+  children:                    [element-text];
   enabled:                     true;
-  orientation:                 horizontal;
-  spacing:                     0px;
-  padding:                     0px;
-  border-radius:               20px;
-  cursor:                      pointer;
+  spacing:                     10px;
+  padding:                     8px 14px;
+  border-radius:               4px;
   background-color:            transparent;
   text-color:                  @fg;
-}
-
-element-icon {
-  orientation:                 vertical;
-  size:                        33%;
-  padding:                     0px;
-  background-color:            transparent;
-  text-color:                  inherit;
-  border-radius:               20px;
-  cursor:                      inherit;
+  cursor:                      pointer;
 }
 
 element normal.normal {
