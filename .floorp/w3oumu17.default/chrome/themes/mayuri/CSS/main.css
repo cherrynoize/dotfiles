@@ -59,7 +59,9 @@
   #PanelUI-button,
   .tab-content,
   .tab-background,
-  stack.browserStack {
+  #PersonalToolbar,
+  stack.browserStack,
+  .browserSidebarContainer {
     background: var(--bg-color) !important;
   }
 
@@ -144,59 +146,5 @@
     grid-template-columns: repeat(var(--firefoxcss-number-of-extensions-in-a-row),auto);
     justify-items:left !important;
     align-items:left !important;
-  }
-
-  /*----------------bookmarks toolbar---------------*/
-
-  #PersonalToolbar {
-    position: absolute !important;
-    top: 1.65rem !important;
-    width: 100vw;
-    padding: 1px 6px !important;
-  }
-
-  #PersonalToolbar:not([customizing]) {
-    z-index: 2 !important;
-    margin-bottom: calc(2px - var(--uc-bm-height) - 2 * var(--uc-bm-padding)) !important;
-    transform: rotateX(90deg) !important;
-    transform-origin: top !important;
-    transition: transform .1s ease-in-out .6s,
-                opacity .1s ease-in-out .6s !important;
-  }
-
-  #PersonalToolbar:not([customizing]):not(:hover) {
-    opacity: 0;
-  }
-
-  /* Bookmark item padding and icon transition */
-  #PlacesToolbarItems > .bookmark-item {
-    padding-block: var(--uc-bm-padding) !important;
-    padding-left: 6px !important;
-    padding-right: 6px !important;
-  }
-
-  #PlacesToolbarItems > .bookmark-item .toolbarbutton-icon {
-    transition: opacity .1s ease-in-out .4s !important;
-    opacity: 0 !important;
-  }
-
-  /* Hover effect for toolbar and bookmark icon/text */
-  #navigator-toolbox:hover > #PersonalToolbar,
-  #navigator-toolbox:hover #PlacesToolbarItems > .bookmark-item .toolbarbutton-icon,
-  #navigator-toolbox:hover #PlacesToolbarItems > .bookmark-item .toolbarbutton-text {
-    transform: rotateX(0) !important;
-    transition-delay: .1s !important;
-    opacity: 1 !important;
-  }
-
-  /* Bookmark item text transition */
-  #PlacesToolbarItems > .bookmark-item .toolbarbutton-text {
-    transition: opacity .1s ease-in-out .4s !important;
-    opacity: 0 !important;
-  }
-
-  /* Fix white line above bookmarks bar when it's empty */
-  #personal-toolbar-empty {
-    padding: 2px !important;
   }
 }

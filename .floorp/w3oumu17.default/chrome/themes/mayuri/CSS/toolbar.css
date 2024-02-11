@@ -28,12 +28,16 @@
     padding: .08em .15em !important;
   }
 
-  toolbar #workspaces-toolbar-button {
+  #workspaces-toolbar-button {
     padding: 0px 15px 0 11px !important;
     border-radius: var(--btn-brdr-radius) !important;
   }
 
-  toolbar #workspacesToolbarButtonPanel {
+  #workspacesCreateNewWorkspaceButton:hover {
+    background-color: unset !important;
+  }
+
+  #workspacesToolbarButtonPanel {
     background: var(--toolbarbutton-active-background) !important;
   }
 
@@ -63,6 +67,7 @@
 
   /* Nav bar */
   #nav-bar {
+    z-index: 3;
     flex-grow: 1;
     box-shadow: none !important;
   }
