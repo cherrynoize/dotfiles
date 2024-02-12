@@ -1,7 +1,0 @@
-#!/bin/sh
-theme_name="Ai"
-theme_id="ai"
-
-set_theme () {
-  switch-theme wallpaper "$theme_id"
-}

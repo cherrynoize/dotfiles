@@ -1,7 +1,0 @@
-#!/bin/sh
-theme_name="Meranii"
-theme_id="meranii"
-
-set_theme () {
-  switch-theme wallpaper "$theme_id"
-}

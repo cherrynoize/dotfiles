@@ -1,7 +1,0 @@
-#!/bin/sh
-theme_name="Mayuri"
-theme_id="mayuri"
-
-set_theme () {
-  switch-theme wallpaper "$theme_id"
-}

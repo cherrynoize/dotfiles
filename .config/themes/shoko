@@ -1,7 +1,0 @@
-#!/bin/sh
-theme_name="Shoko"
-theme_id="shoko"
-
-set_theme () {
-  switch-theme wallpaper "$theme_id"
-}

@@ -129,9 +129,13 @@ super + alt + p
 #   passmenu --type
     rofi-pass
 
-# character picker
+# emoji picker
 super + alt + i
     rofimoji
+
+# icon picker
+super + ctrl + alt + i
+    rofimoji -f nerd_font fontawesome6
 
 # long em dash
 #ctrl + shift + minus

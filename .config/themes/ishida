@@ -1,7 +1,0 @@
-#!/bin/sh
-theme_name="Ishida"
-theme_id="ishida"
-
-set_theme () {
-  switch-theme wallpaper "$theme_id"
-}

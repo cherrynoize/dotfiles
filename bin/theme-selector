@@ -5,16 +5,16 @@
 # Thanks:= https://github.com/gh0stzk/dotfiles
 
 wallpaper_themes_dir="$HOME/.wallpaper-themes"
-thumbnail_dir="$HOME/.cache/themes/thumbnails"
+thumbnail_cache_dir="$HOME/.cache/themes/thumbnails"
 thumbnail_size=500x475
 current_theme="$(theme show)"
 rofi_cmd="rofi -dmenu -i -theme ~/.config/rofi/theme-selector/theme-selector.rasi"
 
 gen_thumbnail () {
-  thumb="$thumbnail_dir/${thumbnail_size}_$(basename "$1")"
+  thumb="$thumbnail_cache_dir/${thumbnail_size}_$(basename "$1")"
 
-  if [ ! -d "$thumbnail_dir" ]; then
-    mkdir -p "$thumbnail_dir"
+  if [ ! -d "$thumbnail_cache_dir" ]; then
+    mkdir -p "$thumbnail_cache_dir"
   fi
 
   if [ ! -f "$thumb" ]; then
@@ -34,7 +34,7 @@ launch_rofi () {
       wallpaper_dir="$wallpaper_themes_dir/$theme/wallpaper"
       random_wall="$wallpaper_dir/$(random-file "$wallpaper_dir")"
       thumbnail="$(gen_thumbnail "$random_wall")"
-      echo -en "$theme\x00icon\x1f$thumbnail\n"
+      echo -en "$theme_name\x00icon\x1f$thumbnail\n"
     done | $rofi_cmd -selected-row "${selected_index:-0}"
 }
 
@@ -44,7 +44,7 @@ declare -A theme_map
 # list themes
 for theme in "${themes[@]}"; do
   theme_name="$(theme name "$theme")"
-  theme_map[$theme_name]="$theme"
+  theme_map["$theme_name"]="$theme"
 
   options+=("$theme_name")
 

@@ -4,7 +4,8 @@
 # https://github.com/cherrynoize/dotfiles
 
 config_dir="${XDG_CONFIG_HOME:-"$HOME/.config"}"
-themes_dir=${themes_dir:-"$config_dir/themes"}
+user_themes_dir=${user_themes_dir:-"$config_dir/themes"}
+base_themes_dir="/etc/themes"
 current_theme_file=${current_theme_file:-"$HOME/.current-theme"}
 
 nid="6699" # notification id
@@ -48,23 +49,39 @@ options:
 EOF
 }
 
+get_theme () {
+  _theme_file="$1"
+  if [ -f "$user_themes_dir/$_theme_file$theme_ext" ]; then
+    echo "$user_themes_dir/$_theme_file$theme_ext"
+  elif [ -f "$base_themes_dir/$_theme_file$theme_ext" ]; then
+    echo "$base_themes_dir/$_theme_file$theme_ext"
+  fi
+}
+
 do_cmd () {
-  [ -f "$themes_dir/$theme_file$theme_ext" ] &&
-    . "$themes_dir/$theme_file$theme_ext"
+  themerc="$(get_theme "$theme_file")"
+  if [ -n "$themerc" ] && [ "$themerc" != "" ]; then
+    . "$themerc"
+  fi
 
   current_theme="$(cat "$current_theme_file")"
-  mapfile -t themes < <(ls "$themes_dir")
+  mapfile -t themes < <(find "$user_themes_dir"/* "$base_themes_dir"/* -maxdepth 0)
 
   case "$1" in
     show)
       if [ -z "$show_dir" ]; then
         echo "$current_theme"
       else
-        echo "$themes_dir"
+        echo "$user_themes_dir"
       fi
       ;;
-    list)
+    path)
       printf "%s\n" "${themes[@]}"
+      ;;
+    list)
+      for _theme in "${themes[@]}"; do
+        printf "%s\n" "$(basename "$_theme")"
+      done
       ;;
     name)
       if [ -n "$theme_name" ]; then
@@ -88,7 +105,7 @@ do_cmd () {
       done
       ;;
     random)
-      theme_file="$(random-file "$themes_dir" -I "$current_theme$theme_ext")"
+      theme_file="$(random-file "$user_themes_dir" "$base_themes_dir" -I "$current_theme$theme_ext")"
       theme_file="${theme_file%.*}"
       do_cmd set
       ;;

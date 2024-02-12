@@ -1,7 +1,0 @@
-#!/bin/sh
-theme_name="Akane"
-theme_id="akane"
-
-set_theme () {
-  switch-theme wallpaper "$theme_id"
-}

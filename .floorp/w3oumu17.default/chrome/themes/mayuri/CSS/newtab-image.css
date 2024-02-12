@@ -1,0 +1,6 @@
+/* Tabliss newtab */
+@-moz-document url("moz-extension://b3571eb9-9366-4a2b-8e1e-4f34685c62d2/index.html") {
+  .Image {
+    background-image: url("../images/wallpaper") !important;
+  }
+}

@@ -1,20 +1,57 @@
 /* rofi theme selector                           *
  * https://github.com/cherrynoize/dotfiles       *
  * Author:   cherrynoize                         *
- * From:     https://github.com/gh0stzk/dotfiles */
+ * Thanks:   https://github.com/gh0stzk/dotfiles */
 
 @import "~/.config/rofi/themes/current.rasi"
 @import "~/.config/rofi/templates/sleek.rasi"
 @import "~/.config/rofi/bindings.rasi"
 
+/*----- General -----*/
+
+* {
+  panel-placement:               northeast;
+  panel-offset-x:                0px;
+  panel-offset-y:                0px;
+  panel-width:                   28%;
+  panel-height:                  100%;
+  panel-border-size:             0px;
+  panel-border-color:            @brdr;
+  panel-radius:                  1px;
+
+  main-spacing:                  10px;
+  main-padding:                  0px;
+  card-padding:                  22px 16px;
+  card-radius:                   0px;
+  inputbar-padding:              50px 30px;
+  list-orientation:              vertical;
+  row-number:                    1;
+  column-number:                 3;
+
+  item-border-size:              0px;
+  item-border-size-hover:        5px;
+  item-border-color:             transparent;
+  item-border-color-hover:       @primary;
+  item-radius:                   2px;
+  item-radius-hover:             3px;
+  item-icon-radius:              2px;
+  item-icon-border-size:         0px;
+  item-icon-border-color:        transparent;
+  item-icon-border-size-hover:   10px;
+  item-icon-border-color-hover:  transparent;
+  thumbnail-size:                13%;
+}
+
+/*----- Configuration -----*/
+
 configuration {
-  show-icons:                    false;
-  drun-display-format:           "{name}";
-  disable-history:               true;
-  sidebar-mode:                  false;
-  hover-select:                  true;
-  me-select-entry:               "";
-  me-accept-entry:               "MousePrimary";
+  show-icons:                  false;
+  drun-display-format:         "{name}";
+  disable-history:             true;
+  sidebar-mode:                false;
+  hover-select:                true;
+  me-select-entry:             "";
+  me-accept-entry:             "MousePrimary";
 }
 
 /*----- Main Window -----*/
@@ -22,17 +59,17 @@ configuration {
 window {
   enabled:                     true;
   transparency:                "real";
-  location:                    east;
-  anchor:                      east;
+  location:                    @panel-placement;
+  anchor:                      @panel-placement;
   fullscreen:                  false;
-  width:                       25%;
-  height:                      100%;
-  x-offset:                    0px;
-  y-offset:                    0px;
+  width:                       @panel-width;
+  height:                      @panel-height;
+  x-offset:                    @panel-offset-x;
+  y-offset:                    @panel-offset-y;
   background-image:            @img-height;
-  border:                      0px;
-  border-color:                #766d90;
-  border-radius:               @radius;
+  border:                      @panel-border-size;
+  border-color:                @panel-border-color;
+  border-radius:               @panel-radius;
   cursor:                      "default";
 }
 
@@ -41,16 +78,18 @@ window {
 mainbox {
   children:                    [ "inputbar", "listbox" ];
   enabled:                     true;
-  spacing:                     0px;
+  spacing:                     @main-spacing;
+  padding:                     @main-padding;
   background-color:            transparent;
   orientation:                 vertical;
 }
 
 listbox {
   children:                    [ "listview" ];
+  orientation:                 vertical;
   padding:                     20px;
   background-color:            @bg;
-  orientation:                 vertical;
+  border-radius:               @card-radius;
 }
 
 /*----- Inputbar -----*/
@@ -58,9 +97,10 @@ listbox {
 inputbar {
   children:                    [ "entry" ];
   enabled:                     true;
+  orientation:                 vertical;
   spacing:                     10px;
   margin:                      0;
-  padding:                     40px;
+  padding:                     @inputbar-padding;
   background-color:            transparent;
   border-radius:               0;
   text-color:                  @fg;
@@ -84,14 +124,16 @@ entry {
 
 listview {
   enabled:                     true;
-  layout:                      vertical;
-  columns:                     2;
+  layout:                      @list-orientation;
+  lines:                       @row-number;
+  columns:                     @column-number;
   spacing:                     40px;
-  padding:                     20px;
+  padding:                     @card-padding;
   cycle:                       true;
   dynamic:                     false;
   scrollbar:                   false;
   reverse:                     false;
+  fixed-lines:                 true;
   fixed-columns:               true;
   background-color:            transparent;
   text-color:                  @fg;
@@ -105,21 +147,29 @@ element {
   orientation:                 vertical;
   spacing:                     0px;
   padding:                     0px;
-  border-radius:               20px;
+  border:                      @item-border-size;
+  border-color:                @item-border-color;
+  border-radius:               @item-radius;
   cursor:                      pointer;
   background-color:            transparent;
   text-color:                  @fg;
 }
 
+element selected {
+  border:                      @item-border-size-hover;
+  border-color:                @item-border-color-hover;
+  border-radius:               @item-radius-hover;
+}
+
 element-icon {
-  vertical-align: 0;
-  horizontal-align: 0;
   orientation:                 vertical;
-  size:                        33%;
+  size:                        @thumbnail-size;
+  vertical-align:              0;
+  horizontal-align:            0;
   padding:                     0px;
   background-color:            transparent;
   text-color:                  inherit;
-  border-radius:               20px;
+  border-radius:               @item-radius;
   cursor:                      inherit;
 }
 
@@ -133,13 +183,27 @@ element selected.normal {
   text-color:                  @bg;
 }
 
+element-icon normal.normal {
+  border:                      @item-icon-border-size;
+  border-color:                @item-icon-border-color;
+  border-radius:               @item-icon-radius;
+}
+
 element-icon selected.normal {
   background-color:            transparent;
+  border:                      @item-icon-border-size-hover;
+  border:                      @item-icon-border-color-hover;
+  border-radius:               1px;
+}
+
+element-text {
+  orientation: vertical;
+  height: 50px;
 }
 
 element-text, element-text selected {
   horizontal-align:            0.5;
-  padding:                     0 10px 20px 10px;
+  padding:                     3px 10px 12px 10px;
   background-color:            transparent;
   text-color:                  inherit;
   cursor:                      inherit;
