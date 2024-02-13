@@ -168,6 +168,18 @@ And list themes available for given item (or context):
 switch-theme [context] -l
 ```
 
+### Dark/light mode
+
+You can toggle between light and dark mode using `switch-mode`
+(`Super+<`).
+
+Without arguments it will just toggle between light and dark
+mode globally. It also takes single items (called a *context*)
+to switch for or a specific mode (light or dark) to be set.
+
+> **Note**: light mode is in beta and some stuff does not look
+great. Have a look at the [known bugs](#-known-bugs) section.
+
 ### Global themes
 
 You can run
