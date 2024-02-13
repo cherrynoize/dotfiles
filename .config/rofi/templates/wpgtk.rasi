@@ -20,17 +20,17 @@
 
   /******----- colorscheme -----******/
 //primary:        #1f1d2f;
-  primary:        #236DCA;
-  secondary:      #062a6a;
-  bg:             #04183B;
-//bg-alt:         #0a8dff;
-  bg-alt:         #27b2ff;
-  bg-trans:       #04183B63;
-  fg:             #d4fbff;
+  primary:        #566F9D;
+  secondary:      #1d2845;
+  bg:             #0f1422;
+//bg-alt:         #73b4ff;
+  bg-alt:         #50a1ff;
+  bg-trans:       #0f142263;
+  fg:             #fff9ee;
 //selected:       @light-grey;
-  selected:       #062a6a;
-  accent:         #136DCC;
-  highlight:      #a6c4e8;
+  selected:       #1d2845;
+  accent:         #688DC1;
+  highlight:      #e1cfc6;
   active:         @selected;
   urgent:         @accent;
 

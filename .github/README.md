@@ -27,15 +27,22 @@
 ## 🧱 Dependencies
 
 ```
-bash
+bash # Arch official repos
+picom-ftlabs-git # AUR
 ```
 
 Optional (for a few more functionalities):
 
 ```
-geoclue2 # in the Arch official repos
+geoclue2 # Arch official repos
 wpgtk pywalfox expect playerctl # AUR
-country-converter # Python (pipx install)
+```
+
+To install all of the above (if you're on Arch) run:
+
+```
+sudo pacman -S bash geoclue2
+yay -S picom-ftlabs-git wpgtk pywalfox expect playerctl
 ```
 
 Not in the AUR* (or in the official repo) (optional):
