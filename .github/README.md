@@ -236,7 +236,7 @@ shortcuts/commands help is in the [`TODO`](#-todo) list.
 <summary>This is just some basic commands to get you
 started.</summary>
 
-#### Spawn terminal
+#### Spawn a terminal window
 
     "$TERMINAL" # Super+shift
 
@@ -244,21 +244,17 @@ started.</summary>
 
     rofi -show drun # Super+x
 
-#### Theme selector
-
-    theme-picker # Super+space
-
 #### Run prompt
 
     rofi -show run # Super+r
 
-#### Browser (Firefox)
+#### Theme selector
 
-    ff # Super+Alt+w
+    theme-picker # Super+space
 
-#### Text editor (Neovim)
+#### Switch between selected theme's wallpapers
 
-    launch-nvim # 'nvim' points to that in fish/bash
+    wall-picker # Super+ctrl+space
 
 #### Random wallpaper
 
@@ -271,6 +267,14 @@ started.</summary>
 #### Toggle bar
 
     toggle-bar # Super+z
+
+#### Launch browser
+
+    "$BROWSER" # Super+Alt+w
+
+#### Text editor
+
+    launch-nvim # 'nvim' is an alias for that in fish/bash
 
 #### Fix common issues
 

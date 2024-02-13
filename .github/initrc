@@ -4,7 +4,16 @@
 # https://github.com/cherrynoize/dotfiles
 #
 
-#WALL_THEMES_DIR="$HOME/.wallpaper-themes"
+# default session
+export SESSION="bspwm"
+
+# default apps
+export TERMINAL="alacritty"
+export EDITOR="launch-nvim"
+export BROWSER="floorp"
+export MAILCLIENT="betterbird"
+
+#export WALL_THEMES_DIR="$HOME/.wallpaper-themes"
 
 # Current theme loading screen
 loading_screen="$HOME/.wallpaper-themes/current/loading_frames"
