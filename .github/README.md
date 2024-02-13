@@ -348,10 +348,6 @@ and actually do something about it.
 - Installation script
 - Finish making initrc
 
-### Support
-
-- Shortcuts/commands usage popup window
-
 ### Bar
 
 - Auto memorize bar status (open or closed) between sessions
@@ -363,11 +359,18 @@ and actually do something about it.
 
 ### Themes
 
+- Make `switch-mode` keep both `-dark` and `-light` versions
+and use a suffix-less link to avoid this dizzy switching back
+and forth in commits just because a different mode is set.
 - I'm not convinced about wallpaper
 [`111639598_p0_master1200.jpg`](../.wallpaper-themes/misato/111639598_p0_master1200.jpg)
 in the *[Misato](../.wallpaper-themes/misato)* theme but I
 would like to have a better replacement before I cut it out.
 **Suggestions welcome.**
+
+### Support
+
+- Shortcuts/commands usage popup window
 
 ## ✨ Contribute
 
