@@ -1,0 +1,48 @@
+/* rofi theme selector                           *
+ * https://github.com/cherrynoize/dotfiles       *
+ * Author:   cherrynoize                         *
+ * Thanks:   https://github.com/gh0stzk/dotfiles */
+
+@import "~/.config/rofi/themes/current.rasi"
+@import "~/.config/rofi/templates/sleek.rasi"
+@import "~/.config/rofi/ui/picker.rasi"
+@import "~/.config/rofi/bindings.rasi"
+
+/*----- General -----*/
+
+* {
+  show-inputbar:                 true;
+  show-thumbnail:                true;
+  show-label:                    true;
+
+  panel-placement:               northeast;
+  panel-offset-x:                0px;
+  panel-offset-y:                0px;
+  panel-width:                   28%;
+  panel-height:                  100%;
+  panel-border-size:             0px;
+  panel-border-color:            @brdr;
+  panel-radius:                  1px;
+
+  main-spacing:                  10px;
+  main-padding:                  0px;
+  card-padding:                  22px 16px;
+  card-radius:                   0px;
+  inputbar-padding:              50px 30px;
+  list-orientation:              vertical;
+  row-number:                    1;
+  column-number:                 3;
+
+  item-border-size:              0px;
+  item-border-size-hover:        5px;
+  item-border-color:             transparent;
+  item-border-color-hover:       @primary;
+  item-radius:                   2px;
+  item-radius-hover:             3px;
+  item-icon-radius:              2px;
+  item-icon-border-size:         0px;
+  item-icon-border-color:        transparent;
+  item-icon-border-size-hover:   10px;
+  item-icon-border-color-hover:  transparent;
+  thumbnail-size:                13%;
+}

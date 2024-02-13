@@ -68,7 +68,7 @@ do_cmd () {
   mapfile -t themes < <(find "$user_themes_dir"/* "$base_themes_dir"/* -maxdepth 0)
 
   case "$1" in
-    show)
+    current)
       if [ -z "$show_dir" ]; then
         echo "$current_theme"
       else

@@ -173,7 +173,7 @@ switch-theme [context] -l
 You can run
 
 ```
-theme-selector
+theme-picker
 ```
 
 to switch between available global themes.
@@ -234,7 +234,7 @@ started.</summary>
 
 #### Theme selector
 
-    theme-selector # Super+space
+    theme-picker # Super+space
 
 #### Run prompt
 

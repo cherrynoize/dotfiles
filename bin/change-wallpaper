@@ -122,7 +122,18 @@ case "$cmd" in
     ;;
 esac
 
-wall_path="$wallpaper_dir/$wall"
+wall_path="$wall"
+if [ ! -f "$wall_path" ]; then
+  wall_path="$wallpaper_dir/$wall"
+fi
+if [ ! -f "$wall_path" ]; then
+  echo "error: wallpaper '$wall' not found"
+  exit 4
+fi
+
+# fix wal sample coming up in wallpaper dir when called with
+# absolute paths
+wall="$(basename "$wall_path")"
 
 wpg -a "$wall_path" # add wallpaper
 wpg -R "$wall" # reset wallpaper and regenerate colorscheme

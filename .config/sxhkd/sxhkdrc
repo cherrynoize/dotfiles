@@ -80,9 +80,13 @@ super + alt + {less,greater}
 super + ctrl + r
     theme -n random
 
-# select theme
+# pick theme
 super + space
-    theme-selector
+    theme-picker
+
+# pick wallpaper
+super + ctrl + space
+    wall-picker
 
 # change wallpaper
 super + ctrl + w
