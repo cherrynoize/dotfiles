@@ -356,6 +356,7 @@ and actually do something about it.
 ### Wallpapers
 
 - Convert to a higher compression format
+- AI upscaler on-the-fly with cache storage support
 
 ### Themes
 
