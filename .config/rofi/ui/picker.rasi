@@ -3,7 +3,6 @@
 configuration {
   show-icons:                  false;
   drun-display-format:         "{name}";
-  disable-history:             true;
   sidebar-mode:                false;
   hover-select:                true;
   me-select-entry:             "";

@@ -63,5 +63,5 @@
   item-icon-border-color:        transparent;
   item-icon-border-size-hover:   10px;
   item-icon-border-color-hover:  transparent;
-  thumbnail-size:                11.75%;
+  thumbnail-size:                11.8%;
 }

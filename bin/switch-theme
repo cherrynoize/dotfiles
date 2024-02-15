@@ -4,8 +4,11 @@
 # https://github.com/cherrynoize/dotfiles
 
 # where to store theme history
-cache_dir="$HOME/.cache/themes/hst"
-# size for each file
+cache_dir="${XDG_CACHE_HOME:-"$HOME/.cache"}"
+hst_dir="$cache_dir/themes/hst"
+# extension for history files
+hst_ext=.hst
+# size for each file (override in switch for single cases)
 hst_size=10
 
 # theme to preserve when run in global mode
@@ -77,37 +80,38 @@ get_current_theme () {
 }
 
 get_history_file () {
-  if [ ! -d "$cache_dir" ]; then
-    mkdir -p "$cache_dir"
+  if [ ! -d "$hst_dir" ]; then
+    mkdir -p "$hst_dir"
   fi
 
-  hst_file="$cache_dir/$_ctx"
+  hst_file="$hst_dir/${_ctx}$hst_ext"
   echo "$hst_file"
   if [ ! -f "$hst_file" ]; then
     exit 3
   fi
 }
 
-# add entry if theme changed
 update_history () {
-  cur_theme="$(get_current_theme)"
+  cur_theme="${1:-"$(get_current_theme)"}"
 
-  # if theme has changed
-  if [ ! "$cur_theme" = "$new_theme_name" ]; then
-    hst_file="$(get_history_file)"
-
-    # update history
-    if [ -f "$hst_file" ]; then
-      # remove duplicate entries
-      sed -i "/$cur_theme/d" "$hst_file"
-      # remove old entries
-      hist_buf="$(tail -n $hst_size < "$hst_file")"
-      echo "$hist_buf" > "$hst_file"
-    fi
-
-    # append current theme
-    echo "$cur_theme" >> "$hst_file"
+  # if new theme is the same as previous theme
+  if [ "$cur_theme" = "$new_theme_name" ]; then
+    return
   fi
+
+  hst_file="${2:-"$(get_history_file)"}"
+
+  # update history entries
+  if [ -f "$hst_file" ]; then
+    # remove duplicate entries
+    sed -i "/$cur_theme/d" "$hst_file"
+    # remove old entries
+    hist_buf="$(tail -n $hst_size < "$hst_file")"
+    echo "$hist_buf" > "$hst_file"
+  fi
+
+  # append current theme to file
+  echo "$cur_theme" >> "$hst_file"
 }
 
 set_theme () {
@@ -314,9 +318,10 @@ case "$_ctx" in
         exit
         ;;
       *)
+        new_theme="${cmd:-"$new_theme_name"}"
         # run command or set theme for each context
         for c in "${all_ctx[@]}"; do
-          preserve_preferred_theme=true "$0" "$c" "${cmd:-"$new_theme_name"}"
+          preserve_preferred_theme=true "$0" "$c" "$new_theme"
         done
         terminate
         ;;
@@ -326,6 +331,8 @@ case "$_ctx" in
     config_dir="$HOME/.wallpaper-themes"
     config_link_names=("current")
     config_exts=("")
+    # set history size to current number of themes
+    hst_size="$(($(ls "$config_dir" | wc -l) - 1))"
     post_exec+="change-wallpaper -n -v;"
     ;;
   eww)

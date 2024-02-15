@@ -133,6 +133,9 @@
 
   .tabbrowser-tab {
     margin: -5px;
+
+    /* Fix tab glitching in toolbar */
+    margin-inline-start: -6px !important;
   }
 
   .tab-background {

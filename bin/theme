@@ -3,10 +3,22 @@
 # Author | cherrynoize
 # https://github.com/cherrynoize/dotfiles
 
+get_all_themes () {
+  find "$user_themes_dir"/* "$base_themes_dir"/* -maxdepth 0 -type f -iname "*$theme_ext" -exec basename {} \;
+}
+
 config_dir="${XDG_CONFIG_HOME:-"$HOME/.config"}"
 user_themes_dir=${user_themes_dir:-"$config_dir/themes"}
 base_themes_dir="/etc/themes"
 current_theme_file=${current_theme_file:-"$HOME/.current-theme"}
+old_theme="$(cat "$current_theme_file")"
+
+# where to store global theme history
+cache_dir="${XDG_CACHE_HOME:-"$HOME/.cache"}"
+hst_dir="$cache_dir/themes/hst"
+hst_file="$hst_dir/global-history"
+# maximum number of history entries
+hst_size="$(get_all_themes | sort -u | wc -l)"
 
 nid="6699" # notification id
 
@@ -27,18 +39,41 @@ update_theme () {
   echo "$theme_file" > "$current_theme_file"
 }
 
+update_history () {
+  cur_theme="${1:-"$theme_file"}"
+
+  # if new theme is the same as previous theme
+  if [ "$cur_theme" = "$old_theme" ]; then
+    return
+  fi
+
+  # update history entries
+  if [ -f "$hst_file" ]; then
+    # remove duplicate entries
+    sed -i "/$cur_theme/d" "$hst_file"
+    # remove old entries
+    hist_buf="$(tail -n $hst_size < "$hst_file")"
+    echo "$hist_buf" > "$hst_file"
+  fi
+
+  # append current theme to file
+  echo "$cur_theme" >> "$hst_file"
+}
+
 usage () {
 local program_name="$(basename -- "$0")"
 cat<<EOF
 usage: $program_name [command] [options] [theme]
 commands:
   show               show current theme
-  list               list available themes
+  list               list available themes (in alphabetical order, user themes first then base themes)
+  recent             sort available themes by most recently used (remaining themes are sorted alphabetically)
   name [theme]       show theme name (defaults to current)
   prev               set previous theme
   next               set next theme
   random             set random theme
   set [theme]        set theme
+  help               show this help message
 options:
   -d|--dir [dir]     use theme directory
   -t|--theme [theme] use theme (-t|--theme can be omitted after command)
@@ -58,6 +93,11 @@ get_theme () {
   fi
 }
 
+get_recently_used_themes () {
+  recent_themes="$(tac "$hst_file")"
+  printf "%s\n%s" "$recent_themes" "$(get_all_themes)" | awk '!a[$0]++'
+}
+
 do_cmd () {
   themerc="$(get_theme "$theme_file")"
   if [ -n "$themerc" ] && [ "$themerc" != "" ]; then
@@ -65,7 +105,7 @@ do_cmd () {
   fi
 
   current_theme="$(cat "$current_theme_file")"
-  mapfile -t themes < <(find "$user_themes_dir"/* "$base_themes_dir"/* -maxdepth 0)
+  mapfile -t themes < <(get_all_themes)
 
   case "$1" in
     current)
@@ -82,6 +122,9 @@ do_cmd () {
       for _theme in "${themes[@]}"; do
         printf "%s\n" "$(basename "$_theme")"
       done
+      ;;
+    recent)
+      get_recently_used_themes
       ;;
     name)
       if [ -n "$theme_name" ]; then
@@ -110,11 +153,14 @@ do_cmd () {
       do_cmd set
       ;;
     set)
-      if [ -n "$theme_file" ]; then
-        set_theme
-        update_theme
-        notification
+      if [ -z "$theme_file" ]; then
+        return
       fi
+
+      set_theme
+      update_theme
+      update_history "$theme_file"
+      notification
       ;;
     *)
       echo "error: unknown command $1"
@@ -125,7 +171,7 @@ do_cmd () {
 
 while [ -n "$1" ]; do
   case "$1" in
-    -h|--help)
+    help|-h|--help)
       usage
       exit
       ;;

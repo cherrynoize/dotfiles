@@ -21,7 +21,36 @@ launch_rofi () {
     done | $rofi_cmd -selected-row "${selected_index:-0}"
 }
 
-mapfile -t themes < <(theme list)
+usage () {
+cat<<EOF
+launch a rofi dialog to switch between different themes
+usage: $(basename "$0") [options] [command]
+
+commands:
+  help           display this help message and exit
+
+options:
+  --recent=bool  sort themes by most recently used
+
+values:
+  bool           true or false
+EOF
+}
+
+case "$1" in
+  help)
+    usage
+    exit
+    ;;
+  --recent=false)
+    sort_param="list"
+    ;;
+  *)
+    sort_param="recent"
+    ;;
+esac
+
+mapfile -t themes < <(theme "$sort_param")
 declare -A theme_map
 
 # list themes

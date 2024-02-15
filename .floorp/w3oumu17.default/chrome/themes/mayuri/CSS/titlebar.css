@@ -12,7 +12,7 @@
   }
 
   #titlebar {
-    z-index: 4;
+    z-index: 1;
   }
 
   #navigator-toolbox:not([inFullscreen])

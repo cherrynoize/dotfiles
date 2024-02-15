@@ -189,13 +189,11 @@ great. Have a look at the [known bugs](#-known-bugs) section.
 
 ### Global themes
 
-You can run
+You can run `theme-picker` to switch between available global
+themes.
 
-```
-theme-picker
-```
-
-to switch between available global themes.
+> Use option `--recent=false` to sort alphabetically instead of
+> by recently used.
 
 Global themes are configuration files in
 [.config/themes](../.config/themes) and they can be easily edited,
@@ -378,6 +376,8 @@ and actually do something about it.
 
 ### Wallpapers
 
+- Implement wallpaper history for each theme and start sorting
+by most recent in `wall-picker`
 - Convert to a higher compression format
 - AI upscaler on-the-fly with cache storage support
 - Some wallpapers have some ugly artifacts/watermarks to be
