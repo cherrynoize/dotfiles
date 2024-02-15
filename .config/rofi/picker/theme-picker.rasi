@@ -15,6 +15,8 @@
   show-thumbnail:                true;
   show-label:                    true;
 
+  brdr:                          #cfcfcf93;
+
   panel-placement:               northeast;
   panel-offset-x:                0px;
   panel-offset-y:                0px;
@@ -24,11 +26,28 @@
   panel-border-color:            @brdr;
   panel-radius:                  1px;
 
-  main-spacing:                  10px;
+  mainbox-children:              [ "inputbar", "listbox" ];
+
   main-padding:                  0px;
+  main-spacing:                  0px;
+
   card-padding:                  22px 16px;
-  card-radius:                   0px;
-  inputbar-padding:              50px 30px;
+  card-border-size:              2px;
+  card-border-color:             transparent;
+  card-radius:                   2px;
+
+  inputbar-padding:              26px 30px 29px 30px;
+  inputbar-bg:                   #4c293f34;
+  inputbar-border-size:          0 0 2px 0;
+  inputbar-border-color:         transparent;
+  inputbar-radius:               0;
+
+  searchbox-border-size:         2px;
+  searchbox-border-color:        @brdr;
+  searchbox-radius:              @radius;
+  searchbox-placeholder:         "Theme name";
+  searchbox-placeholder-color:   #cfcfcfaf;
+
   list-orientation:              vertical;
   rows:                          1;
   columns:                       3;
@@ -44,5 +63,5 @@
   item-icon-border-color:        transparent;
   item-icon-border-size-hover:   10px;
   item-icon-border-color-hover:  transparent;
-  thumbnail-size:                13%;
+  thumbnail-size:                11.75%;
 }

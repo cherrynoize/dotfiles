@@ -7,6 +7,7 @@
 @import "~/.config/rofi/templates/sleek.rasi"
 @import "~/.config/rofi/ui/picker.rasi"
 @import "~/.config/rofi/bindings.rasi"
+@import "~/.config/rofi/vim-mode.rasi"
 
 /*----- General -----*/
 
@@ -18,22 +19,23 @@
   panel-placement:               southeast;
   panel-offset-x:                0px;
   panel-offset-y:                0px;
-/*panel-width:                   28%; */
   panel-width:                   100%;
   panel-height:                  21%;
   panel-border-size:             0px;
   panel-border-color:            @brdr;
   panel-radius:                  1px;
 
+  mainbox-children:              [ "listbox" ];
+
   main-spacing:                  10px;
   main-padding:                  0px;
+
   card-padding:                  22px 16px;
   card-radius:                   0px;
-  inputbar-padding:              50px 30px;
-  list-orientation:              vertical;
-  rows:                          1;
-/*columns:                       3; */
-  columns:                       10;
+
+  list-orientation:              horizontal;
+  rows:                          -1;
+  columns:                       0;
 
   item-border-size:              0px;
   item-border-size-hover:        5px;

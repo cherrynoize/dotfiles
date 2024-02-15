@@ -32,7 +32,7 @@ window {
 /*----- Main Box -----*/
 
 mainbox {
-  children:                    [ "inputbar", "listbox" ];
+  children:                    @mainbox-children;
   enabled:                     true;
   spacing:                     @main-spacing;
   padding:                     @main-padding;
@@ -45,6 +45,8 @@ listbox {
   orientation:                 vertical;
   padding:                     20px;
   background-color:            @bg;
+  border:                      @card-border-size;
+  border-color:                @card-border-color;
   border-radius:               @card-radius;
 }
 
@@ -57,8 +59,10 @@ inputbar {
   spacing:                     10px;
   margin:                      0;
   padding:                     @inputbar-padding;
-  background-color:            transparent;
-  border-radius:               0;
+  background-color:            @inputbar-bg;
+  border:                      @inputbar-border-size;
+  border-color:                @inputbar-border-color;
+  border-radius:               @inputbar-radius;
   text-color:                  @fg;
   orientation:                 horizontal;
 }
@@ -67,13 +71,15 @@ entry {
   enabled:                     @show-inputbar;
   expand:                      true;
   padding:                     22px 24px;
-  border-radius:               @radius;
+  border:                      @searchbox-border-size;
+  border-color:                @searchbox-border-color;
+  border-radius:               @searchbox-radius;
   background-color:            @bg-alt;
   text-color:                  inherit;
-  font:                        "JetBrainsMono NF Bold 9";
+  font:                        "JetBrainsMono NF Bold 10";
   cursor:                      text;
-  placeholder:                 "Search";
-  placeholder-color:           inherit;
+  placeholder:                 @searchbox-placeholder;
+  placeholder-color:           @searchbox-placeholder-color;
 }
 
 /*----- Listview -----*/
@@ -123,6 +129,7 @@ element-icon {
   size:                        @thumbnail-size;
   vertical-align:              0;
   horizontal-align:            0;
+  margin:                      0 -5px;
   padding:                     0px;
   background-color:            transparent;
   text-color:                  inherit;
