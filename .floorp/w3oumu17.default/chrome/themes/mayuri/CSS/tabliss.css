@@ -1,6 +1,125 @@
 /* Tabliss newtab */
 @-moz-document url("moz-extension://b3571eb9-9366-4a2b-8e1e-4f34685c62d2/index.html") {
+  :root {
+    --primary-color: #FF0F7E;
+  }
+
   .Image {
     background-image: url("../images/wallpaper") !important;
+  }
+
+  .Overlay:not(:hover) {
+    opacity: .5 !important;
+    transition: background 1s, opacity 3s !important;
+  }
+
+  .Overlay:hover {
+    transition: background .6s, opacity 1s !important;
+  }
+
+  .Overlay svg {
+    transition: color .6s !important;
+  }
+
+  .Overlay:hover svg {
+    color: var(--primary-color) !important;
+    transition: color .3s !important;
+  }
+
+  .Settings {
+    opacity: .9 !important;
+  }
+
+  .Settings :is(
+  .plane,
+  .plane *:not(.Widget)) {
+    background-color: #1a1f29 !important;
+    color: #fcfcfc !important;
+    border-color: #c9c9c9 !important;
+  }
+
+  .Settings :is(
+  .plane label,
+  .plane .Widget,
+  .plane .Widget *,
+  .plane select) {
+    background-color: #2a202f !important;
+  }
+
+  .Settings .plane .Widget {
+    border: 1px solid transparent !important;
+    transition: border-color .05s ease-out !important;
+  }
+
+  .Settings .plane > .Widget:last-of-type {
+    display: none !important;
+  }
+
+  .Settings .plane .Widget:hover {
+    border-color: #fcfcfc !important;
+    transition: border-color .3s !important;
+  }
+
+  .Settings :is(h1, h2) {
+    padding-bottom: .3em !important;
+    width: 100% !important;
+    border-bottom: 1px solid #fcfcfc !important;
+  }
+
+  .Settings .Logo { display: none; !important }
+
+  /* Page content */
+
+  .Widgets .container .Widget:first-of-type {
+    margin-bottom: 0 !important;
+  }
+
+  .Widgets .container .Widget:nth-of-type(2) {
+    margin-top: .1rem !important;
+  }
+
+  .Widgets .LiteratureClock:hover blockquote span,
+  .Widgets .LiteratureClock:hover cite {
+    transition: opacity .6s !important;
+  }
+
+  .Widgets .LiteratureClock:not(:hover) blockquote span,
+  .Widgets .LiteratureClock:not(:hover) cite {
+    opacity: .7 !important;
+    transition: opacity 1s !important;
+  }
+
+  .Widgets .LiteratureClock:not(:active) {
+    cursor: default !important;
+  }
+
+  .Widgets .LiteratureClock {
+    pointer-events: none;
+  }
+
+  .Widgets .LiteratureClock * {
+    pointer-events: auto;
+  }
+
+  .Widgets .Weather {
+    margin-bottom: -24px !important;
+  }
+
+  .Widgets .Weather .details {
+    animation: slidein 1.8s ease 0s 1 normal forwards;
+  }
+
+  @keyframes slidein {
+    0% {
+      margin-top: .8em;
+      max-height: 0;
+      opacity: 0;
+    }
+    100% {
+      max-height: 5em;
+      margin-top: 0;
+      margin-bottom: 3em;
+      opacity: 1;
+    }
   }
 }

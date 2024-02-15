@@ -25,12 +25,12 @@
     opacity: .97 !important;
   }
 
-  /* Align vertically when not focused */
+  /* Align vertically when not extended */
   #urlbar:not([breakout-extend]) {
     top: unset !important;
   }
 
-  #urlbar:not([focused]):not([breakout][breakout-extend])
+  #urlbar:not([breakout][breakout-extend])
   #urlbar-input {
     text-align: center !important;
   }

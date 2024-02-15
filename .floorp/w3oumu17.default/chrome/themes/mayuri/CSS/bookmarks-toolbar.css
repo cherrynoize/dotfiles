@@ -1,8 +1,10 @@
 @-moz-document url(chrome://browser/content/browser.xhtml) {
   #PersonalToolbar {
     position: absolute !important;
-    top: 1.65rem !important;
+    top: var(--bookmarks-toolbar-margin-top) !important;
     width: 100vw;
+    height: var(--bookmarks-toolbar-height) !important;
+    max-height: var(--bookmarks-toolbar-height) !important;
     padding: 1px 6px !important;
     transition: max-height .22s ease .32s,
                 transform .1s ease-in-out .5s,
@@ -37,7 +39,8 @@
   }
 
   #navigator-toolbox:hover > #PersonalToolbar {
-    box-shadow: 0 55px 100px 10px var(--dark),
+    box-shadow: 0 0 .4em .9em var(--dark),
+                0 55px 100px 10px var(--dark),
                 0 1em 50px -1em color-mix(
                     in lch,
                     var(--primary-color) 8%,

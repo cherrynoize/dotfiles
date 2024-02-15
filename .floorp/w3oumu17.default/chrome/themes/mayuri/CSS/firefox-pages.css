@@ -412,13 +412,17 @@ regexp("^about:(neterror|certerror).*") , url('about:firefoxview') {
     transition: color .6s ease-out;
   }
 
-  button:hover, button:hover * {
+  button:hover {
     background-color: var(--white) !important;
     color: var(--black) !important;
-    fill: var(--black) !important;
     border-radius: 2px;
     cursor: var(--cursor-pointer) !important;
     transition: background-color .6s, color .3s !important;
+  }
+
+  button:hover * {
+    fill: var(--black) !important;
+    transition: background-color .6s, color .3s, fill .8s !important;
   }
 
   .radio-check[selected] {

@@ -32,7 +32,7 @@
   main-spacing:                  0px;
 
   card-padding:                  22px 16px;
-  card-border-size:              2px;
+  card-border-size:              0px;
   card-border-color:             transparent;
   card-radius:                   2px;
 

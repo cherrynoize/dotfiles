@@ -18,6 +18,8 @@
 
     /* Toolbar */
     --toolbar-height: 2.25rem;
+    --bookmarks-toolbar-margin-top: var(--toolbar-height);
+    --bookmarks-toolbar-height: 1.8rem;
 
     /* URL bar */
     --urlbar-brdr-radius: .8; /* 0 (square) to 1 (round) */

@@ -31,6 +31,8 @@
   main-padding:                  0px;
 
   card-padding:                  22px 16px;
+  card-border-size:              0px;
+  card-border-color:             transparent;
   card-radius:                   0px;
 
   list-orientation:              horizontal;
