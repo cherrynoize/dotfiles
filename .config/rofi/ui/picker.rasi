@@ -64,7 +64,7 @@ inputbar {
 }
 
 entry {
-  enabled:                     true;
+  enabled:                     @show-inputbar;
   expand:                      true;
   padding:                     22px 24px;
   border-radius:               @radius;
@@ -81,8 +81,8 @@ entry {
 listview {
   enabled:                     true;
   layout:                      @list-orientation;
-  lines:                       @row-number;
-  columns:                     @column-number;
+  lines:                       @rows;
+  columns:                     @columns;
   spacing:                     40px;
   padding:                     @card-padding;
   cycle:                       true;

@@ -30,8 +30,8 @@
   card-radius:                   0px;
   inputbar-padding:              50px 30px;
   list-orientation:              vertical;
-  row-number:                    1;
-  column-number:                 3;
+  rows:                          1;
+  columns:                       3;
 
   item-border-size:              0px;
   item-border-size-hover:        5px;

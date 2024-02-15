@@ -24,7 +24,7 @@ elif [ ! -f "$source_img" ]; then
   exit 1
 fi
 
-thumbnail_cache_dir="{2:-"$HOME/.cache/thumbnails"}"
+thumbnail_cache_dir="${2:-"$HOME/.cache/thumbnails"}"
 thumbnail_res="${3:-"$(get_thumbnail_res)"}"
 thumbnail_file="$thumbnail_cache_dir/${thumbnail_res}_$(basename "$source_img")"
 

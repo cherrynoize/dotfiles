@@ -18,7 +18,8 @@
   panel-placement:               southeast;
   panel-offset-x:                0px;
   panel-offset-y:                0px;
-  panel-width:                   28%;
+/*panel-width:                   28%; */
+  panel-width:                   100%;
   panel-height:                  21%;
   panel-border-size:             0px;
   panel-border-color:            @brdr;
@@ -30,8 +31,9 @@
   card-radius:                   0px;
   inputbar-padding:              50px 30px;
   list-orientation:              vertical;
-  row-number:                    1;
-  column-number:                 3;
+  rows:                          1;
+/*columns:                       3; */
+  columns:                       10;
 
   item-border-size:              0px;
   item-border-size-hover:        5px;
@@ -46,4 +48,3 @@
   item-icon-border-color-hover:  transparent;
   thumbnail-size:                13%;
 }
-

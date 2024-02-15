@@ -52,10 +52,10 @@ Not in the AUR* (or in the official repo) (optional):
 
 > **Do submit a PR or let me know if this is outdated.*
 
-## 🔧 Install
+## 🔧 Setup
 
-I'm working on a setup script. You can just clone
-the repo for now and then manually move things where they belong.
+I'm working on a setup script. You can clone
+the repo for now and manually move things where they belong.
 
 Something like
 
@@ -77,6 +77,203 @@ You also need to run
 
 from the repo directory. This is just a stub for a full installer
 which should replace this `README` section entirely.
+
+### Sidebery
+
+For the Sidebery panel you have to manually paste the CSS under
+**Sidebery > Settings > Styles editor**.
+
+<details>
+<summary>Here is the code</summary>
+
+```
+#root.root {--general-margin: 5px;}
+#root.root {--bookmarks-folder-font: 0.9375rem Ubuntu;}
+#root.root {--bookmarks-bookmark-font: 0.9375rem Ubuntu;}
+#root.root {--bookmarks-folder-height: 32px;}
+#root.root {--bookmarks-separator-height: 19px;}
+#root.root {--bookmarks-inner-gap: 6px;}
+#root.root {--toolbar-bg: transparent;}
+#root.root {--ctx-menu-font: 1rem Monospace;}
+#root.root {--ctx-menu-min-width: 250px;}
+#root.root {--ctx-menu-max-width: 600px;}
+
+#root.root {
+  --bg-transition: .3s;
+  --brdr-size: 3px;
+  --brdr-style: solid;
+  --brdr-color: transparent;
+  --brdr-radius: 15px;
+  --brdr-transition: .3s;
+  --opacity-transition: .2s;
+}
+
+@media (prefers-color-scheme: dark) {
+  #root.root {
+    --bg-color: #13101c;
+    --brdr-color-hover: rgba(204, 204, 204, .6);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  #root.root {
+    --bg-color: #efecf9;
+    --brdr-color-hover: rgba(51, 51, 51, .6);
+  }
+}
+
+/* ------------------------------------- */
+
+/* Hide navigation bar and other buttons when closed. */
+
+#root.root :is(.top-horizontal-box, .new-tab-btns, .BottomBar, .bottom-bar-space) {
+  transition: margin .3s, opacity .3s;
+}
+
+#root.root:not(:hover) :is(.top-horizontal-box, .left-vertical-box, .right-vertical-box, .new-tab-btns, .BottomBar, .bottom-bar-space) {
+  margin-left: -1rem;
+  margin-bottom: -1rem;
+  opacity: 0;
+  visibility: collapse;
+  transition: margin .3s, opacity .3s, visibility .6s;
+}
+
+/* ------------------------------------- */
+
+/* Tabs */
+
+#root.root {--tabs-height: 1.9em;}
+#root.root {--tabs-font: 1rem Monospace;}
+#root.root {--tabs-count-font: 0.5625rem sans-serif;}
+#root.root {--tabs-close-btn-margin: 5px;}
+#root.root {--ntb-btn-height: 33px;}
+#root.root {--ntb-padding: 5px;}
+#root.root:not(:hover) {--tabs-indent: 0px;}
+#root.root:hover {--tabs-indent: .95em;}
+#root.root:hover {--tabs-margin: 6px;}
+#root.root:hover {--tabs-inner-gap: 10px;}
+
+#root.root:not(:hover) .TabsPanel .ScrollBox {
+  margin-bottom: 5px;
+}
+
+.Tab {
+    transition: margin .45s, padding .45s;
+}
+
+#root.root:not(:hover) .Tab {
+  margin-left: 0;
+}
+
+#root.root:hover .Tab .title {
+  padding-left: 8px;
+  transition: margin-left .3s;
+}
+
+.Tab:hover .title {
+  margin-left: 4px;
+}
+
+/* Move tab favicon to the right */
+
+.Tab .fav {
+  order: 1;
+}
+
+.Tab .close {
+  right: 34px;
+  border-radius: 3px;
+}
+
+.Tab .title {
+	background: linear-gradient(90deg, var(--tabs-normal-fg) 70%, #f1f1f100 95%);
+	background-clip: text;
+	color: transparent;
+}
+
+/* ------------------------------------- */
+
+/* Pinned tabs */
+
+/* Max number of pinned tabs per row */
+#root.root:hover {--pinned-tabs-col: 3;}
+
+#root.root {--tabs-pinned-height: 42px;}
+#root.root {--tabs-pinned-width: calc( (96vw - (var(--tabs-margin)*var(--pinned-tabs-col))) / var(--pinned-tabs-col));}
+
+#root.root:not(:hover) .PinnedTabsBar {
+  grid-gap: 0;
+  padding: 0 4px 1px;
+  flex-direction: column;
+}
+
+.Tab[data-pin="true"] {
+  margin-top: 5px;
+  transition: width .3s, padding .45s;
+}
+
+.Tab[data-pin="true"]:not([data-active="true"]) .body {
+  background: #d9d9f330;
+}
+
+.PinnedTabsBar .tab-wrapper {
+  transition: opacity .4s;
+}
+
+.PinnedTabsBar .tab-wrapper:not(:hover) {
+  opacity: .8;
+  transition: opacity .3s;
+}
+
+/* ------------------------------------- */
+
+/* Navigation bar */
+
+#root.root {--nav-btn-height: 35px;}
+#root.root:hover {--nav-btn-width: 55px;}
+#root.root {--nav-btn-margin: 1px;}
+#root.root {--nav-btn-len-margin: 1px;}
+#root.root {--nav-btn-border-radius: 5px;}
+#root.root {--nav-delimiter-size: 16px;}
+#root.root {--nav-hidden-panels-popup-margin: 3px;}
+
+/* Move navigation bar to the bottom if horizontal layout is set. */
+
+.top-horizontal-box {
+  display: flex;
+  order: 1; 
+}
+
+.NavigationBar .nav-item {
+  transform: rotateX(180deg);
+}
+
+.hidden-panels-popup-layer {
+  margin-top: -3rem;
+  transform: rotateY(180deg) rotateZ(180deg);
+}
+
+/* Improve navigation bar hidden panels popup visibility. */
+
+.hidden-panels-popup {
+  background-color: #3355 !important;
+  border: var(--brdr-size)
+          var(--brdr-style)
+          #ccc8 !important;
+  border-radius: var(--brdr-radius) !important;
+  opacity: .8;
+  transition: background-color .4s .05s, border-color var(--brdr-transition), opacity var(--opacity-transition);
+}
+
+.hidden-panels-popup:hover {
+  background-color: var(--bg-color) !important;
+   border-color: var(--brdr-color-hover) !important;
+  opacity: 1;
+  transition: background-color var(--bg-transition), border-color var(--brdr-transition), opacity var(--opacity-transition);
+}
+```
+
+</details>
 
 ## 🔄 Update
 

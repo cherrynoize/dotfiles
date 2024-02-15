@@ -51,7 +51,7 @@ imagebox {
 inputbar {
   padding:                     15px;
   border-radius:               10px;
-//background-color:            @primary;
+/*background-color:            @primary; */
   background-color:            @bg-alt;
   text-color:                  @fg;
   children:                    [ "dummy", "prompt", "dummy"];
