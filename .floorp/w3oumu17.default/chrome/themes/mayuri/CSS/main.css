@@ -1,27 +1,45 @@
 @-moz-document url(chrome://browser/content/browser.xhtml) {
   :root {
     /* General style */
+
     --btn-brdr-radius: 6px;
+    --textbox-brdr-radius: 10px;
+
+    /* ------------- */
+
+    /* Window style */
 
     /* Gaps around windows */
     --useless-gaps: 15px;
 
-    /* Window style */
     --win-brdr-size: 3px;
     --win-brdr-style: solid;
     --win-brdr-radius: 15px;
     --win-brdr-transition: .3s;
 
+    /* ------------ */
+
     /* Titlebar */
+
     --tab-favicon-size: 37px;
     --tab-min-width: var(--tab-favicon-size) !important;
 
+    /* -------- */
+
     /* Toolbar */
-    --toolbar-height: 2.25rem;
+
+    --toolbar-height: 3rem;
     --bookmarks-toolbar-margin-top: var(--toolbar-height);
     --bookmarks-toolbar-height: 1.8rem;
 
+    /* Unified extensions view addon icons */
+    --uei-icon-size: 22px;
+    --firefoxcss-number-of-extensions-in-a-row: 4;
+
+    /* ------- */
+
     /* URL bar */
+
     --urlbar-brdr-radius: .8; /* 0 (square) to 1 (round) */
 
     /* Join tabs bar with URL bar */
@@ -31,21 +49,28 @@
     --TabsBorder: 8;
     --NavbarHeightSmall: calc(var(--TabsHeight) + var(--TabsBorder));
 
-    /* Unified extensions view addon icons */
-    --uei-icon-size: 22px;
-    --firefoxcss-number-of-extensions-in-a-row: 4;
+    /* ------ */
 
     /* Sidebar */
+
     --sidebar-width: 40px;
     --sidebar-hover-width: 512px;
 
     --uc-bm-height: 24px;
     --uc-bm-padding: 8px;
 
-    --textbox-brdr-radius: 10px;
+    /* Panel menu */
+
+    --account-label: "𝕔𝕙𝕖𝕣𝕣𝕪𝕟𝕠𝕚𝕫𝕖";
+
+    /* ---------- */
+
+    /* Cursors */
 
     --default-cursor: default;
     --pointer-cursor: pointer;
+
+    /* ------- */
   }
 
   /*---------------root window----------------*/
@@ -55,8 +80,12 @@
   #sidebar2-box,
   #sidebar-select-box,
   #navigator-toolbox-background,
+  #navigator-toolbox,
+  #titlebar,
   #nav-bar,
   #nav-bar-customization-target,
+  #TabsToolbar,
+  .toolbar-items,
   #PanelUI-button,
   .tab-content,
   .tab-background,

@@ -4,13 +4,12 @@
     flex-direction: row;
     justify-content: center;
     position: relative;
-    margin: var(--useless-gaps)
+    padding: var(--useless-gaps)
              var(--useless-gaps)
              0
              var(--useless-gaps) !important;
     height: var(--toolbar-height);
     border-bottom: var(--firefoxcss-top-bar-border-bottom-size) solid var(--firefoxcss-top-bar-border-bottom-color) !important;
-    background: none !important;
   }
 
   /* Instantly hide the top toolbar in fullscreen mode */
@@ -73,7 +72,7 @@
   }
 
   #nav-bar:not([urlbar-exceeds-toolbar-bounds="true"]) {
-    transform: translateX(3px);
+    transform: translateX(3px) !important;
   }
 
   @media screen and (max-width: 100px) {
@@ -125,15 +124,7 @@
     max-width: var(--tab-min-width) !important;
   }
 
-  tab, 
   .tabbrowser-tab {
-    padding-left: 0 !important;
-    margin-left: 0 !important;
-  }
-
-  .tabbrowser-tab {
-    margin: -5px;
-
     /* Fix tab glitching in toolbar */
     margin-inline-start: -6px !important;
   }
@@ -148,4 +139,21 @@
     width: 23px !important; 
     border-radius: 10px !important;
   }
+
+  /* Align favicon with toolbar items */
+
+  #TabsToolbar .toolbar-items {
+    display: unset !important;
+  }
+
+  #tabbrowser-tabs .tab-label-container {
+    height: unset !important;
+  }
+
+  #tabbrowser-tabs .tab-icon-stack {
+    margin-top: calc((var(--toolbar-height) - var(--tab-favicon-size)) / 2 - 5.5px) !important;
+    margin-left: 3.5px;
+  }
+
+  /* -------------------------------- */
 }

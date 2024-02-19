@@ -195,6 +195,14 @@ themes.
 > Use option `--recent=false` to sort alphabetically instead of
 > by recently used.
 
+> Note: the theme and wall picker both will be kinda slow to
+> start the first few times, that is because it's creating
+> thumbnail for all wallpaper images. It speeds up soon enough
+> (proportional to the number of images in your wallpaper dir).
+> The only way to solve this would be to use the original image
+> as a background for a `rofi` element instead passing the way
+> we currently are. (If you know how to do that reach out.)
+
 Global themes are configuration files in
 [.config/themes](../.config/themes) and they can be easily edited,
 created or removed manually.
@@ -299,7 +307,8 @@ started.</summary>
 #### Rofi
 
     {Tab,Shift}+Tab  Move to next/previous entry
-    Shift+{h,j,k,l}  Vi-like navigation
+    h,j,k,l          Vi-like keybindings for moving around
+    Alt+{h,j,k,l}    Where there's also a searchbar
 
 </details>
 

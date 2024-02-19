@@ -39,9 +39,9 @@
   }
 
   #navigator-toolbox:hover > #PersonalToolbar {
-    box-shadow: 0 0 .4em .9em var(--dark),
-                0 55px 100px 10px var(--dark),
-                0 1em 50px -1em color-mix(
+    box-shadow: 0 calc(var(--bookmarks-toolbar-height) + 4em) 4em 4em #1a192ca0,
+                0 calc(var(--bookmarks-toolbar-height) + 100px) 100px 10px var(--dark),
+                0 calc(var(--bookmarks-toolbar-height) + 50px) 50px -1em color-mix(
                     in lch,
                     var(--primary-color) 8%,
                     transparent) !important;
