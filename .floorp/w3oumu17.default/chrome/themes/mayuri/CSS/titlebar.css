@@ -13,6 +13,14 @@
 
   #titlebar {
     z-index: 4;
+    transition: opacity .5s;
+  }
+
+  #navigator-toolbox:focus-within
+  #titlebar {
+    position: absolute;
+    left: .9rem;
+    opacity: 0;
   }
 
   #navigator-toolbox:not([inFullscreen])

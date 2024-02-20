@@ -200,7 +200,7 @@ case "$_ctx" in
     gen_fallback_cover () {
       fallback_cover="$(music fcloc)"
       [ -f "$fallback_cover" ] &&
-        convert -channel RGB "$fallback_cover" -negate "$fallback_cover"
+        post_exec+="convert -channel RGB \"$fallback_cover\" -negate \"$fallback_cover\";"
     }
 
     # update 'light_theme = true|false'

@@ -159,7 +159,7 @@ if status is-interactive
   abbr clear-yay-cache 'yay -Sc'
   abbr show-pacnew-files 'pacdiff -o'
   abbr show-packages-by-size 'LC_ALL=C pacman -Qi | awk \'/^Name/{name=$3} /^Installed Size/{print $4$5, name}\' | sort -h'
-  abbr --set-cursor find-by-content 'grep -rnw . -e "%"'
+  abbr --set-cursor find-by-content 'grep -irnw . -e "%"'
   abbr --set-cursor find-by-name 'find . -iname \'*%*\' -print'
   abbr --set-cursor find-by-exact-name 'find . -name \'%\' -print'
   abbr find-empty 'find . -size 0 -type f' # list empty files

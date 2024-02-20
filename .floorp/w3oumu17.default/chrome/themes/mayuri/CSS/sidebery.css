@@ -87,11 +87,19 @@
     transition: margin .45s !important, padding .45s !important;
   }
 
+  #root.root:not(:hover) .Tab .body {
+    justify-content: center !important;
+  }
+
   #root.root:not(:hover) .Tab .t-box {
     width: 0 !important;
     margin: 0 !important;
     transition: width .45s, margin .1s !important;
     visibility: collapse;
+  }
+
+  #root.root:not(:hover) .Tab .fav {
+    margin: 0 !important;
   }
 
   #root.root:hover .Tab .title {

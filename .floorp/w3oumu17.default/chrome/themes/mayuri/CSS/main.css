@@ -1,13 +1,13 @@
 @-moz-document url(chrome://browser/content/browser.xhtml) {
   :root {
-    /* General style */
+    /* {{ General style */
 
     --btn-brdr-radius: 6px;
     --textbox-brdr-radius: 10px;
 
-    /* ------------- */
+    /* ------------- }} */
 
-    /* Window style */
+    /* {{ Window style */
 
     /* Gaps around windows */
     --useless-gaps: 15px;
@@ -17,30 +17,31 @@
     --win-brdr-radius: 15px;
     --win-brdr-transition: .3s;
 
-    /* ------------ */
+    --inactive-window-opacity: .8;
 
-    /* Titlebar */
+    /* ------------ }} */
+
+    /* {{ Titlebar */
 
     --tab-favicon-size: 37px;
     --tab-min-width: var(--tab-favicon-size) !important;
 
-    /* -------- */
+    /* -------- }} */
 
-    /* Toolbar */
+    /* {{ Toolbar */
 
     --toolbar-height: 3rem;
-    --bookmarks-toolbar-margin-top: var(--toolbar-height);
-    --bookmarks-toolbar-height: 1.8rem;
 
     /* Unified extensions view addon icons */
     --uei-icon-size: 22px;
     --firefoxcss-number-of-extensions-in-a-row: 4;
 
-    /* ------- */
+    /* ------- }} */
 
-    /* URL bar */
+    /* {{ URL bar */
 
     --urlbar-brdr-radius: .8; /* 0 (square) to 1 (round) */
+    --urlbar-extend-margin: 3rem;
 
     /* Join tabs bar with URL bar */
     --tab-border-radius: 3px !important;
@@ -49,9 +50,17 @@
     --TabsBorder: 8;
     --NavbarHeightSmall: calc(var(--TabsHeight) + var(--TabsBorder));
 
-    /* ------ */
+    /* ------ }} */
 
-    /* Sidebar */
+    /* {{ Bookmarks toolbar */
+
+    --bookmarks-toolbar-height: 2.2rem;
+    --bookmarks-toolbar-margin-top: var(--toolbar-height);
+    --bookmarks-toolbar-padding: 1px 6px;
+
+    /* ----------------- }} */
+
+    /* {{ Sidebar */
 
     --sidebar-width: 40px;
     --sidebar-hover-width: 512px;
@@ -59,18 +68,18 @@
     --uc-bm-height: 24px;
     --uc-bm-padding: 8px;
 
-    /* Panel menu */
+    /* {{ Panel menu */
 
     --account-label: "𝕔𝕙𝕖𝕣𝕣𝕪𝕟𝕠𝕚𝕫𝕖";
 
-    /* ---------- */
+    /* ---------- }} */
 
-    /* Cursors */
+    /* {{ Cursors */
 
     --default-cursor: default;
     --pointer-cursor: pointer;
 
-    /* ------- */
+    /* ------- }} */
   }
 
   /*---------------root window----------------*/
@@ -130,6 +139,21 @@
   browser:hover {
     border-color: var(--win-brdr-color-hover) !important;
   }
+
+  /* Obscure page content when on other windows */
+  #navigator-toolbox-background:hover ~
+  #browser,
+  #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:hover ~
+  #appcontent {
+    opacity: var(--inactive-window-opacity);
+    transition: opacity .15s ease-out;
+  }
+
+  #appcontent {
+    transition: opacity .3s ease-out;
+  }
+
+  /* ------------------------------------- */
 
   /*--------------------addons----------------------*/
 

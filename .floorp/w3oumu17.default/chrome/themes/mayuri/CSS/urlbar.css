@@ -12,16 +12,44 @@
     margin-top: 0 !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
+    max-width: 1000px !important;
     width: 100% !important;
-    transition: width .3s, left .3s, margin .3s;
+    transition: left .3s, margin .3s;
+  }
+
+  /* When urlbar is extended make navbar cover everything */
+
+  #nav-bar[urlbar-exceeds-toolbar-bounds] {
+    position: absolute !important;
+    pointer-events: auto !important;
+    transition: none !important;
+  }
+
+  /* Hide navbar so when hovering anywhere content underneath *
+   * can be de-opacizided. */
+  #nav-bar[urlbar-exceeds-toolbar-bounds],
+  #nav-bar[urlbar-exceeds-toolbar-bounds]
+  *:not(#urlbar-container *) {
+    background: transparent !important;
+  }
+
+  /* ---------------------------------------------------- */
+
+  #nav-bar[urlbar-exceeds-toolbar-bounds] #urlbar-container {
+    max-width: 100vw !important;
+    width: 100vw !important;
+    height: 100vh !important;
   }
 
   #urlbar[breakout][breakout-extend] {
     left: 0;
     right: 0;
-    margin-top: 30vh !important;
+    margin-top: calc(var(--urlbar-extend-margin) + 10vh + 5vw -
+                     var(--urlbar-height)) !important;
     margin-left: auto !important;
     margin-right: auto !important;
+    max-width: 1200px;
+    width: 50vw !important;
     opacity: .97 !important;
   }
 
@@ -37,7 +65,9 @@
 
   #urlbar-background {
     background-color: var(--urlbar-background) !important;
-    border: var(--win-brdr-size) var(--win-brdr-style) var(--win-brdr-color) !important;
+    border: var(--win-brdr-size)
+            var(--win-brdr-style)
+            var(--win-brdr-color) !important;
     transition: border-color var(--win-brdr-transition);
   }
 

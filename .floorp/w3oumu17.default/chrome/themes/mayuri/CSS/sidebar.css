@@ -18,13 +18,20 @@
   #sidebar {
     min-width: var(--sidebar-width) !important;
     will-change: min-width;
-    transition: min-width .2s ease-in-out !important;
+    transition: min-width .2s ease-in-out,
+                box-shadow .3s ease-in-out .3s !important;
     transition-delay: .3s !important;
   }
 
   #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:hover >
   #sidebar {
     min-width: var(--sidebar-hover-width) !important;
+    box-shadow: var(--sidebar-width) 0 30em 1em #1a192c29,
+                var(--sidebar-width) 0 50px -1em color-mix(
+                in lch,
+                var(--primary-color) 8%,
+                transparent
+                ) !important;
     transition-delay: .1s !important;
   }
 

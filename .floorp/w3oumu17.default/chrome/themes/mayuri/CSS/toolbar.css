@@ -48,14 +48,27 @@
     transition: opacity .4s !important;
   }
 
-  #nav-bar:not(:hover) >
+  #navigator-toolbox:not(:hover)
   #nav-bar-customization-target
   *:not(#urlbar-container):not(#urlbar-container *),
-  #nav-bar:not(:hover) >
+  #nav-bar[urlbar-exceeds-toolbar-bounds] >
+  #nav-bar-customization-target
+  *:not(#urlbar-container):not(#urlbar-container *),
+  #navigator-toolbox:not(:hover)
+  #PanelUI-button,
+  #nav-bar[urlbar-exceeds-toolbar-bounds] >
   #PanelUI-button,
   #navigator-toolbox:not(:hover)
   .titlebar-buttonbox-container {
     opacity: 0 !important;
+  }
+
+  #nav-bar[urlbar-exceeds-toolbar-bounds] {
+    pointer-events: none;
+  }
+
+  #nav-bar[urlbar-exceeds-toolbar-bounds] #urlbar-container {
+    pointer-events: auto;
   }
 
   /* Remove the all tab and new tab button */

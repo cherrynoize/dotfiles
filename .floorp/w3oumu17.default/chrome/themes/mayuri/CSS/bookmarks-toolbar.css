@@ -5,7 +5,7 @@
     width: 100vw;
     height: var(--bookmarks-toolbar-height) !important;
     max-height: var(--bookmarks-toolbar-height) !important;
-    padding: 1px 6px !important;
+    padding: var(--bookmarks-toolbar-padding) !important;
     transition: max-height .22s ease .32s,
                 transform .1s ease-in-out .5s,
                 box-shadow .1s ease-in-out .5s,
@@ -19,6 +19,8 @@
     transform-origin: top !important;
   }
 
+  #nav-bar[urlbar-exceeds-toolbar-bounds]:hover ~
+  #PersonalToolbar:not([customizing]),
   #navigator-toolbox:not(:hover)
   #PersonalToolbar:not([customizing]) {
     max-height: 0 !important;
@@ -26,7 +28,10 @@
   }
 
   /* Hover effect for toolbar and bookmark icon/text */
-  #navigator-toolbox:hover > #PersonalToolbar,
+  #navigator-toolbox:hover >
+  :not(#nav-bar[urlbar-exceeds-toolbar-bounds]):hover ~
+  #PersonalToolbar,
+  #PersonalToolbar:hover,
   #navigator-toolbox:hover
   #PlacesToolbarItems > .bookmark-item
   :is(.toolbarbutton-icon, .toolbarbutton-text) {
@@ -39,8 +44,7 @@
   }
 
   #navigator-toolbox:hover > #PersonalToolbar {
-    box-shadow: 0 calc(var(--bookmarks-toolbar-height) + 4em) 4em 4em #1a192ca0,
-                0 calc(var(--bookmarks-toolbar-height) + 100px) 100px 10px var(--dark),
+    box-shadow: 0 calc(var(--bookmarks-toolbar-height) + 100px) 100px 1px #1a192c30,
                 0 calc(var(--bookmarks-toolbar-height) + 50px) 50px -1em color-mix(
                     in lch,
                     var(--primary-color) 8%,
