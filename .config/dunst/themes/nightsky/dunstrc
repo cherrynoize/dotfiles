@@ -6,8 +6,8 @@
 #
 
 [colors]
-  background = "#171f38"
-  foreground = "#ffd1c3"
+  background = "#2e3d3e"
+  foreground = "#fffff2"
 
 [global]
   ### Display ###
@@ -16,7 +16,8 @@
 
   width = 200
   height =
-  offset = 55
+  offset = 10x10
+  origin = bottom-right
 
   indicate_hidden = yes
   shrink = yes
@@ -26,10 +27,10 @@
   horizontal_padding = 12
   frame_width = 3
 
-  frame_color = "#162b4b"
-  separator_color = "#162b4b"
+  frame_color = "#b3a168"
+  separator_color = "#b3a168"
 
-  corner_radius = 10
+  corner_radius = 3
 
   sort = yes
   idle_threshold = 120
@@ -88,7 +89,7 @@
   timeout = 10
 
 [urgency_critical]
-  frame_color = "#7f3022"
+  frame_color = "#fff9bb"
   timeout = 0
 
 [spotify-icon]

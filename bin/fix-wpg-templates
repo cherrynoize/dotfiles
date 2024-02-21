@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+# clear old wpg template links and create new ones
+# author: cherrynoize
+# https://github.com/cherrynoize/dotfiles
+
+templates_dir="$HOME/.config/wpg/templates"
+cd "$templates_dir" || exit 4
+
 declare -a old_links=(*)
 declare -A new_links=(
   ["$HOME/.config/bspwm/colorschemes/current"]="bspwm"
@@ -15,11 +22,8 @@ declare -A new_links=(
   ["$HOME/.config/rofi/templates/wpgtk.rasi"]="rofi"
 )
 
-cd ~/.config/wpg/templates || exit 4
-
 # clear old symlinks
 for link in "${old_links[@]}"; do
-  echo "removing $link"
   # if it's a symlink remove it
   if [ -L "$link" ]; then
     rm "$link"

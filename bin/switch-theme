@@ -391,6 +391,7 @@ case "$_ctx" in
   dunst-app)
     config_file="$HOME/.config/dunst/themes/$(switch-theme dunst -c)/dunstrc"
     rc="$HOME/.config/dunst/themes/$(switch-theme dunst -c)/configrc"
+    notification_mode="$new_theme_name"
 
     [ -e "$rc" ] ||
       error 4 "error: could not find $rc"
