@@ -18,25 +18,25 @@
   indicate_hidden = yes
   shrink = yes
 
-  origin = top-right
-  width = {notification-width}
-  height = {notification-height}
-  offset = {notification-offset}
+  width = 300
+  height =
+  offset = 0x{top-offset}
+  origin = bottom-center
 
   transparency = 5
 # separator_height = 2 # ignored if gap_size is set
   separator_color = "{color4}"
   gap_size = 5
-  padding = 8
-  horizontal_padding = 11
+  padding = 10
+  horizontal_padding = 10
   frame_width = 1
   frame_color = "{color8}"
 
-  font = JetBrainsMono Nerd Font Mono Medium 9
+  font = JetBrainsMono NF Medium 9
 
   line_height = 0
   markup = full
-  format = "<span size='x-large' font_desc='Cantarell 9' weight='bold' foreground='#f9f9f9'>%s</span>\n%b"
+  format = "<span size='x-large' font_desc='JetBrainsMono NF 8' weight='bold' foreground='#f9f9f9'>%s</span>\n%b"
   alignment = center
 
   idle_threshold = 120

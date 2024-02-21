@@ -6,8 +6,8 @@
 #
 
 [colors]
-  background = "#171f38"
-  foreground = "#ffd1c3"
+  background = "#160a41"
+  foreground = "#ffeafa"
 
 [global]
   ### Display ###
@@ -15,8 +15,8 @@
   follow = mouse
 
   width = 200
-  height =
-  offset = 55
+  height = 
+  offset = 10x55
 
   indicate_hidden = yes
   shrink = yes
@@ -26,11 +26,13 @@
   horizontal_padding = 12
   frame_width = 3
 
-  frame_color = "#162b4b"
+  frame_color = "#9f7acb"
 # separator_color = auto
-  separator_color = "#162b4b"
+  separator_color = "#9f7acb"
 # gaps = true
 # gap_size = 5
+
+  corner_radius = 10
 
   sort = yes
   idle_threshold = 120
@@ -89,7 +91,7 @@
   timeout = 10
 
 [urgency_critical]
-  frame_color = "#7f3022"
+  frame_color = "#cc76df"
   timeout = 0
 
 [spotify-icon]

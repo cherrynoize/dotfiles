@@ -6,8 +6,8 @@
 #
 
 [colors]
-  background = "#171f38"
-  foreground = "#ffd1c3"
+  background = "{color8}"
+  foreground = "{color15}"
 
 [global]
   ### Display ###
@@ -16,7 +16,7 @@
 
   width = 200
   height =
-  offset = 55
+  offset = {top-offset}
 
   indicate_hidden = yes
   shrink = yes
@@ -26,18 +26,17 @@
   horizontal_padding = 12
   frame_width = 3
 
-  frame_color = "#162b4b"
-# separator_color = auto
-  separator_color = "#162b4b"
-# gaps = true
-# gap_size = 5
+  frame_color = "{active}"
+  separator_color = "{active}"
+
+  corner_radius = 10
 
   sort = yes
   idle_threshold = 120
 
   ### Text ###
   # font = inter 10
-  font = JetBrainsMono NF Medium 9
+  font = {font0} Medium 9
   line_height = 0
 
   markup = full
@@ -89,7 +88,7 @@
   timeout = 10
 
 [urgency_critical]
-  frame_color = "#7f3022"
+  frame_color = "{color9}"
   timeout = 0
 
 [spotify-icon]

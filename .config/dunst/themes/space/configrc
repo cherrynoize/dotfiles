@@ -3,6 +3,6 @@ case "$notification_mode" in
     width=200
     ;;
   compact)
-    width=182
+    width=184
     ;;
 esac

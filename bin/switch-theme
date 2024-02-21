@@ -397,29 +397,32 @@ case "$_ctx" in
 
     . "$rc"
 
-    case "$new_theme_name" in
-      default)
-        new_width="$notification_width"
-        new_height="$notification_height"
-        ;;
-      compact)
-        new_width="$notification_compact_width"
-        new_height="$notification_compact_height"
-        ;;
-    esac
-
     cur_width="$(grep '^[ ]*width' < "$config_file" | awk '{print $3;}')"
     cur_height="$(grep '^[ ]*height' < "$config_file" | awk '{print $3;}')"
+    cur_origin="$(grep '^[ ]*origin' < "$config_file" | awk '{print $3;}')"
+    cur_alignment="$(grep '^[ ]*alignment' < "$config_file" | awk '{print $3;}')"
 
-    if [ -n "$new_width" ] && [ "$new_width" != "$cur_width" ]; then
-      post_exec+="sed -i 's/^[ ]*width = .*/  width = $new_width/' $config_file;"
-      post_exec+="pkill dunst;"
+    if [ -n "$width" ]; then
+      swap-value-in-file "$config_file" "width" "$cur_width" "$width" &&
+        kill_dunst=1
     fi
 
-    if [ -n "$new_height" ] && [ "$new_height" != "$cur_height" ]; then
-      post_exec+="sed -i 's/^[ ]*height = .*/  height = $new_height/' $config_file;"
-      post_exec+="pkill dunst;"
+    if [ -n "$height" ]; then
+      swap-value-in-file "$config_file" "height" "$cur_height" "$height" &&
+        kill_dunst=1
     fi
+
+    if [ -n "$origin" ]; then
+      swap-value-in-file "$config_file" "origin" "$cur_origin" "$origin" &&
+        kill_dunst=1
+    fi
+
+    if [ -n "$alignment" ]; then
+      swap-value-in-file "$config_file" "alignment" "$cur_alignment" "$alignment" &&
+        kill_dunst=1
+    fi
+
+    [ -n "$kill_dunst" ] && post_exec+="pkill dunst;"
     ;;
   *)
     error 2 "error: could not find context $_ctx"

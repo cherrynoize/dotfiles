@@ -1,0 +1,36 @@
+#!/bin/sh
+# -----------------------------
+#     swap-value-in-file
+# -----------------------------
+# replaces values in the form
+# property_name = value
+# in a given file.
+# -----------------------------
+# author | cherrynoize
+# https://github.com/cherrynoize/dotfiles
+# -----------------------------
+
+if [ "$#" -lt 4 ]; then
+  echo "usage: $(basename "$0") <file> <property_name> <cur_value> <new_value>"
+  exit 1
+fi
+
+file="$1"
+property_name="$2"
+cur_value="$3"
+new_value="$4"
+
+if [ "$property_name" = "" ]; then
+  echo "error: property name cannot be empty"
+  exit 1
+fi
+
+if [ ! -f "$file" ]; then
+  exit 4
+fi
+
+if [ "$new_value" != "$cur_value" ]; then
+  sed -i "s/$property_name = $cur_value/$property_name = $new_value/" "$file"
+else
+  exit 255
+fi

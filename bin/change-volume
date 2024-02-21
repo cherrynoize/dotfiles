@@ -39,7 +39,6 @@ function mute {
   # Toggle mute
   amixer -D pulse set "$ctl" mute > /dev/null
 
-  # Send notification
   if [ -z "$quiet" ]; then
     if is_mute; then
       dunstify --replace=555 -t 2000 -u normal "$icon_off Mute"
@@ -51,7 +50,6 @@ function unmute {
   # Toggle mute
   amixer -D pulse set "$ctl" unmute > /dev/null
 
-  # Send notification
   if [ -z "$quiet" ]; then
     if ! is_mute; then
       send_notification
@@ -77,7 +75,6 @@ function send_notification {
   if [ -z "$quiet" ]; then
     volume="$(get_volume)"
     volume=$((volume*98/100)) # resize to make notification look nicer on 100%
-    # Send the notification
     notify-percent compact "$volume" "$icon_on"
   fi
 }

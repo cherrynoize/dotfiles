@@ -1,2 +1,10 @@
-notification_width=300
-notification_compact_width=200
+case "$notification_mode" in
+  default)
+    width=300
+    alignment=center
+    ;;
+  compact)
+    width=210
+    alignment=left
+    ;;
+esac

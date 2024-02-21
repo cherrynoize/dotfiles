@@ -1,24 +1,33 @@
 #!/usr/bin/env bash
-cd ~/.config/wpg/templates || exit
-declare -a links=(bspwm dunst eww gtk2 gtk3.0 gtk3.20 poly powersave-tray rofi)
+declare -a old_links=(*)
+declare -A new_links=(
+  ["$HOME/.config/bspwm/colorschemes/current"]="bspwm"
+  ["$HOME/.config/dunst/themes/earth/dunstrc"]="dunst-earth"
+  ["$HOME/.config/dunst/themes/galaxy/dunstrc"]="dunst-galaxy"
+  ["$HOME/.config/dunst/themes/nightsky/dunstrc"]="dunst-nightsky"
+  ["$HOME/.config/dunst/themes/tokyonight/dunstrc"]="dunst-tokyonight"
+  ["$HOME/.config/eww/schemes/appearance.scss"]="eww"
+  ["$HOME/.local/share/themes/FlatColor/gtk-2.0/gtkrc"]="gtk2"
+  ["$HOME/.local/share/themes/FlatColor/gtk-3.0/gtk.css"]="gtk3.0"
+  ["$HOME/.local/share/themes/FlatColor/gtk-3.20/gtk.css"]="gtk3.20"
+  ["$HOME/.config/polybar/themes/current/colors.ini"]="poly"
+  ["$HOME/.config/eww/scripts/powersave-tray"]="powersave-tray"
+  ["$HOME/.config/rofi/templates/wpgtk.rasi"]="rofi"
+)
 
-# first remove old symlinks
-for l in "${links[@]}"; do
-  # verify it is in fact a symbolic link
-  if [ -L "$l" ]; then
-    # remove it
-    rm "$l"
+cd ~/.config/wpg/templates || exit 4
+
+# clear old symlinks
+for link in "${old_links[@]}"; do
+  echo "removing $link"
+  # if it's a symlink remove it
+  if [ -L "$link" ]; then
+    rm "$link"
   fi
 done
 
-# then create the new ones
-ln -s ~/.config/bspwm/colorschemes/current bspwm
-ln -s ~/.config/dunst/themes/earth/dunstrc dunst-earth
-ln -s ~/.config/dunst/themes/galaxy/dunstrc dunst-galaxy
-ln -s ~/.config/eww/schemes/appearance.scss eww
-ln -s ~/.local/share/themes/FlatColor/gtk-2.0/gtkrc gtk2
-ln -s ~/.local/share/themes/FlatColor/gtk-3.0/gtk.css gtk3.0
-ln -s ~/.local/share/themes/FlatColor/gtk-3.20/gtk.css gtk3.20
-ln -s ~/.config/polybar/themes/current/colors.ini poly
-ln -s ~/.config/eww/scripts/powersave-tray powersave-tray
-ln -s ~/.config/rofi/templates/wpgtk.rasi rofi
+# create new ones
+for dest in "${!new_links[@]}"; do
+  linkname="${new_links[$dest]}"
+  ln -s "$dest" "$linkname"
+done

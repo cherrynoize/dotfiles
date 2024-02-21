@@ -27,10 +27,9 @@
   frame_width = 3
 
   frame_color = "#162b4b"
-# separator_color = auto
   separator_color = "#162b4b"
-# gaps = true
-# gap_size = 5
+
+  corner_radius = 10
 
   sort = yes
   idle_threshold = 120

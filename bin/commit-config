@@ -11,20 +11,18 @@ msg="update" # default commit message
 
 # add from ~
 echo $ cd ~...
-pushd ~ > /dev/null || exit 1
+cd ~ > /dev/null || exit 1
 
 echo "* adding to repo: $home_lst"
 cfg add $home_lst
 echo # newline
-popd > /dev/null
 
 # add from ~/.config
 echo $ cd ~/.config...
-pushd ~/.config > /dev/null || exit 1
+cd ~/.config > /dev/null || exit 1
 echo "* adding to repo: $config_lst"
 cfg add $config_lst
 echo # newline
-popd > /dev/null
 
 echo "* creating commit \`$msg\`"
 cfg commit -a -m "$msg" # update already committed files

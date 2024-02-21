@@ -14,9 +14,9 @@
   monitor = 0
   follow = mouse
 
-  width = {notification-width}
-  height = {notification-height}
-  offset = {notification-offset}
+  width = 200
+  height =
+  offset = {top-offset}
 
   indicate_hidden = yes
   shrink = yes
