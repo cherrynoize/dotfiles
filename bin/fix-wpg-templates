@@ -13,7 +13,8 @@ done
 
 # then create the new ones
 ln -s ~/.config/bspwm/colorschemes/current bspwm
-ln -s ~/.config/dunst/dunstrc dunst
+ln -s ~/.config/dunst/themes/earth/dunstrc dunst-earth
+ln -s ~/.config/dunst/themes/galaxy/dunstrc dunst-galaxy
 ln -s ~/.config/eww/schemes/appearance.scss eww
 ln -s ~/.local/share/themes/FlatColor/gtk-2.0/gtkrc gtk2
 ln -s ~/.local/share/themes/FlatColor/gtk-3.0/gtk.css gtk3.0

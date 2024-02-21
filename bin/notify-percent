@@ -1,11 +1,21 @@
 #!/bin/sh
-# notify value with a visual bar
+# notify percentage with a visual bar
 # author | cherrynoize
+
+# notification duration in seconds
+duration=2
 
 # send notification
 send_notification () {
   if [ -n "$use_compact" ]; then
-    dunstify "$icon $bar" -t 2000 --replace=555
+    switch-theme dunst-app compact
+    dunstify "$icon $bar" -t ${duration}000 --replace=555
+
+    while [ "$(dunstctl count displayed)" != "0" ]; do
+      sleep ${duration}
+    done
+
+    switch-theme dunst-app default
   else
     dunstify "$bar" "<span size='x-large' weight='bold'>$icon</span>$val" -t 2000 --replace=555
   fi

@@ -5,26 +5,26 @@
 #
 
 #
-# wm independent hotkeys
+# applications / utilities
 #
 
 # terminal
 super + Return
     "$TERMINAL"
 
-# discord
-super + alt + d
-    pgrep discord && killall discord || discord
+# floating term
+super + alt + Return
+    "$TERMINAL" --class FloaTerm,FloaTerm
 
-# spotify
+# toggle music player
 super + alt + s
-    pgrep spotify && killall spotify || spotify
+    pgrep "$PLAYER" && killall "$PLAYER" || "$PLAYER"
 
-# mail
+# open mail
 super + alt + m
     "$MAILCLIENT"
 
-# browser
+# launch browser
 super + alt + w
     "$BROWSER"
 

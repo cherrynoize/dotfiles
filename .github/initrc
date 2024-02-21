@@ -12,6 +12,7 @@ export TERMINAL="alacritty"
 export EDITOR="launch-nvim"
 export BROWSER="floorp"
 export MAILCLIENT="betterbird"
+export PLAYER="spotify"
 
 #export WALL_THEMES_DIR="$HOME/.wallpaper-themes"
 

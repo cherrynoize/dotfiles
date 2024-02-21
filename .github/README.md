@@ -397,6 +397,8 @@ removed
 - Make `switch-mode` keep both `-dark` and `-light` versions
 and use a suffix-less link to avoid this dizzy switching back
 and forth in commits just because a different mode is set.
+(Be sure to have it check for link destination instead of
+existance in `get_cur_mode`.)
 
 ### Support
 

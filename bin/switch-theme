@@ -21,7 +21,7 @@ preferred_theme=wpgtk
 nid="6699" # notification id
 
 # list of contexts to call when calling switch --global
-declare -a all_ctx=(
+declare -a all_ctxs=(
   "wallpaper"
   "eww"
   "polybar"
@@ -30,6 +30,12 @@ declare -a all_ctx=(
   "bspwm"
   "bspwm-colors"
   "alacritty"
+  "dunst"
+)
+
+# whether a context is not set as a regular theme
+declare -A exclude_ctxs=(
+  [dunst-app]=true
 )
 
 error () {
@@ -152,13 +158,16 @@ set_theme () {
       exit
     fi
 
-    # set new theme if not preferred theme
-    if [ -e "${themes_dir:-"$config_dir"}/$(get_new_theme_with_ext)" ]; then
-      update_config_link
-      enforce_old_theme_mode
-    else
-      error 3 "error: could not find theme $new_theme_name"
+    # if new theme is not in exclude_ctxs
+    if [ -n "$new_theme_name" ] &&
+      [ "${exclude_ctxs[$_ctx]}" != "true" ] &&
+      [ ! -e "${themes_dir:-"$config_dir"}/$(get_new_theme_with_ext)" ]; then
+          error 3 "error: could not find theme $new_theme_name"
     fi
+
+    # set new theme if not preferred theme
+    update_config_link
+    enforce_old_theme_mode
     terminate
   fi
 }
@@ -311,19 +320,18 @@ case "$_ctx" in
     case "$cmd" in
       --list)
         if [[ ${list_opts[*]} == *-1* ]]; then
-          echo "${all_ctx[@]}"
+          echo "${all_ctxs[@]}"
         else
-          echo "${all_ctx[*]}"
+          echo "${all_ctxs[*]}"
         fi
         exit
         ;;
       *)
         new_theme="${cmd:-"$new_theme_name"}"
         # run command or set theme for each context
-        for c in "${all_ctx[@]}"; do
+        for c in "${all_ctxs[@]}"; do
           preserve_preferred_theme=true "$0" "$c" "$new_theme"
         done
-        terminate
         ;;
     esac
     ;;
@@ -361,18 +369,57 @@ case "$_ctx" in
     config_dir="$HOME/.config/bspwm/themes"
     config_link_names=("current")
     config_exts=("")
-    post_exec+="bspc wm -r"
+    post_exec+="bspc wm -r;"
     ;;
   bspwm-colors)
     config_dir="$HOME/.config/bspwm/colorschemes"
     config_link_names=("current")
     config_exts=("")
-    post_exec+="bspc wm -r"
+    post_exec+="bspc wm -r;"
     ;;
   alacritty)
     config_dir="$HOME/.config/alacritty/themes"
     config_link_names=("current")
     config_exts=("")
+    ;;
+  dunst)
+    config_dir="$HOME/.config/dunst/themes"
+    config_link_names=("current")
+    config_exts=("")
+    post_exec+="pkill dunst;"
+    ;;
+  dunst-app)
+    config_file="$HOME/.config/dunst/themes/$(switch-theme dunst -c)/dunstrc"
+    rc="$HOME/.config/dunst/themes/$(switch-theme dunst -c)/configrc"
+
+    [ -e "$rc" ] ||
+      error 4 "error: could not find $rc"
+
+    . "$rc"
+
+    case "$new_theme_name" in
+      default)
+        new_width="$notification_width"
+        new_height="$notification_height"
+        ;;
+      compact)
+        new_width="$notification_compact_width"
+        new_height="$notification_compact_height"
+        ;;
+    esac
+
+    cur_width="$(grep '^[ ]*width' < "$config_file" | awk '{print $3;}')"
+    cur_height="$(grep '^[ ]*height' < "$config_file" | awk '{print $3;}')"
+
+    if [ -n "$new_width" ] && [ "$new_width" != "$cur_width" ]; then
+      post_exec+="sed -i 's/^[ ]*width = .*/  width = $new_width/' $config_file;"
+      post_exec+="pkill dunst;"
+    fi
+
+    if [ -n "$new_height" ] && [ "$new_height" != "$cur_height" ]; then
+      post_exec+="sed -i 's/^[ ]*height = .*/  height = $new_height/' $config_file;"
+      post_exec+="pkill dunst;"
+    fi
     ;;
   *)
     error 2 "error: could not find context $_ctx"
@@ -387,6 +434,8 @@ else
     run_command "${config_link_names[$i]}" "${config_exts[$i]}"
   done
 fi
+
+terminate
 
 # TODO
 # - global theme abstraction layer like in switch-mode

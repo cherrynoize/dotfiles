@@ -10,7 +10,7 @@ cur_mode_file="$HOME/.mode"
 nid="6699"
 
 # contexts to switch when using global mode
-declare -a all_ctx=(
+declare -a all_ctxs=(
   "wpg"
   "wallpaper"
 # "alacritty" # either wpg or alacritty
@@ -167,7 +167,7 @@ case "$_ctx" in
   "")
     ;;
   -g|--global)
-    for c in "${all_ctx[@]}"; do
+    for c in "${all_ctxs[@]}"; do
       # if context is contained in global no post exec group
       if [[ " ${global_no_post_exec[*]} " =~ " $c " ]]; then
         RUN_CMD=0
@@ -217,17 +217,12 @@ case "$_ctx" in
       fi
     }
 
-    # regenerate colorscheme
-    update_wpg () {
-      post_exec+="wpg -s \"$(wpg -c)\";"
-    }
-
     # if mode is not already set
     if [ "$wpg_mode" != "$_mode" ]; then
       gen_fallback_cover
       toggle_light_theme
       update_keywords_set
-      update_wpg
+      post_exec+="wpg -s \"$(wpg -c)\";" # regenerate colorscheme
     fi
     ;;
   alacritty)
