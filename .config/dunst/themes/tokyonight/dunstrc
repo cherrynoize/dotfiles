@@ -17,6 +17,7 @@
   width = 200
   height =
   offset = 55
+  origin =
 
   indicate_hidden = yes
   shrink = yes
@@ -26,8 +27,8 @@
   horizontal_padding = 12
   frame_width = 3
 
-  frame_color = "#a7cb9f"
-  separator_color = "#a7cb9f"
+  frame_color = "#95cbcb"
+  separator_color = "#95cbcb"
 
   corner_radius = 10
 
@@ -90,6 +91,14 @@
 [urgency_critical]
   frame_color = "#bbffff"
   timeout = 0
+
+[volume_indicator]
+  appname = "changeVolume"
+  history_ignore=yes
+
+[brightness_indicator]
+  appname = "changeBrightness"
+  history_ignore=yes
 
 [spotify-icon]
   appname = "Spotify"

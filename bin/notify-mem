@@ -1,8 +1,9 @@
 #!/bin/sh
 header="Memory"
+appname="notifySystem"
 nid=776
 if [ "$1" = "--header" ]; then
-  dunstify -r "$nid" "$header" "$(memory)%"
+  dunstify -a "$appname" -r "$nid" "$header" "$(memory)%"
 else
-  dunstify -r "$nid" "$(memory)%"
+  dunstify -a "$appname" -r "$nid" "$(memory)%"
 fi

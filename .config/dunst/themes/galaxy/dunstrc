@@ -72,9 +72,16 @@
   timeout = 0
   frame_color = "#bbffff"
 
-[level_indicator]
+[volume_indicator]
+  appname = "changeVolume"
+  history_ignore=yes
+
+[brightness_indicator]
   appname = "changeBrightness"
-  background = "#f1375a"
+  history_ignore=yes
+
+[system_indicator]
+  appname = "notifySystem"
   history_ignore=yes
 
 [spotify-icon]

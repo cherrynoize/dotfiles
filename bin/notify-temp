@@ -1,8 +1,9 @@
 #!/bin/sh
+appname="notifySystem"
 nid=273
 case "$1" in
   -f|--fahr)
     use_fahr="-f"
     ;;
 esac
-dunstify -r "$nid" "$(show-temp -d pci -k nvme -P "${use_fahr}")"
+dunstify -a "$appname" -r "$nid" "$(show-temp -d pci -k nvme -P "${use_fahr}")"

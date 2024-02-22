@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # author | cherrynoize
 
+appname="notifySystem"
+
 bat_info="$(acpi -b)"
 on_bat="$(acpi -b | grep Discharging)"
 
@@ -77,7 +79,7 @@ while [ -n "$1" ]; do
 done
 
 if [ -n "$status" ]; then
-  dunstify -r "$nid" "$status" "$bat_info" "$@"
+  dunstify -a "$appname" -r "$nid" "$status" "$bat_info" "$@"
 else
-  dunstify -r "$nid" "$bat_info" "$@"
+  dunstify -a "$appname" -r "$nid" "$bat_info" "$@"
 fi

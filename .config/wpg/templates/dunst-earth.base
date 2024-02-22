@@ -17,6 +17,7 @@
   width = 200
   height =
   offset = {top-offset}
+  origin =
 
   indicate_hidden = yes
   shrink = yes
@@ -98,6 +99,10 @@
 
 [brightness_indicator]
   appname = "changeBrightness"
+  history_ignore=yes
+
+[system_indicator]
+  appname = "notifySystem"
   history_ignore=yes
 
 [spotify-icon]
