@@ -1,7 +1,8 @@
 #!/bin/sh
 header="Memory"
+nid=776
 if [ "$1" = "--header" ]; then
-  notify-send "$header" "$(memory)%"
+  dunstify -r "$nid" "$header" "$(memory)%"
 else
-  notify-send "$(memory)%"
+  dunstify -r "$nid" "$(memory)%"
 fi

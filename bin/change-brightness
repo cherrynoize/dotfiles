@@ -22,7 +22,7 @@ function send_notification {
   brightness="$(get_brightness)"
   brightness=$((brightness*95/100)) # resize to better fit icon on 100%
   # Send the notification
-  notify-percent compact "$brightness" "☼"
+  notify-percent -a changeBrightness -m compact "$brightness" "☼"
 }
 
 case $1 in

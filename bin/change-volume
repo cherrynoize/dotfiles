@@ -16,6 +16,11 @@ icon_off=󰝟
 # delta value
 step=5%
 
+# notification duration in seconds
+duration=2
+# notification id
+nid=100
+
 # command to turn on control
 on_cmd=on
 
@@ -64,7 +69,7 @@ function toggle_mute {
   # Send notification
   if [ -z "$quiet" ]; then
     if is_mute; then
-      dunstify --replace=555 -t 2000 -u normal "$icon_off Mute"
+      dunstify -a muteVolume --replace="$nid" -t ${duration}000 -u normal "$icon_off Mute"
     else
       send_notification
     fi
@@ -75,7 +80,7 @@ function send_notification {
   if [ -z "$quiet" ]; then
     volume="$(get_volume)"
     volume=$((volume*98/100)) # resize to make notification look nicer on 100%
-    notify-percent compact "$volume" "$icon_on"
+    notify-percent -a changeVolume -m compact "$volume" "$icon_on"
   fi
 }
 

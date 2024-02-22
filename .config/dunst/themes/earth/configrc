@@ -1,4 +1,4 @@
-case "$notification_mode" in
+case "$new_theme_name" in
   default)
     width=200
     ;;

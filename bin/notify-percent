@@ -1,15 +1,17 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # notify percentage with a visual bar
 # author | cherrynoize
 
 # notification duration in seconds
 duration=2
+# notification id
+nid=100
 
 # send notification
 send_notification () {
-  if [ -n "$use_compact" ]; then
+  if [ "$mode" = "compact" ]; then
     switch-theme dunst-app compact
-    dunstify "$icon $bar" -t ${duration}000 --replace=555
+    dunstify "${args[@]}" "$icon $bar" -t ${duration}000 --replace="$nid"
 
     while [ "$(dunstctl count displayed)" != "0" ]; do
       sleep ${duration}
@@ -17,7 +19,7 @@ send_notification () {
 
     switch-theme dunst-app default
   else
-    dunstify "$bar" "<span size='x-large' weight='bold'>$icon</span>$val" -t 2000 --replace=555
+    dunstify "${args[@]}" "$bar" "<span size='x-large' weight='bold'>$icon</span>$val" -t ${duration}000 --replace="$nid"
   fi
 }
 
@@ -29,14 +31,27 @@ close_notifs_then_send () {
   fi
 }
 
-if [ "$1" = "compact" ]; then
-  use_compact=1
-  shift
-fi
+args=()
+
+while [ -n "$1" ]; do
+  case "$1" in
+    -m|--mode)
+      mode="$2"
+      shift 2
+      ;;
+    -*)
+      args+=("$1" "$2")
+      shift 2
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
 
 val="$1"
 
-if [ -n "$use_compact" ]; then
+if [ "$mode" = "compact" ]; then
   # make space for icon
   val=$((val*9/10)) # allocate 9/10ths for bar
 fi

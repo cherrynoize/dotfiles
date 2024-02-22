@@ -6,8 +6,8 @@
 #
 
 [colors]
-  background = "#2e3d3e"
-  foreground = "#7A836D"
+  background = "#21375a"
+  foreground = "#6D9CCE"
 
 [global]
   title = Dunst
@@ -25,12 +25,12 @@
 
   transparency = 5
 # separator_height = 2 # ignored if gap_size is set
-  separator_color = "#577786"
+  separator_color = "#6090BF"
   gap_size = 5
   padding = 10
   horizontal_padding = 10
   frame_width = 1
-  frame_color = "#2e3d3e"
+  frame_color = "#21375a"
 
   font = JetBrainsMono NF Medium 9
 
@@ -70,7 +70,12 @@
 
 [urgency_critical]
   timeout = 0
-  frame_color = "#fff9bb"
+  frame_color = "#bbffff"
+
+[level_indicator]
+  appname = "changeBrightness"
+  background = "#f1375a"
+  history_ignore=yes
 
 [spotify-icon]
   appname = "Spotify"

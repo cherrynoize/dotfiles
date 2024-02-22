@@ -1,7 +1,8 @@
 #!/bin/sh
+nid=273
 case "$1" in
   -f|--fahr)
     use_fahr="-f"
     ;;
 esac
-notify-send "$(show-temp -d pci -k nvme -P "${use_fahr}")"
+dunstify -r "$nid" "$(show-temp -d pci -k nvme -P "${use_fahr}")"

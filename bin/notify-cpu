@@ -1,7 +1,8 @@
 #!/bin/sh
 header="CPU"
+nid=8000
 if [ "$1" = "--header" ]; then
-  notify-send "$header" "$(cpu-usage)%"
+  dunstify -r "$nid" "$header" "$(cpu-usage)%"
 else
-  notify-send "$(cpu-usage)%"
+  dunstify -r "$nid" "$(cpu-usage)%"
 fi

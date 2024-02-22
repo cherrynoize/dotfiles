@@ -92,6 +92,14 @@
   frame_color = "{color9}"
   timeout = 0
 
+[volume_indicator]
+  appname = "changeVolume"
+  history_ignore=yes
+
+[brightness_indicator]
+  appname = "changeBrightness"
+  history_ignore=yes
+
 [spotify-icon]
   appname = "Spotify"
   icon = "/opt/spotify/icons/spotify_icon.ico"
