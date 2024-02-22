@@ -391,6 +391,8 @@ by most recent in `wall-picker`
 - AI upscaler on-the-fly with cache storage support
 - Some wallpapers have some ugly artifacts/watermarks to be
 removed
+- Cut out border from wallpapers in
+[`meranii`](../.wallpaper-themes/meranii) theme
 
 ### Themes
 

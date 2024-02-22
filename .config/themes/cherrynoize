@@ -4,4 +4,5 @@ theme_id="cherrynoize"
 
 set_theme () {
   switch-theme wallpaper "$theme_id"
+  switch-theme dunst "earth"
 }
