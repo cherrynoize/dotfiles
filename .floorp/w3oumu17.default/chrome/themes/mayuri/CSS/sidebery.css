@@ -19,18 +19,24 @@
     --brdr-radius: 15px !important;
     --brdr-transition: .3s !important;
     --opacity-transition: .2s !important;
+
+    --frame-bg: color-mix(in lch,
+                          var(--bg-color),
+                          var(--secondary-bg-color)) !important;
   }
 
   @media (prefers-color-scheme: dark) {
     #root.root {
-      --bg-color: #13101c !important;
+      --secondary-bg-color: var(--dark, #13101c) !important;
+      --frame-fg: var(--light, #efecf9) !important;
       --brdr-color-hover: rgba(204, 204, 204, .6) !important;
     }
   }
 
   @media (prefers-color-scheme: light) {
     #root.root {
-      --bg-color: #efecf9 !important;
+      --secondary-bg-color: var(--light, #efecf9) !important;
+      --frame-fg: var(--dark, #13101c) !important;
       --brdr-color-hover: rgba(51, 51, 51, .6) !important;
     }
   }
@@ -45,7 +51,7 @@
   .BottomBar,
   .bottom-bar-space
   ) {
-    transition: margin .3s !important, opacity .3s !important;
+    transition: margin .3s, opacity .3s !important;
   }
 
   #root.root:not(:hover) :is(
@@ -60,17 +66,19 @@
     margin-bottom: -1rem !important;
     opacity: 0 !important;
     visibility: collapse !important;
-    transition: margin .3s !important, opacity .3s !important, visibility .6s !important;
+    transition: margin .3s, opacity .3s, visibility .6s !important;
   }
 
   /* ------------------------------------- */
 
   /* Tabs */
 
-  #root.root {--tabs-height: 1.9em !important;}
+  #root.root {--tabs-height: 2.5rem !important;}
   #root.root {--tabs-font: 1rem Monospace !important;}
   #root.root {--tabs-count-font: 0.5625rem sans-serif !important;}
   #root.root {--tabs-close-btn-margin: 5px !important;}
+  #root.root {--tabs-activated-bg: var(--frame-fg) !important;}
+  #root.root {--tabs-activated-fg: var(--frame-bg) !important;}
   #root.root {--ntb-btn-height: 33px !important;}
   #root.root {--ntb-padding: 5px !important;}
   #root.root:not(:hover) {--tabs-lvl-opacity: 0 !important;}
@@ -84,7 +92,15 @@
   }
 
   .Tab {
-    transition: margin .45s !important, padding .45s !important;
+    transition: margin .45s, padding .45s !important;
+  }
+
+  .Tab:hover .body {
+    transition: background .3s !important;
+  }
+
+  .Tab:not(:hover) .body {
+    transition: background .1s !important;
   }
 
   #root.root:not(:hover) .Tab .body {
@@ -122,14 +138,24 @@
     border-radius: 3px !important;
   }
 
+  /* ----------------------------- */
+
+  .Tab[data-active="true"] .close:hover {
+    background-color: var(--lightgrey2) !important;
+  }
+
   .Tab .title {
     background: linear-gradient(
     90deg,
-    var(--tabs-normal-fg) 70%,
-    #f1f1f100 95%
+    var(--tabs-normal-fg) 93.5%,
+    transparent 98%
     ) !important;
     background-clip: text !important;
     color: transparent !important;
+  }
+
+  .Tab[data-active="true"] .title {
+    --tabs-normal-fg: var(--tabs-activated-fg) !important;
   }
 
   /* ------------------------------------- */
@@ -189,7 +215,7 @@
     transform: rotateX(180deg) !important;
   }
 
-  .hidden-panels-popup-layer {
+  .top-horizontal-box .hidden-panels-popup-layer {
     margin-top: -3rem !important;
     transform: rotateY(180deg) rotateZ(180deg) !important;
   }
@@ -205,7 +231,7 @@
   }
 
   .hidden-panels-popup:hover {
-    background-color: var(--bg-color) !important;
+    background-color: var(--secondary-bg-color) !important;
     border-color: var(--brdr-color-hover) !important;
     opacity: 1 !important;
     transition: background-color var(--bg-transition) !important, border-color var(--brdr-transition) !important, opacity var(--opacity-transition) !important;

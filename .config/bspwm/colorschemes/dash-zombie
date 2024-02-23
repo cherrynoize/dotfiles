@@ -10,12 +10,6 @@
 # bspwm zombie theme
 #
 
-bspc config top_padding           "55"
-bspc config bottom_padding        "5"
-bspc config left_padding          "5"
-bspc config right_padding         "5"
-bspc config window_gap            "10"
-bspc config border_width          "5"
 bspc config normal_border_color   "#543f66"
 bspc config active_border_color   "#543f66"
 bspc config focused_border_color  "#465b80"

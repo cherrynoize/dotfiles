@@ -1,6 +1,7 @@
 @-moz-document
 regexp("^about:.*"),
-url(chrome://browser/content/browser.xhtml) {
+url("chrome://browser/content/browser.xhtml"),
+url("moz-extension://765388cc-886d-447b-83cc-4ebbf0feba79/sidebar/sidebar.html") {
   :root, body {
     /* Palette */
     --light: #efecf9;
@@ -19,12 +20,14 @@ url(chrome://browser/content/browser.xhtml) {
     --lightgreen: #36ff4e;
     --yellowbrown: #febd60;
     --swampautumn: #fdf008;
-    --grey: #696969;
     --orange: #ff6c22;
     --yellow: #ffe20f;
     --red: #ff3230;
     --navyblue: #0050cE;
     --poison: #cb17cf;
+    --lightgrey: #c9c9c9;
+    --lightgrey2: #d4d4d4;
+    --grey: #696969;
     --darkgrey: #393939;
     --darkgrey2: #292929;
     --bluegrey: #5c6cb2d8;

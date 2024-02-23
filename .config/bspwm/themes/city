@@ -7,6 +7,8 @@
 #             |_|
 #
 
+. ../colorschemes/city
+
 bspc config top_padding           "50"
 bspc config bottom_padding        "10"
 bspc config left_padding          "8"

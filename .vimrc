@@ -188,10 +188,10 @@ nnoremap <esc>l <c-w>l
 nnoremap <esc>t :tabe<cr>
 " move to next tab
 nnoremap <esc><Tab> gt
-inoremap <esc><Tab> <cmd>gt<cr>
+inoremap <esc><Tab> <esc>gt<cr>
 " move to previous tab
 nnoremap <S-Tab> gT
-inoremap <S-Tab> <cmd>gT<cr>
+inoremap <S-Tab> <esc>gT<cr>
 " close current window
 nnoremap <esc>c :clo<cr>
 " close tab

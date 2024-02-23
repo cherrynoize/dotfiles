@@ -7,12 +7,6 @@
 #             |_|
 #
 
-bspc config top_padding           "50"
-bspc config bottom_padding        "10"
-bspc config left_padding          "8"
-bspc config right_padding         "8"
-bspc config window_gap            "15"
-bspc config border_width          "3"
 #bspc config focused_border_color  "#FF6B81"
 bspc config focused_border_color  "#FF8A9E"
 bspc config normal_border_color   "#A97F6B"

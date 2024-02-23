@@ -10,12 +10,6 @@
 # bspwm dash theme
 #
 
-bspc config top_padding           "55"
-bspc config bottom_padding        "5"
-bspc config left_padding          "5"
-bspc config right_padding         "5"
-bspc config window_gap            "10"
-bspc config border_width          "2"
 bspc config focused_border_color  "#3b586a"
 bspc config normal_border_color   "#3f2f1a"
 bspc config active_border_color   "#286c78"

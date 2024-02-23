@@ -18,9 +18,8 @@
   #sidebar {
     min-width: var(--sidebar-width) !important;
     will-change: min-width;
-    transition: min-width .2s ease-in-out,
+    transition: min-width 135ms ease-out .35s,
                 box-shadow .3s ease-in-out .3s !important;
-    transition-delay: .3s !important;
   }
 
   #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:hover >
@@ -32,11 +31,12 @@
                 var(--primary-color) 8%,
                 transparent
                 ) !important;
-    transition-delay: .1s !important;
+    transition: min-width 335ms ease-out .1s,
+                box-shadow .3s ease-in-out .1s !important;
   }
 
   :root:not([inFullscreen]) #sidebar-box {
-    opacity: .9;
+    opacity: .95;
   }
 
   /* Hide sidebar header and line */
