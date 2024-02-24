@@ -7,14 +7,16 @@
 #             |_|
 
 #
-# my bspwm default config 
+# my bspwm config 
 #
 
-# choose theme
+# set theme and colorscheme
 theme="current"
+colorscheme="current"
 
-# themes dir
+# themes and colorschemes directories
 themes_dir="$HOME/.config/bspwm/themes"
+colors_dir="$HOME/.config/bspwm/themes"
 
 # bspwm config
 bspc config split_ratio                 0.5
@@ -38,16 +40,16 @@ bspc config merge_overlapping_monitors  true
 
 bspc config external_rules_command      "$HOME/.config/bspwm/scripts/external_rules"
 
-# workspaces
-workspaces() {
-  name=1
-  for monitor in $(bspc query -M); do
-    # > 🌐 󱃫 󱌰 󱌬    󱀤   🎵󰲋  󰀘  󰢚 󰙯 󰻞󰭹 󰂫      
-    bspc monitor "${monitor}" -n "$name" -d ' ' ' ' ' ' ' ' ' ' ' ' '  ' ' ' '  ' ' ' ' '
-    (( name++ ))
-  done
-}
-workspaces
-
-# source theme
+# source theme and colorscheme
 . "$themes_dir/$theme"
+. "$colors_dir/$colorscheme"
+
+# > 🌐 󱃫 󱌰 󱌬    󱀤   🎵󰲋  󰀘  󰢚 󰙯 󰻞󰭹 󰂫      
+workspaces=(' ' ' ' ' ' ' ' ' ' ' ' '  ' ' ' '  ' ' ' ' ')
+
+# create workspaces
+name=1
+for monitor in $(bspc query -M); do
+  bspc monitor "$monitor" -n "$name" -d "${workspaces[@]}"
+  (( name++ ))
+done

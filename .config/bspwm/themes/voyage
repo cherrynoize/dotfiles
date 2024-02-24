@@ -8,22 +8,22 @@
 #
 
 main_padding=10
-top_padding=50
+bar_padding=40
 
 case "$1" in
   padding)
     echo "$main_padding"
     exit
     ;;
-  top-padding)
-    echo "$top_padding"
+  bar-padding)
+    echo "$bar_padding"
     exit
     ;;
 esac
 
-bspc config top_padding           "$top_padding"
-bspc config bottom_padding        "$main_padding"
-bspc config left_padding          "$main_padding"
-bspc config right_padding         "$main_padding"
-bspc config window_gap            "25"
-bspc config border_width          "0"
+bspc config top_padding     "$((main_padding + bar_padding))"
+bspc config bottom_padding  "$main_padding"
+bspc config left_padding    "$main_padding"
+bspc config right_padding   "$main_padding"
+bspc config window_gap      "25"
+bspc config border_width    "0"
