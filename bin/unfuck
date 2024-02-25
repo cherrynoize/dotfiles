@@ -102,10 +102,10 @@ unfuck_redshift () {
 }
 
 unfuck_sxhkd () {
-  # try to reload
+  # try to reload politely
   pkill -USR1 -x sxhkd || {
     # sxhkd will spawn terminals in dir from which daemon was run
-    cd ~
+    cd ~ || exit 2
     # kill and respawn
     killall sxhkd
     setxkbmap -layout 'it'
@@ -136,7 +136,7 @@ unfuck_bar () {
     # close and relaunch bar
     killall eww
     killall polybar
-    switch-bar launch
+    dock launch
   fi
 }
 

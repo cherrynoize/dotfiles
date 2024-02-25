@@ -3,16 +3,19 @@
 #     swap-value-in-file
 # -----------------------------
 # replaces values in the form
-# property_name = value
-# in a given file.
+# <property> = <value>
+# in a file
 # -----------------------------
 # author | cherrynoize
 # https://github.com/cherrynoize/dotfiles
 # -----------------------------
 
 if [ "$#" -lt 4 ]; then
-  echo "usage: $(basename "$0") <file> <property_name> <cur_value> <new_value>"
-  exit 1
+cat<<EOF
+replaces values in the form '<property> = <value>' in <file>.
+usage: $(basename "$0") <file> <property> <cur_value> <new_value>
+EOF
+exit 1
 fi
 
 file="$1"
@@ -29,8 +32,9 @@ if [ ! -f "$file" ]; then
   exit 4
 fi
 
-if [ "$new_value" != "$cur_value" ]; then
-  sed -i "s/$property_name = $cur_value/$property_name = $new_value/" "$file"
-else
+# setting the same value
+if [ "$new_value" = "$cur_value" ]; then
   exit 255
 fi
+
+sed -i "s/$property_name = $cur_value/$property_name = $new_value/" "$file"

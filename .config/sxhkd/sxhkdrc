@@ -62,22 +62,22 @@ super + less
 
 # switch between bars
 super + greater
-    switch-bar
+    dock
 
 # toggle bar
 super + z
-    toggle-bar
+    dock toggle
 
 # reload bar
 super + shift + z
-    switch-bar reload
+    dock reload
 
 # previous/next theme
 super + alt + {less,greater}
     theme -n {prev,next}
 
 # random theme
-super + ctrl + r
+super + ctrl + t
     theme -n random
 
 # pick theme
@@ -88,7 +88,7 @@ super + space
 super + ctrl + space
     wall-picker
 
-# change wallpaper
+# random wallpaper
 super + ctrl + w
     change-wallpaper -n -v
 

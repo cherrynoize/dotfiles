@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# set property value in ini file
+# author: cherrynoize
+# https://github.com/cherrynoize/dotfiles
+
+# initialize current value to empty
+cur_value=
+
+if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+cat<<EOF
+set property value in ini file
+usage: iniset <file> <section> <property>
+EOF
+exit
+fi
+
+if [ "$#" -lt 4 ]; then
+  echo "error: not enough arguments" > /dev/stderr
+  exit 1
+fi
+
+inifile="$1"
+section="$2"
+property="$3"
+new_value="$4"
+
+if [ ! -f "$1" ]; then
+  echo "error: no file '$1'" > /dev/stderr
+  exit 4
+fi
+
+remove_section_header () {
+  sed "s/^\[$section\]//" <<< "$1"
+}
+
+strip_comments () {
+  sed -r -e 's/^#.*//' -e 's/[[:space:]]+#.*//' <<< "$1"
+}
+
+strip_spaces () {
+  tr -d " " <<< "$1"
+}
+
+# https://stackoverflow.com/questions/49399984/parsing-ini-file-in-bash
+# turn ini sections => [section-name]property=value
+# maintain header and empty lines track line numbers correctly
+mapfile lines <<< "$(awk '/\[/{section=$0; print; next} !$1{print ""; next} {print section $0}' "$inifile")"
+
+# keep track of line number to update the correct line
+line_number=0
+
+for line in "${lines[@]}"; do
+  (( line_number++ ))
+
+  # verify property belongs to requested section
+  if [[ "$line" != \[$section\]* ]]; then
+    continue
+  fi
+
+  # strip property line
+  line="$(remove_section_header "$line")"
+  line="$(strip_comments "$line")"
+  line="$(strip_spaces "$line")"
+
+  if [ "$line" = "" ]; then
+    continue
+  fi
+
+  if [[ $line = $property=* ]]; then
+    cur_value="$(sed -e "s/^$property=//" <<< "$line")"
+    sed -i "${line_number}s/$cur_value"'$'"/$new_value/" "$inifile"
+    exit
+  fi
+done
+
+if [ -z "$cur_value" ]; then
+  echo "error: property '$property' not found in '$inifile'" > /dev/stderr
+  exit 255
+fi

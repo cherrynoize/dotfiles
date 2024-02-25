@@ -1,24 +1,28 @@
 #!/usr/bin/env bash
 # theme handling utility for global themes
-# Author | cherrynoize
+# author: cherrynoize
 # https://github.com/cherrynoize/dotfiles
 
 get_all_themes () {
   find "$user_themes_dir"/* "$base_themes_dir"/* -maxdepth 0 -type f -iname "*$theme_ext" -exec basename {} \;
 }
 
+# themes location
 config_dir="${XDG_CONFIG_HOME:-"$HOME/.config"}"
 user_themes_dir=${user_themes_dir:-"$config_dir/themes"}
 base_themes_dir="/etc/themes"
 current_theme_file=${current_theme_file:-"$HOME/.current-theme"}
 old_theme="$(cat "$current_theme_file")"
 
-# where to store global theme history
+# global theme history
 cache_dir="${XDG_CACHE_HOME:-"$HOME/.cache"}"
 hst_dir="$cache_dir/themes/hst"
 hst_file="$hst_dir/global-history"
 # maximum number of history entries
 hst_size="$(get_all_themes | sort -u | wc -l)"
+
+# current theme state
+theme_settings="$HOME/.local/state/themes/current.ini"
 
 nid="6699" # notification id
 
@@ -37,6 +41,17 @@ notification () {
 
 update_theme () {
   echo "$theme_file" > "$current_theme_file"
+}
+
+reload_theme_settings () {
+  declare -A dock
+  dock[enabled]="$(iniget "$theme_settings" Dock enabled)"
+
+  if [ "${dock[enabled]}" = true ]; then
+    dock launch
+  elif [ "${dock[enabled]}" = false ]; then
+    dock close
+  fi
 }
 
 update_history () {
@@ -152,6 +167,17 @@ do_cmd () {
       theme_file="${theme_file%.*}"
       do_cmd set
       ;;
+    reload)
+      reload_theme_settings
+      ;;
+    get)
+      iniget "$theme_settings" "${args[@]:1}"
+      exit
+      ;;
+    edit)
+      iniset "$theme_settings" "${args[@]:1}"
+      exit
+      ;;
     set)
       if [ -z "$theme_file" ]; then
         return
@@ -159,6 +185,7 @@ do_cmd () {
 
       set_theme
       update_theme
+      reload_theme_settings
       update_history "$theme_file"
       notification
       ;;
@@ -168,6 +195,8 @@ do_cmd () {
       ;;
   esac
 }
+
+args=("$@")
 
 while [ -n "$1" ]; do
   case "$1" in

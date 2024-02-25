@@ -277,9 +277,9 @@ started.</summary>
 
     switch-mode # Super+<
 
-#### Toggle bar
+#### Toggle dock
 
-    toggle-bar # Super+z
+    dock toggle # Super+z
 
 #### Launch browser
 
@@ -287,7 +287,7 @@ started.</summary>
 
 #### Text editor
 
-    launch-nvim # 'nvim' is an alias for that in fish/bash
+    launch-nvim # use 'nvim' as an alias fish/bash
 
 #### Fix common issues
 

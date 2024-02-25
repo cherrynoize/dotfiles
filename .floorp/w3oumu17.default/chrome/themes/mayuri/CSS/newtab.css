@@ -1,4 +1,6 @@
-@-moz-document url(about:newtab) {
+@-moz-document
+url(about:home),
+url(about:newtab) {
   html:not(#ublock0-epicker),
   html:not(#ublock0-epicker) body,
   #newtab-customize-overlay,

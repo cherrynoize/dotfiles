@@ -3,6 +3,6 @@ case "$new_theme_name" in
     width=200
     ;;
   compact)
-    width=182
+    width=186
     ;;
 esac

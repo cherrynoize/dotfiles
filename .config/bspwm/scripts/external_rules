@@ -28,7 +28,7 @@ handle_win () {
 #     eval "$consequences"
 #     [ "$state" ] || echo "desktop=^6"
 #     ;;
-    retroarch)
+    Steam|retroarch)
       eval "$consequences"
       [ "$state" ] || echo "desktop=^8"
       ;;
@@ -41,7 +41,7 @@ handle_win () {
       [ "$state" ] || echo "rectangle=1124x600 desktop=^5"
       ;;
     "")
-      sleep 0.5
+      sleep 0.2
       wm_class=($(xprop -id $wid | grep "WM_CLASS" | grep -Po '"\K[^,"]+'))
       class=${wm_class[-1]}
       [[ ${#wm_class[@]} == "2" ]] && instance=${wm_class[0]}

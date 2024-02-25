@@ -249,7 +249,7 @@ case "$_ctx" in
     config_dir="$HOME/.config/polybar/themes/current"
     current_config="colors"
     config_ext=".ini"
-    post_exec+="switch-bar reload;"
+    post_exec+="dock reload;"
     ;;
   *)
     echo "error: unknown context $_ctx"

@@ -347,13 +347,13 @@ case "$_ctx" in
     config_dir="$HOME/.config/eww/themes"
     config_link_names=("current")
     config_exts=("")
-    post_exec+="switch-bar reload eww;"
+    post_exec+="dock reload eww;"
     ;;
   polybar)
     config_dir="$HOME/.config/polybar/themes"
     config_link_names=("current")
     config_exts=("")
-    post_exec+="switch-bar reload polybar;"
+    post_exec+="dock reload polybar;"
     ;;
   rofi)
     config_dir="$HOME/.config/rofi/themes/"

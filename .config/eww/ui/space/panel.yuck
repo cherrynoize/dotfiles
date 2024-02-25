@@ -441,8 +441,8 @@
                   :tooltip "change wallpaper"
             (label :text "󰸉"))
           (button :class "tray_icon reload fixed"
-;                 :onclick "switch-bar reload" ; nicer way
-                  :onclick "killall eww; switch-bar launch" ; brutal way
+;                 :onclick "dock reload" ; nicer way
+                  :onclick "killall eww; dock launch" ; brutal way
                   :tooltip "reload bar"
             (label :text "󰑓"))))
       (eventbox :onhover "${eww} update tray_powermenu_reveal=true tray_default_reveal=false tray_curtain_reveal=false"
