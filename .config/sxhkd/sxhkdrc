@@ -1,7 +1,8 @@
-#    _____  _| |__ | | ____| |_ __ ___ 
-#   / __\ \/ / '_ \| |/ / _` | '__/ __|  ^ cherry-noize
-#   \__ \>  <| | | |   < (_| | | | (__   ^ https://github.com/cherrynoize
-#   |___/_/\_\_| |_|_|\_\__,_|_|  \___|  ^ 0xo1m0x5w@mozmail.com 
+#           _
+#  _____  _| |__ | | ____| |_ __ ___ 
+# / __\ \/ / '_ \| |/ / _` | '__/ __| ^ cherry-noize
+# \__ \>  <| | | |   < (_| | | | (__  ^ https://github.com/cherrynoize
+# |___/_/\_\_| |_|_|\_\__,_|_|  \___| ^ 0xo1m0x5w@mozmail.com 
 #
 
 #
@@ -10,11 +11,13 @@
 
 # terminal
 super + Return
-    "$TERMINAL"
+    alacritty
+#   "$TERMINAL"
 
 # floating term
 super + alt + Return
-    "$TERMINAL" --class FloaTerm,FloaTerm
+    alacritty --class FloaTerm,FloaTerm
+#   "$TERMINAL" --class FloaTerm,FloaTerm
 
 # toggle music player
 super + alt + s

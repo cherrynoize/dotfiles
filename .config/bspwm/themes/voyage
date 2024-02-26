@@ -6,6 +6,7 @@
 # |_.__/|___/ .__/ \_/\_/ |_| |_| |_| ^ cherrynoize@duck.com
 #           |_|
 
+default_dock_position=top
 default_padding=10
 default_useless_gaps=25
 default_border_width=0
@@ -20,9 +21,9 @@ if theme get 2>/dev/null; then
     position="$(theme get Dock position)"
     dock_size="$(theme get Dock size)"
     dock_margin="$(theme get Dock margin)"
-    eval "_padding=${position}_padding"
+    eval "_padding=${position:-"$default_dock_position"}_padding"
     _padding=$((_padding + dock_size + dock_margin))
-    eval "${position}_padding=$_padding"
+    eval "${position:-"$default_dock_position"}_padding=$_padding"
   fi
 
   useless_gaps="$(theme get WM useless-gaps)"

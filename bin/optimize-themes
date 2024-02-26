@@ -1,5 +1,5 @@
 #!/bin/sh
 # optimize wallpaper themes
-for img in */*/*; do
+for img in ~/*/*/*; do
   optipng "$img"
 done

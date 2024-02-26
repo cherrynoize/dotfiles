@@ -10,6 +10,9 @@ hst_file="$HOME/.cache/bar.lst"
 # fallback action when no history is found
 run_default () { run_eww; }
 
+# default dock position when not set
+default_dock_position=top
+
 # initialize running state
 is_running=0
 
@@ -31,14 +34,14 @@ running_poly () {
 set_padding () {
   position="$(theme get Dock position)"
 
-  wm_padding="$(theme get WM "${position}-padding")"
+  wm_padding="$(theme get WM "${position:-"$default_dock_position"}-padding")"
   if running; then
     dock_size="$(theme get Dock depth)"
     dock_margin="$(theme get Dock margin)"
   fi
   padding="$((wm_padding + dock_size + dock_margin))"
 
-  bspc config "${position}_padding" "$padding"
+  bspc config "${position:-"$default_dock_position"}_padding" "$padding"
 }
 
 run_eww () {

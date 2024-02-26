@@ -27,8 +27,8 @@
   horizontal_padding = 12
   frame_width = 3
 
-  frame_color = "#b7472d"
-  separator_color = "#b7472d"
+  frame_color = "#584078"
+  separator_color = "#584078"
 
   corner_radius = 10
 

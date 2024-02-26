@@ -75,9 +75,9 @@ se whichwrap+=<,>,[,]
 " show tab as number of spaces
 "se tabstop=4
 " normal mode '>' number of spaces
-"se shiftwidth=4
+"se shiftwidth=2
 " tab indents with spaces
-se expandtab
+"se expandtab
 
 " indentation
 """""""""""""
@@ -90,11 +90,8 @@ autocmd FileType sh setlocal shiftwidth=2 tabstop=2
 autocmd FileType fish setlocal shiftwidth=2 tabstop=2
 autocmd FileType rasi setlocal shiftwidth=2 tabstop=2
 autocmd FileType c setlocal shiftwidth=2 tabstop=2
-autocmd FileType python setlocal shiftwidth=3 tabstop=3
+autocmd FileType python setlocal shiftwidth=4 tabstop=4
 autocmd FileType lua setlocal shiftwidth=3 tabstop=3
-
-" configuration
-nnoremap <esc>R <cmd>:so $MYVIMRC<cr>
 
 " edit
 """"""

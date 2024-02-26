@@ -15,7 +15,7 @@ fi
 inifile="$1"
 
 if [ ! -f "$1" ]; then
-  echo "error: no file '$1'" > /dev/stderr
+  echo "iniget: no file '$1'" > /dev/stderr
   exit 4
 fi
 
