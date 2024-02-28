@@ -1,20 +1,16 @@
 #!/usr/bin/env bash
-#    _
-#   | |__  ___ _ ____      ___ __ ___
-#   | '_ \/ __| '_ \ \ /\ / / '_  ` _ \  ^ cherry-noize
-#   | |_) \__ \ |_) \ V  V /| | | | | |  ^ https://github.com/cherrynoize
-#   |_.__/|___/ .__/ \_/\_/ |_| |_| |_|  ^ 0xo1m0x5w@mozmail.com
-#             |_|
+#  _
+# | |__  ___ _ ____      ___ __ ___
+# | '_ \/ __| '_ \ \ /\ / / '_  ` _ \ ^ cherrynoize
+# | |_) \__ \ |_) \ V  V /| | | | | | ^ https://github.com/cherrynoize/dotfiles
+# |_.__/|___/ .__/ \_/\_/ |_| |_| |_| ^ cherrynoize@duck.com
+#           |_|
 
-#
-# bspwm dash theme
-#
+padding=5
 
-. ../colorschemes/dash-zombie
-
-bspc config top_padding           "55"
-bspc config bottom_padding        "5"
-bspc config left_padding          "5"
-bspc config right_padding         "5"
-bspc config window_gap            "10"
-bspc config border_width          "5"
+export top_padding="$padding"
+export left_padding="$padding"
+export right_padding="$padding"
+export bottom_padding="$padding"
+export useless_gaps="10"
+export border_width="5"

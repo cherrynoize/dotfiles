@@ -1,39 +1,16 @@
 #!/usr/bin/env bash
 #  _
 # | |__  ___ _ ____      ___ __ ___
-# | '_ \/ __| '_ \ \ /\ / / '_  ` _ \ ^ cherry-noize
-# | |_) \__ \ |_) \ V  V /| | | | | | ^ https://github.com/cherrynoize
+# | '_ \/ __| '_ \ \ /\ / / '_  ` _ \ ^ cherrynoize
+# | |_) \__ \ |_) \ V  V /| | | | | | ^ https://github.com/cherrynoize/dotfiles
 # |_.__/|___/ .__/ \_/\_/ |_| |_| |_| ^ cherrynoize@duck.com
 #           |_|
 
-default_dock_position=top
-default_padding=10
-default_useless_gaps=25
-default_border_width=0
+padding=10
 
-if theme get 2>/dev/null; then
-  top_padding="$(theme get WM top_padding)"
-  left_padding="$(theme get WM left_padding)"
-  right_padding="$(theme get WM right_padding)"
-  bottom_padding="$(theme get WM bottom_padding)"
-
-  if dock status; then
-    position="$(theme get Dock position)"
-    dock_size="$(theme get Dock size)"
-    dock_margin="$(theme get Dock margin)"
-    eval "_padding=${position:-"$default_dock_position"}_padding"
-    _padding=$((_padding + dock_size + dock_margin))
-    eval "${position:-"$default_dock_position"}_padding=$_padding"
-  fi
-
-  useless_gaps="$(theme get WM useless-gaps)"
-  border_width="$(theme get WM border-width)"
-fi
-
-bspc config top_padding     "${top_padding:-"$default_padding"}"
-bspc config left_padding    "${left_padding:-"$default_padding"}"
-bspc config right_padding   "${right_padding:-"$default_padding"}"
-bspc config bottom_padding  "${bottom_padding:-"$default_padding"}"
-
-bspc config window_gap      "${useless_gaps:-"$default_useless_gaps"}"
-bspc config border_width    "${border_width:-"$default_border_width"}"
+export top_padding="$padding"
+export left_padding="$padding"
+export right_padding="$padding"
+export bottom_padding="$padding"
+export useless_gaps="25"
+export border_width="0"

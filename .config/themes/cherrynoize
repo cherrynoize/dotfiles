@@ -1,8 +1,0 @@
-#!/bin/sh
-theme_name="cherrynoize"
-theme_id="cherrynoize"
-
-set_theme () {
-  switch-theme wallpaper "$theme_id"
-  switch-theme dunst "earth"
-}

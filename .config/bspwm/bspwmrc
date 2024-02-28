@@ -1,31 +1,60 @@
 #!/usr/bin/env bash
-#    _
-#   | |__  ___ _ ____      ___ __ ___
-#   | '_ \/ __| '_ \ \ /\ / / '_  ` _ \  ^ cherrynoize
-#   | |_) \__ \ |_) \ V  V /| | | | | |  ^ https://github.com/cherrynoize/dotfiles
-#   |_.__/|___/ .__/ \_/\_/ |_| |_| |_|  ^ cherrynoize@duck.com
-#             |_|
+#  _
+# | |__  ___ _ ____      ___ __ ___
+# | '_ \/ __| '_ \ \ /\ / / '_  ` _ \ ^ cherrynoize
+# | |_) \__ \ |_) \ V  V /| | | | | | ^ https://github.com/cherrynoize/dotfiles
+# |_.__/|___/ .__/ \_/\_/ |_| |_| |_| ^ cherrynoize@duck.com
+#           |_|
 
 get_cd () {
   dirname "$(readlink -f "$0")"
 }
 
-#
-# my bspwm config 
-#
+# Theme and colorscheme directories.
+themes_dir="$(get_cd)/themes"
+colors_dir="$(get_cd)/colorschemes"
 
-# set theme and colorscheme
+# Do not edit this. Use switch-theme to set theme and
+# colorscheme.
 theme="current"
 colorscheme="current"
 
-# themes and colorschemes directories
-themes_dir="$(get_cd)/themes"
-colors_dir="$(get_cd)/colors"
+######### Default options ##########
 
 # > 🌐 󱃫 󱌰 󱌬    󱀤   🎵󰲋  󰀘  󰢚 󰙯 󰻞󰭹 󰂫      
 workspaces=(' ' ' ' ' ' ' ' ' ' ' ' '  ' ' ' '  ' ' ' ' ')
 
-# bspwm config
+default_dock_position=top
+default_padding=10
+default_useless_gaps=25
+default_border_width=0
+
+# Source theme.
+[ -f "$themes_dir/$theme" ] && . "$themes_dir/$theme"
+
+# Set options from global theme.
+if theme get 2>/dev/null; then
+  [ -z "$top_padding" ] && top_padding="$(theme get WM top_padding)"
+  [ -z "$left_padding" ] && left_padding="$(theme get WM left_padding)"
+  [ -z "$right_padding" ] && right_padding="$(theme get WM right_padding)"
+  [ -z "$bottom_padding" ] && bottom_padding="$(theme get WM bottom_padding)"
+
+  # Add padding for the dock to the side where the dock is.
+  if dock status; then
+    [ -z "$dock_position" ] && position="$(theme get Dock position)"
+    [ -z "$dock_size" ] && dock_size="$(theme get Dock depth)"
+    [ -z "$dock_margin" ] && dock_margin="$(theme get Dock margin)"
+    eval "dockside_padding=${position:-"$default_dock_position"}_padding"
+    dockside_padding=$((dockside_padding + dock_size + dock_margin))
+    eval "${position:-"$default_dock_position"}_padding=$dockside_padding"
+  fi
+
+  [ -z "$useless_gaps" ] && useless_gaps="$(theme get WM useless-gaps)"
+  [ -z "$border_width" ] && border_width="$(theme get WM border-width)"
+fi
+
+########### WM settings ############
+
 bspc config split_ratio                 0.5
 bspc config single_monocle              true
 bspc config gapless_monocle             false
@@ -47,13 +76,27 @@ bspc config merge_overlapping_monitors  true
 
 bspc config external_rules_command      "$(get_cd)/scripts/external_rules"
 
-# source theme and colorscheme
-. "$themes_dir/$theme"
-. "$colors_dir/$colorscheme"
+####### Dock, window settings ########
 
-# create workspaces
+bspc config top_padding     "${top_padding:-"$default_padding"}"
+bspc config left_padding    "${left_padding:-"$default_padding"}"
+bspc config right_padding   "${right_padding:-"$default_padding"}"
+bspc config bottom_padding  "${bottom_padding:-"$default_padding"}"
+
+bspc config window_gap      "${useless_gaps:-"$default_useless_gaps"}"
+bspc config border_width    "${border_width:-"$default_border_width"}"
+
+######## Colorscheme ########
+
+# Source colorscheme.
+[ -f "$colors_dir/$colorscheme" ] && . "$colors_dir/$colorscheme"
+
+########## Create workspaces ###########
+
 name=1
 for monitor in $(bspc query -M); do
   bspc monitor "$monitor" -n "$name" -d "${workspaces[@]}"
   (( name++ ))
 done
+
+notify-send "🤖 bspwmrc loaded"

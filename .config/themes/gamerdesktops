@@ -1,8 +1,0 @@
-#!/bin/sh
-theme_name="GamerDxtop"
-theme_id="gamerdesktops"
-
-set_theme () {
-  switch-theme wallpaper "$theme_id"
-  switch-theme dunst "tokyonight"
-}

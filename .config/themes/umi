@@ -1,8 +1,0 @@
-#!/bin/sh
-theme_name="Umi"
-theme_id="umi"
-
-set_theme () {
-  switch-theme wallpaper "$theme_id"
-  switch-theme dunst "nightsky"
-}
