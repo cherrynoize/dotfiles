@@ -27,25 +27,35 @@
 ## 🧱 Dependencies
 
 ```
-bash # Arch official repos
-picom-ftlabs-git # AUR
+# From the official repos:
+bash
+# From the AUR:
+picom-ftlabs-git
 ```
 
-Optional (for a few more functionalities):
+### Needed for some functionalities (*optional*)
 
 ```
-geoclue2 # Arch official repos
-wpgtk pywalfox expect playerctl # AUR
+# From the official repos:
+geoclue2
+# From the AUR:
+wpgtk pywalfox expect playerctl
 ```
 
-To install all of the above (if you're on Arch) run:
+To install all of the above (*on Arch*) run:
 
 ```
 sudo pacman -S bash geoclue2
 yay -S picom-ftlabs-git wpgtk pywalfox expect playerctl
 ```
 
-Not in the AUR* (or in the official repo) (optional):
+### Not in the AUR* (or in the official repos):
+
+#### Needed
+
+- [theme](https://github.com/cherrynoize/theme)
+
+#### Optional
 
 - [set-light](https://github.com/cherrynoize/set-light)
 - [n3lock](https://github.com/cherrynoize/n3lock)

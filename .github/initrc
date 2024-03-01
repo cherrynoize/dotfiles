@@ -4,10 +4,10 @@
 # https://github.com/cherrynoize/dotfiles
 #
 
-# default session
+# Default session.
 export SESSION="bspwm"
 
-# default apps
+# Default applications.
 export TERMINAL="alacritty"
 export EDITOR="launch-nvim"
 export BROWSER="floorp"
@@ -16,41 +16,41 @@ export PLAYER="spotify"
 
 #export WALL_THEMES_DIR="$HOME/.wallpaper-themes"
 
-# Current theme loading screen
+# Set session loading screen to current theme's.
 loading_screen="$HOME/.wallpaper-themes/current/loading_frames"
 if [ ! -e "$loading_screen" ]; then
   # Fallback to default
   loading_screen="$HOME/.wallpaper-themes/.default/loading_frames"
 fi
 if [ -e "$loading_screen" ]; then
-  # Set loading screen if it is found
+  # Set loading screen if it exists
   livewall set "$loading_screen" &
 fi
 
-# Automatically detect network interfaces
-# You can manually override these with your preferred value
+# Automatically detect network interfaces.
+# You can manually override these with your preferred values.
 export WLAN="$(ls /sys/class/net | grep -m 1 wl)"
 export ETH="$(ls /sys/class/net | grep -m 1 et)"
 
-# Set location
+# Set geolocation.
 export CITY="$(get-ip-info city)"
 export COUNTRY="$(get-ip-info country)"
 
-# Manually pinpoint imprecise results
+# Manually pinpoint imprecise results.
 #if [ "$(get-ip-info region)" = "Kanto" ]; then
 #  export CITY="Cerulean City"
 #fi
 
 # Default Firefox profile and profile directory
-# (for change-wallpaper and arkenfox-update)
+# (for change-wallpaper and arkenfox-update).
 #export FF_DEFAULT_PROFILE="$HOME/.mozilla/firefox/abcd1234.default"
 #export FF_DEFAULT_PROFILE="wxyz9876.worksthesame"
 #export FF_PROFILE_DIR="$HOME/.mozilla/firefox"
 
-# Start the bar
-switch-bar launch &
+# Launch dock.
+[ "$(theme get Dock enabled)" != "false" ] && dock launch &
 
-# Set wallpaper
+# Set wallpaper.
 (
 sleep 1
 #. ~/.config/wpg/wp_init.sh & # Restore wallpaper and wpgtk theme
