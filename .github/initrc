@@ -14,6 +14,11 @@ export BROWSER="floorp"
 export MAILCLIENT="betterbird"
 export PLAYER="spotify"
 
+# System and user themes directories respectively.
+#export BASE_THEMES_DIR="/etc/themes"
+#export USER_THEMES_DIR="$HOME/.config/themes"
+
+# Wallpaper themes directory.
 #export WALL_THEMES_DIR="$HOME/.wallpaper-themes"
 
 # Set session loading screen to current theme's.
