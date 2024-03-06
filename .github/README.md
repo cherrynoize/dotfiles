@@ -14,7 +14,7 @@
 
 </div>
 
-[Link to showcase](https://youtu.be/ph19WxzsCRg)
+![showcase](images/panel_showcase.mp4)
 
 ![preview](images/wpgtk1.png)
 

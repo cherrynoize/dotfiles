@@ -115,12 +115,12 @@ super + Print
 super + ctrl + Print
     snip record
 
-# screencast to gif
+# record screen to gif
 super + ctrl + shift + Print
     snip -f gif record
 
 # stop screen recording
-super + alt + Print
+super + ctrl + alt + Print
     killall ffmpeg || notify-send "snip" "No active recording"
 
 # clipboard manager
