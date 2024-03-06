@@ -453,4 +453,4 @@ to add a link to your original work if you reach out.
 
 ## And thanks to you for using my dotfiles
 
-*If you like them please consider giving us a star. Bye!*
+*Bye!*
