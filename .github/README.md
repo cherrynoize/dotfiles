@@ -14,6 +14,8 @@
 
 </div>
 
+https://github.com/cherrynoize/dotfiles/assets/104397138/50e9ba94-3640-4bcf-a30c-9856d7a19024
+
 ![preview](images/wpgtk1.png)
 
 ![preview](images/dash_ani1.gif)
