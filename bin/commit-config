@@ -3,7 +3,7 @@
 # create new dotfiles commit
 
 # paths to be added relative to ~ dir
-home_lst=".github bin .local/bin .wallpaper-themes .bashrc .vimrc .mozilla/firefox/q0q5c5do.default-release/chrome .floorp/w3oumu17.default/chrome"
+home_lst=".github bin .local/bin .wallpaper-themes .bashrc .vimrc .floorp/w3oumu17.default/chrome"
 # paths to be added relative to ~/.config
 config_lst="themes alacritty bspwm dunst eww fish gtk-3.0/settings.ini music n3lock neofetch/config.conf nvim picom polybar ranger rofi sxhkd vis wpg/*.conf wpg/templates/*.base xsettingsd starship.toml"
 msg="update" # default commit message
