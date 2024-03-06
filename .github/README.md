@@ -14,12 +14,6 @@
 
 </div>
 
-![]()
-
-<video width="320" height="240" controls>
-  <source src="images/panel_showcase.mp4" type="video/mp4">
-</video>
-
 ![preview](images/wpgtk1.png)
 
 ![preview](images/dash_ani1.gif)
