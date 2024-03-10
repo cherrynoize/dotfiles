@@ -13,6 +13,9 @@ run_default () { run_eww; }
 # default dock position when not set
 default_dock_position=top
 
+# reinitialize theme state
+enabled=
+
 # initialize running state
 is_running=0
 
@@ -45,6 +48,7 @@ set_padding () {
 }
 
 run_eww () {
+  enabled=true
   is_running=1
   # first make room then launch dock
   set_padding
@@ -53,6 +57,7 @@ run_eww () {
 }
 
 run_poly () {
+  enabled=true
   is_running=1
   # first make room then launch dock
   set_padding
@@ -62,6 +67,7 @@ run_poly () {
 
 close_eww () {
   is_running=0
+
   # first close dock then remove the gap
   if running_eww; then
     # try to close politely
@@ -76,6 +82,7 @@ close_eww () {
 
 close_poly () {
   is_running=0
+
   # first close dock then remove the gap
   if running_poly; then
     # try to close politely
@@ -90,16 +97,16 @@ close_poly () {
 
 toggle_bar () {
   if running_poly; then
-    close_poly &
+    close_poly
   elif running_eww; then
-    close_eww &
+    close_eww
   else
     last_bar="$(cat "$hst_file")"
 
     case "$last_bar" in
-      eww) run_eww;;
-      polybar) run_poly;;
-      *) run_default;;
+      eww) run_eww ;;
+      polybar) run_poly ;;
+      *) run_default ;;
     esac
   fi
 }
@@ -109,14 +116,14 @@ while true; do
     "")
       # switch between bars
       if running_poly; then
-        "$0" eww &
+        "$0" eww
       elif running_eww; then
-        "$0" polybar &
+        "$0" polybar
       else
         # launch last open bar
-        toggle_bar &
+        toggle_bar
       fi
-      exit
+      break
       ;;
     status)
       # is any bar running
@@ -131,14 +138,14 @@ while true; do
       if running_eww || running_poly; then
         echo "already running"
       else
-        toggle_bar &
+        toggle_bar
       fi
-      exit
+      shift
       ;;
     toggle)
       # toggle bar
-      toggle_bar &
-      exit
+      toggle_bar
+      shift
       ;;
     reload)
       # if an additional argument is specified
@@ -152,29 +159,30 @@ while true; do
         "$0" close
         "$0" launch
       fi
-      exit
+      shift
       ;;
     close|none)
       # close all bars
-      close_eww
+      close_eww &
       close_poly
-      exit
+      shift
       ;;
     eww)
       close_poly &
-      run_eww &
-      exit
+      run_eww
+      shift
       ;;
     polybar)
       close_eww &
-      run_poly &
-      exit
+      run_poly
+      shift
       ;;
     *)
       echo "unknown option $1"
       exit 1
       ;;
   esac
-  shift
   [ -z "$1" ] && break
 done
+
+theme edit Dock enabled "${enabled:-false}"
