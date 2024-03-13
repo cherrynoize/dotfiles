@@ -98,5 +98,3 @@ for monitor in $(bspc query -M); do
   bspc monitor "$monitor" -n "$name" -d "${workspaces[@]}"
   (( name++ ))
 done
-
-notify-send "🤖 bspwmrc loaded"

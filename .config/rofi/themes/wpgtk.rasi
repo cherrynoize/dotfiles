@@ -58,7 +58,7 @@ configuration {
 
 window {
   transparency: "real";
-  border-radius: @radius;
+  border-radius: @win-radius;
 }
 
 mainbox {
