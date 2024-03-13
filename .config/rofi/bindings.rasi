@@ -9,6 +9,6 @@ configuration {
   kb-remove-to-eol: "Control+Shift+e";
   kb-mode-next: "Shift+Right,Control+Tab";
   kb-mode-previous: "Shift+Left,Control+Shift+Tab";
-  kb-remove-char-back: "BackSpace,Shift+BackSpace,Control+h";
+  kb-remove-char-back: "BackSpace,Shift+BackSpace";
   kb-cancel: "Escape,Control+g,Control+bracketleft";
 }
