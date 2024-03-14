@@ -19,9 +19,9 @@ super + alt + Return
     alacritty --class FloaTerm,FloaTerm
 #   "$TERMINAL" --class FloaTerm,FloaTerm
 
-# toggle music player
+# launch player
 super + alt + s
-    pgrep "$PLAYER" && killall "$PLAYER" || "$PLAYER"
+    "$PLAYER"
 
 # open mail
 super + alt + m
@@ -31,9 +31,9 @@ super + alt + m
 super + alt + w
     "$BROWSER"
 
-# toggle conky
+# launch conky
 super + ctrl + c
-    pgrep conky && killall conky || launch-conky
+    launch-conky
 
 # restart conky
 super + ctrl + shift + c
