@@ -27,11 +27,11 @@
     transition: color .3s !important;
   }
 
-  body > #root > .Dashboard .Settings {
+  body > #root > .Settings {
     opacity: .9 !important;
   }
 
-  body > #root > .Dashboard .Settings :is(
+  body > #root > .Settings :is(
   .plane,
   .plane *:not(.Widget)) {
     background-color: #1a1f29 !important;
@@ -39,7 +39,7 @@
     border-color: #c9c9c9 !important;
   }
 
-  body > #root > .Dashboard .Settings :is(
+  body > #root > .Settings :is(
   .plane label,
   .plane .Widget,
   .plane .Widget *,
@@ -47,27 +47,27 @@
     background-color: #2a202f !important;
   }
 
-  body > #root > .Dashboard .Settings .plane .Widget {
+  body > #root > .Settings .plane .Widget {
     border: 1px solid transparent !important;
     transition: border-color .05s ease-out !important;
   }
 
-  body > #root > .Dashboard .Settings .plane > .Widget:last-of-type {
+  body > #root > .Settings .plane > .Widget:last-of-type {
     display: none !important;
   }
 
-  body > #root > .Dashboard .Settings .plane .Widget:hover {
+  body > #root > .Settings .plane .Widget:hover {
     border-color: #fcfcfc !important;
     transition: border-color .3s !important;
   }
 
-  body > #root > .Dashboard .Settings :is(h1, h2) {
+  body > #root > .Settings :is(h1, h2) {
     padding-bottom: .3em !important;
     width: 100% !important;
     border-bottom: 1px solid #fcfcfc !important;
   }
 
-  body > #root > .Dashboard .Settings .Logo { display: none; !important }
+  body > #root > .Settings .Logo { display: none; !important }
 
   /* Widgets */
 
