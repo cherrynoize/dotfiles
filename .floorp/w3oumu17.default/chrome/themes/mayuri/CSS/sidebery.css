@@ -1,6 +1,6 @@
 /* Sidebery sidebar */
 @-moz-document url("moz-extension://765388cc-886d-447b-83cc-4ebbf0feba79/sidebar/sidebar.html") {
-  #root.root {--general-margin: 5px !important;}
+  #root.root {--general-margin: 5px; !important}
   #root.root {--bookmarks-folder-font: 0.9375rem Ubuntu !important;}
   #root.root {--bookmarks-bookmark-font: 0.9375rem Ubuntu !important;}
   #root.root {--bookmarks-folder-height: 32px !important;}
@@ -73,7 +73,7 @@
 
   /* Tabs */
 
-  #root.root {--tabs-height: 2.5rem !important;}
+/*#root.root {--tabs-height: 2.5rem !important;}*/ /* Fucks up tab drag and drop sorting */
   #root.root {--tabs-font: 1rem Monospace !important;}
   #root.root {--tabs-count-font: 0.5625rem sans-serif !important;}
   #root.root {--tabs-close-btn-margin: 5px !important;}
@@ -84,7 +84,6 @@
   #root.root:not(:hover) {--tabs-lvl-opacity: 0 !important;}
   #root.root:not(:hover) {--tabs-indent: 0px !important;}
   #root.root:hover {--tabs-indent: .95em !important;}
-  #root.root:hover {--tabs-margin: 6px !important;}
   #root.root:hover {--tabs-inner-gap: 10px !important;}
 
   #root.root:not(:hover) .TabsPanel .ScrollBox {
@@ -93,6 +92,10 @@
 
   .Tab {
     transition: margin .45s, padding .45s !important;
+  }
+
+  .Tab:hover {
+    margin: 0 5px !important;
   }
 
   .Tab:hover .body {
