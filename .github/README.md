@@ -22,7 +22,7 @@ https://github.com/cherrynoize/dotfiles/assets/104397138/50e9ba94-3640-4bcf-a30c
 
 <div align="center"> 
 
-<h3>Watch me trying to make sense of my current config</h3>
+<h3>Watch me try to make sense of my config.</h3>
 
 </div>
 
