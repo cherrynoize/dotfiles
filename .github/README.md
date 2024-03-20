@@ -166,84 +166,9 @@ a basic sense.
 
 ## 🎨 Themes
 
-Themes are currently in alpha so please be nice. I'm setting up
-themes for everything - just be patient.
-
-To switch between themes:
-
-```
-switch-theme [thing-to-change-theme-for] [new-theme]
-```
-
-List items that have themes:
-
-```
-switch-theme -l
-```
-
-And list themes available for given item (or context):
-
-```
-switch-theme [context] -l
-```
-
-### Dark/light mode
-
-You can toggle between light and dark mode using `switch-mode`
-(`Super+<`).
-
-Without arguments it will just toggle between light and dark
-mode globally. It also takes single items (called a *context*)
-to switch for or a specific mode (light or dark) to be set.
-
-> **Note**: light mode is in beta and some stuff does not look
-great. Have a look at the [known bugs](#-known-bugs) section.
-
-### Global themes
-
-You can run `theme-picker` to switch between available global
-themes.
-
-> Use option `--recent=false` to sort alphabetically instead of
-> by recently used.
-
-> Note: the theme and wall picker both will be kinda slow to
-> start the first few times, that is because it's creating
-> thumbnail for all wallpaper images. It speeds up soon enough
-> (proportional to the number of images in your wallpaper dir).
-> The only way to solve this would be to use the original image
-> as a background for a `rofi` element instead passing the way
-> we currently are. (If you know how to do that reach out.)
-
-Global themes are configuration files in
-[.config/themes](../.config/themes) and they can be easily edited,
-created or removed manually.
-
-> Though provided global themes are still primitive, the
-> infrastructure is already capable of supporting endlessly
-> complex themes. You just need to set them up.
-
-### wpgtk
-
-<details>
-<summary></summary>
-
-![preview](images/wpgtk_preview1.mp4)
-
-![screenshot](images/wpgtk1.png)
-
-</details>
-
-### Dash
-
-<details>
-<summary></summary>
-
-![preview](images/dash_ani1.gif)
-
-![screenshot](images/dash1.png)
-
-</details>
+Please, refer to the
+[theme](https://github.com/cherrynoize/theme) documentation for
+usage.
 
 ## 🛠 Usage
 
