@@ -22,9 +22,7 @@ https://github.com/cherrynoize/dotfiles/assets/104397138/50e9ba94-3640-4bcf-a30c
 
 <div align="center"> 
 
-<h3>Watch me build my dotfiles</h3>
-
-<p>and slowly try to get rid of all the pointless crap.</p>
+<h3>Watch me trying to make sense of my current config</h3>
 
 </div>
 
