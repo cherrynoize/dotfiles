@@ -373,15 +373,17 @@ metadata mpris:artUrl`) and I'll add it.
 
 ### 🔩 Troubleshooting
 
-In case something's not working as expected, or if you suddenly
-notice a lag in your system and you don't know what's causing it:
+In case something's not working as expected:
 
 ```
 unfuck everything
 ```
 
-This should help. If it doesn't, you'll have to find the issue
-and actually do something about it.
+This *might* help. If it doesn't, you'll have to identify the
+issue and actually do something about it. (You can have a look at
+the [known bugs](#-known-bugs).) If you find something that
+doesn't fit, please
+[open an issue](https://github.com/cherrynoize/dotfiles/issues).
 
 ## 📋 TODO
 
