@@ -22,8 +22,10 @@ https://github.com/cherrynoize/dotfiles/assets/104397138/50e9ba94-3640-4bcf-a30c
 
 <div align="center"> 
 
-**These are my current dotfiles.** I update them as I go and try
-to get rid of all the unnecessary stuff.
+<h3>These are my current dotfiles.</h3>
+
+<p>I update them as I go and try to get rid of all the
+unnecessary stuff.</p>
 
 </div>
 
