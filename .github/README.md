@@ -6,10 +6,12 @@
 </div>
 
 <div align="center"> 
+
 ![](https://img.shields.io/github/last-commit/cherrynoize/dotfiles?logo=github&style=for-the-badge&color=ffb1c8&logoColor=d9e0ee&labelColor=292324)
 ![](https://img.shields.io/github/stars/cherrynoize/dotfiles?style=for-the-badge&logo=andela&color=FFB686&logoColor=D9E0EE&labelColor=292324)
 ![](https://img.shields.io/github/repo-size/cherrynoize/dotfiles?color=CAC992&label=SIZE&logo=googledrive&style=for-the-badge&logoColor=D9E0EE&labelColor=292324)
 ![](https://img.shields.io/badge/need-love-green?style=for-the-badge&color=CCE8E9&logoColor=D9E0EE&labelColor=292324) 
+
 </div>
 
 https://github.com/cherrynoize/dotfiles/assets/104397138/50e9ba94-3640-4bcf-a30c-9856d7a19024
@@ -19,8 +21,10 @@ https://github.com/cherrynoize/dotfiles/assets/104397138/50e9ba94-3640-4bcf-a30c
 ![preview](images/dash_ani1.gif)
 
 <div align="center"> 
+
 **These are my current dotfiles.** I update them as I go and try
 to get rid of all the unnecessary stuff.
+
 </div>
 
 ## 🧱 Dependencies
