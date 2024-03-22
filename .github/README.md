@@ -22,8 +22,6 @@ https://github.com/cherrynoize/dotfiles/assets/104397138/50e9ba94-3640-4bcf-a30c
 
 <div align="center"> 
 
-<h4>Watch me try to make sense out of my daily driver.</h4>
-
 </div>
 
 ## 🧱 Dependencies
@@ -36,7 +34,7 @@ bash
 picom-ftlabs-git
 ```
 
-### Needed for some functionalities (*optional*)
+### Needed for added functionalities (*optional*)
 
 ```
 # From the official repos:
