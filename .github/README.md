@@ -91,7 +91,7 @@ which should render this `README` section obsolete one day.
 
 ## 🔄 Update
 
-From now on you can just run
+From now on you can just run:
 
 ```
 cfg pull
