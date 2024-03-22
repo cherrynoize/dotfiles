@@ -97,7 +97,7 @@ From now on you can just run
 cfg pull
 ```
 
-and it should automatically update your dotfiles. (Please take
+and it should automatically update your dotfiles. (Please, take
 care of your own unstaged changes.)
 
 ## ⚙ Configuration
