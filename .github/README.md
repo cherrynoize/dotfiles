@@ -61,7 +61,7 @@ yay -S picom-ftlabs-git wpgtk pywalfox expect playerctl
 - [set-light](https://github.com/cherrynoize/set-light)
 - [n3lock](https://github.com/cherrynoize/n3lock)
 
-> **Do submit a PR or let me know if this is outdated.*
+> **Correct me if I'm wrong.
 
 ## 🔧 Setup
 
