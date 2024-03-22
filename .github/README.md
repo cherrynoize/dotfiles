@@ -54,7 +54,7 @@ yay -S picom-ftlabs-git wpgtk pywalfox expect playerctl
 
 > **[Correct me if I'm wrong.](https://github.com/cherrynoize/dotfiles/issues)*
 
-#### Needed
+#### Required
 
 - [theme](https://github.com/cherrynoize/theme)
 
