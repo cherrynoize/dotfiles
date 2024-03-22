@@ -1,7 +1,7 @@
 ## Fully-featured global themes coming, *be patient*
 
 <div align="center">
-    <h1>【 My ⭐ dotfiles 】</h1>
+    <h1>✨ Dotfiles</h1>
     <h3></h3>
 </div>
 
