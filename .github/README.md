@@ -34,7 +34,7 @@ bash
 picom-ftlabs-git
 ```
 
-### Needed for added functionalities (*optional*)
+### For added functionalities (*optional*)
 
 ```
 # From the official repos:
