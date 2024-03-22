@@ -52,6 +52,8 @@ yay -S picom-ftlabs-git wpgtk pywalfox expect playerctl
 
 ### Not in the AUR (or any other repo)*
 
+> **[Correct me if I'm wrong.](https://github.com/cherrynoize/dotfiles/issues)*
+
 #### Needed
 
 - [theme](https://github.com/cherrynoize/theme)
@@ -60,8 +62,6 @@ yay -S picom-ftlabs-git wpgtk pywalfox expect playerctl
 
 - [set-light](https://github.com/cherrynoize/set-light)
 - [n3lock](https://github.com/cherrynoize/n3lock)
-
-> **[Correct me if I'm wrong.](https://github.com/cherrynoize/dotfiles/issues)*
 
 ## 🔧 Setup
 
