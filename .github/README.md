@@ -22,7 +22,7 @@ https://github.com/cherrynoize/dotfiles/assets/104397138/50e9ba94-3640-4bcf-a30c
 
 <div align="center"> 
 
-<h3>Watch me try to make sense out of my daily driver.</h3>
+**Watch me try to make sense out of my daily driver.**
 
 </div>
 
