@@ -50,7 +50,7 @@ sudo pacman -S bash geoclue2
 yay -S picom-ftlabs-git wpgtk pywalfox expect playerctl
 ```
 
-### Not in the AUR* (or in the official repos)
+### Not in the AUR (or any other repo)*
 
 #### Needed
 
