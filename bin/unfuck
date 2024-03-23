@@ -108,9 +108,10 @@ unfuck_sxhkd () {
     cd ~ || exit 2
     # kill and respawn
     killall sxhkd
+    # this is only for sxhkd (if profile overrides this)
     setxkbmap -layout 'it'
     sxhkd & disown
-    "$0" profile
+    "$(basename -- "$0")" profile
   }
 }
 
