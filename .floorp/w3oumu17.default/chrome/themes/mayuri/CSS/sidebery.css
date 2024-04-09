@@ -94,7 +94,7 @@
     transition: margin .45s, padding .45s !important;
   }
 
-  .Tab:hover {
+  .Tab:not([data-pin="true"]):hover {
     margin: 0 5px !important;
   }
 
@@ -167,9 +167,18 @@
 
   /* Number of pinned tabs per row */
   #root.root:hover {--pinned-tabs-col: 3 !important;}
-
   #root.root {--tabs-pinned-height: 42px !important;}
-  #root.root {--tabs-pinned-width: calc( (96vw - (var(--tabs-margin)*var(--pinned-tabs-col))) / var(--pinned-tabs-col)) !important;}
+  #root.root {--pinned-tabs-bar-width: calc((98vw - (var(--tabs-margin)*2*(var(--pinned-tabs-col)))));}
+  #root.root {--tabs-pinned-width: calc((var(--pinned-tabs-bar-width) - (var(--tabs-margin)*var(--pinned-tabs-col))) / var(--pinned-tabs-col)) !important;}
+  .left-vertical-box ~ .central-box,
+  .central-box:has( ~ .right-vertical-box) {
+    --tabs-pinned-width: calc(
+        (var(--pinned-tabs-bar-width) -
+        var(--nav-btn-width) -
+        (var(--nav-btn-margin)*2) -
+        (var(--tabs-margin)*var(--pinned-tabs-col))) /
+        var(--pinned-tabs-col)) !important;
+  }
 
   #root.root:not(:hover) .PinnedTabsBar {
     grid-gap: 0 !important;
@@ -200,7 +209,7 @@
   /* Navigation bar */
 
   #root.root {--nav-btn-height: 35px !important;}
-  #root.root:hover {--nav-btn-width: 55px !important;}
+  #root.root:hover .NavigationBar:not(.-top) {--nav-btn-width: 55px !important;}
   #root.root {--nav-btn-margin: 1px !important;}
   #root.root {--nav-btn-len-margin: 1px !important;}
   #root.root {--nav-btn-border-radius: 5px !important;}
@@ -214,7 +223,7 @@
     order: 1 !important;
   }
 
-  .top-horizontal-box .NavigationBar .nav-item {
+  .top-horizontal-box .hidden-panels-popup-layer .nav-item {
     transform: rotateX(180deg) !important;
   }
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 WIN_MOUNT_POINT="/tmp/windows-mnt"
-WIN_PART="/dev/nvme0n1p3"
+WIN_PART="/dev/nvme0n1p2"
 WIN_ENTRYPOINT="Users/j"
 
 log_file="/var/log/windows.log"
