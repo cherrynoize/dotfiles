@@ -1,20 +1,17 @@
 #!/usr/bin/env bash
-# set property value in ini file
+# add new property value in ini file
 # author: cherrynoize
 # https://github.com/cherrynoize/dotfiles
 
-# initialize current value to empty
-cur_value=
-
 if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
 cat<<EOF
-set property value in ini file
-usage: iniset <file> <section> <property> <value>
+add new property value in ini file
+usage: iniset <file> <section> <property> [value]
 EOF
 exit
 fi
 
-if [ "$#" -lt 4 ]; then
+if [ "$#" -lt 3 ]; then
   echo "error: not enough arguments" > /dev/stderr
   exit 1
 fi
@@ -22,7 +19,7 @@ fi
 inifile="$1"
 section="$2"
 property="$3"
-new_value="$4"
+new_value="${4:-""}"
 
 if [ ! -f "$1" ]; then
   echo "error: no file '$1'" > /dev/stderr
@@ -57,23 +54,7 @@ for line in "${lines[@]}"; do
     continue
   fi
 
-  # strip property line
-  line="$(remove_section_header "$line")"
-  line="$(strip_comments "$line")"
-  line="$(strip_spaces "$line")"
-
-  if [ "$line" = "" ]; then
-    continue
-  fi
-
-  if [[ $line = $property=* ]]; then
-    cur_value="$(sed -e "s/^$property=//" <<< "$line")"
-    sed -i "${line_number}s/$cur_value"'$'"/$new_value/" "$inifile"
-    exit
-  fi
+  sed -i "$((line_number+1))i $property=$new_value" "$inifile"
+  exit
 done
-
-if [ -z "$cur_value" ]; then
-  echo "error: property '$property' not found in '$inifile'" > /dev/stderr
-  exit 255
-fi
+sed -i -e "1i \[$section\]\n$property=$new_value\n" "$inifile"
