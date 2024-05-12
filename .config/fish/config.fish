@@ -140,7 +140,7 @@ if status is-interactive
 
   # system
   abbr pac 'sudo pacman'
-  abbr pacs 'sudo pillowtalk -S'
+  abbr pacs 'sudo powerpill -S'
   abbr pacr 'sudo pacman -Rs'
   abbr pacss 'sudo pacman -Ss'
   abbr pacq 'pacman -Q'
