@@ -1,12 +1,15 @@
+# user-specific elements
+.pfp
+
+#########################################
+
 # avoid .git
 .dotfiles
-# avoid user-defined elements
-.pfp
-# avoid not really config
+# not really dotfiles
 .cache
 cache
 .old
-# heavy files
+# heavy useless stuff
 target
 build
 dist
@@ -14,3 +17,4 @@ Mail
 storage
 blob_storage
 node_modules
+__pycache__
