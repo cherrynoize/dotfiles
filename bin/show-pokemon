@@ -1,2 +1,6 @@
 #!/bin/sh
-pokemon-colorscripts --no-title -r $@
+if [ "$1" = "--print" ]; then
+  pokemon-colorscripts --no-title -r "$@" | pv -qL 10000
+  exit
+fi
+pokemon-colorscripts --no-title -r "$@"

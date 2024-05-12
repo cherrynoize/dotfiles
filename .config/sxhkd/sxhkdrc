@@ -63,15 +63,15 @@ super + q
 super + less
     switch-mode -n
 
-# switch between bars
+# switch between different docks
 super + greater
-    dock
+    dock switch
 
-# toggle bar
+# toggle dock
 super + z
     dock toggle
 
-# reload bar
+# reload dock
 super + shift + z
     dock reload
 
