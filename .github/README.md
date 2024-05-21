@@ -123,11 +123,20 @@ dotfiles-wide config as much as possible into this file.
 
 ### Wpgtk
 
+This config uses [theme](https://github.com/cherrynoize/theme)
+which in turn uses [wpgtk](https://github.com/deviantfero/wpgtk)
+for easier global theming and automatic colorscheme generation
+with `pywal`.
+
 For better portability template symlinks are not hardcoded
 and can be regenerated anytime using `fix-wpg-templates`.
 
 ^ This is automatically run the first time when running
 ^ [`setup.sh`](setup.sh).
+
+You can also add your own templates as you regularly would
+(please refer to the
+[Wpgtk wiki](https://github.com/deviantfero/wpgtk/wiki)).
 
 ### Pfp
 
