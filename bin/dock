@@ -1,0 +1,209 @@
+#!/bin/sh
+
+# eww and polybar configuration dir
+eww_dir="$HOME/.config/eww"
+poly_dir="$HOME/.config/polybar"
+
+# last used dock
+hst_file="$HOME/.cache/bar.lst"
+
+# fallback action when no history is found
+run_default () { run_eww; }
+
+# default dock position when not set
+default_dock_position=top
+
+# reinitialize theme state
+enabled=
+
+# initialize running state
+is_running=0
+
+usage () {
+cat<<EOF
+usage: $(basename -- "$0") <command>
+
+choose from:
+ status
+ launch
+ toggle
+ reload
+ close
+ switch
+ eww
+ polybar
+ help
+EOF
+}
+
+running () {
+  if [ "$is_running" = "1" ] || running_eww || running_poly; then
+    return 0
+  fi
+  return 1
+}
+
+running_eww () {
+  "$eww_dir"/launch.sh status > /dev/null 2>&1
+}
+
+running_poly () {
+  pgrep polybar > /dev/null
+}
+
+set_padding () {
+  position="$(theme get Dock position)"
+
+  wm_padding="$(theme get WM "${position:-"$default_dock_position"}-padding")"
+  if running; then
+    dock_size="$(theme get Dock depth)"
+    dock_margin="$(theme get Dock margin)"
+  fi
+  padding="$((wm_padding + dock_size + dock_margin))"
+
+  bspc config "${position:-"$default_dock_position"}_padding" "$padding"
+}
+
+run_eww () {
+  enabled=true
+  is_running=1
+  # first make room then launch dock
+  set_padding
+  "$eww_dir"/launch.sh
+  echo eww > "$hst_file"
+}
+
+run_poly () {
+  enabled=true
+  is_running=1
+  # first make room then launch dock
+  set_padding
+  "$poly_dir"/launch.sh
+  echo polybar > "$hst_file"
+}
+
+close_eww () {
+  is_running=0
+
+  # first close dock then remove the gap
+  if running_eww; then
+    # try to close politely
+    "$eww_dir"/launch.sh close
+
+    # make sure it's dead
+    killall eww &
+  fi
+
+  set_padding
+}
+
+close_poly () {
+  is_running=0
+
+  # first close dock then remove the gap
+  if running_poly; then
+    # try to close politely
+    polybar-msg cmd quit
+
+    # make sure it's dead
+    killall polybar &
+  fi
+
+  set_padding
+}
+
+toggle_bar () {
+  if running_poly; then
+    close_poly
+  elif running_eww; then
+    close_eww
+  else
+    last_bar="$(cat "$hst_file")"
+
+    case "$last_bar" in
+      eww) run_eww ;;
+      polybar) run_poly ;;
+      *) run_default ;;
+    esac
+  fi
+}
+
+while true; do
+  case "$1" in
+    ""|help)
+      usage
+      exit
+      ;;
+    status)
+      # is any bar running
+      if running_eww || running_poly; then
+        exit
+      else
+        exit 1
+      fi
+      ;;
+    launch)
+      # launch bar
+      if running_eww || running_poly; then
+        echo "already running"
+      else
+        toggle_bar
+      fi
+      shift
+      ;;
+    toggle)
+      # toggle bar
+      toggle_bar
+      shift
+      ;;
+    reload)
+      # if an additional argument is specified
+      if [ -n "$2" ]; then
+        # exit if it isn't running
+        pgrep "$2" || exit
+      fi
+
+      # reload bar if running
+      if "$0" status>/dev/null; then
+        "$0" close
+        "$0" launch
+      fi
+      shift
+      ;;
+    close)
+      # close all bars
+      close_eww &
+      close_poly
+      shift
+      ;;
+    switch)
+      # switch between bars
+      if running_poly; then
+        "$0" eww
+      elif running_eww; then
+        "$0" polybar
+      else
+        # launch last open bar
+        toggle_bar
+      fi
+      break
+      ;;
+    eww)
+      close_poly &
+      run_eww
+      shift
+      ;;
+    polybar)
+      close_eww &
+      run_poly
+      shift
+      ;;
+    *)
+      echo "unknown option $1"
+      exit 1
+      ;;
+  esac
+  [ -z "$1" ] && break
+done
+
+theme edit Dock enabled "${enabled:-false}"

@@ -123,16 +123,11 @@ dotfiles-wide config as much as possible into this file.
 
 ### Wpgtk
 
-This config uses [`wpgtk`](https://github.com/deviantfero/wpgtk)
-for easier global theming and automatic colorscheme generation
-with `pywal`.
+For better portability template symlinks are not hardcoded
+and can be regenerated anytime using `fix-wpg-templates`.
 
-You're going to need to refer to the
-[wiki](https://github.com/deviantfero/wpgtk/wiki)
-if you want to start editing themes or creating your own.
-
-Also, for better portability template symlinks are not hardcoded
-and can be (re-)generated at anytime using `fix-wpg-templates`.
+^ This is automatically run the first time when running
+^ [`setup.sh`](setup.sh).
 
 ### Pfp
 
@@ -201,7 +196,7 @@ started.</summary>
 
     theme-picker # Super+space
 
-#### Switch between active theme's wallpapers
+#### Wallpaper picker
 
     wall-picker # Super+ctrl+space
 

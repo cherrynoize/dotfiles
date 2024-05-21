@@ -2,5 +2,5 @@
 # Dotfiles setup script
 # https://github.com/cherrynoize/dotfiles
 
-# (re)generate wpg symlinks for current system
+# generate wpg symlinks
 fix-wpg-templates
