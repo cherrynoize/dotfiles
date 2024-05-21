@@ -27,27 +27,26 @@ https://github.com/cherrynoize/dotfiles/assets/104397138/50e9ba94-3640-4bcf-a30c
 ## 🧱 Dependencies
 
 ```
-# official repos (arch)
+# Official repos (Arch):
 bash
-
-# aur
+# AUR:
 picom-ftlabs-git
 ```
 
 ### For added functionalities (*optional*)
 
 ```
-# From the official repos:
+# Official repos (Arch):
 geoclue2
-# From the AUR:
-wpgtk pywalfox expect playerctl
+# AUR:
+expect playerctl
 ```
 
 To install all of the above (*on Arch*) run:
 
 ```
 sudo pacman -S bash geoclue2
-yay -S picom-ftlabs-git wpgtk pywalfox expect playerctl
+yay -S picom-ftlabs-git expect playerctl
 ```
 
 ### Not in the AUR (or any other repo)*
