@@ -201,7 +201,7 @@ started.</summary>
 
     theme-picker # Super+space
 
-#### Switch between selected theme's wallpapers
+#### Switch between active theme's wallpapers
 
     wall-picker # Super+ctrl+space
 
