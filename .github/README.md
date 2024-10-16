@@ -270,7 +270,7 @@ In case it conflicts with other programs in your system, just use
 
 ### 🐛 Known bugs
 
-#### Firefox
+#### Firefox/Floorp
 
 Some text visibility issues in light mode. (Inherited from
 [theme](https://github.com/cherrynoize/theme))
@@ -318,11 +318,10 @@ doesn't fit, please
 ### Install and configuration
 
 - Installation script
-- Finish making initrc
+- Finish initrc
 
 ### Bar
 
-- Auto memorize bar status (open or closed) between sessions
 - Fix bar auto closing on resume after sleep
 
 ### Support
@@ -341,12 +340,6 @@ If you feel like you have something to add please do.
 
 [**Buy me a coke 💙**](https://cherrynoize.github.io/#/contribute)
 
-## 🙏 Thanks
-
-- [gh0stzk's dotfiles](https://github.com/gh0stzk/dotfiles) for
-inspiration as well as a lot of code stolen especially for the
-Rofi theme selector
-
-## And thanks to you for using my dotfiles
+## 🙏 And thanks to you for using my dotfiles
 
 *Bye!*
