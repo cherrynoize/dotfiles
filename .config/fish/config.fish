@@ -142,7 +142,7 @@ if status is-interactive
   abbr pac 'sudo pacman'
   abbr pacs 'sudo powerpill -S'
   abbr pacr 'sudo pacman -Rs'
-  abbr pacss 'sudo pacman -Ss'
+  abbr pacss 'pacman -Ss'
   abbr pacq 'pacman -Q'
   abbr paci 'pacman -Qi'
   abbr paco 'pacman -Qo'

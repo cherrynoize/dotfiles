@@ -1,0 +1,22 @@
+@-moz-document regexp("^about:.*") {
+  @media (prefers-color-scheme: dark) {
+    body {
+      --in-content-zap-gradient: linear-gradient(90deg, #9059FF 0%, #FF4AA2 52.08%, #FFBD4F 100%) !important;
+    }
+  }
+
+  @media (prefers-color-scheme: light){
+    body {
+      --in-content-zap-gradient: linear-gradient(90deg, #9059FF 0%, #FF4AA2 52.08%, #FFBD4F 100%) !important;
+    }
+  }
+
+  .synced-tab-a {
+    border-color: var(--in-content-box-border-color) !important;
+  }
+
+  .synced-tab-a:hover {
+    border-color: var(--general-color) !important;
+    box-shadow: 0px 2px 14px var(--button-bgcolor) !important;
+  }
+}

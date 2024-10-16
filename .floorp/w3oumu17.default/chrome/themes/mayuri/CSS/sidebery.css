@@ -1,6 +1,6 @@
 /* Sidebery sidebar */
 @-moz-document url("moz-extension://765388cc-886d-447b-83cc-4ebbf0feba79/sidebar/sidebar.html") {
-  #root.root {--general-margin: 5px; !important}
+  #root.root {--general-margin: 5px !important;}
   #root.root {--bookmarks-folder-font: 0.9375rem Ubuntu !important;}
   #root.root {--bookmarks-bookmark-font: 0.9375rem Ubuntu !important;}
   #root.root {--bookmarks-folder-height: 32px !important;}
@@ -73,7 +73,7 @@
 
   /* Tabs */
 
-/*#root.root {--tabs-height: 2.5rem !important;}*/ /* Fucks up tab drag and drop sorting */
+  #root.root {--tabs-height: 2.5rem !important;}
   #root.root {--tabs-font: 1rem Monospace !important;}
   #root.root {--tabs-count-font: 0.5625rem sans-serif !important;}
   #root.root {--tabs-close-btn-margin: 5px !important;}
@@ -84,6 +84,7 @@
   #root.root:not(:hover) {--tabs-lvl-opacity: 0 !important;}
   #root.root:not(:hover) {--tabs-indent: 0px !important;}
   #root.root:hover {--tabs-indent: .95em !important;}
+  #root.root:hover {--tabs-margin: 6px !important;}
   #root.root:hover {--tabs-inner-gap: 10px !important;}
 
   #root.root:not(:hover) .TabsPanel .ScrollBox {
@@ -92,10 +93,6 @@
 
   .Tab {
     transition: margin .45s, padding .45s !important;
-  }
-
-  .Tab:not([data-pin="true"]):hover {
-    margin: 0 5px !important;
   }
 
   .Tab:hover .body {
@@ -167,18 +164,9 @@
 
   /* Number of pinned tabs per row */
   #root.root:hover {--pinned-tabs-col: 3 !important;}
+
   #root.root {--tabs-pinned-height: 42px !important;}
-  #root.root {--pinned-tabs-bar-width: calc((98vw - (var(--tabs-margin)*2*(var(--pinned-tabs-col)))));}
-  #root.root {--tabs-pinned-width: calc((var(--pinned-tabs-bar-width) - (var(--tabs-margin)*var(--pinned-tabs-col))) / var(--pinned-tabs-col)) !important;}
-  .left-vertical-box ~ .central-box,
-  .central-box:has( ~ .right-vertical-box) {
-    --tabs-pinned-width: calc(
-        (var(--pinned-tabs-bar-width) -
-        var(--nav-btn-width) -
-        (var(--nav-btn-margin)*2) -
-        (var(--tabs-margin)*var(--pinned-tabs-col))) /
-        var(--pinned-tabs-col)) !important;
-  }
+  #root.root {--tabs-pinned-width: calc( (96vw - (var(--tabs-margin)*var(--pinned-tabs-col))) / var(--pinned-tabs-col)) !important;}
 
   #root.root:not(:hover) .PinnedTabsBar {
     grid-gap: 0 !important;
@@ -209,7 +197,7 @@
   /* Navigation bar */
 
   #root.root {--nav-btn-height: 35px !important;}
-  #root.root:hover .NavigationBar:not(.-top) {--nav-btn-width: 55px !important;}
+  #root.root:hover {--nav-btn-width: 55px !important;}
   #root.root {--nav-btn-margin: 1px !important;}
   #root.root {--nav-btn-len-margin: 1px !important;}
   #root.root {--nav-btn-border-radius: 5px !important;}
@@ -223,7 +211,7 @@
     order: 1 !important;
   }
 
-  .top-horizontal-box .hidden-panels-popup-layer .nav-item {
+  .top-horizontal-box .NavigationBar .nav-item {
     transform: rotateX(180deg) !important;
   }
 
