@@ -131,6 +131,7 @@ if status is-interactive
   abbr capture-webcam 'mpv av://v4l2:/dev/video0 --profile=low-latency --untimed'
   abbr list-fonts 'fc-list | cut -f 2- -d " " | less'
   abbr --set-cursor memo 'echo "REM %" >> ~/.config/remind/memo.rem && remind \'-k:dunstify -r 7370 %s &\' ~/.config/remind/memo.rem'
+  abbr random-wall 'change-wallpaper -r'
 
   # bash emulation
   function last_history_item
@@ -217,9 +218,9 @@ if status is-interactive
   abbr --set-cursor cm 'git commit -m "%"'
   abbr --set-cursor cma 'git commit -a -m "%"'
   abbr --set-cursor pcm 'git commit -a -m "%";git push -u origin'
-  abbr qu 'git commit -a -m "update";git push -u origin'
+  abbr --set-cursor qu 'git commit -a -m "%update";git push -u origin'
   abbr --set-cursor cfgpcm 'cfg commit -a -m "%";cfg push -u origin'
-  abbr cfgupdate 'cfg commit -a -m "update"'
+  abbr --set-cursor cfgupdate 'cfg commit -a -m "%update"'
   abbr --set-cursor update-dotfiles 'cfg commit -a -m "%";cfg push -u origin'
   abbr cfgqu 'update-config'
   abbr checkout 'git checkout'

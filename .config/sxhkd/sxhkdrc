@@ -276,7 +276,7 @@ super + shift + Escape
 
 # quit/restart bspwm
 super + shift + {q,r}
-    bspc {quit,wm -r}
+    bspc {quit,wm -r; notify-send "bspwm" "WM reloaded"}
 
 # kill bspwm
 super + ctrl + q
@@ -341,7 +341,7 @@ super + {o,i}
     bspc wm -h on
 
 # focus or send to the given desktop
-super + {_,shift + }{1-9,0,apostrophe,igrave}
+super + {_,shift + }{1-9,0,apostrophe,alt + minus}
     bspc {desktop -f,node -d} '^{1-9,10,11,12}'
 
 #

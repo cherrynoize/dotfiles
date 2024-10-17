@@ -22,7 +22,7 @@ colorscheme="current"
 ######### Default options ##########
 
 # > 🌐 󱃫 󱌰 󱌬    󱀤   🎵󰲋  󰀘  󰢚 󰙯 󰻞󰭹 󰂫      
-workspaces=(' ' ' ' ' ' ' ' ' ' ' ' '  ' ' ' '  ' ' ' ' ')
+workspaces=(' ' ' ' ' ' ' ' ' ' ' ' '  ' ' ' '  ' ' ' ' ' '*')
 
 default_dock_position=top
 default_padding=10
