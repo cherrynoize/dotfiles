@@ -5,9 +5,9 @@
 "(.) \_/  |_|_| |_| |_|rc
 "     vim config file
 " https://github.com/cherrynoize/dotfiles
-" author || cherrynoize
+" author: cherrynoize
 "
-" if alt key does not send esc try adding to .Xresources
+" if alt key does not send escape try adding to .Xresources
 "  URxvt*altSendsEscape: true
 "  xterm*altSendsEscape: true
 " <m-key> instead of <esc>key should also work
@@ -27,6 +27,11 @@ syntax on
 " window counter per tab
 "hi Title ctermfg=Black
 
+" colors
+"se termguicolors
+"se background=dark
+se signcolumn=yes
+
 " line width marker
 se colorcolumn=65
 
@@ -34,6 +39,7 @@ se colorcolumn=65
 au BufNewFile,BufRead /*.rasi setf css
 
 " switch between hybrid/absolute line numbers with different modes
+:se relativenumber
 :se number
 :augroup numbertoggle
 :  autocmd!
@@ -69,32 +75,44 @@ se nohlsearch
 
 " backspace, del, c-w and c-u behavior
 se backspace=indent,eol,start " run over pretty much everything
+" no line wraparound
+se nowrap
 " se which characters wrap around lines
 se whichwrap+=<,>,[,]
-
-" show tab as number of spaces
-"se tabstop=4
-" normal mode '>' number of spaces
-"se shiftwidth=2
-" tab indents with spaces
-"se expandtab
+" highlight cursor line
+se cursorline
 
 " indentation
 """""""""""""
+
+" tab size
+se tabstop=2
+" indent size
+se shiftwidth=2
+" show tab as spaces
+se expandtab
+" indent automatically
+se autoindent
+
+" filetypes
+"""""""""""
 
 " auto-detect filetype and load plugin and indent files 
 filetype plugin indent on
 
 " define modes
-autocmd FileType sh setlocal shiftwidth=2 tabstop=2
-autocmd FileType fish setlocal shiftwidth=2 tabstop=2
-autocmd FileType rasi setlocal shiftwidth=2 tabstop=2
-autocmd FileType c setlocal shiftwidth=2 tabstop=2
+"autocmd FileType sh setlocal shiftwidth=2 tabstop=2
+"autocmd FileType fish setlocal shiftwidth=2 tabstop=2
+"autocmd FileType rasi setlocal shiftwidth=2 tabstop=2
+"autocmd FileType c setlocal shiftwidth=2 tabstop=2
+"autocmd FileType lua setlocal shiftwidth=2 tabstop=2
 autocmd FileType python setlocal shiftwidth=4 tabstop=4
-autocmd FileType lua setlocal shiftwidth=3 tabstop=3
 
 " edit
 """"""
+
+" use clipboard for copy/paste
+set clipboard+=unnamedplus
 
 " undo
 inoremap <c-Z> <cmd>:undo<cr>
@@ -193,6 +211,9 @@ inoremap <S-Tab> <esc>gT<cr>
 nnoremap <esc>c :clo<cr>
 " close tab
 nnoremap <esc>w :tabc<cr>
+
+" window splitting
+se splitright splitbelow
 
 " session and file handling
 """""""""""""""""""""""""""

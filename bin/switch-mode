@@ -231,7 +231,7 @@ case "$_ctx" in
     config_ext=".toml"
     ;;
   nvim)
-    config_dir="$HOME/.config/nvim/lua/user/lua/core"
+    config_dir="$HOME/.config/nvim/lua/core"
     current_config="colorscheme"
     config_ext=".lua"
     post_exec+="launch-nvim -r;"
