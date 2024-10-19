@@ -15,12 +15,16 @@ max_bat=100
 
 nid=5477 # notification id
 
+opts=()
+
 while [ -n "$1" ]; do
   case "$1" in
     -s|--status)
-      [ "$on_bat" ] &&
-        status="$bat_msg" ||
+      if [ "$on_bat" ]; then
+        status="$bat_msg"
+      else
         status="$ac_msg"
+      fi
       shift
       ;;
     -m|--mini)
@@ -71,15 +75,23 @@ while [ -n "$1" ]; do
       bat_info=
       shift
       ;;
+    -T|--title)
+      status="$2"
+      shift 2
+      ;;
+    -M|--msg)
+      bat_info="$2"
+      shift 2
+      ;;
     *)
-      status="$1"
+      opts+=("$1")
       shift
       ;;
   esac
 done
 
 if [ -n "$status" ]; then
-  dunstify -a "$appname" -r "$nid" "$status" "$bat_info" "$@"
+  dunstify -a "$appname" -r "$nid" "$status" "$bat_info" "${opts[@]}"
 else
-  dunstify -a "$appname" -r "$nid" "$bat_info" "$@"
+  dunstify -a "$appname" -r "$nid" "$bat_info" "${opts[@]}"
 fi

@@ -6,8 +6,8 @@
 #
 
 [colors]
-  background = "#202437"
-  foreground = "#fff7fc"
+  background = "#08253e"
+  foreground = "#aefaff"
 
 [global]
   ### Display ###
@@ -27,8 +27,8 @@
   horizontal_padding = 12
   frame_width = 3
 
-  frame_color = "#c55f4d"
-  separator_color = "#c55f4d"
+  frame_color = "#1267b8"
+  separator_color = "#1267b8"
 
   corner_radius = 3
 
@@ -89,7 +89,7 @@
   timeout = 10
 
 [urgency_critical]
-  frame_color = "#f77761"
+  frame_color = "#795c79"
   timeout = 0
 
 [volume_indicator]
