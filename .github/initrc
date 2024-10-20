@@ -4,15 +4,13 @@
 # https://github.com/cherrynoize/dotfiles
 #
 
-# Default session.
-export SESSION="bspwm"
-
 # Default applications.
-export TERMINAL="alacritty"
-export EDITOR="launch-nvim"
-export BROWSER="floorp"
-export MAILCLIENT="betterbird"
-export PLAYER="spotify"
+export TERMINAL="${TERMINAL:-"alacritty"}"
+export EDITOR="${EDITOR:-"launch-nvim"}"
+export FILEMANAGER="${FILEMANAGER:-"ranger"}"
+export BROWSER="${BROWSER:-"floorp"}"
+export MAILCLIENT="${MAILCLIENT:-"betterbird"}"
+export PLAYER="${PLAYER:-"spotify"}"
 
 # System and user themes directories respectively.
 #export BASE_THEMES_DIR="/etc/themes"

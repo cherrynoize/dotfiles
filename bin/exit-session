@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 if [ -e "/tmp/bspwm_0_0-socket" ]; then
   DESKTOP_SESSION="bspwm"
+else
+  DESKTOP_SESSION="$XDG_CURRENT_DESKTOP"
 fi
 
 case "$DESKTOP_SESSION" in
@@ -10,5 +12,6 @@ case "$DESKTOP_SESSION" in
   "awesome"|"" ) killall awesome ;;&
   "i3"|"" ) i3-msg exit ;;&
   "plasma"|"" ) qdbus org.kde.ksmserver /KSMServer logout 0 0 0 ;;
+  "Hyprland"|"" ) hyprctl dispatch exit ;;&
   * ) echo "$DESKTOP_SESSION: unknown desktop session" ;;
 esac
