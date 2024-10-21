@@ -27,9 +27,9 @@
   horizontal_padding = 12
   frame_width = 3
 
-  frame_color = "#1267b8"
+  frame_color = "#604960"
 # separator_color = auto
-  separator_color = "#1267b8"
+  separator_color = "#604960"
 # gaps = true
 # gap_size = 5
 

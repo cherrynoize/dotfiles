@@ -253,7 +253,7 @@ super + alt + r
     notify-mem
 
 # close all notifications
-super + alt + n
+super + ctrl + x
     dunstctl close-all
 # kill battery timer notifications
 #   notify-timer -k 1111
@@ -275,12 +275,8 @@ super + shift + Escape
 #
 
 # quit/restart bspwm
-super + shift + {q,r}
+super + shift + {alt + q,r}
     bspc {quit,wm -r; notify-send "bspwm" "WM reloaded"}
-
-# kill bspwm
-super + ctrl + q
-    bspc quit
 
 # node close and kill
 super + shift + {_,alt} + w
