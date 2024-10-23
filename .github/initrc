@@ -1,1 +1,29 @@
-/home/noize/.initrc
+#
+# ~/.initrc
+# Global dotfiles config file
+# https://github.com/cherrynoize/dotfiles
+#
+
+. ~/.env
+
+# Set session loading screen to current theme's
+loading_screen="$HOME/.wallpaper-themes/current/loading_frames"
+if [ ! -e "$loading_screen" ]; then
+  # Fallback to default
+  loading_screen="$HOME/.wallpaper-themes/.default/loading_frames"
+fi
+if [ -e "$loading_screen" ]; then
+  # Set loading screen if it exists
+  livewall set "$loading_screen" &
+fi
+
+# Launch dock
+[ "$(theme get Dock enabled)" != "false" ] && dock launch &
+
+# Set wallpaper
+(
+sleep 1
+#. ~/.config/wpg/wp_init.sh & # Restore wallpaper and wpgtk theme
+change-wallpaper & # Set random new wallpaper
+livewall stop # Stop loading sequence
+)&
