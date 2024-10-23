@@ -1,0 +1,34 @@
+# Default applications
+export TERMINAL="${TERMINAL:-"alacritty"}"
+export EDITOR="${EDITOR:-"launch-nvim"}"
+export FILEMANAGER="${FILEMANAGER:-"ranger"}"
+export BROWSER="${BROWSER:-"floorp"}"
+export MAILCLIENT="${MAILCLIENT:-"betterbird"}"
+export PLAYER="${PLAYER:-"spotify"}"
+
+# System and user themes directories respectively
+#export BASE_THEMES_DIR="/etc/themes"
+#export USER_THEMES_DIR="$HOME/.config/themes"
+
+# Wallpaper themes directory
+#export WALL_THEMES_DIR="$HOME/.wallpaper-themes"
+
+# Automatically detect network interfaces
+# You can manually override these with your preferred values
+export WLAN="$(ls /sys/class/net | grep -m 1 wl)"
+export ETH="$(ls /sys/class/net | grep -m 1 et)"
+
+# Set geolocation
+export CITY="$(get-ip-info city)"
+export COUNTRY="$(get-ip-info country)"
+
+# Manually pinpoint imprecise results
+#if [ "$(get-ip-info region)" = "Kanto" ]; then
+#  export CITY="Cerulean City"
+#fi
+
+# Default Firefox profile and profile directory
+# (used by change-wallpaper and arkenfox-update)
+#export FF_DEFAULT_PROFILE="$HOME/.mozilla/firefox/abcd1234.default"
+#export FF_DEFAULT_PROFILE="wxyz9876.worksthesame"
+#export FF_PROFILE_DIR="$HOME/.mozilla/firefox"
