@@ -6,10 +6,10 @@ api_key=""
 
 # location
 ip_info_city_name="$(get-ip-info city)"
-city_name="${ip_info_city_name:-Milan}"
+city_name="${ip_info_city_name:-"$FALLBACK_CITY"}"
 city_name="${CITY:-$city_name}"
 ip_info_country_code="$(coco "$(get-ip-info country)")"
-country_code="${ip_info_country_code:-Italy}"
+country_code="${ip_info_country_code:-"$FALLBACK_COUNTRY"}"
 country_code="${COUNTRY:-$country_code}"
 
 encode_to_url_format () {

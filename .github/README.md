@@ -71,22 +71,20 @@ Something like
 
 ```
 git clone https://github.com/cherrynoize/dotfiles
-mv -n dotfiles/* ~
-mv -n dotfiles/.* ~
+cd dotfiles
+./.github/install.sh
 ```
 
-should generally work. Please take note of the `-n`
-(no-clobber) flag in `mv` commands, meaning existing files won't
+should work. The installation script is still a stub, and you'll
+also need to move things where they belong:
+
+```
+mv -n * ~
+mv -n .* ~
+```
+
+Note the `-n` (no-clobber) flag, meaning existing files won't
 be replaced and you should manually take care of that.
-
-You also need to run:
-
-```
-./setup.sh
-```
-
-from the repo directory. This is just a stub for a full installer
-which should render this `README` section obsolete one day.
 
 ## 🔄 Update
 
@@ -103,22 +101,24 @@ care of your own unstaged changes.)
 
 ### .initrc
 
-You should copy the `.github/initrc` file somewhere and source it
-during startup. It provides configuration used all over the
-place. To do this you can add something like:
+You need to source `~/.initrc` during startup. It provides
+configuration used all over the place. To do this you can add
+something like:
 
 ```
 [ -f ~/.initrc ] && . ~/.initrc
 ```
 
-to your `~/.xinitrc`, `~/.xprofile` or whatever does the
-trick for you.
+to your `~/.xinitrc`, `~/.xprofile` or run it from your WM if
+you're on Wayland.
 
-`~/.initrc` is the recommended location, as that would be the
-default install path once an installation script is completed.
+### Environment variables
 
-Right now it's just a stub, but I plan on condensing
-dotfiles-wide config as much as possible into this file.
+The `.github` directory contains a `.env` file which defines
+environment variables used through the dotfiles. You can copy
+it to `~/.env` if you don't already have a file there. If you
+decide to place it somewhere you're going to need to change the
+location sourced from `.initrc`.
 
 ### Wpgtk
 

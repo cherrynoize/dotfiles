@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-essid="$(nmcli c | grep "$WLAN" | awk '{ print $1; }')"
+essid="$(nmcli c | grep "$(get-nic)" | awk '{ print $1; }')"
 if [ "$(systemctl status NetworkManager | grep 'inactive')" ]; then
   status="inactive"
   icon="󰤯"

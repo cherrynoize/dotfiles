@@ -10,7 +10,7 @@ mem_unit=1024
 # add leading zero in front of floats
 leading_zero=
 # nic
-interface="$WLAN"
+interface="$(get-nic)"
 # memory unit symbols
 declare unit_symbols=(B K M G T)
 
@@ -29,12 +29,6 @@ usage:
 
 example:
  netspeed -i wlan0 -m 1000 --zero -v 3
-
-default:
- netspeed -i "\$WLAN" -m 1024 1
-
-therefore this can also be used depending on your shell:
- WLAN=wlan0 netspeed
 
 comments actually explain some options better than this usage.
 EOF

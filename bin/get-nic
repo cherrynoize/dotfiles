@@ -1,0 +1,17 @@
+#!/bin/sh
+case "$1" in
+  "")
+    "$0" wlan || "$0" eth
+    ;;
+  wlan|WLAN)
+    wlan="$(ls /sys/class/net | grep -m 1 wl)"
+    echo "${WLAN:-"$wlan"}"
+    ;;
+  eth|ETH)
+    eth="$(ls /sys/class/net | grep -m 1 et)"
+    echo "${ETH:-"$eth"}"
+    ;;
+  *)
+    echo "usage: $(filename "$0") [wlan|eth]"
+    ;;
+esac

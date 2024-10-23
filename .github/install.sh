@@ -1,12 +1,8 @@
 #!/bin/sh
-# install script for:
+# Installation script
 # https://github.com/cherrynoize/dotfiles
 
-# make all bin files executable
-chmod +x ~/bin/*
-
-# fix wpg templates symlinks
-fix-wpg-templates
-
-# fetch latest update
-update-system
+cp -n ./initrc ~/.initrc # install configuration file
+cp -r -n ../bin/* ~/bin # install binary files
+fix-wpg-templates # symlink wpg templates
+update-system # fetch latest updat e

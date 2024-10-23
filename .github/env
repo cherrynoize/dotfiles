@@ -19,8 +19,6 @@ export PLAYER="${PLAYER:-"spotify"}"
 # Wallpaper themes directory
 #export WALL_THEMES_DIR="$HOME/.wallpaper-themes"
 
-# Automatically detect network interfaces
-# You can manually override these with your preferred values
 export WLAN="$(ls /sys/class/net | grep -m 1 wl)"
 export ETH="$(ls /sys/class/net | grep -m 1 et)"
 
