@@ -126,7 +126,7 @@ if status is-interactive
   abbr quit-loop 'music-bot quit'
   abbr kill-bot 'music-bot quit'
   abbr wpg-reload 'wpg -s "$(wpg -c)"'
-  abbr --set-cursor timer 'timer (math "%") -n; play -n synth 0.05 sine 440 vol 0.3'
+  abbr --set-cursor timer 'timer (math "%") -n; play -n synth 0.05 sine 440 vol 0.3 > /dev/null 2>&1'
   abbr beep 'play -n synth 0.05 sine 440 vol 0.1'
   abbr capture-webcam 'mpv av://v4l2:/dev/video0 --profile=low-latency --untimed'
   abbr list-fonts 'fc-list | cut -f 2- -d " " | less'

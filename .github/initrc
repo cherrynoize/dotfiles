@@ -4,8 +4,6 @@
 # https://github.com/cherrynoize/dotfiles
 #
 
-. ~/.env
-
 # Set session loading screen to current theme's
 loading_screen="$HOME/.wallpaper-themes/current/loading_frames"
 if [ ! -e "$loading_screen" ]; then

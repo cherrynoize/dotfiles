@@ -109,16 +109,21 @@ something like:
 [ -f ~/.initrc ] && . ~/.initrc
 ```
 
-to your `~/.xinitrc`, `~/.xprofile` or run it from your WM if
-you're on Wayland.
+to your `~/.xinitrc`, `~/.xprofile`. You can just execute it
+from your WM if you're on Wayland.
 
 ### Environment variables
 
-The `.github` directory contains a `.env` file which defines
-environment variables used through the dotfiles. You can copy
-it to `~/.env` if you don't already have a file there. If you
-decide to place it somewhere you're going to need to change the
-location sourced from `.initrc`.
+To set environmental variables used throughout the dotfiles,
+add to your `~/.profile`:
+
+```
+[ -f ~/.env ] && . ~/.env
+```
+
+And make sure your display manager sources `~/.profile` for
+Wayland sessions. You can add the line above in any other file
+sourced at login.
 
 ### Wpgtk
 
@@ -130,8 +135,7 @@ with `pywal`.
 For better portability template symlinks are not hardcoded
 and can be regenerated anytime using `fix-wpg-templates`.
 
->This is automatically run the first time when running
->[`setup.sh`](setup.sh).
+>This is automatically run in the installation script.
 
 You can also add your own templates as you regularly would
 (please refer to the
@@ -174,65 +178,74 @@ usage.
 
 ## 🛠 Usage
 
->⚠ Please do not use binaries or shell aliases unless you
+>⚠ Please do not run binaries or use shell aliases unless you
 >understand what they do. Take the time to inspect the code first.
-
-### ⌘ Useful commands, aliases & shortcuts
 
 You can find all binary files in `~/bin` and `~/.local/bin`,
 shell aliases in `~/.config/fish/config.fish` and keyboard
-shortcuts in `.config/sxhkd/sxhkdrc`. Compiling an extensive
-shortcuts/commands help is in the [`TODO`](#-todo) list.
+shortcuts in `~/.config/sxhkd/sxhkdrc` or
+`~/.config/hypr/keybindings.conf`. Here I try to use a somewhat
+**sxhkd**-inspired syntax for defining keybindings as I find it more
+concise. Compiling an extensive shortcuts/commands help is in the
+[`TODO`](#-todo) list.
+
+### ⌘ Keybindings
 
 <details>
-<summary>This is just some basic commands to get you
+<summary>This is just some basic keybindings to get you
 started.</summary>
 
 #### Spawn a terminal window
 
-    "$TERMINAL" # Super+shift
+    "$TERMINAL" # Mod+Return
 
 #### Application launcher
 
-    rofi -show drun # Super+x
+    rofi -show drun # Mod+x
 
 #### Run prompt
 
-    rofi -show run # Super+r
+    rofi -show run # Mod+r
+
+#### Powermenu
+
+    powermenu # Mod+q
 
 #### Theme selector
 
-    theme-picker # Super+space
+    theme-picker # Mod+Space
 
 #### Wallpaper picker
 
-    wall-picker # Super+ctrl+space
+    wall-picker # Mod+Ctrl+Space
 
 #### Random wallpaper
 
-    change-wallpaper # Super+Ctrl+w
+    change-wallpaper # Mod+Ctrl+w
 
 #### Dark mode on/off
 
-    switch-mode # Super+<
+    switch-mode # Mod+<
 
 #### Toggle dock
 
-    dock toggle # Super+z
+    dock toggle # Mod+z
 
 #### Launch browser
 
-    "$BROWSER" # Super+Alt+w
-
-#### Text editor
-
-    launch-nvim # use 'nvim' as an alias fish/bash
+    "$BROWSER" # Mod+Alt+w
 
 #### Fix common issues
 
-    unfuck everything # Super+Shift+Esc
+    unfuck everything # Mod+Shift+Esc
 
-### ⌨ Keys
+###  Useful commands
+
+#### Text editor
+
+    launch-nvim # 'nvim' is an alias for that in fish/bash
+
+### ⌨ Application shortcuts
 
 #### Neovim
 
@@ -246,8 +259,8 @@ started.</summary>
 #### Rofi
 
     {Tab,Shift}+Tab  Move to next/previous entry
-    h,j,k,l          Vi-like keybindings for moving around
-    Alt+{h,j,k,l}    Where there's also a searchbar
+    h,j,k,l          Vi-like keybindings for moving around (with no inputbar)
+    Alt+{h,j,k,l}    Where there's also an inputbar
 
 </details>
 
@@ -283,7 +296,7 @@ rather than close them. To fix this you could restart `eww`,
 but usually it's enough to click on the pfp icon that open the
 panel window once to open it, then a second time to close it.
 
-- `eww` tends to get on top of other windows after being
+- On **bspwm** `eww` tends to get on top of other windows after being
 restarted during the session. I still haven't found how I could
 prevent it from happening (all suggestions are welcome).
 

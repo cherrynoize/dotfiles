@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ -n "$XDG_SESSION_TYPE" ]; then
+  echo "$XDG_SESSION_TYPE"
+else
+  loginctl show-session $(awk '/tty/ {print $1}' <(loginctl)) -p Type | awk -F= '{print $2}'
+fi

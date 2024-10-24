@@ -5,9 +5,10 @@ t="$1"
 
 # count each second
 while [ "$t" -gt "0" ]; do
-  printf "%d               \r" "$t"
+  printf " Remaining time: %ds               \r" "$t"
   (( t-- ))
   sleep 1
 done
 
+echo "Time's up!"
 [ "$2" = "-n" ] && notify-send "Time's up!"
