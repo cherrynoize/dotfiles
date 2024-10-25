@@ -8,6 +8,7 @@
 export TERMINAL="${TERMINAL:-"alacritty"}"
 export EDITOR="${EDITOR:-"launch-nvim"}"
 export FILEMANAGER="${FILEMANAGER:-"ranger"}"
+export GUIFILEMANAGER="${GUIFILEMANAGER:-"thunar"}"
 export BROWSER="${BROWSER:-"floorp"}"
 export MAILCLIENT="${MAILCLIENT:-"betterbird"}"
 export PLAYER="${PLAYER:-"spotify"}"
