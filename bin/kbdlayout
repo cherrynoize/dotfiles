@@ -3,8 +3,20 @@
 # author | cherrynoize
 # https://github.com/cherrynoize/dotfiles
 
-layout="$(setxkbmap -query | grep layout | awk '{ print $2 }')"
-variant="$(setxkbmap -query | grep variant | awk '{ print $2 }')"
+if [ "$(get-display-server)" = "wayland" ]; then
+  if [ "$#" -gt "0" ] && [ "$1" != "status" ]; then
+    echo "error: this query is not supported in wayland" > /dev/stderr
+    echo "available commands: 'status'" > /dev/stderr
+    exit 1
+  fi
+  hyprctl devices -j | \
+    jq -r '.keyboards[] | .active_keymap' | \
+    head -n1
+  exit
+fi
+
+layout="$(setxkbmap -query | grep layout | awk '{ print $2; }')"
+variant="$(setxkbmap -query | grep variant | awk '{ print $2; }')"
 
 get () {
   IFS=',' read -r -a split_elements <<< "$1"

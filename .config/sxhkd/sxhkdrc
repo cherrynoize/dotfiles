@@ -52,7 +52,7 @@ super + x
     rofi -show drun
 
 # view windows
-super + w
+super + ctrl + w
     rofi -show window
 
 # powermenu
@@ -92,15 +92,15 @@ super + ctrl + space
     wall-picker
 
 # random wallpaper
-super + ctrl + w
+super + w
     change-wallpaper -n -v
 
 # reload wpg colorscheme and templates
-super + ctrl + alt + w
-    change-wallpaper -n -r -v
+super + ctrl + shift + w
+    change-wallpaper -n -R -v
 
 # switch keyboard layout
-ctrl + alt + space
+alt + space
     kbdlayout shift
 
 # screen to clipboard
@@ -116,11 +116,11 @@ super + ctrl + Print
     snip record
 
 # record screen to gif
-super + ctrl + shift + Print
+super + ctrl + alt + Print
     snip -f gif record
 
 # stop screen recording
-super + ctrl + alt + Print
+alt + Print
     killall ffmpeg || notify-send "snip" "No active recording"
 
 # clipboard manager

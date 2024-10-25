@@ -1,8 +1,8 @@
+[general]
+live_config_reload = true
 import = [
   "~/.config/alacritty/themes/current/colors.toml",
 ]
-
-live_config_reload = true
 
 [cursor]
 blink_interval = 550

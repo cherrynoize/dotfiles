@@ -20,6 +20,12 @@ export PLAYER="${PLAYER:-"spotify"}"
 # Wallpaper themes directory
 #export WALL_THEMES_DIR="$HOME/.wallpaper-themes"
 
+# swww
+export SWWW_TRANSITION=grow 
+export SWWW_TRANSITION_POS=0.96,0.99
+export SWWW_TRANSITION_STEP=2
+
+# NICs
 export WLAN="$(ls /sys/class/net | grep -m 1 wl)"
 export ETH="$(ls /sys/class/net | grep -m 1 et)"
 
@@ -35,5 +41,6 @@ export COUNTRY="$(get-ip-info country)"
 # Default Firefox profile and profile directory
 # (used by change-wallpaper and arkenfox-update)
 #export FF_DEFAULT_PROFILE="$HOME/.mozilla/firefox/abcd1234.default"
+# or
 #export FF_DEFAULT_PROFILE="wxyz9876.worksthesame"
 #export FF_PROFILE_DIR="$HOME/.mozilla/firefox"

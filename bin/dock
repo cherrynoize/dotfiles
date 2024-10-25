@@ -170,11 +170,29 @@ while true; do
       fi
       ;;
     launch)
-      if running; then
+      if running && [ -z "$1" ]; then
         echo "already running"
-      else
-        toggle_dock
       fi
+      case "$2" in
+        eww)
+          close_all
+          launch_eww
+          shift
+          ;;
+        polybar)
+          close_all
+          launch_polybar
+          shift
+          ;;
+        waybar)
+          close_all
+          launch_waybar
+          shift
+          ;;
+        *)
+          toggle_dock
+          ;;
+      esac
       shift
       ;;
     toggle)
@@ -202,32 +220,19 @@ while true; do
     switch)
       # switch between bars
       if running_polybar; then
-        "$0" eww
+        "$0" launch eww
       elif running_eww; then
-        "$0" polybar
+        "$0" launch waybar
+      elif running_waybar; then
+        "$0" launch polybar
       else
         # launch last open bar
         toggle_dock
       fi
       break
       ;;
-    eww)
-      close_all
-      launch_eww
-      shift
-      ;;
-    polybar)
-      close_all
-      launch_polybar
-      shift
-      ;;
-    waybar)
-      close_all
-      launch_waybar
-      shift
-      ;;
     *)
-      echo "unknown option $1"
+      echo "unknown option '$1'"
       exit 1
       ;;
   esac
