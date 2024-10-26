@@ -14,6 +14,7 @@ declare -A new_links=(
   ["$HOME/.config/dunst/themes/nightsky/dunstrc"]="dunst-nightsky"
   ["$HOME/.config/dunst/themes/tokyonight/dunstrc"]="dunst-tokyonight"
   ["$HOME/.config/eww/schemes/appearance.scss"]="eww"
+  ["$HOME/.config/waybar/themes/current/theme.css"]="waybar"
   ["$HOME/.local/share/themes/FlatColor/gtk-2.0/gtkrc"]="gtk2"
   ["$HOME/.local/share/themes/FlatColor/gtk-3.0/gtk.css"]="gtk3.0"
   ["$HOME/.local/share/themes/FlatColor/gtk-3.20/gtk.css"]="gtk3.20"

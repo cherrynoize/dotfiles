@@ -274,9 +274,9 @@ super + shift + Escape
 # bspwm hotkeys
 #
 
-# quit/restart bspwm
+# quit/restart bspwm and reload wpg
 super + shift + {alt + q,r}
-    bspc {quit,wm -r; notify-send "bspwm" "WM reloaded"}
+    bspc {quit,wm -r; wpg -s "$(wpg -c)"; notify-send "bspwm" "WM reloaded"}
 
 # node close and kill
 super + shift + {_,alt} + w

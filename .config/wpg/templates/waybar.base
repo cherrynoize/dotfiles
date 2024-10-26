@@ -1,0 +1,179 @@
+* {{
+    border: none;
+    border-radius: 0px;
+    font-family: "JetBrainsMono Nerd Font";
+    font-weight: bold;
+    font-size: 10px;
+    min-height: 10px;
+}}
+
+window#waybar {{
+    background: @bar-bg;
+}}
+
+tooltip {{
+    background: @main-bg;
+    color: @main-fg;
+    border-radius: 7px;
+    border-width: 0px;
+}}
+
+#workspaces button {{
+    box-shadow: none;
+	text-shadow: none;
+    border-radius: 9px;
+    margin: 3px;
+    padding: 0px;
+    color: @main-fg;
+    animation: ws_normal 20s ease-in-out 1;
+}}
+
+#workspaces button.active,
+#workspaces button:hover {{
+    margin: 3px 4px;
+    padding-right: 4px;
+}}
+
+#workspaces button.active {{
+    background: @wb-act-bg;
+    color: @wb-act-fg;
+    animation: ws_active 20s ease-in-out 1;
+    transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
+}}
+
+#workspaces button:hover {{
+    background: @wb-hvr-bg;
+    color: @wb-hvr-fg;
+    animation: ws_hover 20s ease-in-out 1;
+    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+}}
+
+#workspaces *:first-child {{
+    margin-left: 0;
+}}
+
+#workspaces *:last-child {{
+    margin-right: 0;
+}}
+
+#tray menu * {{
+    min-height: 16px
+}}
+
+#tray menu separator {{
+    min-height: 10px
+}}
+
+#backlight,
+#battery,
+#bluetooth,
+#custom-cliphist,
+#clock,
+#custom-cpuinfo,
+#cpu,
+#custom-gpuinfo,
+#idle_inhibitor,
+#custom-kbdlayout,
+#language,
+#memory,
+#mpris,
+#network,
+#custom-updates,
+#custom-notifications,
+#custom-power,
+#pulseaudio,
+#custom-spotify,
+#taskbar,
+#custom-theme,
+#tray,
+#custom-updates,
+#custom-wallpaper,
+#custom-wbar,
+#window,
+#workspaces,
+#custom-l_end,
+#custom-r_end,
+#custom-sl_end,
+#custom-sr_end,
+#custom-rl_end,
+#custom-rr_end {{
+    color: @main-fg;
+    background: @main-bg;
+    opacity: 1;
+    margin: 4px 0;
+    padding: 0 4px;
+}}
+
+/* Standalone module */
+#workspaces,
+#clock,
+#tray {{
+    border-radius: {bar-radius};
+    padding: 0 10px;
+}}
+
+/* Left rounded end */
+#custom-notifications,
+#network {{
+    border-radius: {bar-radius} 0 0 {bar-radius};
+    padding-left: 10px;
+}}
+
+/* Right rounded end */
+#custom-updates,
+#custom-power {{
+    border-radius: 0 {bar-radius} {bar-radius} 0;
+    padding-right: 10px;
+}}
+
+#network {{
+    padding: 0 0 0 10px;
+}}
+
+#backlight {{
+    padding: 0;
+}}
+
+#custom-wallpaper {{
+    padding-right: 7px;
+}}
+
+#custom-power {{
+    padding-right: 12px;
+}}
+
+#custom-r_end {{
+    border-radius: 0px 21px 21px 0px;
+    margin-right: 9px;
+    padding-right: 3px;
+}}
+
+#custom-l_end {{
+    border-radius: 21px 0px 0px 21px;
+    margin-left: 9px;
+    padding-left: 3px;
+}}
+
+#custom-sr_end {{
+    border-radius: 0px;
+    margin-right: 9px;
+    padding-right: 3px;
+}}
+
+#custom-sl_end {{
+    border-radius: 0px;
+    margin-left: 9px;
+    padding-left: 3px;
+}}
+
+#custom-rr_end {{
+    border-radius: 0px 7px 7px 0px;
+    margin-right: 9px;
+    padding-right: 3px;
+}}
+
+#custom-rl_end {{
+    border-radius: 7px 0px 0px 7px;
+    margin-left: 9px;
+    padding-left: 3px;
+}}
