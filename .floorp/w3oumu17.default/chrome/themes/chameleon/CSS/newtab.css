@@ -1,9 +1,0 @@
-@-moz-document url(about:newtab) {
-  html:not(#ublock0-epicker),
-  html:not(#ublock0-epicker) body,
-  #newtab-customize-overlay,
-  #background {
-    background-size: cover !important;
-    background-image: url('../images/wallpaper') !important;
-  }
-}
