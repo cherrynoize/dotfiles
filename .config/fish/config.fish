@@ -157,6 +157,8 @@ if status is-interactive
   abbr aurlist 'cat /etc/pacman.d/pkglist_aur'
   abbr list-orphaned-packages 'pacman -Qtdq'
   abbr clear-orphaned-packages 'sudo pacman -Rns $(pacman -Qtdq)'
+  abbr check-pkgs 'echo "--------------------------"; echo "running check-broken-packages..."; check-broken-packages; echo "--------------------------"; echo "the following packages have missing files:"; pacman -Qk 2>/dev/null | grep -v ' 0 missing files' 2>/dev/null || echo "(empty)" | cut -d: -f1; echo "--------------------------" ; echo "verifying system-wide package integrity..."; sudo pacman -Qkk > /dev/null'
+  abbr fix-broken-packages 'set brkn_pkgs="(pacman -Qk 2>/dev/null | grep -v ' 0 missing files' | cut -d: -f1)"; sudo pacman -Rs $brkn_pkgs --noconfirm; paccache -ruk0; paccache -rk 1; yay -Sc; sudo pacman -S $brkn_pkgs --noconfirm --disable-download-timeout'
   abbr clear-pacman-cache 'paccache -ruk0; paccache -rk 1'
   abbr clear-yay-cache 'yay -Sc'
   abbr show-pacnew-files 'pacdiff -o'
