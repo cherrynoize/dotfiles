@@ -10,7 +10,7 @@
 # |  on  |
 # | off  |
 
-step=5
+step=3
 
 [ -n "$2" ] && step="$2"
 
@@ -20,7 +20,7 @@ function get_brightness {
 
 function send_notification {
   brightness="$(get_brightness)"
-  brightness=$((brightness*95/100)) # resize to better fit icon on 100%
+  brightness="$((brightness*95/100))" # resize to better fit icon on 100%
   # Send the notification
   notify-percent -a changeBrightness -m compact "$brightness" "☼"
 }
