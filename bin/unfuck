@@ -16,7 +16,13 @@ declare -a everything=(
   keyboard
   monitor
   profile
-# spotify
+)
+
+# list of unfucks that can only be run explicitly
+declare -a excluded=(
+  spotify
+  pacman
+  screenlock
 )
 
 # minimum usage list item length
@@ -52,6 +58,9 @@ print_sep () {
 show_list () {
   print_sep
   for e in "${everything[@]}"; do
+    echo "|| $e$(pad "$e") ||"
+  done
+  for e in "${excluded[@]}"; do
     echo "|| $e$(pad "$e") ||"
   done
   echo "|| everything ||"
@@ -153,6 +162,11 @@ unfuck_pacman () {
   yay -Sc # clear yay cache
   sudo pacman -Rns $(pacman -Qtdq) # remove orphaned packages
   sudo pacman -S archlinux-keyring # update archlinux-keyring
+}
+
+unfuck_screenlock () {
+  hyprctl --instance 0 'keyword misc:allow_session_lock_restore 1'
+  hyprctl --instance 0 'dispatch exec lockscreen'
 }
 
 case $1 in
