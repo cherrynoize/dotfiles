@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# clear old wal template links and create new ones
+# author: cherrynoize
+# https://github.com/cherrynoize/dotfiles
+
+templates_dir="$HOME/.config/wal/templates"
+
+declare -a old_links=(*)
+declare -A new_links=(
+  ["$HOME/.config/hypr/colors/wal/colors.conf"]="hyprland-colors"
+)
+
+for link in "${!new_links[@]}"; do
+  linkname="$(basename "$link")"
+  linkdir="$(dirname "$link")"
+
+  cd "$linkdir" || exit 4
+
+  # clear old symlink
+  if [ -L "$linkname" ]; then
+    rm "$linkname"
+  fi
+
+  dest="${new_links[$link]}"
+  ln -s "$templates_dir/$dest" "$linkname"
+done

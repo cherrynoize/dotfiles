@@ -133,9 +133,13 @@ for easier global theming and automatic colorscheme generation
 with `pywal`.
 
 For better portability template symlinks are not hardcoded
-and can be regenerated anytime using `fix-wpg-templates`.
+and can be regenerated anytime using `fix-wal-templates` and
+`fix-wpg-templates`.
 
->This is automatically run in the installation script.
+>**Warning**: this will delete all (and only) symlinks in the `wal`
+>and `wpg` template directories respectively, and generate only
+>those specified in the `fix-*-templates` scripts.
+>(This is automatically run in the installation script.)
 
 You can also add your own templates as you regularly would
 (please refer to the
