@@ -3,11 +3,11 @@
 # author: cherrynoize
 # https://github.com/cherrynoize/dotfiles
 
-templates_dir="$HOME/.config/wal/templates"
+wal_dir="$HOME/.cache/wal"
 
 declare -a old_links=(*)
 declare -A new_links=(
-  ["$HOME/.config/hypr/colors/wal/colors.conf"]="hyprland-colors"
+  ["$HOME/.config/hypr/colors/wal/colors.conf"]="colors-hyprland"
 )
 
 for link in "${!new_links[@]}"; do
@@ -22,5 +22,5 @@ for link in "${!new_links[@]}"; do
   fi
 
   dest="${new_links[$link]}"
-  ln -s "$templates_dir/$dest" "$linkname"
+  ln -s "$wal_dir/$dest" "$linkname"
 done

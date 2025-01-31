@@ -1,5 +1,9 @@
-$foregroundCol = 0xff{foreground.strip}
-$backgroundCol = 0xff{background.strip}
+$fgColor = 0xff{foreground.strip}
+$bgColor = 0xff{background.strip}
+$accentColor = 0xff{color12.strip}
+$inactiveColor = rgba({color1.strip}cc)
+$accentInactiveColor = rgba({color2.strip}cc)
+
 $color0 = 0xff{color0.strip}
 $color1 = 0xff{color1.strip}
 $color2 = 0xff{color2.strip}
