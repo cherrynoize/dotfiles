@@ -1,0 +1,18 @@
+/************ dark mode *************/
+@media (prefers-color-scheme: dark) {
+  @-moz-document domain("storj.io") {
+    svg {
+      filter: saturate(50%) sepia(10%);
+    }
+
+    #app * {
+      /* --fg: #899fcf; */
+      --fg: #dcdcdc;
+      --border: #858585;
+      /* background-color: #23395d !important; */
+      background-color: #162f44 !important;
+      color: var(--fg) !important;
+      border-color: var(--fg);
+    }
+  }
+}

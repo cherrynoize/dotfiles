@@ -20,6 +20,11 @@ export PLAYER="${PLAYER:-"spotify"}"
 # Wallpaper themes directory
 #export WALL_THEMES_DIR="$HOME/.wallpaper-themes"
 
+# Windows dual-boot variables
+#export WIN_MOUNT_POINT="/tmp/windows-mnt"
+#export WIN_PART="/dev/nvme0n1p2"
+#export WIN_ENTRYPOINT="Users/me"
+
 # swww
 export SWWW_TRANSITION=grow 
 export SWWW_TRANSITION_POS=0.96,0.99

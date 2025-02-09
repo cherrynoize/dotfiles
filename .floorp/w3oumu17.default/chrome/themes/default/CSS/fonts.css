@@ -1,0 +1,6 @@
+@-moz-document url(chrome://browser/content/browser.xhtml) {
+  /*------------------fonts-------------------*/
+  * {
+    font-family: JetBrainsMono NF, monospace !important;
+  }
+}
