@@ -200,8 +200,8 @@ if status is-interactive
   abbr resize 'convert -resize '
   abbr --set-cursor rotate 'set img "%s";set tmpdst /tmp/"$(basename "$img")";convert "$img" -rotate 90 "$tmpdst";mv "$tmpdst" "$img"'
   abbr --set-cursor country 'curl -s "http://country.io/names.json" | jq "."'
-  abbr import-floorp-from-win 'pushd "$FF_PROFILE_DIR" && begin; rm -rf "$FF_DEFAULT_PROFILE".bak.bak; [ -f "$FF_DEFAULT_PROFILE".bak ] && mv "$FF_DEFAULT_PROFILE".bak "$FF_DEFAULT_PROFILE".bak.bak; [ -d "$FF_DEFAULT_PROFILE" ] && mv "$FF_DEFAULT_PROFILE" "$FF_DEFAULT_PROFILE".bak; end; cp -r -n "$(access-windows -home)/AppData/Roaming/Floorp/Profiles/$FF_DEFAULT_PROFILE" .; popd'
-  abbr export-floorp-to-win 'pushd "$(access-windows -home)/AppData/Roaming/Floorp/Profiles" && begin; rm -rf "$FF_DEFAULT_PROFILE".bak.bak; [ -f "$FF_DEFAULT_PROFILE".bak ] && mv "$FF_DEFAULT_PROFILE".bak "$FF_DEFAULT_PROFILE".bak.bak; [ -d "$FF_DEFAULT_PROFILE" ] && mv "$FF_DEFAULT_PROFILE" "$FF_DEFAULT_PROFILE".bak; end; cp -r -n "$FF_PROFILE_DIR/$FF_DEFAULT_PROFILE" .; popd'
+  abbr import-floorp-from-win 'pushd "$FF_PROFILE_DIR" && begin; rm -rf "$FF_DEFAULT_PROFILE".bak.bak; [ -f "$FF_DEFAULT_PROFILE".bak ] && mv "$FF_DEFAULT_PROFILE".bak "$FF_DEFAULT_PROFILE".bak.bak; [ -d "$FF_DEFAULT_PROFILE" ] && mv "$FF_DEFAULT_PROFILE" "$FF_DEFAULT_PROFILE".bak; end; rsync -avh --copy-links --ignore-existing "$(access-windows -home)/AppData/Roaming/Floorp/Profiles/$FF_DEFAULT_PROFILE" .; popd'
+  abbr export-floorp-to-win 'pushd "$(access-windows -home)/AppData/Roaming/Floorp/Profiles" && begin; rm -rf "$FF_DEFAULT_PROFILE".bak.bak; [ -f "$FF_DEFAULT_PROFILE".bak ] && mv "$FF_DEFAULT_PROFILE".bak "$FF_DEFAULT_PROFILE".bak.bak; [ -d "$FF_DEFAULT_PROFILE" ] && mv "$FF_DEFAULT_PROFILE" "$FF_DEFAULT_PROFILE".bak; end; rsync -avh --copy-links --ignore-existing "$FF_PROFILE_DIR/$FF_DEFAULT_PROFILE" .; popd'
 
   # hacking
   abbr hex 'xxd' # hexdump

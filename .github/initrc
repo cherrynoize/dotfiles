@@ -15,6 +15,9 @@ if [ -e "$loading_screen" ]; then
   livewall set "$loading_screen" &
 fi
 
+# Load GTK theme
+gsettings set org.gnome.desktop.interface gtk-theme "$DEFAULT_GTK_THEME"
+
 # Launch dock
 [ "$(theme get Dock enabled)" != "false" ] && dock launch &
 

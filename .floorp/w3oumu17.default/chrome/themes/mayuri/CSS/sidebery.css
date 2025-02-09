@@ -1,13 +1,19 @@
 /* Sidebery sidebar */
 @-moz-document url("moz-extension://765388cc-886d-447b-83cc-4ebbf0feba79/sidebar/sidebar.html") {
-  #root.root {--general-margin: 5px !important;}
-  #root.root {--bookmarks-folder-font: 0.9375rem Ubuntu !important;}
-  #root.root {--bookmarks-bookmark-font: 0.9375rem Ubuntu !important;}
+  /* Custom variables */
+  #root.root {
+    --font-0: .8rem "Dejavu Sans";
+    --font-1: .8rem "Ubuntu";
+    --font-2: 0.5625rem sans-serif;
+  }
+
+  #root.root {--bookmarks-folder-font: var(--font-1) !important;}
+  #root.root {--bookmarks-bookmark-font: var(--font-1) !important;}
   #root.root {--bookmarks-folder-height: 32px !important;}
   #root.root {--bookmarks-separator-height: 19px !important;}
   #root.root {--bookmarks-inner-gap: 6px !important;}
   #root.root {--toolbar-bg: transparent !important;}
-  #root.root {--ctx-menu-font: 1rem Monospace !important;}
+  #root.root {--ctx-menu-font: var(--font-0) !important;}
   #root.root {--ctx-menu-min-width: 250px !important;}
   #root.root {--ctx-menu-max-width: 600px !important;}
 
@@ -73,9 +79,8 @@
 
   /* Tabs */
 
-  #root.root {--tabs-height: 2.5rem !important;}
-  #root.root {--tabs-font: 1rem Monospace !important;}
-  #root.root {--tabs-count-font: 0.5625rem sans-serif !important;}
+  #root.root {--tabs-font: var(--font-0) !important;}
+  #root.root {--tabs-count-font: var(--font-2) !important;}
   #root.root {--tabs-close-btn-margin: 5px !important;}
   #root.root {--tabs-activated-bg: var(--frame-fg) !important;}
   #root.root {--tabs-activated-fg: var(--frame-bg) !important;}
@@ -83,8 +88,7 @@
   #root.root {--ntb-padding: 5px !important;}
   #root.root:not(:hover) {--tabs-lvl-opacity: 0 !important;}
   #root.root:not(:hover) {--tabs-indent: 0px !important;}
-  #root.root:hover {--tabs-indent: .95em !important;}
-  #root.root:hover {--tabs-margin: 6px !important;}
+  #root.root:hover {--tabs-indent: .60em !important;}
   #root.root:hover {--tabs-inner-gap: 10px !important;}
 
   #root.root:not(:hover) .TabsPanel .ScrollBox {
@@ -124,7 +128,7 @@
   }
 
   .Tab:hover .title {
-    margin-left: 4px !important;
+    margin-left: 2px !important;
   }
 
   /* Move tab favicon to the right */

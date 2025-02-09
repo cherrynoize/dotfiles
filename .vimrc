@@ -33,7 +33,7 @@ syntax on
 se signcolumn=yes
 
 " line width marker
-se colorcolumn=65
+se colorcolumn=80
 
 " custom modes
 au BufNewFile,BufRead /*.rasi setf css

@@ -20,6 +20,9 @@ export PLAYER="${PLAYER:-"spotify"}"
 # Wallpaper themes directory
 #export WALL_THEMES_DIR="$HOME/.wallpaper-themes"
 
+# Default GTK theme
+export DEFAULT_GTK_THEME="FlatColor"
+
 # Windows dual-boot variables
 #export WIN_MOUNT_POINT="/tmp/windows-mnt"
 #export WIN_PART="/dev/nvme0n1p2"
