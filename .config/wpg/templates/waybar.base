@@ -23,15 +23,27 @@ tooltip {{
 	text-shadow: none;
     border-radius: 9px;
     margin: 3px;
-    padding: 0px;
+    padding: 0 8px 0 5px;
     color: @main-fg;
     animation: ws_normal 20s ease-in-out 1;
 }}
 
-#workspaces button.active,
-#workspaces button:hover {{
+#workspaces *:first-child {{
+    margin-left: 0;
+}}
+
+#workspaces *:last-child {{
+    margin-right: 0;
+}}
+
+#workspaces button:not(:first-child).active,
+#workspaces button:not(:first-child):hover {{
     margin: 3px 4px;
-    padding-right: 4px;
+}}
+
+#workspaces button:not(:last-child).active,
+#workspaces button:not(:last-child):hover {{
+    margin: 3px 4px;
 }}
 
 #workspaces button.active {{
@@ -46,14 +58,6 @@ tooltip {{
     color: @wb-hvr-fg;
     animation: ws_hover 20s ease-in-out 1;
     transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
-}}
-
-#workspaces *:first-child {{
-    margin-left: 0;
-}}
-
-#workspaces *:last-child {{
-    margin-right: 0;
 }}
 
 #tray menu * {{

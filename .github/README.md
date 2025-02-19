@@ -1,5 +1,3 @@
-## Fully-featured global themes coming, *be patient*
-
 <div align="center">
     <h1>✨ Dotfiles</h1>
     <h3></h3>
@@ -148,8 +146,9 @@ You can also add your own templates as you regularly would
 ### Pfp
 
 You might want to place your own profile picture inside of
-`~/.pfp`. It can be any picture file with any name, such as
-`~/.pfp/pfp.jpg`.
+`~/.pfp`. This can be used by applications, widgets, panels, ...
+
+It can be any picture file with any name, such as `~/.pfp/pfp.jpg`.
 
 ### Neovim
 
