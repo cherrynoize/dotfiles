@@ -13,6 +13,11 @@
 </div>
 
 <div align="center"> 
+
+</div>
+
+## 📖 Abstract
+
 The config aims to work on both X11 and Wayland systems. The code might be a
 bit messy at the moment, but it's ever changing (and hopefully improving).
 
@@ -20,7 +25,6 @@ Since I shifted towards Wayland I stopped actively updating the `bspwm` config,
 and now I write most scripts to be able to run on both X11 and Wayland. A lot
 of the config is still independent of your display manager, which means you
 can in most cases use at least some part of this config.
-</div>
 
 ## 📸 Preview
 
