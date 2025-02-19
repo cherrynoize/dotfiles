@@ -12,8 +12,6 @@
 
 </div>
 
-https://github.com/cherrynoize/dotfiles/assets/104397138/50e9ba94-3640-4bcf-a30c-9856d7a19024
-
 <div align="center"> 
 The config aims to work on both X11 and Wayland systems. The code might be a
 bit messy at the moment, but it's ever changing (and hopefully improving).
@@ -94,6 +92,8 @@ can in most cases use at least some part of this config.
 
 <details>
 <summary>Old</summary>
+
+https://github.com/cherrynoize/dotfiles/assets/104397138/50e9ba94-3640-4bcf-a30c-9856d7a19024
 
 ![preview](preview/old/wpgtk1.png)
 
