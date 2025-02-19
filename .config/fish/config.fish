@@ -7,8 +7,8 @@ if status is-interactive
 
   # start animation
   # these values need to be tailored to your own system
-  spinner -f sleep .5 & # async spinner duration (won't stop execution)
-  sleep .2 # execution delay to allow spinner to terminate
+# begin; spinner -f sleep .5; clear; end & # async spinner duration (won't stop execution)
+  sleep .1 # execution delay for aesthetic purpose (to allow for blinking or for the spinner to terminate)
   # note: my shell takes approximately .3s to load
   # (spinner overlapping with .31s duration - no delay)
 
@@ -26,14 +26,14 @@ if status is-interactive
   set -l black 191724
 
   # startup
-# ~/.config/fish/colors.sh &
+#  ~/.config/fish/colors.sh &
   starship init fish | . &
-	thefuck --alias | . &
+  thefuck --alias | . &
 
   # source plugins
   # useful plugins: archlinux bang-bang cd colorman sudope vcs
   if test -d "$HOME/.local/share/omf/pkg/colorman/"
-	  . ~/.local/share/omf/pkg/colorman/init.fish
+    . ~/.local/share/omf/pkg/colorman/init.fish
   end
 
   # greeting message
