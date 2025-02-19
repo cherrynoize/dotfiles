@@ -93,7 +93,7 @@ can in most cases use at least some part of this config.
 ### 🕸️ Old
 
 <details>
-<summary>Old</summary>
+<summary>Click for preview</summary>
 
 https://github.com/cherrynoize/dotfiles/assets/104397138/50e9ba94-3640-4bcf-a30c-9856d7a19024
 
