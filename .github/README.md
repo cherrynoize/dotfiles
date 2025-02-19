@@ -92,7 +92,7 @@ can in most cases use at least some part of this config.
 
 ### 🚀 Features
 
-> This section is currently a stub. Please, come back later...
+> This section is currently a stub. Please come back later...
 
 ### 🕸️ Old
 
