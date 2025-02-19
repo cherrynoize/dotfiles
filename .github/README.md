@@ -90,6 +90,10 @@ can in most cases use at least some part of this config.
 > Screenshots may not always be up-to-date. You can check themes out by running
 > `theme-picker`.
 
+### 🚀 Features
+
+> This section is currently a stub. Please, come back later...
+
 ### 🕸️ Old
 
 <details>
