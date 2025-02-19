@@ -21,6 +21,7 @@ declare -A new_links=(
   ["$HOME/.config/polybar/themes/current/colors.ini"]="poly"
   ["$HOME/.config/eww/scripts/powersave-tray"]="powersave-tray"
   ["$HOME/.config/rofi/templates/wpgtk.rasi"]="rofi"
+  ["$HOME/.config/swaylock/themes/wpgtk"]="swaylock"
 )
 
 # clear old symlinks

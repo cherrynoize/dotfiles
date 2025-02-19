@@ -6,7 +6,7 @@
 # |_.__/|___/ .__/ \_/\_/ |_| |_| |_| ^ cherrynoize@duck.com
 #           |_|
 
-bspc config focused_border_color  "#1d9bc5"
-bspc config normal_border_color   "#146b87"
-bspc config active_border_color   "#ceffff"
-bspc config presel_feedback_color "#0f2c63"
+bspc config focused_border_color  "#cb9c9d"
+bspc config normal_border_color   "#8c6b6c"
+bspc config active_border_color   "#faf3ff"
+bspc config presel_feedback_color "#141d43"

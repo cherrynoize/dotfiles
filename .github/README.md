@@ -90,9 +90,39 @@ can in most cases use at least some part of this config.
 > Screenshots may not always be up-to-date. You can check themes out by running
 > `theme-picker`.
 
-### 🚀 Features
+### 🚀 Apps/widgets
 
-> This section is currently a stub. Please come back later...
+> Note: these are only some specific themes for these
+> [contexts](https://github.com/cherrynoize/theme#context-themes), therefore
+> using each theme you might see a different style for the same application.
+
+| Floorp (Firefox) |
+|:-:|
+|<img src="preview/floorp.png" align="center">|
+
+| Wall picker |
+|:-:|
+|<img src="preview/wall-picker.png" align="center">|
+
+| Theme picker |
+|:-:|
+|<img src="preview/theme-picker.png" align="center">|
+
+| Dunst |
+|:-:|
+|<img src="preview/dunst.png" align="center">|
+
+| Ranger |
+|:-:|
+|<img src="preview/ranger.png" align="center">|
+
+| Rofi |
+|:-:|
+|<img src="preview/rofi.png" align="center">|
+
+| Logout menu |
+|:-:|
+|<img src="preview/logout.png" align="center">|
 
 ### 🕸️ Old
 

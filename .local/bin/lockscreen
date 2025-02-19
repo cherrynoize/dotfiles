@@ -1,2 +1,6 @@
 #!/bin/sh
-xlockscreen || wlockscreen
+if [ "$(get-display-server)" = "wayland" ]; then
+  wlockscreen
+else
+  xlockscreen || wlockscreen 
+fi
