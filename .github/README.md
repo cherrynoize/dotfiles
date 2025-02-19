@@ -16,8 +16,6 @@
 
 </div>
 
-## 📖 Abstract
-
 The config aims to work on both X11 and Wayland systems. The code might be a
 bit messy at the moment, but it's ever changing (and hopefully improving).
 
