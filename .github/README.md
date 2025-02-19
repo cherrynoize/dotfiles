@@ -14,13 +14,108 @@
 
 https://github.com/cherrynoize/dotfiles/assets/104397138/50e9ba94-3640-4bcf-a30c-9856d7a19024
 
-![preview](images/wpgtk1.png)
-
-![preview](images/dash_ani1.gif)
-
 <div align="center"> 
+The config aims to work on both X11 and Wayland systems. The code might be a
+bit messy at the moment, but it's ever changing (and hopefully improving).
 
+Since I shifted towards Wayland I stopped actively updating the `bspwm` config,
+and now I write most scripts to be able to run on both X11 and Wayland. A lot
+of the config is still independent of your display manager, which means you
+can in most cases use at least some part of this config.
 </div>
+
+## 📸 Preview
+
+### 🎨 Themes
+
+| Ai |
+|:-:|
+|<img src="https://github.com/cherrynoize/theme/raw/main/preview/themes/ai1.png" align="center">|
+
+| Akane |
+|:-:|
+|<img src="https://github.com/cherrynoize/theme/raw/main/preview/themes/akane1.png" align="center">|
+
+| Ishida |
+|:-:|
+|<img src="https://github.com/cherrynoize/theme/raw/main/preview/themes/ishida1.png" align="center">|
+
+| Mayuri |
+|:-:|
+|<img src="https://github.com/cherrynoize/theme/raw/main/preview/themes/mayuri1.png" align="center">|
+
+| Meranii |
+|:-:|
+|<img src="https://github.com/cherrynoize/theme/raw/main/preview/themes/meranii1.png" align="center">|
+
+| Misato |
+|:-:|
+|<img src="https://github.com/cherrynoize/theme/raw/main/preview/themes/misato1.png" align="center">|
+
+| Nina |
+|:-:|
+|<img src="https://github.com/cherrynoize/theme/raw/main/preview/themes/nina1.png" align="center">|
+
+| Sakura |
+|:-:|
+|<img src="https://github.com/cherrynoize/theme/raw/main/preview/themes/sakura1.png" align="center">|
+
+| Shina |
+|:-:|
+|<img src="https://github.com/cherrynoize/theme/raw/main/preview/themes/shina1.png" align="center">|
+
+| Shinji |
+|:-:|
+|<img src="https://github.com/cherrynoize/theme/raw/main/preview/themes/shinji1.png" align="center">|
+
+| Shoko |
+|:-:|
+|<img src="https://github.com/cherrynoize/theme/raw/main/preview/themes/shoko1.png" align="center">|
+
+| Sosuke |
+|:-:|
+|<img src="https://github.com/cherrynoize/theme/raw/main/preview/themes/sosuke1.png" align="center">|
+
+### 🌞 Light mode
+
+<details>
+<summary>All themes also have a light mode available <i>(click for preview)</i></summary>
+
+| Sosuke (light) |
+|:-:|
+|<img src="https://github.com/cherrynoize/theme/raw/main/preview/themes/sosuke-light1.png" align="center">|
+
+</details>
+
+> Screenshots may not always be up-to-date. You can check themes out by running
+> `theme-picker`.
+
+### 🕸️ Old
+
+<details>
+<summary>Old</summary>
+
+![preview](preview/old/wpgtk1.png)
+
+![preview](preview/old/dash_ani1.gif)
+
+![preview](preview/old/dash1.png)
+
+![preview](preview/old/rofi1.png)
+
+![preview](preview/old/eww1.png)
+
+![preview](preview/old/firefox1.png)
+
+![preview](preview/old/poly1.png)
+
+![preview](preview/old/powermenu1.png)
+
+![preview](preview/old/ranger1.png)
+
+![preview](preview/old/screenlock1.png)
+
+</details>
 
 ## 🧱 Dependencies
 
@@ -356,6 +451,6 @@ If you feel like you have something to add please do.
 
 [**Buy me a coke 💙**](https://cherrynoize.github.io/#/contribute)
 
-## 🙏 And thanks to you for using my dotfiles
+## 🙏 Thanks for using my dotfiles
 
 *Bye!*
