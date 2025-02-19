@@ -30,51 +30,51 @@ can in most cases use at least some part of this config.
 
 | Ai |
 |:-:|
-|<img src="https://raw.githubusercontent.com/cherrynoize/theme/main/preview/themes/ai1.png" align="center">|
+|<img src="https://raw.githubusercontent.com/cherrynoize/theme/blob/main/preview/themes/ai1.png" align="center">|
 
 | Akane |
 |:-:|
-|<img src="https://raw.githubusercontent.com/cherrynoize/theme/main/preview/themes/akane1.png" align="center">|
+|<img src="https://raw.githubusercontent.com/cherrynoize/theme/blob/main/preview/themes/akane1.png" align="center">|
 
 | Ishida |
 |:-:|
-|<img src="https://raw.githubusercontent.com/cherrynoize/theme/main/preview/themes/ishida1.png" align="center">|
+|<img src="https://raw.githubusercontent.com/cherrynoize/theme/blob/main/preview/themes/ishida1.png" align="center">|
 
 | Mayuri |
 |:-:|
-|<img src="https://raw.githubusercontent.com/cherrynoize/theme/main/preview/themes/mayuri1.png" align="center">|
+|<img src="https://raw.githubusercontent.com/cherrynoize/theme/blob/main/preview/themes/mayuri1.png" align="center">|
 
 | Meranii |
 |:-:|
-|<img src="https://raw.githubusercontent.com/cherrynoize/theme/main/preview/themes/meranii1.png" align="center">|
+|<img src="https://raw.githubusercontent.com/cherrynoize/theme/blob/main/preview/themes/meranii1.png" align="center">|
 
 | Misato |
 |:-:|
-|<img src="https://raw.githubusercontent.com/cherrynoize/theme/main/preview/themes/misato1.png" align="center">|
+|<img src="https://raw.githubusercontent.com/cherrynoize/theme/blob/main/preview/themes/misato1.png" align="center">|
 
 | Nina |
 |:-:|
-|<img src="https://raw.githubusercontent.com/cherrynoize/theme/main/preview/themes/nina1.png" align="center">|
+|<img src="https://raw.githubusercontent.com/cherrynoize/theme/blob/main/preview/themes/nina1.png" align="center">|
 
 | Sakura |
 |:-:|
-|<img src="https://raw.githubusercontent.com/cherrynoize/theme/main/preview/themes/sakura1.png" align="center">|
+|<img src="https://raw.githubusercontent.com/cherrynoize/theme/blob/main/preview/themes/sakura1.png" align="center">|
 
 | Shina |
 |:-:|
-|<img src="https://raw.githubusercontent.com/cherrynoize/theme/main/preview/themes/shina1.png" align="center">|
+|<img src="https://raw.githubusercontent.com/cherrynoize/theme/blob/main/preview/themes/shina1.png" align="center">|
 
 | Shinji |
 |:-:|
-|<img src="https://raw.githubusercontent.com/cherrynoize/theme/main/preview/themes/shinji1.png" align="center">|
+|<img src="https://raw.githubusercontent.com/cherrynoize/theme/blob/main/preview/themes/shinji1.png" align="center">|
 
 | Shoko |
 |:-:|
-|<img src="https://raw.githubusercontent.com/cherrynoize/theme/main/preview/themes/shoko1.png" align="center">|
+|<img src="https://raw.githubusercontent.com/cherrynoize/theme/blob/main/preview/themes/shoko1.png" align="center">|
 
 | Sosuke |
 |:-:|
-|<img src="https://raw.githubusercontent.com/cherrynoize/theme/main/preview/themes/sosuke1.png" align="center">|
+|<img src="https://raw.githubusercontent.com/cherrynoize/theme/blob/main/preview/themes/sosuke1.png" align="center">|
 
 ### 🌞 Light mode
 
@@ -83,7 +83,7 @@ can in most cases use at least some part of this config.
 
 | Sosuke (light) |
 |:-:|
-|<img src="https://raw.githubusercontent.com/cherrynoize/theme/main/preview/themes/sosuke-light1.png" align="center">|
+|<img src="https://raw.githubusercontent.com/cherrynoize/theme/blob/main/preview/themes/sosuke-light1.png" align="center">|
 
 </details>
 
