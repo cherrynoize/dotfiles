@@ -169,32 +169,71 @@
   /* Number of pinned tabs per row */
   #root.root:hover {--pinned-tabs-col: 3 !important;}
 
-  #root.root {--tabs-pinned-height: 42px !important;}
-  #root.root {--tabs-pinned-width: calc( (96vw - (var(--tabs-margin)*var(--pinned-tabs-col))) / var(--pinned-tabs-col)) !important;}
+  #root.root {--tabs-pinned-width: auto !important;}
+
+  #root .PinnedTabsBar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+
+  #root.root:hover .PinnedTabsBar .tab-wrapper {
+    --tabs-pinned-height: 44px !important;
+    flex-grow: 1 !important;
+    min-width: 55px !important;
+  }
 
   #root.root:not(:hover) .PinnedTabsBar {
-    grid-gap: 0 !important;
+    margin: 0 !important;
     padding: 0 4px 1px !important;
     flex-direction: column !important;
+    grid-gap: 0 !important;
   }
 
   .Tab[data-pin="true"] {
-    margin-top: 5px !important;
     transition: width .3s !important, padding .45s !important;
   }
 
-  .Tab[data-pin="true"]:not([data-active="true"]) .body {
-    background: #d9d9f330 !important;
-  }
-
-  .PinnedTabsBar .tab-wrapper {
+  #root.root:hover .tab-wrapper:hover .Tab[data-pin="true"] {
     transition: opacity .4s !important;
   }
 
-  .PinnedTabsBar .tab-wrapper:not(:hover) {
-    opacity: .8 !important;
+  .tab-wrapper:not(:hover) .Tab[data-pin="true"] {
     transition: opacity .3s !important;
   }
+
+  .tab-wrapper:not(:hover) .Tab[data-pin="true"]:not([data-active="true"]) {
+    opacity: .8 !important;
+  }
+
+  .tab-wrapper .Tab[data-pin="true"][data-active="true"] {
+    opacity: 1 !important;
+  }
+
+  .PinnedTabsBar {
+    --pinned-brdr-radius: calc(var(--general-border-radius) + 1px);
+  }
+
+  .PinnedTabsBar .tab-wrapper:not(:last-of-type) .Tab[data-pin="true"] .body {
+    border-radius: var(--pinned-brdr-radius) !important;
+  }
+
+  .PinnedTabsBar .tab-wrapper:last-of-type .Tab[data-pin="true"] .body {
+    border-radius: var(--pinned-brdr-radius) calc(var(--pinned-brdr-radius) + 3px) var(--pinned-brdr-radius) var(--pinned-brdr-radius) !important;
+  }
+
+  .Tab[data-pin="true"]:not([data-discarded="true"]):not([data-active="true"]) .body {
+    background: #d9d9f330 !important;
+  }
+
+  .Tab[data-pin="true"][data-discarded="true"]:not(:hover) .body {
+    background-color: #0000 !important;
+  }
+
+  /*
+  .Tab[data-discarded="true"] > .body > .fav {
+    opacity: 1 !important;
+  }
+  */
 
   /* ------------------------------------- */
 
