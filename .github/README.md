@@ -96,13 +96,9 @@ can in most cases use at least some part of this config.
 > [contexts](https://github.com/cherrynoize/theme#context-themes), therefore
 > using each theme you might see a different style for the same application.
 
-| Floorp (Firefox) |
-|:-:|
-|<img src="preview/apps/floorp.png" align="center">|
-
-| Wall picker |
-|:-:|
-|<img src="preview/apps/wall-picker.png" align="center">|
+| Floorp (Firefox) || Wall picker |
+|:-:||:-:|
+|<img src="preview/apps/floorp.png" align="center">||<img src="preview/apps/wall-picker.png" align="center">|
 
 | Theme picker |
 |:-:|
