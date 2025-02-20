@@ -96,7 +96,7 @@ can in most cases use at least some part of this config.
 > [contexts](https://github.com/cherrynoize/theme#context-themes), therefore
 > using each theme you might see a different style for the same application.
 
-| <img src="preview/apps/floorp.png" align="center"> |
+| <img src="preview/apps/floorp.png" align="center"> | <img src="preview/apps/floorp-newtab.png" align="center"> |
 | :-: |
 | Floorp (Firefox) |
 
@@ -449,11 +449,6 @@ doesn't fit, please
 [open an issue](https://github.com/cherrynoize/dotfiles/issues).
 
 ## 📋 TODO
-
-### README
-
-- Add Floorp new tab/tab sidebar/open urlbar screenshot (side by side with
-current one)
 
 ### Install and configuration
 
