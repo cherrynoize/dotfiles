@@ -96,25 +96,17 @@ can in most cases use at least some part of this config.
 > [contexts](https://github.com/cherrynoize/theme#context-themes), therefore
 > using each theme you might see a different style for the same application.
 
-| Floorp (Firefox) |
-| :-: |
 | <img src="preview/apps/floorp.png" align="center"> |
+| :-: |
+| Floorp (Firefox) |
 
 | Wall picker | Theme picker |
 |:-:|:-:|
 | <img src="preview/apps/wall-picker.png" align="center"> | <img src="preview/apps/theme-picker.png" align="center"> |
 
-| Dunst |
-|:-:|
-|<img src="preview/apps/dunst.png" align="center">|
-
-| Ranger |
-|:-:|
-|<img src="preview/apps/ranger.png" align="center">|
-
-| Rofi |
-|:-:|
-|<img src="preview/apps/rofi.png" align="center">|
+| Dunst | Ranger | Rofi |
+|:-:|:-:|:-:|
+|<img src="preview/apps/dunst.png" align="center">|<img src="preview/apps/ranger.png" align="center">|<img src="preview/apps/rofi.png" align="center">|
 
 | Logout menu |
 |:-:|
