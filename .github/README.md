@@ -450,6 +450,11 @@ doesn't fit, please
 
 ## 📋 TODO
 
+### README
+
+- Add Floorp new tab/tab sidebar/open urlbar screenshot (side by side with
+current one)
+
 ### Install and configuration
 
 - Installation script
