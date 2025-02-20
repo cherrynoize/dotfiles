@@ -98,35 +98,35 @@ can in most cases use at least some part of this config.
 
 | Floorp (Firefox) |
 |:-:|
-|<img src="preview/floorp.png" align="center">|
+|<img src="preview/apps/floorp.png" align="center">|
 
 | Wall picker |
 |:-:|
-|<img src="preview/wall-picker.png" align="center">|
+|<img src="preview/apps/wall-picker.png" align="center">|
 
 | Theme picker |
 |:-:|
-|<img src="preview/theme-picker.png" align="center">|
+|<img src="preview/apps/theme-picker.png" align="center">|
 
 | Dunst |
 |:-:|
-|<img src="preview/dunst.png" align="center">|
+|<img src="preview/apps/dunst.png" align="center">|
 
 | Ranger |
 |:-:|
-|<img src="preview/ranger.png" align="center">|
+|<img src="preview/apps/ranger.png" align="center">|
 
 | Rofi |
 |:-:|
-|<img src="preview/rofi.png" align="center">|
+|<img src="preview/apps/rofi.png" align="center">|
 
 | Logout menu |
 |:-:|
-|<img src="preview/logout.png" align="center">|
+|<img src="preview/apps/logout.png" align="center">|
 
 | Screenlock |
 |:-:|
-|<img src="preview/screenlock.png" align="center">|
+|<img src="preview/apps/screenlock.png" align="center">|
 
 ### 🕸️ Old
 
