@@ -124,6 +124,10 @@ can in most cases use at least some part of this config.
 |:-:|
 |<img src="preview/logout.png" align="center">|
 
+| Screenlock |
+|:-:|
+|<img src="preview/screenlock.png" align="center">|
+
 ### 🕸️ Old
 
 <details>
