@@ -97,7 +97,7 @@ can in most cases use at least some part of this config.
 > using each theme you might see a different style for the same application.
 
 | <img src="preview/apps/floorp.png" align="center"> | <img src="preview/apps/floorp-newtab.png" align="center"> |
-| :-: |
+| :-: | :-: |
 | Floorp (Firefox) |
 
 | Wall picker | Theme picker |
