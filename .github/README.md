@@ -104,17 +104,13 @@ can in most cases use at least some part of this config.
 |:-:|:-:|
 | <img src="preview/apps/wall-picker.png" align="center"> | <img src="preview/apps/theme-picker.png" align="center"> |
 
-| Dunst | Ranger | Rofi |
-|:-:|:-:|:-:|
 |<img src="preview/apps/dunst.png" align="center">|<img src="preview/apps/ranger.png" align="center">|<img src="preview/apps/rofi.png" align="center">|
+|:-:|:-:|:-:|
+| Dunst | Ranger | Rofi |
 
-| Logout menu |
-|:-:|
-|<img src="preview/apps/logout.png" align="center">|
-
-| Screenlock |
-|:-:|
-|<img src="preview/apps/screenlock.png" align="center">|
+| Logout menu | Screenlock |
+|:-:|:-:|
+|<img src="preview/apps/logout.png" align="center">|<img src="preview/apps/screenlock.png" align="center">|
 
 ### 🕸️ Old
 
