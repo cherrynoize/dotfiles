@@ -98,7 +98,7 @@ can in most cases use at least some part of this config.
 
 | <img src="preview/apps/floorp.png" align="center"> | <img src="preview/apps/floorp-newtab.png" align="center"> |
 | :-: | :-: |
-| Floorp (Firefox) |
+| Floorp | Floorp (new tab) |
 
 | Wall picker | Theme picker |
 |:-:|:-:|
