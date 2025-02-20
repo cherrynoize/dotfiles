@@ -1,6 +1,9 @@
 #!/bin/sh
+
 if [ "$(get-display-server)" = "wayland" ]; then
   wlockscreen
 else
-  xlockscreen || wlockscreen 
+  /usr/bin/xset -dpms & # disable dpms
+  xlockscreen || wlockscreen
+  /usr/bin/xset +dpms # re-enable dpms
 fi

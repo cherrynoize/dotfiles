@@ -1,2 +1,6 @@
 #!/bin/sh
-xset dpms force on
+if [ "$(get-display-server)" = "wayland" ]; then
+  hyprctl dispatch dpms on
+else
+  xset dpms force on
+fi

@@ -3,7 +3,7 @@ if status is-interactive
   set LAUNCH_TIME $(date +%T)
 
   # restore wpg
-	cat ~/.config/wpg/sequences &
+  cat ~/.config/wpg/sequences &
 
   # start animation
   # these values need to be tailored to your own system
@@ -150,7 +150,7 @@ if status is-interactive
   abbr pacl 'pacman -Ql'
   abbr pace 'sudo pacman -D --asexplicit'
   abbr pacd 'sudo pacman -D --asdeps'
-  abbr pacu 'begin; sudo pacman -Syu --noconfirm --disable-download-timeout || begin; sudo unfuck pacman && pacman -Syu --noconfirm --disable-download-timeout; end; end && yay -Syu --noconfirm'
+  abbr pacu 'begin; sudo pacman -Syu --noconfirm --disable-download-timeout || begin; sudo unfuck pacman && sudo pacman -Syu --noconfirm --disable-download-timeout; end; end && yay -Syu --noconfirm'
   abbr --set-cursor yays 'yay -S % && yay -Sc --noconfirm'
   abbr --set-cursor yayr 'yay -Rs % && yay -Sc --noconfirm'
   abbr pkglist 'cat /etc/pacman.d/pkglist'

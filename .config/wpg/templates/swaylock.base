@@ -3,9 +3,7 @@ clock
 image="$HOME/.current-wallpaper"
 effect-blur=5x5
 effect-vignette=.3:1
-fade-in=.3
 
-show-failed-attempts
 ignore-empty-password
 hide-keyboard-layout
 
@@ -19,26 +17,31 @@ font="Lato"
 indicator
 indicator-radius=125
 indicator-thickness=10
+
+text-color={fg}
+inside-color={bg}
 line-color={fg-alt}
 ring-color={color0}
-inside-color={bg}
-key-hl-color={color7}
+
+text-ver-color={fg}a5
+inside-ver-color={bg}d9
+line-ver-color={color6}9a
+ring-ver-color={color7}25
+
+text-wrong-color={fg}e8
+inside-wrong-color={shadow}c5
+line-wrong-color={fg}0a
+ring-wrong-color={bg}30
+
+text-clear-color={fg}50
+inside-clear-color={color8}c0
+line-clear-color={bg}3a
+ring-clear-color={fg}25
+
 separator-color=00000000
-text-color={fg}
 text-caps-lock-color={fg-alt}
-line-ver-color={color6}
-ring-ver-color={color7}
-inside-ver-color={bg-alt}
-text-ver-color={fg-alt}
-ring-wrong-color={urgent}
-text-wrong-color={urgent}
-inside-wrong-color={fg}
-inside-clear-color={fg}
-text-clear-color={bg}
-ring-clear-color={bg-alt}
-line-clear-color={fg}
-line-wrong-color={fg}
-bs-hl-color={inactive}
+key-hl-color={color9}
+bs-hl-color={fg}65
 
 datestr=%a, %B %e
 timestr=%I:%M %p

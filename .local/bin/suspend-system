@@ -7,4 +7,5 @@ cmd="suspend"
 
 suspend-actions.sh
 sudo systemctl "$cmd" "$@"
+screen-on
 resume-actions.sh
