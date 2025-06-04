@@ -24,7 +24,7 @@ gsettings set org.gnome.desktop.interface gtk-theme "$DEFAULT_GTK_THEME"
 # Set wallpaper
 (
 sleep 1
-#. ~/.config/wpg/wp_init.sh & # Restore wallpaper and wpgtk theme
-change-wallpaper & # Set random new wallpaper
+. ~/.config/wpg/wp_init.sh & # Restore wallpaper and wpgtk theme
+# change-wallpaper & # Set random new wallpaper
 livewall stop # Stop loading sequence
 )&

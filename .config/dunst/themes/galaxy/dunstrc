@@ -6,8 +6,8 @@
 #
 
 [colors]
-  background = "#141d43"
-  foreground = "#5A69A7"
+  background = "#1e1e43"
+  foreground = "#5D4A6D"
 
 [global]
   title = Dunst
@@ -25,12 +25,12 @@
 
   transparency = 5
 # separator_height = 2 # ignored if gap_size is set
-  separator_color = "#275BA9"
+  separator_color = "#33436C"
   gap_size = 5
   padding = 10
   horizontal_padding = 10
   frame_width = 1
-  frame_color = "#141d43"
+  frame_color = "#1e1e43"
 
   font = JetBrainsMono NF Medium 9
 
@@ -70,7 +70,7 @@
 
 [urgency_critical]
   timeout = 0
-  frame_color = "#ffc3c5"
+  frame_color = "#ff5778"
 
 [volume_indicator]
   appname = "changeVolume"

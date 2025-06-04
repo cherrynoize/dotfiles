@@ -82,7 +82,7 @@ if status is-interactive
   abbr :: '. ~/.config/fish/config.fish'
   abbr reload '. ~/.config/fish/config.fish'
   abbr -- - 'cd ~'
-  abbr -- -- 'cd ~'
+  abbr -- -- 'cd /home/shared'
   abbr hw 'echo hello, world!'
   abbr --set-cursor im 'sudo -iu % fish' # run interactive shell as user
   abbr runas 'sudo -u' # run command as user
@@ -164,7 +164,6 @@ if status is-interactive
   abbr show-pacnew-files 'pacdiff -o'
   abbr list-packages-by-size 'LC_ALL=C pacman -Qi | awk \'/^Name/{name=$3} /^Installed Size/{print $4$5, name}\' | sort -h'
   abbr install-grub 'sudo grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB'
-  abbr fix-grub 'sudo grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB && sudo grub-mkconfig -o /boot/grub/grub.cfg'
   abbr --set-cursor find-by-content 'grep -irnw . -e "%"'
   abbr --set-cursor find-by-name 'find . -iname \'*%*\' -print'
   abbr --set-cursor find-by-exact-name 'find . -name \'%\' -print'
@@ -200,8 +199,6 @@ if status is-interactive
   abbr resize 'convert -resize '
   abbr --set-cursor rotate 'set img "%s";set tmpdst /tmp/"$(basename "$img")";convert "$img" -rotate 90 "$tmpdst";mv "$tmpdst" "$img"'
   abbr --set-cursor country 'curl -s "http://country.io/names.json" | jq "."'
-  abbr import-floorp-from-win 'pushd "$FF_PROFILE_DIR" && begin; rm -rf "$FF_DEFAULT_PROFILE".bak.bak; [ -e "$FF_DEFAULT_PROFILE".bak ] && mv "$FF_DEFAULT_PROFILE".bak "$FF_DEFAULT_PROFILE".bak.bak; [ -e "$FF_DEFAULT_PROFILE" ] && mv "$FF_DEFAULT_PROFILE" "$FF_DEFAULT_PROFILE".bak; end; rsync -avh --ignore-existing "$(access-windows -home)/AppData/Roaming/Floorp/Profiles/$FF_DEFAULT_PROFILE" .; popd'
-  abbr export-floorp-to-win 'pushd "$(access-windows -home)/AppData/Roaming/Floorp/Profiles" && begin; sudo rm -rf "$FF_DEFAULT_PROFILE".bak.bak; [ -e "$FF_DEFAULT_PROFILE".bak ] && sudo mv "$FF_DEFAULT_PROFILE".bak "$FF_DEFAULT_PROFILE".bak.bak; [ -e "$FF_DEFAULT_PROFILE" ] && sudo mv "$FF_DEFAULT_PROFILE" "$FF_DEFAULT_PROFILE".bak; end; sudo rsync -avh --ignore-existing "$FF_PROFILE_DIR/$FF_DEFAULT_PROFILE" .; popd'
 
   # hacking
   abbr hex 'xxd' # hexdump

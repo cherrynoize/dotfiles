@@ -23,6 +23,7 @@ declare -a excluded=(
   spotify
   pacman
   screenlock
+  grub
 )
 
 # minimum usage list item length
@@ -167,6 +168,11 @@ unfuck_pacman () {
 unfuck_screenlock () {
   hyprctl --instance 0 'keyword misc:allow_session_lock_restore 1'
   hyprctl --instance 0 'dispatch exec lockscreen'
+}
+
+unfuck_grub () {
+  sudo grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB &&
+    sudo grub-mkconfig -o /boot/grub/grub.cfg
 }
 
 case $1 in
