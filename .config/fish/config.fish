@@ -86,7 +86,7 @@ if status is-interactive
   abbr hw 'echo hello, world!'
   abbr --set-cursor im 'sudo -iu % fish' # run interactive shell as user
   abbr runas 'sudo -u' # run command as user
-  abbr sudo 'sudo -v; sudo' # refresh sudo privileges
+# abbr sudo 'sudo -v; sudo' # refresh sudo privileges
   abbr l 'lsd --group-directories-first'
   abbr la 'lsd -a --group-directories-first'
   abbr ll 'lsd -la --group-directories-first'
@@ -130,6 +130,7 @@ if status is-interactive
   abbr beep 'play -n synth 0.05 sine 440 vol 0.1'
   abbr capture-webcam 'mpv av://v4l2:/dev/video0 --profile=low-latency --untimed'
   abbr list-fonts 'fc-list | cut -f 2- -d " " | less'
+  abbr --set-cursor find-font 'fc-list | cut -f 2- -d " " | grep -i "%"'
   abbr --set-cursor memo 'echo "REM %" >> ~/.config/remind/memo.rem && remind \'-k:dunstify -r 7370 %s &\' ~/.config/remind/memo.rem'
   abbr random-wall 'change-wallpaper -r'
 
@@ -157,8 +158,9 @@ if status is-interactive
   abbr aurlist 'cat /etc/pacman.d/pkglist_aur'
   abbr list-orphaned-packages 'pacman -Qtdq'
   abbr clear-orphaned-packages 'sudo pacman -Rns $(pacman -Qtdq)'
-  abbr check-pkgs 'echo "--------------------------"; echo "running check-broken-packages..."; check-broken-packages; echo "--------------------------"; echo "the following packages have missing files:"; pacman -Qk 2>/dev/null | grep -v ' 0 missing files' 2>/dev/null || echo "(empty)" | cut -d: -f1; echo "--------------------------" ; echo "verifying system-wide package integrity..."; sudo pacman -Qkk > /dev/null'
-  abbr fix-broken-packages 'set brkn_pkgs="(pacman -Qk 2>/dev/null | grep -v ' 0 missing files' | cut -d: -f1)"; sudo pacman -Rs $brkn_pkgs --noconfirm; paccache -ruk0; paccache -rk 1; yay -Sc; sudo pacman -S $brkn_pkgs --noconfirm --disable-download-timeout'
+  abbr check-broken-packages 'sudo pacman -Qk 2>/dev/null | grep -v " 0 missing files"'
+  abbr fix-broken-packages 'set brkn_pkgs (sudo pacman -Qk 2>/dev/null | grep -v " 0 missing files" | cut -d: -f1) && sudo pacman -Rs $brkn_pkgs; paccache -ruk0; paccache -rk 1; yay -Sc --noconfirm; yay -S $brkn_pkgs --noconfirm --disable-download-timeout; yay -Sc --noconfirm'
+  abbr check-system-integrity 'echo "--------------------------"; echo "the following packages have missing files:"; sudo pacman -Qk 2>/dev/null | grep -v " 0 missing files" 2>/dev/null || echo "(empty)" | cut -d: -f1; echo "--------------------------" ; echo "verifying system-wide package integrity..."; sudo pacman -Qkk > /dev/null'
   abbr clear-pacman-cache 'paccache -ruk0; paccache -rk 1'
   abbr clear-yay-cache 'yay -Sc'
   abbr show-pacnew-files 'pacdiff -o'

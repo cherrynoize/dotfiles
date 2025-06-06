@@ -19,6 +19,9 @@ LS_COLORS=$LS_COLORS:'ow=1;30;47:di=1;33:fi=1;36:ln=1;5:'; export LS_COLORS
 # Looks for binary in packages (when command not found)
 . /usr/share/doc/pkgfile/command-not-found.bash
 
+# Autoupdate LINES and COLUMNS on window resize
+[[ $DISPLAY ]] && shopt -s checkwinsize
+
 # Autochange directory when entering a path
 shopt -s autocd
 

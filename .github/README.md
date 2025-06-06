@@ -405,10 +405,14 @@ In case it conflicts with other programs in your system, just use
 
 ### 🐛 Known bugs
 
-#### Firefox/Floorp
+#### Firefox
 
 Some text visibility issues in light mode. (Inherited from
 [theme](https://github.com/cherrynoize/theme))
+
+#### Waybar
+
+- Random wallpaper button not working.
 
 #### eww
 
