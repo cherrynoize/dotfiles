@@ -162,7 +162,6 @@ unfuck_pacman () {
   sudo paccache -ruk0; sudo paccache -rk 1 # clear pacman cache
   yay -Sc # clear yay cache
   sudo pacman -Rns $(pacman -Qtdq) # remove orphaned packages
-  sudo pacman -S archlinux-keyring # update archlinux-keyring
 }
 
 unfuck_screenlock () {
