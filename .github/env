@@ -37,14 +37,13 @@ export SWWW_TRANSITION_STEP=2
 export WLAN="$(ls /sys/class/net | grep -m 1 wl)"
 export ETH="$(ls /sys/class/net | grep -m 1 et)"
 
-# Set geolocation
-export CITY="$(get-ip-info city)"
-export COUNTRY="$(get-ip-info country)"
+# Geolocation data manual override
+#export CITY="Lavender Town"
+#export COUNTRY="Kanto"
 
-# Manually pinpoint imprecise results
-#if [ "$(get-ip-info region)" = "Kanto" ]; then
-#  export CITY="Cerulean City"
-#fi
+# Fallback geolocation data
+export FALLBACK_CITY="Cerulean City"
+export FALLBACK_COUNTRY="Kanto"
 
 # Default Firefox profile and profile directory
 # (used by change-wallpaper and arkenfox-update)

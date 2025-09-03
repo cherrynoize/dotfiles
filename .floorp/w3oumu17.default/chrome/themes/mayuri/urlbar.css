@@ -1,0 +1,288 @@
+@-moz-document url(chrome://browser/content/browser.xhtml) {
+  #urlbar-container {
+    flex: auto;
+    min-width: 0;
+    max-width: 1000px;
+    min-height: unset !important;
+    margin: auto !important;
+  }
+
+  #urlbar {
+    z-index: 9999 !important;
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 1000px !important;
+    width: 100% !important;
+    transition: left .3s, margin .3s;
+  }
+
+  /* When urlbar is extended make navbar cover everything */
+
+  #nav-bar[urlbar-exceeds-toolbar-bounds] {
+    position: absolute !important;
+    pointer-events: auto !important;
+    transition: none !important;
+  }
+
+  /* Hide navbar so when hovering anywhere content underneath *
+   * can be de-opacizided. */
+  #nav-bar[urlbar-exceeds-toolbar-bounds],
+  #nav-bar[urlbar-exceeds-toolbar-bounds]
+  *:not(#urlbar-container *) {
+    background: transparent !important;
+  }
+
+  /* ---------------------------------------------------- */
+
+  #nav-bar[urlbar-exceeds-toolbar-bounds] #urlbar-container {
+    max-width: 100vw !important;
+    width: 100vw !important;
+    height: 100vh !important;
+  }
+
+  #urlbar[breakout][breakout-extend] {
+    left: 0;
+    right: 0;
+    margin-top: calc(var(--urlbar-extend-margin) + 10vh + 5vw -
+                     var(--urlbar-height)) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: 1200px;
+    width: 50vw !important;
+    opacity: .97 !important;
+  }
+
+  /* Align vertically when not extended */
+  #urlbar:not([breakout-extend]) {
+    top: unset !important;
+  }
+
+  #urlbar:not([breakout][breakout-extend])
+  #urlbar-input {
+    text-align: center !important;
+  }
+
+  #urlbar-background {
+    background-color: var(--urlbar-background) !important;
+    border: var(--win-brdr-size)
+            var(--win-brdr-style)
+            var(--win-brdr-color) !important;
+    transition: border-color var(--win-brdr-transition);
+  }
+
+  #urlbar:hover #urlbar-background,
+  #urlbar[focused] #urlbar-background {
+    border-color: var(--win-brdr-color-hover) !important;
+  }
+
+  #urlbar:hover moz-input-box input {
+    cursor: var(--default-cursor) !important;
+  }
+
+  #urlbar-results > *[selected=""] {
+    background-color: var(--urlbar-results) !important;
+  }
+
+  #urlbar-background,
+  #urlbar-input-container {
+    --toolbarbutton-border-radius: calc(var(--urlbar-min-height)/2 * var(--urlbar-brdr-radius));
+  }
+
+  #urlbar-input-container {
+    --urlbar-icon-border-radius: calc(var(--toolbarbutton-border-radius)-1px);
+  }
+
+  /* Only show on hover icons in URL bar */
+  #nav-bar:not([customizing="true"]):not(.searchButton)
+  #urlbar-container:not(:hover) >
+  #urlbar:not([focused])
+  .urlbar-page-action,
+  #nav-bar:not([customizing="true"]):not(.searchButton)
+  #urlbar-container:not(:hover) >
+  #urlbar:not([focused])
+  #identity-permission-box:not([open]) {
+    opacity: 0;
+    transition-delay: .5s;
+  }
+
+  #tracking-protection-icon-box,
+  #page-action-buttons .urlbar-page-action,
+  #identity-permission-box,
+  #notification-popup-box .notification-anchor-icon {
+    transition: opacity .2s;
+  }
+
+  #tracking-protection-icon-container:hover #urlbar #tracking-protection-icon-box,
+  #identity-box:hover #urlbar #identity-icon-box,
+  #identity-box:hover #urlbar #identity-permission-box {
+    opacity: 0;
+  }
+
+  #tracking-protection-icon-container:not(:hover) #tracking-protection-icon-box,
+  #identity-icon-box,
+  #identity-permission-box {
+    margin-inline-start: calc(-16px - 2 * var(--urlbar-icon-padding));
+    transition: margin-inline-start .1s linear, opacity .2s linear;
+  }
+
+  #tracking-protection-icon-container:hover #tracking-protection-icon-box,
+  #tracking-protection-icon-container:hover ~ #identity-box #identity-icon-box,
+  #tracking-protection-icon-container:hover ~ #identity-box #identity-permission-box,
+  #identity-box:is(.notSecureText, .extensionPage) #identity-icon-box,
+  #identity-box:hover #identity-icon-box,
+  #identity-box:hover #identity-permission-box,
+  #identity-box #identity-permission-box[open="true"] {
+    margin-inline-start: initial !important;
+  }
+
+  #tracking-protection-icon-container:not(:hover) ~
+  #identity-box:not(:hover) #identity-icon-box:not(:hover),
+  #tracking-protection-icon-container:not(:hover) ~
+  #identity-box:not(:hover) #identity-permission-box:not(:hover) {
+    visibility: collapse;
+    opacity: 0;
+  }
+
+  #tracking-protection-icon-container:hover #tracking-protection-icon-box {
+    color: var(--link-color) !important;
+  }
+
+  #identity-box #identity-icon-box:hover {
+    color: var(--link-color-hover) !important;
+  }
+
+  #page-action-buttons #star-button-box:hover {
+    color: var(--primary-color) !important;
+  }
+
+  #urlbar-input-container .urlbar-input-box {
+    padding-inline-start: 2px !important;
+  }
+
+  #tracking-protection-icon-container:hover ~ .urlbar-input-box > #urlbar-input,
+  #identity-box:hover ~ .urlbar-input-box > #urlbar-input {
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        #00000095 3ch) !important;
+  }
+
+  #page-action-buttons {
+    padding-inline-start: 8px;
+  }
+
+  #page-action-buttons .urlbar-page-action {
+    margin-inline-end: calc(-16px - 2 * var(--urlbar-icon-padding));
+    opacity: 0;
+    transition: margin-inline-end .1s linear,
+                opacity .2s linear;
+  }
+
+  #page-action-buttons:hover > .urlbar-page-action,
+  .urlbar-page-action[open],
+  .urlbar-page-action[open] ~ .urlbar-page-action {
+    margin-inline-end: 0px !important;
+    opacity: 1;
+  }
+
+  #identity-box.chromeUI #identity-icon-box {
+    margin-inline-start: initial;
+    opacity: 1 !important;
+  }
+
+  #identity-box.chromeUI::after,
+  #identity-box.chromeUI:hover::after {
+    opacity: 0 !important;
+  }
+
+  #page-action-buttons:not(:hover) #translations-button[translationsactive="true"]:not([open]) {
+    visibility: collapse !important;
+  } 
+
+  /*-----------------identity box-------------------*/
+
+  /* Create visual dots on both sides */
+  #identity-box::after,
+  #page-action-buttons::before {
+    content: "•••";
+    align-self: center;
+    position: relative;
+    right: 4px;
+    transform: rotate(-90deg);
+    font-size: .7em;
+    transition: opacity .1s;
+    pointer-events: none;
+  }
+
+  #identity-box::after,
+  #page-action-buttons::before {
+    opacity: .2;
+  }
+
+  #identity-box::after {
+    transform: rotate(90deg);
+    left: 4px;
+  }
+
+  #page-action-buttons:hover::before {
+    transition: opacity .05s;
+  }
+
+  #identity-box:hover::after,
+  #page-action-buttons:hover::before {
+    opacity: .2s !important;
+  }
+
+  #identity-box[pageproxystate="invalid"]::after,
+  #urlbar-input-container[pageproxystate="invalid"]
+  > #page-action-buttons::before {
+    opacity: 0 !important;
+  }
+
+  /* Visual dots */
+  #identity-box::after,
+  #page-action-buttons::before {
+    content: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="utf-8"%3F><svg fill="%23FFFFFF" width="11px" height="11px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M2.25 16c0 2.347-1.903 4.25-4.25 4.25s-4.25-1.903-4.25-4.25c0-2.347 1.903-4.25 4.25-4.25s4.25 1.903 4.25 4.25zM2.25 27c0 2.347-1.903 4.25-4.25 4.25s-4.25-1.903-4.25-4.25c0-2.347 1.903-4.25 4.25-4.25s4.25 1.903 4.25 4.25zM2.25 5c0 2.347-1.903 4.25-4.25 4.25s-4.25-1.903-4.25-4.25c0-2.347 1.903-4.25 4.25-4.25s4.25 1.903 4.25 4.25z"></path></svg>');
+    transform: none;
+    font-size: unset;
+    transition: opacity .3s ease-in-out;
+  }
+
+  #identity-box:hover::after,
+  #page-action-buttons:hover::before {
+    opacity: 0;
+  }
+
+  #page-action-buttons::before {
+    right: 2px;
+  }
+
+  #identity-box::after {
+    left: 2px;
+  }
+
+  #identity-box[pageproxystate="valid"].notSecureText > .identity-box-button,
+  #identity-box[pageproxystate="valid"].extensionPage > .identity-box-button,
+  #identity-box[pageproxystate="valid"].chromeUI > .identity-box-button,
+  #urlbar-label-box,
+  #urlbar-zoom-button {
+    background-color: var(--firefoxcss-item-bg-color) !important;
+  }
+
+  #urlbar-zoom-button:hover {
+    background-color: var(--firefoxcss-urlbar-zoom-button) !important;
+  }
+
+  #urlbar-input-container #identity-box > .identity-box-button,
+  #tracking-protection-icon-container,
+  #urlbar-go-button,
+  #page-action-buttons .urlbar-page-action,
+  #notification-popup-box {
+    border-radius: 8px !important;
+  }
+
+  #urlbar-go-button {
+    display: none;
+  }
+}

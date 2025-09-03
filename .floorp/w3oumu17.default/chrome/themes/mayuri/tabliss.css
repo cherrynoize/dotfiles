@@ -1,0 +1,130 @@
+/* Tabliss newtab */
+@-moz-document regexp("^moz-extension://.*/index.html$") {
+  body > #root > .Dashboard .Overlay {
+    --primary-color: #FF0F7E;
+  }
+
+  body > #root > .Dashboard .Background .fullscreen {
+    background: url("../images/wallpaper") no-repeat !important;
+    background-size: cover !important;
+  }
+
+  body > #root > .Dashboard .Overlay:not(:hover) {
+    opacity: .5 !important;
+    transition: background 1s, opacity 3s !important;
+  }
+
+  body > #root > .Dashboard .Overlay:hover {
+    transition: background .6s, opacity 1s !important;
+  }
+
+  body > #root > .Dashboard .Overlay svg {
+    transition: color .6s !important;
+  }
+
+  body > #root > .Dashboard .Overlay:hover svg {
+    color: var(--primary-color) !important;
+    transition: color .3s !important;
+  }
+
+  body > #root > .Dashboard .Settings {
+    opacity: .9 !important;
+  }
+
+  body > #root > .Dashboard .Settings :is(
+  .plane,
+  .plane *:not(.Widget)) {
+    background-color: #1a1f29 !important;
+    color: #fcfcfc !important;
+    border-color: #c9c9c9 !important;
+  }
+
+  body > #root > .Dashboard .Settings :is(
+  .plane label,
+  .plane .Widget,
+  .plane .Widget *,
+  .plane select) {
+    background-color: #2a202f !important;
+  }
+
+  body > #root > .Dashboard .Settings .plane .Widget {
+    border: 1px solid transparent !important;
+    transition: border-color .05s ease-out !important;
+  }
+
+  body > #root > .Dashboard .Settings .plane > .Widget:last-of-type {
+    display: none !important;
+  }
+
+  body > #root > .Dashboard .Settings .plane .Widget:hover {
+    border-color: #fcfcfc !important;
+    transition: border-color .3s !important;
+  }
+
+  body > #root > .Dashboard .Settings :is(h1, h2) {
+    padding-bottom: .3em !important;
+    width: 100% !important;
+    border-bottom: 1px solid #fcfcfc !important;
+  }
+
+  body > #root > .Dashboard .Settings .Logo { display: none; !important }
+
+  /* Widgets */
+
+  body > #root > .Dashboard > .Widgets .Widget > * {
+    text-shadow: 2px 2px 3px #3a3a3a3a;
+  }
+
+  body > #root > .Dashboard > .Widgets .container .Widget:first-of-type {
+    margin-bottom: 0 !important;
+  }
+
+  body > #root > .Dashboard > .Widgets .container .Widget:nth-of-type(2) {
+    margin-top: .1rem !important;
+  }
+
+  body > #root > .Dashboard > .Widgets .LiteratureClock:hover blockquote span,
+  body > #root > .Dashboard > .Widgets .LiteratureClock:hover cite {
+    transition: opacity .6s !important;
+  }
+
+  body > #root > .Dashboard > .Widgets .LiteratureClock:not(:hover) blockquote span,
+  body > #root > .Dashboard > .Widgets .LiteratureClock:not(:hover) cite {
+    opacity: .7 !important;
+    transition: opacity 1s !important;
+  }
+
+  body > #root > .Dashboard > .Widgets .LiteratureClock:not(:active) {
+    cursor: default !important;
+  }
+
+  body > #root > .Dashboard > .Widgets .LiteratureClock {
+    pointer-events: none;
+  }
+
+  body > #root > .Dashboard > .Widgets .LiteratureClock * {
+    pointer-events: auto;
+  }
+
+  body > #root > .Dashboard > .Widgets .Weather {
+    margin-bottom: -24px !important;
+  }
+
+  body > #root > .Dashboard > .Widgets .Weather .details {
+    animation: slidein 1.8s ease 0s 1 normal forwards;
+  }
+
+  @keyframes slidein {
+    0% {
+      margin-top: .8em;
+      max-height: 0;
+      opacity: 0;
+    }
+    100% {
+      max-height: 5em;
+      margin-top: 0;
+      margin-bottom: 3em;
+      opacity: 1;
+    }
+  }
+}

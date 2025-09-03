@@ -21,7 +21,7 @@ super + alt + Return
 
 # launch player
 super + alt + s
-    "$PLAYER"
+    "$PLAYERAUDIO"
 
 # open mail
 super + alt + m

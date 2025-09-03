@@ -1,0 +1,20 @@
+/* banners, popups, nag screens, paywalls, ads */
+
+@-moz-document domain("youtube.com") {
+  /* above and in related videos sidebar */
+  #player-ads, ytd-ad-slot-renderer {
+      display: none !important;
+  }
+}
+
+@-moz-document domain("storj.io") {
+  .dashboard__wrap__main-area__content-wrap__container__content.banners {
+    display: none !important;
+  }
+}
+
+@-moz-document domain("cooking.nytimes.com") {
+  .modal_modal-window-container__59UFY, .modal_black-background__LNdEe.modal_show__6C2_r {
+    display: none !important;
+  }
+}

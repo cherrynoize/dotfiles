@@ -1,0 +1,105 @@
+@-moz-document
+regexp("^about:.*"),
+url("chrome://browser/content/browser.xhtml"),
+url("moz-extension://765388cc-886d-447b-83cc-4ebbf0feba79/sidebar/sidebar.html") {
+  :root, body {
+    /* Palette */
+    --light: #efecf9;
+    --dark: #13101c;
+    --white: #fafafa;
+    --black: #090909;
+    --fuchsia: #fa1e4e;
+    --blue: #4c4cff;
+    --aqua: #00bfff;
+    --cyan: #00ffff;
+    --lightblue: #45a1ff;
+    --pink: #FF0F7E;
+    --purple: #8d35e2;
+    --green: #05b694;
+    --aquamarine: #00ffa2;
+    --lightgreen: #36ff4e;
+    --yellowbrown: #febd60;
+    --swampautumn: #fdf008;
+    --orange: #ff6c22;
+    --yellow: #ffe20f;
+    --red: #ff3230;
+    --navyblue: #0050cE;
+    --poison: #cb17cf;
+    --lightgrey: #c9c9c9;
+    --lightgrey2: #d4d4d4;
+    --grey: #696969;
+    --darkgrey: #393939;
+    --darkgrey2: #292929;
+    --bluegrey: #5c6cb2d8;
+    --darkfuchsia: #8a0080;
+    --greyfuchsia: #ca6eaea5;
+    --darkindigo: #2a009077;
+    --transparent: #ccc3;
+
+    /* General */
+    --primary-color: var(--pink);
+    --secondary-color: var(--purple);
+    --link-color: var(--aqua);
+    --link-color-hover: var(--poison);
+
+    /* Windows */
+    --win-brdr-color: transparent;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root, body {
+      /* General */
+      --bg-color: color-mix(in lch,
+          var(--toolbar-bgcolor, var(--dark)),
+          var(--dark)
+      );
+
+      /* Toolbar */
+      --toolbarbutton-hover-background: color-mix(in lch,
+          var(--bg-color) 80%,
+          var(--light)
+      );
+
+      /* Windows */
+      --win-brdr-color-hover: rgba(204, 204, 204, .6);
+      --win-box-shadow: 0 0 10px 5px rgba(0,0,0,.5);
+      --win-box-shadow-hover: 0 0 10px 5px rgba(0,0,0,.2);
+
+      /* Content window */
+      --content-bg-color: #1a1a1a;
+
+      /* URL bar */
+      --urlbar-background: #2a2a2a;
+      --urlbar-results: #404243;
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root, body {
+      /* General */
+      /* General */
+      --bg-color: color-mix(in lch,
+          var(--toolbar-bgcolor, var(--light)),
+          var(--light)
+      );
+
+      /* Toolbar */
+      --toolbarbutton-hover-background: color-mix(in lch,
+          var(--bg-color) 80%,
+          var(--dark)
+      );
+
+      /* Windows */
+      --win-brdr-color-hover: rgba(51, 51, 51, .6);
+      --win-box-shadow-hover: 0 0 10px 5px rgba(255,255,255,.2);
+      --win-box-shadow: 0 0 10px 5px rgba(255,255,255,.5);
+
+      /* Content window */
+      --content-bg-color: #e6e6e6;
+
+      /* URL bar */
+      --urlbar-background: #d6d6d6;
+      --urlbar-results: #e8e8e8;
+    }
+  }
+}

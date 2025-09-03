@@ -77,16 +77,27 @@ if status is-interactive
   end
   abbr --add dotdot --regex '^\.\.+$' --function multicd
 
-  # user shortcuts
+  # fish shortcuts
   abbr fishrc '$EDITOR ~/.config/fish/config.fish && . ~/.config/fish/config.fish'
   abbr :: '. ~/.config/fish/config.fish'
   abbr reload '. ~/.config/fish/config.fish'
-  abbr -- - 'cd ~'
-  abbr -- -- 'cd /home/shared'
+
+  # path shortcuts
+  abbr -- - '~'
+  abbr -- -- '/home/shared'
+  abbr -- --- '/home/shared/personal'
+  abbr -- -notes 'cd /home/shared/personal/notes'
+  abbr -- -music 'cd /home/shared/personal/audio/music'
+  abbr -- -music-projects 'cd /home/shared/personal/audio/music/projects'
+  abbr -- -lyrics 'cd /home/shared/personal/audio/music/lyrics'
+  abbr --set-cursor enter-win 'pushd $(access-windows %)'
+  abbr leave-win 'popd; exit-windows'
+  abbr win-home 'pushd $(access-windows -home)'
+
+  # user shortcuts
   abbr hw 'echo hello, world!'
   abbr --set-cursor im 'sudo -iu % fish' # run interactive shell as user
   abbr runas 'sudo -u' # run command as user
-# abbr sudo 'sudo -v; sudo' # refresh sudo privileges
   abbr l 'lsd --group-directories-first'
   abbr la 'lsd -a --group-directories-first'
   abbr ll 'lsd -la --group-directories-first'
@@ -112,12 +123,6 @@ if status is-interactive
   abbr chrome 'google-chrome-stable'
   abbr ytmp3 'youtube-dl --extract-audio --audio-format mp3' # yt to mp3 download
   abbr --set-cursor silent-spinner 'spinner -q % 2>/dev/null'
-  abbr --set-cursor use-win 'pushd $(access-windows %)'
-  abbr leave-win 'popd; exit-windows'
-  abbr win-home 'pushd $(access-windows -home)'
-  abbr win-lyrics 'pushd $(access-windows -home)/rocknroll/music/lyrics'
-  abbr win-cat 'pushd $(access-windows -home); cat tmp.winsock; popd; exit-windows'
-  abbr win-sock 'pushd $(access-windows -home); "$EDITOR" tmp.winsock; popd; exit-windows'
   abbr nvim 'launch-nvim'
   abbr define 'dict -d gcide'
   abbr translate 'dict -d fd-ita-eng'
@@ -151,7 +156,7 @@ if status is-interactive
   abbr pacl 'pacman -Ql'
   abbr pace 'sudo pacman -D --asexplicit'
   abbr pacd 'sudo pacman -D --asdeps'
-  abbr pacu 'begin; sudo pacman -Syu --noconfirm --disable-download-timeout || begin; sudo unfuck pacman && sudo pacman -Syu --noconfirm --disable-download-timeout; end; end && yay -Syu --noconfirm'
+  abbr pacu 'begin; sudo pacman -Syu --noconfirm --disable-download-timeout || begin; unfuck pacman && sudo pacman -Syu --noconfirm --disable-download-timeout; end; end && yay -Syu --noconfirm'
   abbr --set-cursor yays 'yay -S % && yay -Sc --noconfirm'
   abbr --set-cursor yayr 'yay -Rs % && yay -Sc --noconfirm'
   abbr pkglist 'cat /etc/pacman.d/pkglist'

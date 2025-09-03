@@ -1,0 +1,282 @@
+/* Sidebery sidebar */
+@-moz-document url("moz-extension://765388cc-886d-447b-83cc-4ebbf0feba79/sidebar/sidebar.html") {
+  /* Custom variables */
+  #root.root {
+    --font-0: .8rem "Dejavu Sans";
+    --font-1: .8rem "Ubuntu";
+    --font-2: 0.5625rem sans-serif;
+  }
+
+  #root.root {--bookmarks-folder-font: var(--font-1) !important;}
+  #root.root {--bookmarks-bookmark-font: var(--font-1) !important;}
+  #root.root {--bookmarks-folder-height: 32px !important;}
+  #root.root {--bookmarks-separator-height: 19px !important;}
+  #root.root {--bookmarks-inner-gap: 6px !important;}
+  #root.root {--toolbar-bg: transparent !important;}
+  #root.root {--ctx-menu-font: var(--font-0) !important;}
+  #root.root {--ctx-menu-min-width: 250px !important;}
+  #root.root {--ctx-menu-max-width: 600px !important;}
+
+  #root.root {
+    --bg-transition: .3s !important;
+    --brdr-size: 3px !important;
+    --brdr-style: solid !important;
+    --brdr-color: transparent !important;
+    --brdr-radius: 15px !important;
+    --brdr-transition: .3s !important;
+    --opacity-transition: .2s !important;
+
+    --frame-bg: color-mix(in lch,
+                          var(--bg-color),
+                          var(--secondary-bg-color)) !important;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    #root.root {
+      --secondary-bg-color: var(--dark, #13101c) !important;
+      --frame-fg: var(--light, #efecf9) !important;
+      --brdr-color-hover: rgba(204, 204, 204, .6) !important;
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    #root.root {
+      --secondary-bg-color: var(--light, #efecf9) !important;
+      --frame-fg: var(--dark, #13101c) !important;
+      --brdr-color-hover: rgba(51, 51, 51, .6) !important;
+    }
+  }
+
+  /* ------------------------------------- */
+
+  /* Hide navigation bar and other buttons when closed. */
+
+  #root.root :is(
+  .top-horizontal-box,
+  .new-tab-btns,
+  .BottomBar,
+  .bottom-bar-space
+  ) {
+    transition: margin .3s, opacity .3s !important;
+  }
+
+  #root.root:not(:hover) :is(
+  .top-horizontal-box,
+  .left-vertical-box,
+  .right-vertical-box,
+  .new-tab-btns,
+  .BottomBar,
+  .bottom-bar-space
+  ) {
+    margin-left: -1rem !important;
+    margin-bottom: -1rem !important;
+    opacity: 0 !important;
+    visibility: collapse !important;
+    transition: margin .3s, opacity .3s, visibility .6s !important;
+  }
+
+  /* ------------------------------------- */
+
+  /* Tabs */
+
+  #root.root {--tabs-font: var(--font-0) !important;}
+  #root.root {--tabs-count-font: var(--font-2) !important;}
+  #root.root {--tabs-close-btn-margin: 5px !important;}
+  #root.root {--tabs-activated-bg: var(--frame-fg) !important;}
+  #root.root {--tabs-activated-fg: var(--frame-bg) !important;}
+  #root.root {--ntb-btn-height: 33px !important;}
+  #root.root {--ntb-padding: 5px !important;}
+  #root.root:not(:hover) {--tabs-lvl-opacity: 0 !important;}
+  #root.root:not(:hover) {--tabs-indent: 0px !important;}
+  #root.root:hover {--tabs-indent: .60em !important;}
+  #root.root:hover {--tabs-inner-gap: 10px !important;}
+
+  #root.root:not(:hover) .TabsPanel .ScrollBox {
+    margin-bottom: 5px !important;
+  }
+
+  .Tab {
+    transition: margin .45s, padding .45s !important;
+  }
+
+  .Tab:hover .body {
+    transition: background .3s !important;
+  }
+
+  .Tab:not(:hover) .body {
+    transition: background .1s !important;
+  }
+
+  #root.root:not(:hover) .Tab .body {
+    justify-content: center !important;
+  }
+
+  #root.root:not(:hover) .Tab .t-box {
+    width: 0 !important;
+    margin: 0 !important;
+    transition: width .45s, margin .1s !important;
+    visibility: collapse;
+  }
+
+  #root.root:not(:hover) .Tab .fav {
+    margin: 0 !important;
+  }
+
+  #root.root:hover .Tab .title {
+    padding-left: 8px !important;
+    transition: margin-left .3s !important;
+  }
+
+  .Tab:hover .title {
+    margin-left: 2px !important;
+  }
+
+  /* Move tab favicon to the right */
+
+  .Tab .fav {
+    order: 1 !important;
+  }
+
+  .Tab .close {
+    right: 34px !important;
+    border-radius: 3px !important;
+  }
+
+  /* ----------------------------- */
+
+  .Tab[data-active="true"] .close:hover {
+    background-color: var(--lightgrey2) !important;
+  }
+
+  .Tab .title {
+    background: linear-gradient(
+    90deg,
+    var(--tabs-normal-fg) 93.5%,
+    transparent 98%
+    ) !important;
+    background-clip: text !important;
+    color: transparent !important;
+  }
+
+  .Tab[data-active="true"] .title {
+    --tabs-normal-fg: var(--tabs-activated-fg) !important;
+  }
+
+  /* ------------------------------------- */
+
+  /* Pinned tabs */
+
+  /* Number of pinned tabs per row */
+  #root.root:hover {--pinned-tabs-col: 3 !important;}
+
+  #root.root {--tabs-pinned-width: auto !important;}
+
+  #root .PinnedTabsBar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+
+  #root.root:hover .PinnedTabsBar .tab-wrapper {
+    --tabs-pinned-height: 44px !important;
+    flex-grow: 1 !important;
+    min-width: 55px !important;
+  }
+
+  #root.root:not(:hover) .PinnedTabsBar {
+    margin: 0 !important;
+    padding: 0 4px 1px !important;
+    flex-direction: column !important;
+    grid-gap: 0 !important;
+  }
+
+  .Tab[data-pin="true"] {
+    transition: width .3s !important, padding .45s !important;
+  }
+
+  #root.root:hover .tab-wrapper:hover .Tab[data-pin="true"] {
+    transition: opacity .4s !important;
+  }
+
+  .tab-wrapper:not(:hover) .Tab[data-pin="true"] {
+    transition: opacity .3s !important;
+  }
+
+  .tab-wrapper:not(:hover) .Tab[data-pin="true"]:not([data-active="true"]) {
+    opacity: .8 !important;
+  }
+
+  .tab-wrapper .Tab[data-pin="true"][data-active="true"] {
+    opacity: 1 !important;
+  }
+
+  .PinnedTabsBar {
+    --pinned-brdr-radius: calc(var(--general-border-radius) + 1px);
+  }
+
+  .PinnedTabsBar .tab-wrapper:not(:last-of-type) .Tab[data-pin="true"] .body {
+    border-radius: var(--pinned-brdr-radius) !important;
+  }
+
+  .PinnedTabsBar .tab-wrapper:last-of-type .Tab[data-pin="true"] .body {
+    border-radius: var(--pinned-brdr-radius) calc(var(--pinned-brdr-radius) + 3px) var(--pinned-brdr-radius) var(--pinned-brdr-radius) !important;
+  }
+
+  .Tab[data-pin="true"]:not([data-discarded="true"]):not([data-active="true"]) .body {
+    background: #d9d9f330 !important;
+  }
+
+  .Tab[data-pin="true"][data-discarded="true"]:not(:hover) .body {
+    background-color: #0000 !important;
+  }
+
+  /*
+  .Tab[data-discarded="true"] > .body > .fav {
+    opacity: 1 !important;
+  }
+  */
+
+  /* ------------------------------------- */
+
+  /* Navigation bar */
+
+  #root.root {--nav-btn-height: 35px !important;}
+  #root.root:hover {--nav-btn-width: 55px !important;}
+  #root.root {--nav-btn-margin: 1px !important;}
+  #root.root {--nav-btn-len-margin: 1px !important;}
+  #root.root {--nav-btn-border-radius: 5px !important;}
+  #root.root {--nav-delimiter-size: 16px !important;}
+  #root.root {--nav-hidden-panels-popup-margin: 3px !important;}
+
+  /* Move navigation bar to the bottom if horizontal layout is set. */
+
+  .top-horizontal-box {
+    display: flex !important;
+    order: 1 !important;
+  }
+
+  .top-horizontal-box .NavigationBar .nav-item {
+    transform: rotateX(180deg) !important;
+  }
+
+  .top-horizontal-box .hidden-panels-popup-layer {
+    margin-top: -3rem !important;
+    transform: rotateY(180deg) rotateZ(180deg) !important;
+  }
+
+  /* Improve navigation bar hidden panels popup visibility. */
+
+  .hidden-panels-popup {
+    background-color: #3355 !important;
+    border: var(--brdr-size) var(--brdr-style) #ccc8 !important;
+    border-radius: var(--brdr-radius) !important;
+    opacity: .8 !important;
+    transition: background-color .4s .05s !important, border-color var(--brdr-transition) !important, opacity var(--opacity-transition) !important;
+  }
+
+  .hidden-panels-popup:hover {
+    background-color: var(--secondary-bg-color) !important;
+    border-color: var(--brdr-color-hover) !important;
+    opacity: 1 !important;
+    transition: background-color var(--bg-transition) !important, border-color var(--brdr-transition) !important, opacity var(--opacity-transition) !important;
+  }
+}
