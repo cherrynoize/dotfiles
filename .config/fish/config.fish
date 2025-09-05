@@ -92,7 +92,7 @@ if status is-interactive
   abbr -- -lyrics 'cd /home/shared/personal/audio/music/lyrics'
   abbr --set-cursor enter-win 'pushd $(access-windows %)'
   abbr leave-win 'popd; exit-windows'
-  abbr win-home 'pushd $(access-windows -home)'
+  abbr -- -win-home 'pushd $(access-windows -home)'
 
   # user shortcuts
   abbr hw 'echo hello, world!'
