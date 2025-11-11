@@ -159,6 +159,7 @@ unfuck_spotify () {
 }
 
 unfuck_pacman () {
+  update-mirrorlist
   sudo paccache -ruk0; sudo paccache -rk 1 # clear pacman cache
   yay -Sc # clear yay cache
   sudo pacman -Rns $(pacman -Qtdq) # remove orphaned packages
