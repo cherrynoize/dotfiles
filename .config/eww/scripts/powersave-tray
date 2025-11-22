@@ -7,8 +7,8 @@ if [ "$(toggle-powersave -C)" = "powersave" ]; then
 else
   icon=""
   title="powersave off"
-  fg="#d8edff"
-  bg="#6270CE"
+  fg="#d9ffff"
+  bg="#56A9E1"
 fi
 
 case "$1" in
