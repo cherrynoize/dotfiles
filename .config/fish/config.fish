@@ -171,9 +171,10 @@ if status is-interactive
   abbr show-pacnew-files 'pacdiff -o'
   abbr list-packages-by-size 'LC_ALL=C pacman -Qi | awk \'/^Name/{name=$3} /^Installed Size/{print $4$5, name}\' | sort -h'
   abbr install-grub 'sudo grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB'
-  abbr --set-cursor find-by-content 'grep -irnw . -e "%"'
-  abbr --set-cursor find-by-name 'find . -iname \'*%*\' -print'
-  abbr --set-cursor find-by-exact-name 'find . -name \'%\' -print'
+  abbr --set-cursor find-string 'grep -rn . -e "%"'
+  abbr --set-cursor find-word 'grep -irnw . -e "%"'
+  abbr --set-cursor find-filename 'find . -iname \'*%*\' -print'
+  abbr --set-cursor find-exact-filename 'find . -name \'%\' -print'
   abbr find-empty 'find . -size 0 -type f' # list empty files
   abbr --set-cursor remove-dirs 'find . -type d -name "%" -print -exec rmdir {} \;'
   abbr --set-cursor remove-nonempty-dirs 'find . -type d -name "%" -print -prune -exec rm -rf {} \; # WARNING: handle with care!'
