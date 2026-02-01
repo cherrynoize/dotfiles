@@ -1,7 +1,7 @@
 @import "~/.config/rofi/bindings.rasi"
 
 configuration {
-  modes: "window,windowcd,run,drun,filebrowser,keys,ssh,combi";
+  modes: "window,run,drun,filebrowser,recursivebrowser,keys,ssh,combi";
   terminal: "alacritty";
 }
 

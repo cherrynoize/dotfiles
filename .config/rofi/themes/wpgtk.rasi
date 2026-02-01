@@ -22,11 +22,11 @@ configuration {
     display-name: "";
   }
 
-  windowcd {
-    display-name: "";
+  filebrowser {
+    display-name: "";
   }
 
-  filebrowser {
+  recursivebrowser {
     display-name: "";
   }
 
