@@ -16,13 +16,10 @@
 
 </div>
 
-The config aims to work on both X11 and Wayland systems. The code might be a
-bit messy at the moment, but it's ever changing (and hopefully improving).
-
-Since I shifted towards Wayland I stopped actively updating the `bspwm` config,
-and now I write most scripts to be able to run on both X11 and Wayland. A lot
-of the config is still independent of your display manager, which means you
-can in most cases use at least some part of this config.
+Though I write most scripts to work on both X11 and Wayland, I mostly run
+Hyprland now. So I guess you could call these **Hyprland dotfiles** for the
+time being. A lot of the config is still independent of your window/display
+manager.
 
 ## 📸 Preview
 
@@ -79,7 +76,7 @@ can in most cases use at least some part of this config.
 ### 🌞 Light mode
 
 <details>
-<summary>All themes also have a light mode available <i>(click for preview)</i></summary>
+<summary>All themes ship with a (more or less developed) light mode too <i>(click for preview)</i></summary>
 
 | Sosuke (light) |
 |:-:|
@@ -92,9 +89,8 @@ can in most cases use at least some part of this config.
 
 ### 🚀 Apps/widgets
 
-> Note: these are only some specific themes for these
-> [contexts](https://github.com/cherrynoize/theme#context-themes), therefore
-> using each theme you might see a different style for the same application.
+> Note: these are only some specific themes for these `contexts` (refer to
+> [theme](https://github.com/cherrynoize/theme#context-themes)).
 
 | <img src="preview/apps/floorp.png" align="center"> | <img src="preview/apps/floorp-newtab.png" align="center"> |
 | :-: | :-: |
@@ -111,35 +107,6 @@ can in most cases use at least some part of this config.
 | Logout menu | Screenlock |
 |:-:|:-:|
 |<img src="preview/apps/logout.png" align="center">|<img src="preview/apps/screenlock.png" align="center">|
-
-### 🕸️ Old
-
-<details>
-<summary>Click for preview</summary>
-
-https://github.com/cherrynoize/dotfiles/assets/104397138/50e9ba94-3640-4bcf-a30c-9856d7a19024
-
-![preview](preview/old/wpgtk1.png)
-
-![preview](preview/old/dash_ani1.gif)
-
-![preview](preview/old/dash1.png)
-
-![preview](preview/old/rofi1.png)
-
-![preview](preview/old/eww1.png)
-
-![preview](preview/old/firefox1.png)
-
-![preview](preview/old/poly1.png)
-
-![preview](preview/old/powermenu1.png)
-
-![preview](preview/old/ranger1.png)
-
-![preview](preview/old/screenlock1.png)
-
-</details>
 
 ## 🧱 Dependencies
 
@@ -166,7 +133,7 @@ sudo pacman -S bash geoclue2
 yay -S picom-ftlabs-git expect playerctl
 ```
 
-### Not in the AUR (or any other repo)*
+### Not found in AUR (*[correct me if I'm wrong](https://github.com/cherrynoize/dotfiles/pulls)*)
 
 #### Required
 
@@ -174,34 +141,26 @@ yay -S picom-ftlabs-git expect playerctl
 
 #### Optional
 
-- [set-light](https://github.com/cherrynoize/set-light)
 - [n3lock](https://github.com/cherrynoize/n3lock)
-
-> **[Correct me if I'm wrong.](https://github.com/cherrynoize/dotfiles/pulls)*
+- [set-light](https://github.com/cherrynoize/set-light)
 
 ## 🔧 Setup
 
-I'm working on a setup script. You can clone
-the repo for now and manually move things where they belong.
-
-Something like
+I'm working on a setup script, but it's still a stub.
 
 ```
 git clone https://github.com/cherrynoize/dotfiles
 cd dotfiles
 ./.github/install.sh
-```
 
-should work. The installation script is still a stub, and you'll
-also need to move things where they belong:
+# need to move some stuff around manually:
 
-```
 mv -n * ~
 mv -n .* ~
 ```
 
-Note the `-n` (no-clobber) flag, meaning existing files won't
-be replaced and you should manually take care of that.
+> Note the `-n` (no-clobber) flag, meaning existing files won't
+> be replaced and you should manually take care of that.
 
 ## 🔄 Update
 
@@ -281,16 +240,13 @@ for info about configuration.
 
 The repo also includes a large collection of shell scripts, some
 [collected around the internet](../.local/bin), but [most of
-them actually mine](bin). Being each few hundreds LOC tops,
-they're not very large (`bin` sits at *492K* at the time of
-writing - Nov. 16 2023), and since they're heavily integrated
-into most of the config it made little sense leaving them out.
+them are actually my own](bin).
 
 ## $ Shell
 
-Active development is currently only on `fish`. `bash` is
-currently my login shell, so the `.bashrc` is maintained but in
-a basic sense.
+Active focus is currently on `fish`. In my setup, `bash` is
+used as the login shell, which spawns `fish` when run interactively.
+So `bash` config is maintained only in a basic way.
 
 ## 🎨 Themes
 
@@ -300,15 +256,14 @@ usage.
 
 ## 🛠 Usage
 
->⚠ Please do not run binaries or use shell aliases unless you
->understand what they do. Take the time to inspect the code first.
+> ⚠ Please do not run binaries or use shell aliases unless you
+> understand what they do. Take the time to inspect the source first.
 
 You can find all binary files in `~/bin` and `~/.local/bin`,
 shell aliases in `~/.config/fish/config.fish` and keyboard
-shortcuts in `~/.config/sxhkd/sxhkdrc` or
-`~/.config/hypr/keybindings.conf`. Here I try to use a somewhat
-**sxhkd**-inspired syntax for defining keybindings as I find it more
-concise. Compiling an extensive shortcuts/commands help is in the
+shortcuts in `~/.config/hypr/keybindings.conf` (or in the unmantained `sxhkd`
+config: `~/.config/sxhkd/sxhkdrc`).
+Compiling an extensive shortcuts/commands cheatsheet is in the
 [`TODO`](#-todo) list.
 
 ### ⌘ Keybindings
@@ -335,11 +290,11 @@ started.</summary>
 
 #### Theme selector
 
-    theme-picker # Mod+Space
+    theme-picker # Mod+Esc (starts a bit slow, duly noted)
 
 #### Wallpaper picker
 
-    wall-picker # Mod+Ctrl+Space
+    wall-picker # Mod+Shift+Esc
 
 #### Random wallpaper
 
@@ -355,7 +310,7 @@ started.</summary>
 
 #### Launch browser
 
-    "$BROWSER" # Mod+Alt+w
+    "$BROWSER" # Mod+w
 
 #### Fix common issues
 
