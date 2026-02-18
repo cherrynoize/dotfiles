@@ -266,9 +266,9 @@ config: `~/.config/sxhkd/sxhkdrc`).
 Compiling an extensive shortcuts/commands cheatsheet is in the
 [`TODO`](#-todo) list.
 
-<details>
 ### ⌘ Keybindings
 
+<details>
 <summary>This is just some basic keybindings to get you
 started.</summary>
 
@@ -290,7 +290,7 @@ started.</summary>
 
 #### Theme selector
 
-    theme-picker # Mod+Esc (starts a bit slow, duly noted)
+    theme-picker # Mod+Esc (slow to startup, duly noted)
 
 #### Wallpaper picker
 
@@ -343,11 +343,7 @@ started.</summary>
 
 ### 📔 Tricks & tips
 
-**
-<details>
-<summary>
-Auto-refresh sudo timeout
-</summary>**
+#### Auto-refresh sudo timeout
 
 `sudo` privilege timeout for the shell is refreshed with `sudo
 -v`. `fish` already has [an abbreviation set](../.config/fish/fishrc)
@@ -362,12 +358,7 @@ use a function because that would enter an infinite loop.)
 In case it conflicts with other programs in your system, just use
 `sudo`.
 
-</details>
-
-<details>
-<summary>
 ### 🐛 Known bugs
-</summary>
 
 #### Firefox
 
@@ -402,12 +393,7 @@ on this but, please, if anyone has a specific request provide me
 with a metadata sample (output of `playerctl --player="$player"
 metadata mpris:artUrl`) and I'll add it.
 
-</details>
-
-<details>
-<summary>
 ### 🔩 Troubleshooting
-</summary>
 
 In case something's not working as expected:
 
@@ -421,12 +407,7 @@ the [known bugs](#-known-bugs).) If you find something that
 doesn't fit, please
 [open an issue](https://github.com/cherrynoize/dotfiles/issues).
 
-</details>
-
-<details>
-<summary>
 ## 📋 TODO
-</summary>
 
 ### Install and configuration
 
@@ -440,8 +421,6 @@ doesn't fit, please
 ### Support
 
 - Shortcuts/commands usage popup window
-
-</details>
 
 ## ✨ Contribute
 
