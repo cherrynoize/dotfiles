@@ -266,9 +266,7 @@ config: `~/.config/sxhkd/sxhkdrc`).
 Compiling an extensive shortcuts/commands cheatsheet is in the
 [`TODO`](#-todo) list.
 
-### <summary>⌘ Keybindings</summary>
-
-<details>
+### <details><summary>⌘ Keybindings</summary>
 
 This is just some basic keybindings to get you
 started.
