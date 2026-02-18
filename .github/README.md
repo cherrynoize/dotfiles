@@ -352,18 +352,17 @@ each time. However, I find that cumbersome as well as annoying
 to have that prefix to each command and it doesn't work well
 with auto-completion/suggestions as well as with other
 abbreviations, so you can call `sd` rather than `sudo`
-to avoid all that. (Also, in case you're wondering, you cannot
+to avoid all that (you cannot
 use a function because that would enter an infinite loop.)
 
-In case it conflicts with other programs in your system, just use
-`sudo`.
+Or just use `sudo`.
 
 ### 🐛 Known bugs
 
 #### Firefox
 
-Some text visibility issues in light mode. (Inherited from
-[theme](https://github.com/cherrynoize/theme))
+Some text visibility issues in light mode (inherited from
+[theme](https://github.com/cherrynoize/theme)).
 
 #### Waybar
 
