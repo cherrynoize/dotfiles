@@ -343,10 +343,11 @@ started.</summary>
 
 ### 📔 Tricks & tips
 
+**
 <details>
 <summary>
-**Auto-refresh sudo timeout**
-</summary>
+Auto-refresh sudo timeout
+</summary>**
 
 `sudo` privilege timeout for the shell is refreshed with `sudo
 -v`. `fish` already has [an abbreviation set](../.config/fish/fishrc)
