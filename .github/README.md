@@ -19,7 +19,7 @@
 Though I write most scripts to work on both X11 and Wayland, I mostly run
 Hyprland now. So I guess you could call these **Hyprland dotfiles** for the
 time being. A lot of the config is still independent of your window/display
-manager.
+manager though.
 
 ## 📸 Preview
 
@@ -314,7 +314,7 @@ started.</summary>
 
 #### Fix common issues
 
-    unfuck everything # Mod+Shift+Esc
+    unfuck everything # Mod+Alt+Shift+Backspace
 
 ###  Useful commands
 
@@ -361,14 +361,14 @@ Or just use `sudo`.
 
 #### Firefox
 
-Some text visibility issues in light mode (inherited from
+- Some text visibility issues in light mode (inherited from
 [theme](https://github.com/cherrynoize/theme)).
 
 #### Waybar
 
 - Random wallpaper button not working.
 
-#### eww
+#### eww (deprecated)
 
 - Widget windows closers sometimes get stuck open, causing you to
 accidentally open popup windows when clicking on other windows
@@ -384,20 +384,12 @@ prevent it from happening (all suggestions are welcome).
 > [toggle the bar](#-toggle-bar). Besides, if you don't ever
 > toggle it this shouldn't come up.
 
-#### Music player cover
-
-I currently use Spotify and as such I only set [`music`](../bin/music)
-to fetch cover arts from Spotify metadata. I will try to expand
-on this but, please, if anyone has a specific request provide me
-with a metadata sample (output of `playerctl --player="$player"
-metadata mpris:artUrl`) and I'll add it.
-
 ### 🔩 Troubleshooting
 
-In case something's not working as expected:
+In case something's not working as expected you can run:
 
 ```
-unfuck everything
+unfuck everything # Mod+Alt+Shift+Backspace
 ```
 
 This *might* help. If it doesn't, you'll have to identify the
@@ -413,13 +405,9 @@ doesn't fit, please
 - Installation script
 - Finish initrc
 
-### Bar
-
-- Fix bar auto closing on resume after sleep
-
 ### Support
 
-- Shortcuts/commands usage popup window
+- Shortcuts/commands cheatsheet popup window
 
 ## ✨ Contribute
 
@@ -432,7 +420,3 @@ If you feel like you have something to add please do.
 ## 💕 Sponsor
 
 [**Buy me a coke 💙**](https://cherrynoize.github.io/#/contribute)
-
-## 🙏 Thanks for using my dotfiles
-
-*Bye!*
