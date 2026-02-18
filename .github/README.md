@@ -266,10 +266,11 @@ config: `~/.config/sxhkd/sxhkdrc`).
 Compiling an extensive shortcuts/commands cheatsheet is in the
 [`TODO`](#-todo) list.
 
-### <details><summary>⌘ Keybindings</summary>
+<details>
+### ⌘ Keybindings
 
-This is just some basic keybindings to get you
-started.
+<summary>This is just some basic keybindings to get you
+started.</summary>
 
 #### Spawn a terminal window
 
@@ -340,12 +341,12 @@ started.
 
 </details>
 
+### 📔 Tricks & tips
+
 <details>
 <summary>
-### 📔 Tricks & tips
+**Auto-refresh sudo timeout**
 </summary>
-
-#### Auto-refresh sudo timeout
 
 `sudo` privilege timeout for the shell is refreshed with `sudo
 -v`. `fish` already has [an abbreviation set](../.config/fish/fishrc)
