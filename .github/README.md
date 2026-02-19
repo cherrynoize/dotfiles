@@ -227,10 +227,8 @@ You can also add your own templates as you regularly would
 
 ### Pfp
 
-You might want to place your own profile picture inside of
-`~/.pfp`. This can be used by applications, widgets, panels, ...
-
-It can be any picture file with any name, such as `~/.pfp/pfp.jpg`.
+You might want to set up a profile picture at
+`~/.pfp/pfp.jpg`. This can be used by applications, widgets or panels.
 
 ### Neovim
 
