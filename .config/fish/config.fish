@@ -170,6 +170,7 @@ if status is-interactive
   abbr clear-yay-cache 'yay -Sc'
   abbr show-pacnew-files 'pacdiff -o'
   abbr list-packages-by-size 'LC_ALL=C pacman -Qi | awk \'/^Name/{name=$3} /^Installed Size/{print $4$5, name}\' | sort -h'
+  abbr list-packages-by-date 'awk \'/\[ALPM\] installed/ { print $(NF-1) }\' /var/log/pacman.log | tac | less'
   abbr install-grub 'sudo grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB'
   abbr --set-cursor find-rec 'grep -rn . -e "%"'
   abbr --set-cursor find-reci 'grep -irnw . -e "%"'

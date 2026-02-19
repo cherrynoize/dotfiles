@@ -23,6 +23,8 @@ manager though.
 
 ## 📸 Preview
 
+[![Video showcase](https://img.youtube.com/vi/7TCS0B8XFfQ/maxresdefault.jpg)](https://youtu.be/7TCS0B8XFfQ)
+
 ### 🎨 Themes
 
 | Ai |
@@ -263,10 +265,11 @@ You can find all binary files in `~/bin` and `~/.local/bin`,
 shell aliases in `~/.config/fish/config.fish` and keyboard
 shortcuts in `~/.config/hypr/keybindings.conf` (or in the unmantained `sxhkd`
 config: `~/.config/sxhkd/sxhkdrc`).
-Compiling an extensive shortcuts/commands cheatsheet is in the
 [`TODO`](#-todo) list.
 
 ### ⌘ Keybindings
+
+For a complete list of all keybindings hit `Super+F1` or execute `cheatsheet`.
 
 <details>
 <summary>This is just some basic keybindings to get you
@@ -304,17 +307,8 @@ started.</summary>
 
     switch-mode # Mod+<
 
-#### Toggle dock
-
-    dock toggle # Mod+z
-
-#### Launch browser
-
-    "$BROWSER" # Mod+w
-
-#### Fix common issues
-
-    unfuck everything # Mod+Alt+Shift+Backspace
+> Please note: **may not always be up to date**, refer to full cheatsheet if
+> having issues.
 
 ###  Useful commands
 
@@ -380,13 +374,11 @@ panel window once to open it, then a second time to close it.
 restarted during the session. I still haven't found how I could
 prevent it from happening (all suggestions are welcome).
 
-> My workaround for the time being is to just
-> [toggle the bar](#-toggle-bar). Besides, if you don't ever
-> toggle it this shouldn't come up.
+> The `eww` config is currently unmantained.
 
 ### 🔩 Troubleshooting
 
-In case something's not working as expected you can run:
+In case something's not working as expected you can run from the terminal:
 
 ```
 unfuck everything # Mod+Alt+Shift+Backspace
@@ -404,10 +396,6 @@ doesn't fit, please
 
 - Installation script
 - Finish initrc
-
-### Support
-
-- Shortcuts/commands cheatsheet popup window
 
 ## ✨ Contribute
 

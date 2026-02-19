@@ -1,0 +1,56 @@
+#!/bin/sh
+
+display=$(~/.config/hypr/scripts/fetch-binds.sh)
+
+echo "$display" | while IFS= read -r line; do
+  # split line into left (modifiers+key) and right (action)
+  left="${line%%→*}"
+  right="${line#*→}"
+
+  # trim spaces
+  left="${left%"${left##*[![:space:]]}"}"
+  left="${left#"${left%%[![:space:]]*}"}"
+  right="${right%"${right##*[![:space:]]}"}"
+  right="${right#"${right%%[![:space:]]*}"}"
+
+  # split left by '+'
+  IFS='+' read -r -a parts <<< "$left"
+
+  # the last part is the key, everything before are modifiers
+  key="${parts[-1]}"
+  mods=( "${parts[@]:0:${#parts[@]}-1}" )
+
+  # separate Super and other modifiers
+  super=""
+  other_mods=()
+  for mod in "${mods[@]}"; do
+    case "$mod" in
+      Super) super="⌘" ;;
+      Ctrl)  other_mods+=("$mod") ;;
+      Alt)   other_mods+=("$mod") ;;
+      Shift) other_mods+=("⇧ $mod") ;;
+    esac
+  done
+
+  # join other modifiers with ' + '
+  other_mods_str=""
+  for mod in "${other_mods[@]}"; do
+    if [ -z "$other_mods_str" ]; then
+      other_mods_str="$mod"
+    else
+      other_mods_str="$other_mods_str + $mod"
+    fi
+  done
+
+  # prefix key if it is a special key
+  case "$key" in
+    Return) key="⏎ $key" ;;
+    Backspace) key="⌫ $key" ;;
+    Super) key="⌘ $key" ;;
+    Shift) key="⇧ $key" ;;
+    XF86Power*) key="⏻ $key" ;;
+  esac
+
+  # print columns: Super | Other mods | Key | Action
+  printf "%s\t%s\t%s\t%s\n" "$super" "$other_mods_str" "$key" "$right"
+done | column -t -s $'\t' | rofi -dmenu -i -p "Cheatsheet"
