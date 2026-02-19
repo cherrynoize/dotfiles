@@ -23,6 +23,8 @@ manager though.
 
 ## 📸 Preview
 
+### 🎥 Video
+
 [![Video showcase](https://img.youtube.com/vi/7TCS0B8XFfQ/maxresdefault.jpg)](https://youtu.be/7TCS0B8XFfQ)
 
 ### 🎨 Themes
