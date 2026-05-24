@@ -22,7 +22,8 @@ declare -a everything=(
 declare -a excluded=(
   spotify
   pacman
-  screenlock
+  yay
+  swaylock
   grub
 )
 
@@ -95,6 +96,7 @@ unfuck_monitor () {
 
 unfuck_wallpaper () { # wtf?
   killall change-wallpaper
+  change-wallpaper -R
 }
 
 unfuck_wpg () {
@@ -165,9 +167,22 @@ unfuck_pacman () {
   sudo pacman -Rns $(pacman -Qtdq) # remove orphaned packages
 }
 
-unfuck_screenlock () {
+unfuck_yay () {
+  pushd /tmp
+  git clone https://aur.archlinux.org/yay.git && {
+    sudo pacman -R yay
+    cd yay
+    makepkg -si
+    cd ..
+    rm -rf yay
+    popd
+  }
+}
+
+unfuck_swaylock () {
   hyprctl --instance 0 'keyword misc:allow_session_lock_restore 1'
-  hyprctl --instance 0 'dispatch exec lockscreen'
+  killall -9 swaylock
+  hyprctl --instance 0 'dispatch exec swaylock'
 }
 
 unfuck_grub () {
