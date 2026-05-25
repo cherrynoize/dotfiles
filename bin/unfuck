@@ -168,11 +168,11 @@ unfuck_spotify () {
 unfuck_pacman () {
   update-mirrorlist
   sudo paccache -ruk0; sudo paccache -rk 1 # clear pacman cache
-  yay -Sc # clear yay cache
   sudo pacman -Rns $(pacman -Qtdq) # remove orphaned packages
 }
 
 unfuck_yay () {
+  yay -Sc # clear yay cache
   pushd /tmp
   git clone https://aur.archlinux.org/yay.git && {
     sudo pacman -R yay

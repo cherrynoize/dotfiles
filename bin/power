@@ -2,35 +2,27 @@
 
 case "$1" in
   off|shutdown)
-    sudo systemctl poweroff
+    systemctl poweroff
     ;;
   reboot)
-    sudo systemctl reboot
+    systemctl reboot
     ;;
   freeze|hibernate)
-    suspend-system hibernate
+    systemctl hibernate
     ;;
   hybrid-sleep)
-    suspend-system hybrid-sleep
+    systemctl hybrid-sleep
     ;;
   suspend-then-hibernate|deep-sleep)
-    suspend-system suspend-then-hibernate
+    systemctl suspend-then-hibernate
     ;;
   sleep|suspend)
-    suspend-system
+    systemctl suspend
     ;;
   exit|logout)
     exit-session
     ;;
-  lock|lockscreen)
-    lockscreen &
-    ;;
-  force)
-    case "$2" in
-      lock|lockscreen)
-        "$0" lock
-        lockscreen.off & # lock even if screenlock is disabled
-        ;;
-    esac
+  lock|screenlock)
+    screenlock &
     ;;
 esac
