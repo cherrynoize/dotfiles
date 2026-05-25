@@ -1,5 +1,5 @@
 #!/bin/sh
-if [ "$(get-display-server)" = "wayland" ]; then
+if [ -n "$WAYLAND_DISPLAY" ]; then
   hyprctl dispatch dpms off
 else
   sleep .1; xset dpms force off

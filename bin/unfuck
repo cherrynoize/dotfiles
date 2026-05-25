@@ -15,6 +15,7 @@ declare -a everything=(
   sxhkd
   keyboard
   monitor
+  audio
   profile
 )
 
@@ -92,6 +93,10 @@ unfuck_keyboard () {
 
 unfuck_monitor () {
   toggle-monitor
+}
+
+unfuck_audio () {
+  systemctl --user restart pulseaudio
 }
 
 unfuck_wallpaper () { # wtf?
