@@ -7,11 +7,16 @@
     font-family: "JetBrainsMono Nerd Font";
     font-weight: bold;
     font-size: 10px;
-    min-height: 10px;
 }}
 
 window#waybar {{
+    min-height: 10px;
     background: @bar-bg;
+}}
+
+widget > * {{
+    padding: 0 4px;
+    background-color: transparent;
 }}
 
 tooltip {{
@@ -19,6 +24,19 @@ tooltip {{
     color: @main-fg;
     border-radius: 7px;
     border-width: 0px;
+}}
+
+#workspaces,
+#clock,
+#tray,
+#feed,
+#system {{
+    margin: 4px 0;
+    padding: 0 10px;
+    border-radius: {bar-radius};
+    border: 1px solid @brdr;
+    background: @main-bg;
+    color: @main-fg;
 }}
 
 #workspaces button {{
@@ -63,125 +81,52 @@ tooltip {{
     transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
 }}
 
+#tray,
+#network {{
+    padding: 0 2px;
+}}
+
 #tray menu * {{
-    min-height: 16px
+    min-height: 16px;
 }}
 
 #tray menu separator {{
-    min-height: 10px
+    min-height: 10px;
 }}
 
-#backlight,
-#battery,
-#bluetooth,
-#custom-cliphist,
-#clock,
-#custom-cpuinfo,
-#cpu,
-#custom-gpuinfo,
-#idle_inhibitor,
-#custom-kbdlayout,
-#language,
-#memory,
-#mpris,
-#network,
-#temperature,
-#custom-updates,
-#custom-notifications,
-#custom-power,
-#pulseaudio,
-#custom-spotify,
-#taskbar,
-#custom-theme,
-#tray,
-#custom-updates,
-#custom-wallpaper,
-#custom-wbar,
-#window,
-#workspaces,
-#custom-l_end,
-#custom-r_end,
-#custom-sl_end,
-#custom-sr_end,
-#custom-rl_end,
-#custom-rr_end {{
-    color: @main-fg;
-    background: @main-bg;
-    opacity: 1;
-    margin: 4px 0;
-    padding: 0 4px;
+#tray > .passive {{
+    -gtk-icon-effect: dim;
 }}
 
-/* Standalone modules */
-#workspaces,
-#clock,
-#tray {{
-    border-radius: {bar-radius};
-    padding: 0 10px;
-}}
-
-/* Left rounded end */
-#custom-notifications,
-#network {{
-    border-radius: {bar-radius} 0 0 {bar-radius};
-    padding-left: 10px;
-}}
-
-/* Right rounded end */
-#custom-updates,
-#custom-power {{
-    border-radius: 0 {bar-radius} {bar-radius} 0;
-    padding-right: 10px;
-}}
-
-#network {{
-    padding: 0 1px 0 11px;
-}}
-
-#backlight {{
-    padding: 0;
+#tray > .needs-attention {{
+    -gtk-icon-effect: highlight;
+    color: {urgent};
 }}
 
 #custom-wallpaper {{
     padding-right: 7px;
 }}
 
-#custom-power {{
-    padding-right: 12px;
+#battery.charging, #battery.plugged {{
+    color: {success};
 }}
 
-#custom-r_end {{
-    border-radius: 0px 21px 21px 0px;
-    margin-right: 9px;
-    padding-right: 3px;
+#battery.warning:not(.charging) {{
+    color: {warning};
 }}
 
-#custom-l_end {{
-    border-radius: 21px 0px 0px 21px;
-    margin-left: 9px;
-    padding-left: 3px;
+/* Using steps() instead of linear as a timing function to limit cpu usage */
+#battery.critical:not(.charging) {{
+    color: {urgent};
+    animation-name: blink;
+    animation-duration: 0.6s;
+    animation-timing-function: steps(15);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }}
 
-#custom-sr_end {{
-    border-radius: 0px;
-    margin-right: 9px;
-    padding-right: 3px;
-}}
-
-#custom-sl_end {{
-    border-radius: 0px;
-    margin-left: 9px;
-    padding-left: 3px;
-}}
-
-#custom-rr_end {{
-    border-radius: 0px 7px 7px 0px;
-    margin-right: 9px;
-    padding-right: 3px;
-}}
-
-#custom-rl_end {{
-    border-radius: 7px 0px 0px 7px;
-    margin-left: 9px;
-    padding-left: 3px;
+@keyframes blink {{
+    to {{
+        color: @main-fg;
+    }}
 }}
