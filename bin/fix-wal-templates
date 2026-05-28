@@ -7,7 +7,7 @@ wal_dir="$HOME/.cache/wal"
 
 declare -a old_links=(*)
 declare -A new_links=(
-  ["$HOME/.config/hypr/colors/wal/colors.conf"]="colors-hyprland"
+  ["../../.config/hypr/colors/wal/colors.conf"]="colors-hyprland"
 )
 
 for link in "${!new_links[@]}"; do

@@ -8,21 +8,21 @@ cd "$templates_dir" || exit 4
 
 declare -a old_links=(*)
 declare -A new_links=(
-  ["$HOME/.config/bspwm/colorschemes/current"]="bspwm"
-  ["$HOME/.config/dunst/themes/earth/dunstrc"]="dunst-earth"
-  ["$HOME/.config/dunst/themes/galaxy/dunstrc"]="dunst-galaxy"
-  ["$HOME/.config/dunst/themes/nightsky/dunstrc"]="dunst-nightsky"
-  ["$HOME/.config/dunst/themes/tokyonight/dunstrc"]="dunst-tokyonight"
-  ["$HOME/.config/eww/schemes/appearance.scss"]="eww"
-  ["$HOME/.config/waybar/themes/sleek/theme.css"]="waybar-sleek"
-  ["$HOME/.config/waybar/themes/astro/theme.css"]="waybar-astro"
-  ["$HOME/.local/share/themes/FlatColor/gtk-2.0/gtkrc"]="gtk2"
-  ["$HOME/.local/share/themes/FlatColor/gtk-3.0/gtk.css"]="gtk3.0"
-  ["$HOME/.local/share/themes/FlatColor/gtk-3.20/gtk.css"]="gtk3.20"
-  ["$HOME/.config/polybar/themes/current/colors.ini"]="poly"
-  ["$HOME/.config/eww/scripts/powersave-tray"]="powersave-tray"
-  ["$HOME/.config/rofi/templates/wpgtk.rasi"]="rofi"
-  ["$HOME/.config/swaylock/themes/wpgtk"]="swaylock"
+  ["../../bspwm/colorschemes/current"]="bspwm"
+  ["../../dunst/themes/earth/dunstrc"]="dunst-earth"
+  ["../../dunst/themes/galaxy/dunstrc"]="dunst-galaxy"
+  ["../../dunst/themes/nightsky/dunstrc"]="dunst-nightsky"
+  ["../../dunst/themes/tokyonight/dunstrc"]="dunst-tokyonight"
+  ["../../eww/schemes/appearance.scss"]="eww"
+  ["../../waybar/themes/sleek/theme.css"]="waybar-sleek"
+  ["../../waybar/themes/astro/theme.css"]="waybar-astro"
+  ["../../../.local/share/themes/FlatColor/gtk-2.0/gtkrc"]="gtk2"
+  ["../../../.local/share/themes/FlatColor/gtk-3.0/gtk.css"]="gtk3.0"
+  ["../../../.local/share/themes/FlatColor/gtk-3.20/gtk.css"]="gtk3.20"
+  ["../../polybar/themes/current/colors.ini"]="poly"
+  ["../../eww/scripts/powersave-tray"]="powersave-tray"
+  ["../../rofi/templates/wpgtk.rasi"]="rofi"
+  ["../../swaylock/themes/wpgtk"]="swaylock"
 )
 
 # clear old symlinks
