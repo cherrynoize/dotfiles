@@ -17,18 +17,18 @@ $win-border-width: $bar-border-width;
 $win-border-style: $bar-border-style;
 
 /* main colors */
-$color0: #0a0c1e;
-$color15: #fff7ff;
-$primary: #c785d2;
-$primary-alt: #d47983;
-$secondary: #907495;
-$fg: #fff7ff;
-$fg-alt: #8ba5ff;
-$bg: #151a44;
-$bg-alt: #24519F;
-$highlight: #976A6F;
-$highlight-alt: #5F619A;
-$accent: #d47983;
+$color0: #0A0613;
+$color15: #cdd1f9;
+$primary: #724893;
+$primary-alt: #f15b5c;
+$secondary: #574069;
+$fg: #cdd1f9;
+$fg-alt: #1a358f;
+$bg: #1d103a;
+$bg-alt: #334284;
+$highlight: #AD5354;
+$highlight-alt: #273876;
+$accent: #f15b5c;
 $shadow: #19192f;
 $shadow-alt: #1142c;
 $light: #bfc9db;
@@ -45,11 +45,11 @@ $bar-bg: $bg;
 //$bar-sep-color: $highlight-alt;
 $bar-sep-color: $secondary;
 $bar-border-color: $accent;
-//$bar-scale-bg: #d6c9d4;
+//$bar-scale-bg: #979ab8;
 $bar-scale-bg: $accent;
 //$bar-scale-highlight: linear-gradient(to right, #afcee0 30%, $fg-alt 50%, #77a5bf 100% *50);
 $bar-scale-highlight: $light;
-$bar-circular-progress-bg: #437af4;
+$bar-circular-progress-bg: #ffa184;
 
 /* panel colors */
 $panel-fg: $fg;

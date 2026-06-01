@@ -5,4 +5,4 @@
 # wait for screen to be unlocked
 # while pgrep screenlock; do sleep 3 > /dev/null; done
 
-# /usr/bin/dunstctl set-paused false & # resume notifications
+/usr/bin/dunstctl set-paused false & # resume notifications
