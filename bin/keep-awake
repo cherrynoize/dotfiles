@@ -1,0 +1,22 @@
+#!/bin/sh
+# author | cherrynoize
+
+if [ -n "$WAYLAND_DISPLAY" ]; then
+  case "$1" in
+    "")
+      if pidof hypridle > /dev/null; then
+        killall hypridle
+      else
+        hypridle & disown
+      fi
+      ;;
+    on)
+      pidof hypridle || hypridle & disown
+      ;;
+    off)
+      pidof hypridle > /dev/null && killall hypridle
+      ;;
+  esac
+else
+  toggle-dpms "$@"
+fi

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# `loginctl terminate-session` replacement utility
+
 if [ -e "/tmp/bspwm_0_0-socket" ]; then
   DESKTOP_SESSION="bspwm"
 else

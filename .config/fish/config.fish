@@ -105,6 +105,7 @@ if status is-interactive
   abbr d 'dirs'
   abbr cls 'clear'
   abbr h 'history'
+  abbr x 'trash-put'
   abbr % 'fg'
   abbr --set-cursor xcopy '% | xclip -selection clipboard'
   abbr copy-dir 'pwd | xclip -selection clipboard'

@@ -31,21 +31,21 @@ choice="$(echo -e "$lock\n$suspend\n$logout\n$hibernate\n$reboot\n$shutdown" | r
 # actions
 case "$choice" in
   "$shutdown")
-    confirm power off
+    confirm systemctl poweroff
     ;;
   "$reboot")
-    confirm power reboot
+    confirm systemctl reboot
     ;;
   "$hibernate")
-    confirm power hybrid-sleep
+    confirm systemctl hybrid-sleep
     ;;
   "$suspend")
-    power sleep
+    systemctl suspend-then-hibernate
     ;;
   "$logout")
-    confirm power exit
+    confirm loginctl terminate-session
     ;;
   "$lock")
-    power force lock
+    loginctl lock-session
     ;;
 esac
