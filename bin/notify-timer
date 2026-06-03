@@ -49,8 +49,8 @@ while [ "$timer" -gt "0" ]; do
   sleep "$interval"
 done
 
-
-# Execute $6 if present
+# Execute remaining args if present
 if [ -n "$6" ]; then
-  eval "$6"
+  shift 5
+  exec "$@"
 fi

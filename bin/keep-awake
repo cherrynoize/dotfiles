@@ -5,7 +5,7 @@ if [ -n "$WAYLAND_DISPLAY" ]; then
   case "$1" in
     "")
       if pidof hypridle > /dev/null; then
-        killall hypridle
+        killall hypridle && exit 1
       else
         hypridle & disown
       fi
@@ -14,7 +14,7 @@ if [ -n "$WAYLAND_DISPLAY" ]; then
       pidof hypridle || hypridle & disown
       ;;
     off)
-      pidof hypridle > /dev/null && killall hypridle
+      pidof hypridle > /dev/null && killall hypridle && exit 1
       ;;
   esac
 else

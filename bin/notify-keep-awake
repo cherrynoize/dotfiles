@@ -1,0 +1,11 @@
+#!/bin/sh
+appname="notifySystem"
+nid=1200
+
+if keep-awake; then
+  msg="On"
+else
+  msg="Off"
+fi
+
+dunstify -a "$appname" -r "$nid" "Keep-awake" "$msg"
