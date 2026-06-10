@@ -108,6 +108,7 @@ if status is-interactive
   abbr x 'trash-put'
   abbr % 'fg'
   abbr --set-cursor xcopy '% | xclip -selection clipboard'
+  abbr rsync 'rs'
   abbr copy-dir 'pwd | xclip -selection clipboard'
   abbr compress 'tar -czvf' # compress ze vucking files
   abbr extract 'tar -xzvf' # xtract ze vucking files

@@ -8,8 +8,8 @@
 # Do not edit directly!
 
 [colors]
-  background = "#1d103a"
-  foreground = "#cdd1f9"
+  background = "#062a6a"
+  foreground = "#d4fbff"
 
 [global]
   ### Display ###
@@ -29,9 +29,9 @@
   horizontal_padding = 12
   frame_width = 3
 
-  frame_color = "#2b3e92"
+  frame_color = "#0870cb"
 # separator_color = auto
-  separator_color = "#2b3e92"
+  separator_color = "#0870cb"
 # gaps = true
 # gap_size = 5
 
@@ -86,14 +86,14 @@
   per_monitor_dpi = false
 
 [urgency_low]
-  timeout = 10
+  timeout = 3
 
 [urgency_normal]
-  timeout = 10
+  timeout = 5
 
 [urgency_critical]
-  frame_color = "#f15b5c"
-  timeout = 0
+  frame_color = "#1d8bff"
+  timeout = 10
 
 [volume_indicator]
   appname = "changeVolume"

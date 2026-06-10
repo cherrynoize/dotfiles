@@ -6,4 +6,4 @@ case "$1" in
     use_fahr="-f"
     ;;
 esac
-dunstify -a "$appname" -r "$nid" "$(show-temp -d pci -k nvme -P "${use_fahr}")"
+dunstify -a "$appname" -r "$nid" -u low "$(show-temp -d pci -k nvme -P "${use_fahr}")"

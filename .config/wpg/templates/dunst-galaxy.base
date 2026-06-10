@@ -68,11 +68,11 @@
   timeout = 3
 
 [urgency_normal]
-  timeout = 6
+  timeout = 5
 
 [urgency_critical]
-  timeout = 0
   frame_color = "{color9}"
+  timeout = 10
 
 [volume_indicator]
   appname = "changeVolume"

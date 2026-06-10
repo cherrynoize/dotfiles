@@ -10,6 +10,7 @@ declare -a old_links=(*)
 declare -A new_links=(
   ["../../bspwm/colorschemes/current"]="bspwm"
   ["../../dunst/themes/earth/dunstrc"]="dunst-earth"
+  ["../../dunst/themes/space/dunstrc"]="dunst-space"
   ["../../dunst/themes/galaxy/dunstrc"]="dunst-galaxy"
   ["../../dunst/themes/nightsky/dunstrc"]="dunst-nightsky"
   ["../../dunst/themes/tokyonight/dunstrc"]="dunst-tokyonight"

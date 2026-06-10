@@ -85,14 +85,14 @@
   per_monitor_dpi = false
 
 [urgency_low]
-  timeout = 10
+  timeout = 3
 
 [urgency_normal]
-  timeout = 10
+  timeout = 5
 
 [urgency_critical]
   frame_color = "{color9}"
-  timeout = 0
+  timeout = 10
 
 [volume_indicator]
   appname = "changeVolume"

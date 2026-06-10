@@ -91,7 +91,7 @@ while [ -n "$1" ]; do
 done
 
 if [ -n "$status" ]; then
-  dunstify -a "$appname" -r "$nid" "$status" "$bat_info" "${opts[@]}"
+  dunstify -a "$appname" -r "$nid" -u low "$status" "$bat_info" "${opts[@]}"
 else
   dunstify -a "$appname" -r "$nid" "$bat_info" "${opts[@]}"
 fi

@@ -9,4 +9,4 @@ case $# in
   2 ) body_fmt="$2";;
   * ) echo Too many arguments.; exit 1;;
 esac
-dunstify -a "$appname" -r "$nid" "$(date "$title_fmt")" "$(date "$body_fmt")"
+dunstify -a "$appname" -r "$nid" -u low "$(date "$title_fmt")" "$(date "$body_fmt")"
