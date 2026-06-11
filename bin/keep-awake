@@ -11,10 +11,12 @@ if [ -n "$WAYLAND_DISPLAY" ]; then
       fi
       ;;
     on)
-      pidof hypridle || hypridle & disown
+      # disable hypridle
+      pidof hypridle > /dev/null && killall hypridle && exit 1
       ;;
     off)
-      pidof hypridle > /dev/null && killall hypridle && exit 1
+      # enable hypridle
+      pidof hypridle || hypridle & disown
       ;;
   esac
 else
