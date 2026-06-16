@@ -20,8 +20,8 @@ function get_brightness {
 
 function send_notification {
   brightness="$(get_brightness)"
-  brightness="$((brightness*95/100))" # resize to better fit icon on 100%
-  # Send the notification
+  brightness="$((brightness*95/100))" # Resize to better fit icon on 100%
+  # Send notification
   notify-percent -a changeBrightness -m compact "$brightness" "☼"
 }
 
@@ -43,11 +43,11 @@ case $1 in
     send_notification
     ;;
   on)
-    # Turn on screen
+    # Turn screen on
     screen-on
     ;;
   off)
-    # Turn off screen
+    # Turn screen off
     screen-off
     ;;
 esac

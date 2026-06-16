@@ -17,9 +17,9 @@ icon_off=󰝟
 step=5%
 
 # notification duration in seconds
-duration=2
+#duration=2
 # notification id
-nid=100
+#nid=100
 
 # command to turn on control
 on_cmd=on
@@ -29,10 +29,7 @@ function get_volume {
 }
 
 function set_volume {
-  # Volume up
   amixer -D pulse sset "$ctl" "$1" > /dev/null || exit 2
-  # Turn volume on
-  amixer -D pulse set "$ctl" "$on_cmd" > /dev/null || exit 2
   send_notification
 }
 
@@ -41,46 +38,31 @@ function is_mute {
 }
 
 function mute {
-  # Toggle mute
   amixer -D pulse set "$ctl" mute > /dev/null
-
-  if [ -z "$quiet" ]; then
-    if is_mute; then
-      dunstify --replace=555 -t 2000 -u normal "$icon_off Mute"
-    fi
-  fi
+  send_notification
 }
 
 function unmute {
-  # Toggle mute
   amixer -D pulse set "$ctl" unmute > /dev/null
-
-  if [ -z "$quiet" ]; then
-    if ! is_mute; then
-      send_notification
-    fi
-  fi
+  send_notification
 }
 
 function toggle_mute {
-  # Toggle mute
   amixer -D pulse set "$ctl" toggle > /dev/null
-
-  # Send notification
-  if [ -z "$quiet" ]; then
-    if is_mute; then
-      dunstify -a muteVolume --replace="$nid" -t ${duration}000 -u normal "$icon_off Mute"
-    else
-      send_notification
-    fi
-  fi
+  send_notification
 }
 
 function send_notification {
   if [ -z "$quiet" ]; then
     volume="$(get_volume)"
-    volume=$((volume*98/100)) # resize to make notification look nicer on 100%
-    notify-percent -a changeVolume -m compact "$volume" "$icon_on"
+    volume=$((volume*98/100)) # Resize to fit notification on 100%
+
+    if is_mute; then
+      #dunstify -a muteVolume --replace="$nid" -t ${duration}000 -u normal "$icon_off Mute"
+      notify-percent -a changeVolume -m compact "$volume" "$icon_off"
+    else
+      notify-percent -a changeVolume -m compact "$volume" "$icon_on"
+    fi
   fi
 }
 
@@ -118,6 +100,9 @@ case "$cmd" in
     send_notification
     ;;
   up)
+    # Turn volume on
+    amixer -D pulse set "$ctl" "$on_cmd" > /dev/null || exit 2
+
     [ -z "$arg" ] && arg="$step"
     set_volume "$arg"+
     ;;

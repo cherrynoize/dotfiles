@@ -17,6 +17,7 @@ declare -a everything=(
   monitor
   audio
   profile
+  hyprland
 )
 
 # list of unfucks that can only be run explicitly
@@ -116,6 +117,10 @@ unfuck_redshift () {
   else
     kill-redshift 2> /dev/null
   fi
+}
+
+unfuck_hyprland () {
+  hyprctl reload
 }
 
 unfuck_sxhkd () {
