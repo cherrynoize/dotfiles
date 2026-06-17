@@ -242,7 +242,7 @@ for info about configuration.
 
 The repo also includes a large collection of shell scripts, some
 [collected around the internet](../.local/bin), but [most of
-them are actually my own](bin).
+them are actually my own](../bin).
 
 ## $ Shell
 
@@ -261,18 +261,16 @@ usage.
 > ⚠ Please do not run binaries or use shell aliases unless you
 > understand what they do. Take the time to inspect the source first.
 
-You can find all binary files in `~/bin` and `~/.local/bin`,
-shell aliases in `~/.config/fish/config.fish` and keyboard
-shortcuts in `~/.config/hypr/keybindings.conf` (or in the unmantained `sxhkd`
-config: `~/.config/sxhkd/sxhkdrc`).
-[`TODO`](#-todo) list.
+You can find all binary files in [`~/bin`](../bin) and [`~/.local/bin`](../.local/bin),
+shell aliases in [`~/.config/fish/config.fish`](../.config/fish/config.fish) and keyboard
+shortcuts in [`~/.config/hypr/keybindings.conf`](../.config/hypr/keybindings.conf).
 
 ### ⌘ Keybindings
 
 For a complete list of all keybindings hit `Super+F1` or execute `cheatsheet`.
 
 <details>
-<summary>This is just some basic keybindings to get you
+<summary>Click here for some basic keybindings to get you
 started.</summary>
 
 #### Spawn a terminal window
@@ -358,10 +356,6 @@ Or just use `sudo`.
 - Some text visibility issues in light mode (inherited from
 [theme](https://github.com/cherrynoize/theme)).
 
-#### Waybar
-
-- Random wallpaper button not working.
-
 #### eww (deprecated)
 
 - Widget windows closers sometimes get stuck open, causing you to
@@ -378,23 +372,19 @@ prevent it from happening (all suggestions are welcome).
 
 ### 🔩 Troubleshooting
 
-In case something's not working as expected you can run from the terminal:
+In case something's not working as expected you can run `unfuck everything`
+(*Mod+Alt+Shift+Backspace*).
 
-```
-unfuck everything # Mod+Alt+Shift+Backspace
-```
-
-This *might* help. If it doesn't, you'll have to identify the
-issue and actually do something about it. (You can have a look at
-the [known bugs](#-known-bugs).) If you find something that
+This *might* help. If it doesn't, have a look at
+the [known bugs](#-known-bugs). If you find something that's not on that list
 doesn't fit, please
-[open an issue](https://github.com/cherrynoize/dotfiles/issues).
+[open an issue](https://github.com/cherrynoize/dotfiles/issues) or PR.
 
 ## 📋 TODO
 
-### Install and configuration
+### Install/config
 
-- Installation script
+- Install script
 - Finish initrc
 
 ## ✨ Contribute
