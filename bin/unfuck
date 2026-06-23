@@ -140,7 +140,8 @@ unfuck_sxhkd () {
 unfuck_dunst () {
   killall dunst
   killall xfce4-notifyd # causes conflicts and is spawned automatically by stuff such as xfce4-power-manager
-  dunst &
+  dunst & disown
+  dunstctl set-paused false
 }
 
 unfuck_picom () {

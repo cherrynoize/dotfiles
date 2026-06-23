@@ -148,6 +148,7 @@ if status is-interactive
   abbr -a !! --position anywhere --function last_history_item
 
   # system
+  abbr service-log 'journalctl -b -u'
   abbr pac 'sudo pacman'
   abbr pacs 'sudo powerpill -S'
   abbr pacr 'sudo pacman -Rs'
@@ -161,6 +162,7 @@ if status is-interactive
   abbr pacu 'begin; sudo pacman -Syu --noconfirm --disable-download-timeout || begin; unfuck pacman && sudo pacman -Syu --noconfirm --disable-download-timeout; end; end'
   abbr --set-cursor yays 'yay -S % && yay -Sc --noconfirm'
   abbr --set-cursor yayr 'yay -Rs % && yay -Sc --noconfirm'
+  abbr yayss 'yay -Ss'
   abbr --set-cursor yayu 'yay -Syu --noconfirm'
   abbr pkglist 'cat /etc/pacman.d/pkglist'
   abbr aurlist 'cat /etc/pacman.d/pkglist_aur'
@@ -204,13 +206,14 @@ if status is-interactive
   abbr sshoff 'sudo systemctl stop sshd.service'
   abbr wloff "rfkill block $WLAN"
   abbr wlon "rfkill unblock $WLAN"
-  abbr destroy 'kill -9' # kill aka dio
+  abbr destroy 'kill -9'
   abbr transfer 'rsync -aPhv --info=progress2 --hard-links --ignore-existing' # transfer SOURCE DEST
   abbr rclone 'rclone --password-command "pass show cloud/rclone" -P'
   abbr pass 'unlock >/dev/null 2>&1;pass'
   abbr resize 'convert -resize '
   abbr --set-cursor rotate 'set img "%s";set tmpdst /tmp/"$(basename "$img")";convert "$img" -rotate 90 "$tmpdst";mv "$tmpdst" "$img"'
   abbr --set-cursor country 'curl -s "http://country.io/names.json" | jq "."'
+  abbr r 'trash-put'
 
   # hacking
   abbr hex 'xxd' # hexdump
