@@ -51,3 +51,5 @@ export FALLBACK_COUNTRY="Kanto"
 # or
 #export FF_DEFAULT_PROFILE="wxyz9876.worksthesame"
 #export FF_PROFILE_DIR="$HOME/.mozilla/firefox"
+#
+#export SET_FF_WALLPAPER=true # If set `theme` copies the wp into Firefox's profile (default=false)
