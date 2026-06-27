@@ -5,9 +5,9 @@ if [ -n "$WAYLAND_DISPLAY" ]; then
   case "$1" in
     "")
       if pidof hypridle > /dev/null; then
-        killall hypridle && exit 1
+        killall hypridle
       else
-        hypridle & disown
+        hypridle & disown && exit 1
       fi
       ;;
     on)
