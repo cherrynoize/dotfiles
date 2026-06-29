@@ -28,3 +28,6 @@ sleep 1
 # change-wallpaper & # Set random new wallpaper
 livewall stop # Stop loading sequence
 )&
+
+# Verify partitions that should be writeable are writeable
+notify-ro-part /home/shared
