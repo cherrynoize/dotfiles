@@ -23,17 +23,17 @@
 
   /******----- colorscheme -----******/
 //primary:        #1f1d2f;
-  primary:        #1DA8EA;
-  secondary:      #132f8e;
-  bg:             #0E2162;
-//bg-alt:         #5ed2ff;
-  bg-alt:         #28ffff;
-  bg-trans:       #0E216263;
-  fg:             #ccffff;
+  primary:        #996C90;
+  secondary:      #271f34;
+  bg:             #100d15;
+//bg-alt:         #ffd277;
+  bg-alt:         #8d98ff;
+  bg-trans:       #100d1563;
+  fg:             #ffe9ee;
 //selected:       @light-grey;
-  selected:       #132f8e;
-  accent:         #58A1E0;
-  highlight:      #a4e7f4;
+  selected:       #271f34;
+  accent:         #FBA66E;
+  highlight:      #e9c5c9;
   active:         @selected;
   urgent:         @accent;
 
