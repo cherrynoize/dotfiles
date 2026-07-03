@@ -214,6 +214,7 @@ if status is-interactive
   abbr --set-cursor rotate 'set img "%s";set tmpdst /tmp/"$(basename "$img")";convert "$img" -rotate 90 "$tmpdst";mv "$tmpdst" "$img"'
   abbr --set-cursor country 'curl -s "http://country.io/names.json" | jq "."'
   abbr r 'trash-put'
+  abbr m 'mv -n'
 
   # hacking
   abbr hex 'xxd' # hexdump
