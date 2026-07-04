@@ -78,9 +78,8 @@ if status is-interactive
   abbr --add dotdot --regex '^\.\.+$' --function multicd
 
   # fish shortcuts
-  abbr fishrc '$EDITOR ~/.config/fish/config.fish && . ~/.config/fish/config.fish'
   abbr :: '. ~/.config/fish/config.fish'
-  abbr reload '. ~/.config/fish/config.fish'
+  abbr rc '$EDITOR ~/.config/fish/config.fish && . ~/.config/fish/config.fish'
 
   # path shortcuts
   abbr -- - '~'
@@ -215,6 +214,8 @@ if status is-interactive
   abbr --set-cursor country 'curl -s "http://country.io/names.json" | jq "."'
   abbr r 'trash-put'
   abbr m 'mv -n'
+  abbr c 'cp -n'
+  abbr ^ 'set _s "/home/shared/notes/scratchpad.md"; $EDITOR "$_s" && [ -f "$_s" ] && ! test -s "$_s" && rm "$_s" || true'
 
   # hacking
   abbr hex 'xxd' # hexdump
