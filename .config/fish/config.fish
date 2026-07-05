@@ -7,8 +7,8 @@ if status is-interactive
 
   # start animation
   # these values need to be tailored to your own system
-# begin; spinner -f sleep .5; clear; end & # async spinner duration (won't stop execution)
-  sleep .1 # execution delay for aesthetic purpose (to allow for blinking or for the spinner to terminate)
+  # begin; spinner -f sleep .5; clear; end & # async spinner duration (won't stop execution)
+  # sleep .1 # execution delay for aesthetic purpose (to allow for blinking or for the spinner to terminate)
   # note: my shell takes approximately .3s to load
   # (spinner overlapping with .31s duration - no delay)
 
@@ -32,7 +32,7 @@ if status is-interactive
 
   # source plugins
   # useful plugins: archlinux bang-bang cd colorman sudope vcs
-  if test -d "$HOME/.local/share/omf/pkg/colorman/"
+  if [ -d "$HOME/.local/share/omf/pkg/colorman/" ]
     . ~/.local/share/omf/pkg/colorman/init.fish
   end
 
@@ -81,14 +81,20 @@ if status is-interactive
   abbr :: '. ~/.config/fish/config.fish'
   abbr rc '$EDITOR ~/.config/fish/config.fish && . ~/.config/fish/config.fish'
 
+  # bash emulation
+  function last_history_item
+      echo $history[1]
+  end
+  abbr -a !! --position anywhere --function last_history_item
+
   # path shortcuts
   abbr -- - '~'
   abbr -- -- '/home/shared'
-  abbr -- --- '/home/shared/art'
-  abbr -- -notes 'cd /home/shared/notes'
-  abbr -- -music 'cd /home/shared/art/audio/music'
-  abbr -- -music-projects 'cd /home/art/personal/audio/music/projects'
-  abbr -- -lyrics 'cd /home/shared/notes/music/lyrics'
+  abbr --position anywhere -- --- '/home/shared/art'
+  abbr --position anywhere -- -notes 'cd /home/shared/notes'
+  abbr --position anywhere -- -music 'cd /home/shared/art/audio/music'
+  abbr --position anywhere -- -music-projects 'cd /home/art/personal/audio/music/projects'
+  abbr --position anywhere -- -lyrics 'cd /home/shared/notes/music/lyrics'
   abbr --set-cursor enter-win 'pushd $(access-windows %)'
   abbr leave-win 'popd; exit-windows'
   abbr -- -win-home 'pushd $(access-windows -home)'
@@ -138,12 +144,6 @@ if status is-interactive
   abbr --set-cursor find-font 'fc-list | cut -f 2- -d " " | grep -i "%"'
   abbr --set-cursor memo 'echo "REM %" >> ~/.config/remind/memo.rem && remind \'-k:dunstify -r 7370 %s &\' ~/.config/remind/memo.rem'
   abbr random-wall 'change-wallpaper -r'
-
-  # bash emulation
-  function last_history_item
-      echo $history[1]
-  end
-  abbr -a !! --position anywhere --function last_history_item
 
   # system
   abbr service-log 'journalctl -b -u'
@@ -215,51 +215,42 @@ if status is-interactive
   abbr r 'trash-put'
   abbr m 'mv -n'
   abbr c 'cp -n'
-  abbr ^ 'set _s "/home/shared/notes/scratchpad.md"; $EDITOR "$_s" && [ -f "$_s" ] && ! test -s "$_s" && rm "$_s" || true'
+  abbr ^ 'set _s "/home/shared/notes/scratchpad.md"; $EDITOR "$_s" && [ -f "$_s" ] && [ ! -s "$_s" ] && rm "$_s" || true'
 
   # hacking
   abbr hex 'xxd' # hexdump
   abbr str 'strings' # find ascii strings
   abbr das 'objdump -d -Mintel' # disassemble
 
-  # development
+  # dev
   abbr python-server 'python -m http.server 5555'
   abbr --set-cursor venv-new 'python -m venv %venv' # create python virtual environment
   abbr --set-cursor venv-on 'source %venv/bin/activate.fish' # enter ve
   abbr venv-off 'deactivate' # exit ve
-  abbr prepare-arduino 'sudo chmod 660 /dev/ttyACM0'
+  abbr arduino-prep 'sudo chmod 660 /dev/ttyACM0'
 
   # git --auto-skip death when I'm coding 
-  abbr --set-cursor gitnew 'git init;git branch -M main;git remote add origin git@github.com:cherrynoize/%.git'
+  abbr g git
+  abbr --command git --set-cursor new 'init && git branch -M main && git remote add origin git@github.com:%.git'
   abbr add 'git add'
-  abbr adu 'git add -u'
-  abbr brn 'git branch -M'
-  abbr branch 'git branch -M'
+  abbr --command git adu 'add -u'
+  abbr --command git b 'branch -M'
   abbr --set-cursor cm 'git commit -m "%"'
   abbr --set-cursor cma 'git commit -a -m "%"'
-  abbr --set-cursor pcm 'git commit -a -m "%";git push -u origin'
-  abbr --set-cursor qu 'git commit -a -m "update%";git push -u origin'
-  abbr --set-cursor qa 'git add .;git commit -a -m "update%";git push -u origin'
-  abbr --set-cursor cfgpcm 'cfg commit -a -m "%";cfg push -u origin'
-  abbr --set-cursor cfgupdate 'cfg commit -a -m "update%"'
-  abbr --set-cursor update-dotfiles 'cfg commit -a -m "%";cfg push -u origin'
-  abbr cfgqu 'update-config'
-  abbr checkout 'git checkout'
-  abbr cherry-pick 'git cherry-pick'
-  abbr gitdiff 'git diff'
-  abbr fetch 'git fetch'
-  abbr gitlog 'git log'
-  abbr gitmerge 'git merge'
-  abbr push 'git push -u origin'
-  abbr pushmain 'git push -u origin main'
-  abbr force 'git push --force-with-lease -u'
-  abbr pull 'git pull'
-  abbr origin 'git remote add origin'
-  abbr seturl 'git remote set-url origin'
-  abbr stash 'git stash'
-  abbr gitst 'git status'
-  abbr prompt 'fish_git_prompt'
-  abbr gid 'git config --local user.name "cherrynoize"; git config --local user.email "cherrynoize9987@outlook.com"'
+  abbr --set-cursor pcm 'git commit -a -m "%"; git push -u origin'
+  abbr --set-cursor qu 'git commit -a -m "update%"; git push -u origin'
+  abbr --set-cursor qau 'git add . && git commit -a -m "update%"; git push -u origin'
+  abbr --command git ch 'checkout'
+  abbr --command git cherry 'cherry-pick'
+  abbr --command git df 'diff'
+  abbr --command git f 'fetch'
+  abbr --command git l 'log'
+  abbr --command git m 'mergetool'
+  abbr --command git '>' ' push -u origin'
+  abbr --command git '<' ' pull'
+  abbr add-origin 'git remote add origin git@github.com:%.git'
+  abbr --command git st 'status'
+  abbr --command cfg u 'update-config'
 
   # git prompt
   set -g __fish_git_prompt_show_informative_status 1
