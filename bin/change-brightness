@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# uses set-light to change brightness level and displays
+# change brightness level and displays
 # notification
 # author | cherrynoize
 
@@ -11,11 +11,12 @@
 # | off  |
 
 step=10
+transition=450000 # time in microseconds
 
 [ -n "$2" ] && step="$2"
 
 function get_brightness {
-  set-light -r
+  brillo
 }
 
 function send_notification {
@@ -28,18 +29,18 @@ function send_notification {
 case $1 in
   up)
     # Turn brightness up
-    set-light -ur "$step"
+    brillo -u "$transition" -A "$step"
     send_notification
     ;;
   down)
     # Turn brightness down
-    set-light -dr "$step"
+    brillo -u "$transition" -U "$step"
     send_notification
     ;;
   to)
     # Set brightness to value
     # Sends notification only if no additional argument is passed
-    set-light -r "$2"
+    brillo -u "$transition" -S "$2"
     send_notification
     ;;
   on)
