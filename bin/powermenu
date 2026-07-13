@@ -43,7 +43,7 @@ case "$choice" in
     systemctl sleep
     ;;
   "$logout")
-    confirm loginctl terminate-session
+    confirm loginctl terminate-session ""
     ;;
   "$lock")
     loginctl lock-session

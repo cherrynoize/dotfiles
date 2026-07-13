@@ -1,0 +1,11 @@
+#!/bin/sh
+appname="notifySystem"
+nid=1010
+
+if "$1"; then
+  msg="[ ✓ On ]  Off"
+else
+  msg="On  [ ✓ Off ]"
+fi
+
+dunstify -a "$appname" -r "$nid" "$2" "$msg"
