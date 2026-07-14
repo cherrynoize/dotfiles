@@ -258,7 +258,7 @@ if status is-interactive
   abbr --command git '<' ' pull'
   abbr add-origin 'git remote add origin git@github.com:%.git'
   abbr --command git st 'status'
-  abbr --command cfg u 'update-config'
+  abbr cfgqu 'update-config'
 
   # git prompt
   set -g __fish_git_prompt_show_informative_status 1
