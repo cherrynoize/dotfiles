@@ -50,7 +50,7 @@ case "$2" in
     pass open >/dev/null 2>&1
 
     # fetch password
-    pwd="$(pass show ssh/"$(basename "$key")")"
+    pwd="$(pass show keys/ssh/"$(basename "$key")")"
 
     # add ssh key to agent
     ssh-add-pass "$key" "$pwd"
