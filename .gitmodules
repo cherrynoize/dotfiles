@@ -37,3 +37,6 @@
 [submodule ".config/alacritty/.config/awesome"]
 	path = .config/alacritty/.config/awesome
 	url = https://github.com/cherrynoize/awesome
+[submodule ".config/rofi/irnm"]
+	path = .config/rofi/irnm
+	url = https://github.com/cherrynoize/irnm
