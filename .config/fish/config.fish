@@ -90,6 +90,7 @@ if status is-interactive
   # path shortcuts
   abbr -- - '~'
   abbr -- -- '/home/shared'
+  abbr --command 'cd' -- -- '/home/shared'
   abbr --position anywhere -- --- '/home/shared/art'
   abbr --position anywhere -- -notes '/home/shared/notes'
   abbr --position anywhere -- -music '/home/shared/art/audio/music'
