@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 nid=9987
+appname="notifySystem"
 
 # kill timer
 if [ "$1" = "-k" ] || [ "$1" = "--kill" ]; then
@@ -37,7 +38,7 @@ while [ "$timer" -gt "0" ]; do
   timer=$(( timer-1 )) # POSIX compliant decrement
   {
     # Trying to do everything asynchronously
-    action="$(dunstify --action="default,Default" -t "$extime" -r "$nid" "${1//\$timer/$timer}" "${2//\$timer/$timer}")"
+    action="$(dunstify -a "$appname" --action="default,Default" -t "$extime" -r "$nid" "${1//\$timer/$timer}" "${2//\$timer/$timer}")"
 
     # SIGTERM if notification dismissed 
     # Found no better way to stop parent asynchronously

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # author | cherrynoize
-
+nid=5477
 appname="notifySystem"
 
 bat_info="$(acpi -b)"
@@ -12,8 +12,6 @@ ac_msg="AC"
 
 # threshold at or after which battery is shown as 100%
 max_bat=100
-
-nid=5477 # notification id
 
 opts=()
 

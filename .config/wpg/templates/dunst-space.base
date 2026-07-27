@@ -21,7 +21,6 @@
   offset = {top-offset}
   origin =
 
-
   indicate_hidden = yes
   shrink = yes
   transparency = 5
@@ -60,13 +59,13 @@
   # Markup is allowed
   format = "<b>%s </b>\n%b"
   alignment = left
-  show_age_threshold = 60
+  show_age_threshold = 120
   word_wrap = yes
   ellipsize = middle
   ignore_newline = no
   stack_duplicates = true
-  hide_duplicate_count = false
-  show_indicators = false # (A) for actions, (U) for URLs
+  hide_duplicate_count = true
+  show_indicators = true # (A) for actions, (U) for URLs
 
   ### Icons ###
   icon_position = left
@@ -75,21 +74,22 @@
 
   ### History ###
   sticky_history = yes
-  history_length = 20
+  history_length = 50
 
-  ### Misc/Advanced ###
-  dmenu = /usr/bin/rofi -show run -p dunst:
-  browser = /usr/bin/floorp
-  always_run_script = true
+  ### Misc ###
   title = Dunst
   class = Dunst
+  dmenu = /usr/bin/rofi -show run -p dunst:
+  always_run_script = true
   force_xinerama = false
+  enable_posix_regex = true
 
 [experimental]
   per_monitor_dpi = false
 
 [urgency_low]
   timeout = 3
+  fullscreen = pushback
 
 [urgency_normal]
   timeout = 5
@@ -98,18 +98,15 @@
   frame_color = "{color9}"
   timeout = 10
 
-[volume_indicator]
-  appname = "changeVolume"
+[system]
+  appname = "^change(Volume|Brightness)$|^notifySystem$"
   history_ignore=yes
 
-[brightness_indicator]
-  appname = "changeBrightness"
-  history_ignore=yes
+[fullscreen]
+  category = "^$|^email\.|^im\.|^network\.|^presence\.|^device\.|^transfer\.complete$|^call\.(ended|unanswered)$"
+  msg_urgency = normal
+  fullscreen = pushback
 
-[system_indicator]
-  appname = "notifySystem"
-  history_ignore=yes
-
-[spotify-icon]
-  appname = "Spotify"
+[spotify]
+  appname = "^Spotify$"
   icon = "/opt/spotify/icons/spotify_icon.ico"
