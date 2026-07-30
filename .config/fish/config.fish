@@ -7,8 +7,8 @@ if status is-interactive
 
   # start animation
   # these values need to be tailored to your own system
-  # begin; spinner -f sleep .5; clear; end & # async spinner duration (won't stop execution)
-  # sleep .1 # execution delay for aesthetic purpose (to allow for blinking or for the spinner to terminate)
+  #begin; spinner -f sleep .5; clear; end & # async spinner duration (won't stop execution)
+  #sleep .1 # execution delay for aesthetic purpose (to allow for blinking or for the spinner to terminate)
   # note: my shell takes approximately .3s to load
   # (spinner overlapping with .31s duration - no delay)
 
