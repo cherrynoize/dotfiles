@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-nvim_dir="/tmp/nvim-socket"
+nvim_dir="/tmp/nvim-socket-$USER"
 
 # reload all current instances listening to a socket
 case $1 in
