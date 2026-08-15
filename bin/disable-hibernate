@@ -1,0 +1,4 @@
+sudo ln -sf /etc/systemd/system/systemd-suspend.service /etc/systemd/system/systemd-hibernate.service
+sudo ln -sf /etc/systemd/system/systemd-suspend.service /etc/systemd/system/systemd-suspend-then-hibernate.service
+sudo ln -sf /etc/systemd/system/systemd-suspend.service /etc/systemd/system/systemd-hybrid-sleep.service
+sudo systemctl daemon-reload
