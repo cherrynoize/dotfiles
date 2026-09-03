@@ -18,6 +18,7 @@ declare -a everything=(
   audio
   profile
   hyprland
+  zen
 )
 
 # list of unfucks that can only be run explicitly
@@ -121,6 +122,11 @@ unfuck_redshift () {
 
 unfuck_hyprland () {
   hyprctl reload
+}
+
+unfuck_zen () {
+  local p="$BROWSER_PROFILE_DIR/$BROWSER_DEFAULT_PROFILE"
+  [ ! -s "$p" ] && rm "$p"
 }
 
 unfuck_sxhkd () {
