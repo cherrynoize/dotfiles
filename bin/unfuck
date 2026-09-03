@@ -125,8 +125,8 @@ unfuck_hyprland () {
 }
 
 unfuck_zen () {
-  local p="$BROWSER_PROFILE_DIR/$BROWSER_DEFAULT_PROFILE"
-  [ ! -s "$p" ] && rm "$p"
+  local f="$BROWSER_PROFILE_DIR/$BROWSER_DEFAULT_PROFILE/places.sqlite"
+  [ ! -s "$f" ] && rm "$f"
 }
 
 unfuck_sxhkd () {
