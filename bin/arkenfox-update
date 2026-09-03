@@ -2,8 +2,8 @@
 # update arkenfox config
 # https://github.com/arkenfox/user.js
 
-profile="${1:-"$FF_DEFAULT_PROFILE"}"
-profile_dir="${FF_PROFILE_DIR:-"$HOME/.mozilla/firefox/"}"
+profile="${1:-"$BROWSER_DEFAULT_PROFILE"}"
+profile_dir="${BROWSER_PROFILE_DIR:-"$HOME/.mozilla/firefox/"}"
 
 check_is_executable () {
   if [ ! -x "$1" ]; then
