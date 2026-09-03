@@ -47,9 +47,9 @@ export FALLBACK_COUNTRY="Kanto"
 
 # Default Firefox profile and profile directory
 # (used by change-wallpaper and arkenfox-update)
-#export FF_DEFAULT_PROFILE="$HOME/.mozilla/firefox/abcd1234.default"
+#export BROWSER_DEFAULT_PROFILE="$HOME/.mozilla/firefox/abcd1234.default"
 # or
-#export FF_DEFAULT_PROFILE="wxyz9876.worksthesame"
-#export FF_PROFILE_DIR="$HOME/.mozilla/firefox"
+#export BROWSER_DEFAULT_PROFILE="wxyz9876.worksthesame"
+#export BROWSER_PROFILE_DIR="$HOME/.mozilla/firefox"
 #
-#export SET_FF_WALLPAPER=true # If set `theme` copies the wp into Firefox's profile (default=false)
+#export SET_BROWSER_WALLPAPER=true # If set `theme` copies the wp into Firefox's profile (default=false)
