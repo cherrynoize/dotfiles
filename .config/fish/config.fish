@@ -81,11 +81,12 @@ if status is-interactive
   abbr :: '. ~/.config/fish/config.fish'
   abbr rc '$EDITOR ~/.config/fish/config.fish && . ~/.config/fish/config.fish'
 
-  # bash emulation
+  # last command
   function last_history_item
       echo $history[1]
   end
   abbr -a !! --position anywhere --function last_history_item
+  abbr '?!' 'sd $history[1]'
 
   # path shortcuts
   abbr -- - '~'

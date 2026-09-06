@@ -39,13 +39,13 @@ se colorcolumn=80
 au BufNewFile,BufRead /*.rasi setf css
 
 " switch between hybrid/absolute line numbers with different modes
-:se relativenumber
-:se number
-:augroup numbertoggle
-:  autocmd!
-:  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
-:  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
-:augroup END
+se relativenumber
+se number
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+augroup END
 
 " don't screw up folds when inserting text that might affect them, until
 " leaving insert mode. Foldmethod is local to the window. Protect against
@@ -57,7 +57,6 @@ autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:las
 """""""""""
 
 " select with shift + cursor keys
-se keymodel=startsel
 se keymodel=startsel,stopsel
 
 " behaviour
@@ -82,6 +81,9 @@ se whichwrap+=<,>,[,]
 " highlight cursor line
 se cursorline
 
+" enable mouse mode
+se mouse
+
 " indentation
 """""""""""""
 
@@ -93,6 +95,8 @@ se shiftwidth=2
 se expandtab
 " indent automatically
 se autoindent
+" visually indent wrapped long lines (with line wrapping enabled)
+se breakindent
 
 " filetypes
 """""""""""
@@ -112,7 +116,7 @@ autocmd FileType python setlocal shiftwidth=4 tabstop=4
 """"""
 
 " use clipboard for copy/paste
-set clipboard+=unnamedplus
+se clipboard+=unnamedplus
 
 " undo
 inoremap <c-Z> <cmd>:undo<cr>
