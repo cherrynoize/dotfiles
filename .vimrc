@@ -7,9 +7,9 @@
 " https://github.com/cherrynoize/dotfiles
 " author: cherrynoize
 "
-" if alt key does not send escape try adding to .Xresources
-"  URxvt*altSendsEscape: true
-"  xterm*altSendsEscape: true
+" NOTE: if alt key does not send escape try adding to .Xresources:
+"   URxvt*altSendsEscape: true
+"   xterm*altSendsEscape: true
 " <m-key> instead of <esc>key should also work
 
 "if &shell =~# 'fish$' " if using fish
@@ -216,8 +216,20 @@ nnoremap <esc>c :clo<cr>
 " close tab
 nnoremap <esc>w :tabc<cr>
 
+" time after finishing typing before swap file update
+"vim.o.updatetime = 2000
+
+" time before completing a mapped sequence
+"vim.o.timeoutlen = 300
+
 " window splitting
 se splitright splitbelow
+
+" preview substitutions in split window
+se inccommand=split
+
+" exit dialog for unsaved changes (instead of preventing exit with an error)
+se confirm
 
 " session and file handling
 """""""""""""""""""""""""""
