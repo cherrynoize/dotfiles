@@ -18,7 +18,6 @@ declare -a everything=(
   audio
   profile
   hyprland
-  zen
 )
 
 # list of unfucks that can only be run explicitly
@@ -28,6 +27,7 @@ declare -a excluded=(
   yay
   swaylock
   grub
+  zen
 )
 
 # minimum usage list item length
