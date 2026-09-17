@@ -107,7 +107,7 @@ tooltip {{
     padding-right: 7px;
 }}
 
-#battery.charging, #battery.plugged {{
+#battery.charging, #battery.plugged, #battery.full {{
     color: {success};
 }}
 
