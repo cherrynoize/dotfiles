@@ -58,8 +58,8 @@ commands:
   fill                       show fill
   placeholder                show placeholder
   toggle|play-pause          toggle reproduction
-  next                       next track
   prev|previous              previous track
+  next                       next track
   seek|position              move to time position
   loop                       show loop status
   loop-icon                  show loop icon
