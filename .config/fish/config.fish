@@ -121,6 +121,7 @@ if status is-interactive
   abbr % 'fg'
   abbr --set-cursor xcopy '% | xclip -selection clipboard'
   abbr rsync 'rs'
+  abbr --command 'adb' 'pull' 'pull -a'
   abbr copy-dir 'pwd | xclip -selection clipboard'
   abbr compress 'tar -czvf' # compress ze vucking files
   abbr extract 'tar -xzvf' # xtract ze vucking files
