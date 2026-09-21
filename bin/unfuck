@@ -98,7 +98,8 @@ unfuck_monitor () {
 }
 
 unfuck_audio () {
-  systemctl --user restart pulseaudio
+  systemctl --user try-restart pulseaudio
+  systemctl --user try-restart pipewire
 }
 
 unfuck_wallpaper () { # wtf?
