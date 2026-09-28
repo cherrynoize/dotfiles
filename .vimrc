@@ -146,12 +146,12 @@ vnoremap <c-c> <esc>yiwea
 
 " delete till the beginning of a word
 " (<c-h> is <c-bs>)
-"nnoremap <c-h> db
-inoremap <c-h> <c-w>
+nnoremap <c-h> dB
+inoremap <c-h> <c-o>dB
 
 " delete till the end of a word
 "nnoremap <c-del> de
-inoremap <c-del> <c-o>de
+inoremap <c-del> <c-o>dE
  
 " duplicate line
 inoremap <c-d> <cmd>:copy+0<cr>

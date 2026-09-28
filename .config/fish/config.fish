@@ -117,16 +117,15 @@ if status is-interactive
   abbr d 'dirs'
   abbr cls 'clear'
   abbr h 'history'
-  abbr x 'trash-put'
   abbr % 'fg'
   abbr --set-cursor xcopy '% | xclip -selection clipboard'
   abbr rsync 'rs'
   abbr --command 'adb' 'pull' 'pull -a'
   abbr copy-dir 'pwd | xclip -selection clipboard'
   abbr compress 'tar -czvf' # compress ze vucking files
-  abbr extract 'tar -xzvf' # xtract ze vucking files
-  abbr tarzstd 'tar -c -I"zstd -19 -T0" -f' # overall best one
-  abbr tarpxz 'tar -c -I"pxz -9" -f' # may occasionally compress further
+  abbr x 'tar -xzvf' # xtract ze vucking files
+  abbr tar-zstd 'tar -c -I"zstd -19 -T0" -f' # overall best one
+  abbr tar-pxz 'tar -c -I"pxz -9" -f' # may occasionally compress further
   abbr priv 'fish --private' # fish incognito mode
   abbr genpass 'openssl rand -base64 12' # random 12-char passwd
   abbr vimrc '$EDITOR ~/.vimrc'
