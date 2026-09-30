@@ -182,13 +182,13 @@ if status is-interactive
   abbr list-packages-by-size 'LC_ALL=C pacman -Qi | awk \'/^Name/{name=$3} /^Installed Size/{print $4$5, name}\' | sort -h'
   abbr list-packages-by-date 'awk \'/\[ALPM\] installed/ { print $(NF-1) }\' /var/log/pacman.log | tac | less'
   abbr install-grub 'sudo grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB'
+  abbr --set-cursor f 'find . -iname \'*%*\' -print'
+  abbr --set-cursor ff 'find . -name \'%\' -print'
   abbr --set-cursor find-rec 'grep -rn . -e "%"'
   abbr --set-cursor find-reci 'grep -irnw . -e "%"'
-  abbr --set-cursor find-filename 'find . -iname \'*%*\' -print'
-  abbr --set-cursor find-exact-filename 'find . -name \'%\' -print'
   abbr find-empty 'find . -size 0 -type f' # list empty files
-  abbr --set-cursor remove-dirs 'find . -type d -name "%" -print -exec rmdir {} \;'
-  abbr --set-cursor remove-nonempty-dirs 'find . -type d -name "%" -print -prune -exec rm -rf {} \; # WARNING: handle with care!'
+  abbr --set-cursor rmdirr 'find . -type d -name "%" -print -exec rmdir {} \;'
+  abbr --set-cursor rmdirr-nonempty 'find . -type d -name "%" -print -prune -exec rm -rf {} \; # WARNING: handle with care!'
   abbr --set-cursor uncomment-file 'sed \'s/^#.*//\' "%"' # cat file without lines starting with a #
   abbr --set-cursor chmod-files-in-subdirs 'find . -type f -exec chmod % -- {} +'
   abbr --set-cursor chmod-non-executable-files 'find . -type f -executable \( -exec sh -c \'file -b "$1" | grep -q executable\' Test {} \; -o -exec chmod a-x {} \; \)'
@@ -198,8 +198,8 @@ if status is-interactive
   abbr con 'ping -c 5 8.8.8.8' # check network
   abbr myip 'curl ifconfig.co' # print public ip
   abbr nic 'ip link show' # list nics
-  abbr show-wifi-connection 'nmcli device wifi show-password' # wifi info
-  abbr show-wifi-password 'nmcli device wifi show-password | grep "Password" | awk \'{print $2;}\'' # wifi password
+  abbr wifi-con 'nmcli device wifi show-password' # wifi info
+  abbr wifi-psw 'nmcli device wifi show-password | grep "Password" | awk \'{print $2;}\'' # wifi password
   abbr show-gov 'toggle-powersave -c' # print current scaling governor for each cpu
   abbr set-gov 'cpupower frequency-set -g' # set scaling governor for each cpu
   abbr show-sched 'setiosched -s "nvme*"' # show io scheduler for device
