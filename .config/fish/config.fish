@@ -122,6 +122,7 @@ if status is-interactive
   abbr rsync 'rs'
   abbr --command 'adb' 'pull' 'pull -a'
   abbr copy-dir 'pwd | xclip -selection clipboard'
+  abbr zip 'zip -r' # zip an entire directory
   abbr compress 'tar -czvf' # compress ze vucking files
   abbr x 'tar -xzvf' # xtract ze vucking files
   abbr tar-zstd 'tar -c -I"zstd -19 -T0" -f' # overall best one
