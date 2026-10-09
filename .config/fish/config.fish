@@ -185,7 +185,7 @@ if status is-interactive
   abbr list-packages-by-date 'awk \'/\[ALPM\] installed/ { print $(NF-1) }\' /var/log/pacman.log | tac | less'
   abbr install-grub 'sudo grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB'
   abbr --set-cursor f 'find . -iname \'*%*\' -print'
-  abbr --set-cursor ff 'find . -name \'%\' -print'
+  abbr --set-cursor F 'find . -name \'%\' -print'
   abbr --set-cursor find-rec 'grep -rn . -e "%"'
   abbr --set-cursor find-reci 'grep -irnw . -e "%"'
   abbr find-empty 'find . -size 0 -type f' # list empty files
