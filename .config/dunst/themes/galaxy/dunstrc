@@ -8,8 +8,8 @@
 # Do not edit directly!
 
 [colors]
-  background = "#202437"
-  foreground = "#CF956D"
+  background = "#132f8e"
+  foreground = "#0F8BD8"
 
 [global]
   title = Dunst
@@ -27,12 +27,12 @@
 
   transparency = 5
 # separator_height = 2 # ignored if gap_size is set
-  separator_color = "#557696"
+  separator_color = "#2568C7"
   gap_size = 5
   padding = 10
   horizontal_padding = 10
   frame_width = 1
-  frame_color = "#202437"
+  frame_color = "#132f8e"
 
   font = JetBrainsMono NF Medium 9
 
@@ -71,7 +71,7 @@
   timeout = 5
 
 [urgency_critical]
-  frame_color = "#f77761"
+  frame_color = "#14e0ff"
   timeout = 10
 
 [volume_indicator]
