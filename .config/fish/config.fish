@@ -178,7 +178,7 @@ if status is-interactive
   abbr check-broken-packages 'sudo pacman -Qk 2>/dev/null | grep -v " 0 missing files"'
   abbr fix-broken-packages 'set brkn_pkgs (sudo pacman -Qk 2>/dev/null | grep -v " 0 missing files" | cut -d: -f1) && sudo pacman -Rs $brkn_pkgs; paccache -ruk0; paccache -rk 1; yay -Sc --noconfirm; yay -S $brkn_pkgs --noconfirm --disable-download-timeout; yay -Sc --noconfirm'
   abbr check-system-integrity 'echo "--------------------------"; echo "the following packages have missing files:"; sudo pacman -Qk 2>/dev/null | grep -v " 0 missing files" 2>/dev/null || echo "(empty)" | cut -d: -f1; echo "--------------------------" ; echo "verifying system-wide package integrity..."; sudo pacman -Qkk > /dev/null'
-  abbr clear-pacman-cache 'paccache -ruk0; paccache -rk 1'
+  abbr clear-pacman-cache 'sudo pacman -Sc --noconfirm; paccache -rk1'
   abbr clear-yay-cache 'yay -Sc'
   abbr show-pacnew-files 'pacdiff -o'
   abbr list-packages-by-size 'LC_ALL=C pacman -Qi | awk \'/^Name/{name=$3} /^Installed Size/{print $4$5, name}\' | sort -h'
