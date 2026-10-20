@@ -259,7 +259,7 @@ if status is-interactive
   abbr --command git cherry 'cherry-pick'
   abbr --command git df 'diff'
   abbr --command git f 'fetch'
-  abbr --command git l 'log'
+  abbr --command git l 'log --all --oneline'
   abbr --command git m 'mergetool'
   abbr push 'git push -u origin'
   abbr --command git '>' ' push -u origin'
