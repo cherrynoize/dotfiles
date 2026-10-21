@@ -6,6 +6,8 @@ profiles=(~/.profile ~/.xprofile)
 
 # list to run when unfucking everything
 declare -a everything=(
+  home
+  profile
   wallpaper
   wpg
   bar
@@ -16,7 +18,6 @@ declare -a everything=(
   keyboard
   monitor
   audio
-  profile
   hyprland
 )
 
@@ -83,6 +84,11 @@ unfuck_everything () {
   for e in "${everything[@]}"; do
     eval "unfuck_$e"
   done
+}
+
+unfuck_home () {
+  sudo chown -R "$USER:$USER" ~/.cache
+  sudo chown -R "$USER:$USER" ~/.local
 }
 
 unfuck_profile () {
