@@ -7,36 +7,6 @@ local function pick(name, opts)
   return function() require("telescope.builtin")[name](opts) end
 end
 
-
-
--- <leader>uF toggle format on save
--- <leader>uc/ua/uC toggle completion/autopairs/colorizer, <leader>un line
--- numbering, <leader>ui indent detection, <leader>uN notifications,
--- <leader>uu URL highlight, <leader>uL CodeLens, <leader>uA rooter
-
---
---------- Review
---
-
--- AstroNvim maps that clash with this layout, kept here disabled. Uncomment
--- one (and drop the conflicting map further down) to get it back.
---
--- Not carried over, to decide on:
--- * <leader>lS symbols outline (aerial) and <leader>lI none-ls info: neither
---   plugin is installed
--- * ]f [f ]k [k and the <leader>a swap maps: need treesitter-textobjects
-
--- set("n", "]b", function()
---   require("bufferline").cycle(vim.v.count1)
--- end, { desc = "Next buffer" })
--- set("n", "[b", function()
---   require("bufferline").cycle(-vim.v.count1)
--- end, { desc = "Previous buffer" })
-
-
---------
-
-
 -- close buffers without closing their windows; offset is the position of a
 -- listed buffer relative to the current one (negative = to its left)
 local function close_buffers(should_close)
