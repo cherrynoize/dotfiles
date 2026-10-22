@@ -252,6 +252,7 @@ if status is-interactive
   abbr --command git b 'branch -M'
   abbr --set-cursor cm 'git commit -m "%"'
   abbr --set-cursor cma 'git commit -a -m "%"'
+  abbr --set-cursor gu 'git add . && git commit -a -m "%"'
   abbr --set-cursor pcm 'git commit -a -m "%"; git push -u origin'
   abbr --set-cursor qu 'git commit -a -m "update%"; git push -u origin'
   abbr --set-cursor qau 'git add . && git commit -a -m "update%"; git push -u origin'

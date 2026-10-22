@@ -7,6 +7,7 @@ return {
     MiniIcons.mock_nvim_web_devicons()
 
     require("mini.ai").setup { n_lines = 500 }
+    require("mini.bufremove").setup()
     require("mini.surround").setup {
       mappings = require("core.keymaps.surround"),
     }

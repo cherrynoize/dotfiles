@@ -24,12 +24,12 @@ return {
             require("telescope.builtin")[picker]()
           end, { buffer = event.buf, desc = desc })
         end
-        map("grr", "lsp_references", "Go to references")
-        map("gri", "lsp_implementations", "Go to implementation")
-        map("grd", "lsp_definitions", "Go to definition")
-        map("gO", "lsp_document_symbols", "Document symbols")
-        map("gW", "lsp_dynamic_workspace_symbols", "Workspace symbols")
-        map("grt", "lsp_type_definitions", "Go to type definition")
+        map("<leader>l=", "lsp_definitions", "Go to definition")
+        map("<leader>lt", "lsp_type_definitions", "Go to type definition")
+        map("<leader>lI", "lsp_implementations", "Go to implementation")
+        map("<leader>lR", "lsp_references", "Find references")
+        map("<leader>ls", "lsp_document_symbols", "Document symbols")
+        map("<leader>lS", "lsp_dynamic_workspace_symbols", "Workspace symbols")
       end,
     })
   end,

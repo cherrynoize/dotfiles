@@ -36,6 +36,16 @@ return {
             gitsigns.nav_hunk "prev"
           end
         end, "Previous git change")
+        map("n", "<leader>gl", function()
+          gitsigns.blame_line { full = true }
+        end, "View git blame")
+        map("n", "<leader>gp", gitsigns.preview_hunk, "Preview git hunk")
+        map("n", "<leader>gh", gitsigns.reset_hunk, "Reset git hunk")
+        map("n", "<leader>gr", gitsigns.reset_buffer, "Reset git buffer")
+        map("n", "<leader>gs", gitsigns.stage_hunk, "Stage git hunk")
+        map("n", "<leader>gS", gitsigns.stage_buffer, "Stage git buffer")
+        map("n", "]g", function() gitsigns.nav_hunk "next" end, "Next hunk")
+        map("n", "[g", function() gitsigns.nav_hunk "prev" end, "Previous hunk")
 
         map("v", "<leader>hs", function()
           gitsigns.stage_hunk { vim.fn.line ".", vim.fn.line "v" }

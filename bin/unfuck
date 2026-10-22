@@ -6,7 +6,6 @@ profiles=(~/.profile ~/.xprofile)
 
 # list to run when unfucking everything
 declare -a everything=(
-  home
   profile
   wallpaper
   wpg
@@ -23,6 +22,7 @@ declare -a everything=(
 
 # list of unfucks that can only be run explicitly
 declare -a excluded=(
+  home
   spotify
   pacman
   yay
