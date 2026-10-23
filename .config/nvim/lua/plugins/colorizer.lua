@@ -2,6 +2,7 @@ return {
   "catgoose/nvim-colorizer.lua",
   main = "colorizer",
   event = "BufReadPre",
+  cmd = "ColorizerToggle",
   opts = {
     options = {
       parsers = {

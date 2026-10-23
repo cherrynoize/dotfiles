@@ -1,10 +1,10 @@
 local autocmd = vim.api.nvim_create_autocmd
 
+vim.filetype.add { extension = { rasi = "css" } }
+
 local function augroup(name)
   return vim.api.nvim_create_augroup(name, { clear = true })
 end
-
-vim.filetype.add { extension = { rasi = "css" } }
 
 autocmd("TextYankPost", {
   desc = "Highlight yanked text",

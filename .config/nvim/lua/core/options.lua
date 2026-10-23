@@ -1,13 +1,17 @@
 vim.o.shell = "sh"
 
-vim.o.number = true
+vim.o.nu = true
 vim.o.relativenumber = true
+
 vim.o.cursorline = true
 vim.o.colorcolumn = "80"
+vim.o.scrolloff = 10
 vim.o.signcolumn = "yes"
+
 vim.o.laststatus = 3
 vim.o.cmdheight = 0
-vim.o.scrolloff = 10
+vim.o.updatetime = 1000
+
 vim.opt.fillchars:append { eob = " " }
 vim.o.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
@@ -25,13 +29,15 @@ vim.o.clipboard = "unnamedplus"
 
 vim.o.ignorecase = true
 vim.o.smartcase = true
-vim.o.hlsearch = false
+
+vim.o.hlsearch = true
 vim.o.inccommand = "split"
 
 vim.o.wrap = false
 vim.o.linebreak = true
 vim.o.breakindent = true
 vim.o.autoindent = true
+
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
 vim.o.expandtab = true
@@ -41,6 +47,7 @@ vim.o.splitbelow = true
 vim.o.winwidth = 10
 vim.o.winminwidth = 10
 vim.o.equalalways = false
+vim.o.winborder = rounded
 
 vim.o.completeopt = "menu,menuone,noselect"
 vim.o.diffopt = vim.o.diffopt .. ",algorithm:histogram,linematch:60"

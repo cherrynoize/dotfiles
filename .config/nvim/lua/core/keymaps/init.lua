@@ -41,6 +41,57 @@ local function float_term(command)
   end
 end
 
+local function notify_toggle(name, enabled)
+  vim.notify(name .. (enabled and " enabled" or " disabled"))
+end
+
+-- run a command in a buffer without letting it notify
+local function quietly(buf, command)
+  local notify = vim.notify
+  vim.notify = function() end
+  pcall(vim.api.nvim_buf_call, buf, function() vim.cmd(command) end)
+  vim.notify = notify
+end
+
+local url_pattern = [=[\v\c<(https?|ftp|file|ssh|git)://[^[:space:]<>"')\]]+]=]
+
+local function update_url_highlight()
+  local win = vim.api.nvim_get_current_win()
+  local id = vim.w[win].url_match
+  if id then
+    pcall(vim.fn.matchdelete, id, win)
+    vim.w[win].url_match = nil
+  end
+  if vim.g.url_highlight ~= false and vim.bo.buftype == "" then
+    vim.w[win].url_match = vim.fn.matchadd("HighlightURL", url_pattern, 15)
+  end
+end
+
+local function toggle_codelens()
+  if vim.lsp.codelens.enable then
+    local enabled = not vim.lsp.codelens.is_enabled()
+    vim.lsp.codelens.enable(enabled)
+    notify_toggle("CodeLens", enabled)
+    return
+  end
+  -- Neovim 0.11 has no built-in toggle, so refresh by autocmd
+  local enabled = not vim.g.codelens_enabled
+  vim.g.codelens_enabled = enabled
+  local group = vim.api.nvim_create_augroup("codelens-toggle", { clear = true })
+  if enabled then
+    vim.api.nvim_create_autocmd(
+      { "BufEnter", "CursorHold", "InsertLeave" },
+      { group = group, callback = function() vim.lsp.codelens.refresh() end }
+    )
+    vim.lsp.codelens.refresh()
+  else
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      vim.lsp.codelens.clear(nil, buf)
+    end
+  end
+  notify_toggle("CodeLens", enabled)
+end
+
 local function reload()
   for name in pairs(package.loaded) do
     if name:match "^themes%." or name == "core.colorscheme" then
@@ -55,60 +106,79 @@ end
 
 wk.add { { "<leader>", group = "Leader menu" } }
 
+set("n", "<leader>r", reload, { desc = "Reload config" })
+
+set("n", "<leader>n", cmd "enew", { desc = "New file" })
 set({ "n", "i" }, "<C-s>", cmd "w", { desc = "Save file" })
 set("n", "<Esc>s", cmd "w", { desc = "Save file" })
+set("n", "<leader>w", cmd "w", { desc = "Save file" })
 set("n", "<leader>c", cmd "clo", { desc = "Close window" })
 set("n", "<leader>q", cmd "q", { desc = "Quit window" })
 set({ "n", "i" }, "<esc>q", cmd "q", { desc = "Quit window" })
 set("n", "<leader>Q", cmd "q!", { desc = "Quit window without saving" })
 set("n", "<C-q>", cmd "qa", { desc = "Quit Neovim" })
-set("n", "<leader>n", cmd "enew", { desc = "New file" })
-set("n", "<leader>r", reload, { desc = "Reload config" })
-set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, desc = "Move cursor down" })
-set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, desc = "Move cursor up" })
+
 set("v", "<Tab>", ">gv", { desc = "Indent selection" })
 set("v", "<S-Tab>", "<gv", { desc = "Unindent selection" })
+
+set("n", "j", "v:count == 0 ? 'gj' : 'j'", {
+  expr = true, silent = true, desc = "Move cursor down" }
+)
+set("n", "k", "v:count == 0 ? 'gk' : 'k'", {
+  expr = true, silent = true, desc = "Move cursor up" }
+)
+
 set("n", "<Esc>", cmd "nohlsearch", { desc = "Clear search highlight" })
 
 set("i", "<C-z>", cmd "undo", { desc = "Undo" })
-set("n", "x", "i<del><c-o><cmd>stopinsert<cr>", { desc = "Delete character without yanking" })
+set("n", "x", "i<del><c-o><cmd>stopinsert<cr>", {
+  desc = "Delete character without yanking" }
+)
 set("n", "<Esc>x", "vd", { desc = "Cut character" })
-set("n", "<C-p>", "0i<cr><esc>kP", { desc = "Paste above the current line" })
-set("n", "<C-n>", "0ji<cr><esc>kP", { desc = "Paste below the current line" })
 set("n", "<Esc>i", "i <esc>r", { desc = "Insert a single character" })
+
+set("v", "P", "p", { desc = "Paste and yank" })
+set("v", "p", "\"_dP", { desc = "Yankless paste" })
+
 set({ "i", "x" }, "<C-c>", "<esc>yiwea", { desc = "Copy word" })
 set("i", "<C-h>", "<c-o>dB", { desc = "Delete back to start of WORD" })
 set("i", "<C-Del>", "<c-o>dE", { desc = "Delete to end of WORD" })
+
 set("i", "<C-d>", cmd "copy+0", { desc = "Duplicate line" })
 set({ "n", "x", "o" }, "<Esc>d", cmd "copy+0", { desc = "Duplicate line" })
 set("n", "<CR>", "o<esc>", { desc = "Append empty line below" })
+set("n", "J", "mzJ`z", { desc = "Join lines in place" })
 set("n", "<Esc><CR>", "i<cr><esc>", { desc = "Split line at cursor" })
-set(
-  "n",
-  "<Esc>o",
-  "d0i<bs><c-o><cmd>stopinsert<cr>",
+set( "n", "<Esc>o", "d0i<bs><c-o><cmd>stopinsert<cr>",
   { desc = "Delete from last newline up to cursor" }
 )
-set("x", "A", ":s/$/", { desc = "Append to all selected lines" })
-set(
-  { "n", "x", "o", "i" },
-  "<F3>",
-  cmd "se hlsearch!",
-  { desc = "Toggle search highlight" }
+set("v", "A", ":s/$/", { desc = "Append to all selected lines" })
+
+set("n", "<C-p>", "0i<cr><esc>kP", { desc = "Paste above the current line" })
+set("n", "<C-n>", "0ji<cr><esc>kP", { desc = "Paste below the current line" })
+
+set("n", "n", "nzzzv", { desc = "Next search result" }) -- last `zv` somehow looks smoother
+set("n", "N", "Nzzzv", { desc = "Previous search result" })
+
+set("v", "<leader>=", ":! column -t -s= -o=<cr>", { desc = "Align on =" })
+set("n", "<leader>=", "Vk:! column -t -s= -o=<cr>2$",
+  { desc = "Align with last line on =" }
 )
-set("x", "<Esc>=", ":! column -t -s= -o=<cr>", { desc = "Align on =" })
-set(
-  "n",
-  "<Esc>=",
-  "Vk:! column -t -s= -o=<cr>2$",
-  { desc = "Align current and previous line on =" }
-)
+
 set({ "n", "x", "o" }, "è", "{", { desc = "Previous paragraph" })
 set({ "n", "x", "o" }, "ò", "}", { desc = "Next paragraph" })
 
+set("v", "J", ":m '>+1<cr>gv=gv", { desc = "Move selected lines down" })
+set("v", "K", ":m '<-2<cr>gv=gv", { desc = "Move selected lines up" })
+set("v", "<Esc>j", ":m '>+10<cr>gv=gv", { desc = "Move 10 lines down" })
+set("v", "<Esc>k", ":m '<-11<cr>gv=gv", { desc = "Move 10 lines up" })
+
 wk.add { { "<leader>f", group = "Find" } }
 set("n", "<leader>ff", pick "find_files", { desc = "Find files" })
-set("n", "<leader>fF", pick("find_files", { hidden = true, no_ignore = true }), { desc = "Find all files" })
+set("n", "<leader>fF", pick(
+  "find_files",
+  { hidden = true, no_ignore = true }
+), { desc = "Find all files" })
 set("n", "<leader>f_", pick "builtin", { desc = "List Telescope pickers" })
 set({ "n", "v" }, "<leader>fw", pick("grep_string", {
   prompt_title = "Find word",
@@ -187,14 +257,18 @@ set({ "n", "v" }, "<leader>fg", function()
 end)
 
 wk.add { { "<leader>g", group = "git" } }
-set("n", "<leader>gf", pick "git_files", { desc = "Find tracked files" })
+set("n", "<leader>gf", pick ("git_files",
+  { prompt_title = "Git files" }
+), { desc = "Find tracked files" })
 set({ "n", "v" }, "<leader>gd", pick("git_status", {
   prompt_title = "Find diff",
-}), { desc = "Find diffs in repo" })
-set({ "n", "v" }, "<leader>gc", pick "commits", { desc = "Find commits" })
-set({ "n", "v" }, "<leader>gb", pick "git_branches", { desc = "Find branches" })
-set("n", "<leader>gC", pick "git_bcommits", { desc = "Find commits of buffer" })
-set("n", "<leader>gt", pick "git_status", { desc = "Find git status" })
+}), { desc = "Git changes" })
+set({ "n", "v" }, "<leader>gc", pick ("git_bcommits",
+  { prompt_title = "Git commits" }
+), { desc = "Find commits" })
+set({ "n", "v" }, "<leader>gb", pick ("git_branches",
+  { prompt_title = "Git branches" }
+), { desc = "Find branches" })
 
 -- Language tools; the LSP maps are buffer-local, see plugins/lsp.lua and
 -- plugins/telescope.lua
@@ -220,9 +294,13 @@ set("n", "<leader>pU", cmd "Lazy update", { desc = "Plugins update" })
 set("n", "<leader>pm", cmd "Mason", { desc = "Mason installer" })
 
 wk.add { { "<leader>u", group = "UI/UX" } }
+set("n", "<leader>ua", cmd "AerialToggle", { desc = "Toggle Aerial" })
 set("n", "<leader>ud", function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = "Toggle diagnostics" })
+set( { "n", "x", "o", "i" }, "<leader>u/", cmd "se hlsearch!",
+  { desc = "Toggle search highlight" }
+)
 set("n", "<leader>ug", function()
   vim.wo.signcolumn = vim.wo.signcolumn == "no" and "yes" or "no"
 end, { desc = "Toggle sign column" })
@@ -231,7 +309,7 @@ set("n", "<leader>uw", cmd "set wrap!", { desc = "Toggle wrap" })
 set("n", "<leader>up", cmd "set paste!", { desc = "Toggle paste mode" })
 set("n", "<leader>ub", function()
   vim.o.background = vim.o.background == "dark" and "light" or "dark"
-end, { desc = "Toggle background" })
+end, { desc = "Toggle background theme" })
 set("n", "<leader>ul", function()
   vim.o.laststatus = vim.o.laststatus == 0 and 3 or 0
 end, { desc = "Toggle statusline" })
@@ -249,6 +327,75 @@ set("n", "<leader>uy", function()
     vim.treesitter.start(buf)
   end
 end, { desc = "Toggle syntax highlighting (buffer)" })
+
+set("n", "<leader>uF", function()
+  vim.g.format_on_save = not vim.g.format_on_save
+  notify_toggle("Format on save", vim.g.format_on_save)
+end, { desc = "Toggle format on save" })
+set("n", "<leader>uc", function()
+  vim.g.completion_enabled = vim.g.completion_enabled == false
+  notify_toggle("Completion", vim.g.completion_enabled)
+end, { desc = "Toggle completion" })
+set("n", "<leader>ua", function()
+  local autopairs = require "nvim-autopairs"
+  if autopairs.state.disabled then
+    autopairs.enable()
+  else
+    autopairs.disable()
+  end
+  notify_toggle("Autopairs", not autopairs.state.disabled)
+end, { desc = "Toggle autopairs" })
+set("n", "<leader>uC", cmd "ColorizerToggle", { desc = "Toggle colorizer" })
+set("n", "<leader>un", function()
+  if vim.wo.number and vim.wo.relativenumber then
+    vim.wo.relativenumber = false
+    vim.notify "Line numbers: absolute"
+  elseif vim.wo.number then
+    vim.wo.number = false
+    vim.notify "Line numbers: off"
+  else
+    vim.wo.number = true
+    vim.wo.relativenumber = true
+    vim.notify "Line numbers: relative"
+  end
+end, { desc = "Cycle line numbering" })
+set("n", "<leader>ui", function()
+  vim.g.indent_detection = vim.g.indent_detection == false
+  notify_toggle("Indent detection", vim.g.indent_detection)
+  if vim.g.indent_detection then
+    quietly(0, "GuessIndent")
+  end
+end, { desc = "Toggle indent detection" })
+set("n", "<leader>uN", function()
+  local notification = require "fidget.notification"
+  if vim.g.notifications_suppressed then
+    vim.g.notifications_suppressed = false
+    notification.suppress(false)
+    notify_toggle("Notifications", true)
+  else
+    notify_toggle("Notifications", false)
+    vim.g.notifications_suppressed = true
+    notification.suppress(true)
+  end
+end, { desc = "Toggle notifications" })
+set("n", "<leader>uu", function()
+  vim.g.url_highlight = vim.g.url_highlight == false
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    vim.api.nvim_win_call(win, update_url_highlight)
+  end
+  notify_toggle("URL highlight", vim.g.url_highlight)
+end, { desc = "Toggle URL highlight" })
+set("n", "<leader>uL", toggle_codelens, { desc = "Toggle CodeLens" })
+
+vim.api.nvim_set_hl(0, "HighlightURL", { underline = true })
+vim.api.nvim_create_autocmd(
+  { "VimEnter", "FileType", "BufEnter", "WinEnter" },
+  {
+    desc = "Highlight URLs",
+    group = vim.api.nvim_create_augroup("url-highlight", { clear = true }),
+    callback = update_url_highlight,
+  }
+)
 
 wk.add { { "<leader>b", group = "Buffers" } }
 set("n", "<leader><tab>", cmd "bn", { desc = "Next buffer" })
@@ -318,14 +465,14 @@ end, { desc = "Close all buffers" })
 
 for i = 0, 9 do
   local tab = i == 0 and 10 or i
-  set({ "n", "v", "i" }, "<Esc>" .. i, tab .. "gt", { desc = "Go to tab " .. tab })
+  set({ "n", "v", "i" }, "<Esc>" .. i, "<Esc>" .. tab .. "gt", { desc = "Go to tab " .. tab })
   wk.add { { "<Esc>" .. i, hidden = true } }
 end
 set({ "n", "v", "i" }, "<Esc>ℵ", cmd "<Nop>", { desc = "Go to tab ℵ (1-10)" })
 set({ "n", "v", "i" }, "<Esc>t", cmd "tabe", { desc = "New tab" })
 set({ "n", "v", "i" }, "<Esc>w", cmd "tabc", { desc = "Close tab" })
-set({ "n", "v", "i" }, "<Esc><Tab>", cmd "gt", { desc = "Next tab" })
-set({ "n", "v", "i" }, "<S-Tab>", cmd "gT", { desc = "Previous tab" })
+set({ "n", "v", "i" }, "<Esc><Tab>", "<Esc>gt", { desc = "Next tab" })
+set({ "n" }, "<S-Tab>", "<Esc>gT", { desc = "Previous tab" })
 set("n", "]t", cmd "tabnext", { desc = "Next tab" })
 set("n", "[t", cmd "tabprevious", { desc = "Previous tab" })
 
@@ -398,6 +545,7 @@ set(
 )
 
 -- Explorer
+set("n", "<leader>E", cmd "Ex", { desc = "Open netrw" })
 set("n", "<leader>e", cmd "Neotree toggle", { desc = "Toggle explorer" })
 set("n", "<leader>o", function()
   if vim.bo.filetype == "neo-tree" then
@@ -423,6 +571,36 @@ set("n", "zm", function() require("ufo").closeFoldsWith() end, {
 set("n", "zp", function() require("ufo").peekFoldedLinesUnderCursor() end, {
   desc = "Peek fold",
 })
+
+-- treesitter-textobjects
+local function goto_textobject(direction, query, desc)
+  local lhs = (direction == "next" and "]" or "[") .. query.key
+  set({ "n", "x", "o" }, lhs, function()
+    if vim.wo.diff and query.key == "c" then
+      vim.cmd.normal { lhs, bang = true }
+      return
+    end
+    require("nvim-treesitter-textobjects.move")["goto_" .. direction .. "_start"](
+      query.capture,
+      "textobjects"
+    )
+  end, { desc = desc })
+end
+local textobjects = {
+  { key = "f", capture = "@function.outer", name = "function" },
+  { key = "c", capture = "@class.outer", name = "class" },
+}
+for _, query in ipairs(textobjects) do
+  goto_textobject("next", query, "Next " .. query.name .. " start")
+  goto_textobject("previous", query, "Previous " .. query.name .. " start")
+end
+wk.add { { "<leader>x", group = "Text objects" } }
+set("n", "<leader>x.", function()
+  require("nvim-treesitter-textobjects.swap").swap_next "@parameter.inner"
+end, { desc = "Swap next parameter" })
+set("n", "<leader>x,", function()
+  require("nvim-treesitter-textobjects.swap").swap_previous "@parameter.inner"
+end, { desc = "Swap previous parameter" })
 
 -- Sessions
 wk.add { { "<leader>S", group = "Session" } }
