@@ -1,1 +1,1 @@
-tokyonight.lua
+return "tokyonight"

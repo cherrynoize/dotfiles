@@ -24,12 +24,8 @@ local servers = {
             version = "LuaJIT",
             path = { "lua/?.lua", "lua/?/init.lua" },
           },
-          workspace = {
-            checkThirdParty = false,
-            -- slow and troublesome when editing the Neovim config itself:
-            -- https://github.com/neovim/nvim-lspconfig/issues/3189
-            library = vim.api.nvim_get_runtime_file("", true),
-          },
+          -- the library is managed by lazydev.nvim (plugins/lazydev.lua)
+          workspace = { checkThirdParty = false },
         }
       )
     end,
@@ -38,6 +34,26 @@ local servers = {
   arduino_language_server = {},
   cssls = {},
 }
+
+-- LSP definition when some attached server finds one, otherwise Vim's builtin
+-- `gd` (local declaration search). Asks first because
+-- vim.lsp.buf.definition() only notifies when there is nothing to jump to
+local function goto_definition(buf)
+  vim.lsp.buf_request_all(buf, "textDocument/definition", function(client)
+    return vim.lsp.util.make_position_params(0, client.offset_encoding)
+  end, function(results)
+    for _, response in pairs(results) do
+      local result = response.result
+      -- a single Location is a dict, several are a list
+      if result and (not vim.islist(result) or #result > 0) then
+        vim.lsp.buf.definition()
+        return
+      end
+    end
+    local ok, err = pcall(vim.cmd, "normal! gd")
+    if not ok then vim.notify(err, vim.log.levels.WARN) end
+  end)
+end
 
 return {
   "neovim/nvim-lspconfig",
@@ -69,7 +85,6 @@ return {
         end
         map("grn", vim.lsp.buf.rename, "Rename symbol")
         map("gra", vim.lsp.buf.code_action, "Code action", { "n", "x" })
-        map("grD", vim.lsp.buf.declaration, "Go to declaration")
         map("gD", vim.lsp.buf.declaration, "Go to declaration")
         map("<leader>la", vim.lsp.buf.code_action, "Code action", { "n", "x" })
         map("<leader>lr", vim.lsp.buf.rename, "Rename symbol")
@@ -78,6 +93,13 @@ return {
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         local function supports(method)
           return client and client:supports_method(method, event.buf)
+        end
+
+        -- without an LSP definition provider no map is set, so Vim's builtin
+        -- `gd` stays in effect; with one, it still falls back when the
+        -- server finds nothing
+        if supports "textDocument/definition" then
+          map("gd", function() goto_definition(event.buf) end, "Go to definition")
         end
 
         if supports "textDocument/documentHighlight" then

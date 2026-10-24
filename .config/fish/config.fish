@@ -101,7 +101,7 @@ if status is-interactive
   abbr --position anywhere -- -music-downloads '/home/shared/media/music'
   abbr --position anywhere -- -music '/home/shared/art/audio/music'
   abbr --position anywhere -- -music-projects '/home/art/personal/audio/music/projects'
-  abbr --position anywhere -- -lyrics '/home/shared/notes/music/lyrics'
+  abbr --position anywhere -- -lyrics '/home/shared/notes/Art/music/lyrics'
   abbr --set-cursor enter-win 'pushd $(access-windows %)'
   abbr leave-win 'popd; exit-windows'
   abbr -- -win-home 'pushd $(access-windows -home)'

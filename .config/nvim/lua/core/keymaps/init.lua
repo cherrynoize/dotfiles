@@ -104,6 +104,39 @@ local function reload()
   vim.notify "Config reloaded"
 end
 
+-- fugitive's status buffer has no toggle of its own: close it if it is
+-- showing in this tab, otherwise open it with the given command
+local function git_status(open)
+  return function()
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+      if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "fugitive" then
+        local only_win = #vim.api.nvim_tabpage_list_wins(0) == 1
+        if only_win and #vim.api.nvim_list_tabpages() > 1 then
+          vim.cmd.tabclose()
+        else
+          pcall(vim.api.nvim_win_close, win, false)
+        end
+        return
+      end
+    end
+    vim.cmd(open)
+  end
+end
+
+-- pick one of this project's Arrow bookmarks and open it in a split
+local function arrow_split_open(split)
+  local ok, persist = pcall(require, "arrow.persist")
+  if ok then pcall(persist.load_cache_file) end
+  local files = vim.g.arrow_filenames or {}
+  if #files == 0 then
+    vim.notify "No Arrow bookmarks in this project"
+    return
+  end
+  vim.ui.select(files, { prompt = "Open bookmark in split" }, function(file)
+    if file then vim.cmd[split](vim.fn.fnameescape(file)) end
+  end)
+end
+
 wk.add { { "<leader>", group = "Leader menu" } }
 
 set("n", "<leader>r", reload, { desc = "Reload config" })
@@ -167,10 +200,15 @@ set("n", "<C-n>", "0ji<cr><esc>kP", { desc = "Paste below the current line" })
 set("n", "n", "nzzzv", { desc = "Next search result" }) -- last `zv` somehow looks smoother
 set("n", "N", "Nzzzv", { desc = "Previous search result" })
 
+wk.add {
+  { "g", group = "Goto" },
+  -- buffer-local LSP map when available, Vim's builtin otherwise
+  { "gd", desc = "Go to definition (LSP, else local declaration)" },
+}
 wk.add { { "gq", group = "Quickfix" } }
 set("n", "gqk", "<cmd>cnext<cr>zz", { desc = "Quickfix next error" })
 set("n", "gqj", "<cmd>cprev<cr>zz", { desc = "Quickfix previous error" })
-wk.add { { "gq", group = "Location list" } }
+wk.add { { "gl", group = "Location list" } }
 set("n", "glk", "<cmd>lnext<cr>zz", { desc = "Location list next error" })
 set("n", "glj", "<cmd>lprev<cr>zz", { desc = "Location list previous error" })
 
@@ -270,10 +308,14 @@ set("n", "<leader>f%", pick "resume", { desc = "Reopen last search" })
 set("n", "<leader>f^", pick "oldfiles", { desc = "View recent files" })
 set({ "n", "v" }, "<leader>f'", pick "marks", { desc = "Find marks" })
 set("n", "<leader>fr", pick "registers", { desc = "Find registers" })
-set("n", "<leader>fd", pick "diagnostics", { desc = "Search diagnostics" })
+set("n", "<leader>fd", pick "lsp_definitions", { desc = "Find definitions" })
+set("n", "<leader>fD", pick "diagnostics", { desc = "Search diagnostics" })
+set("n", "<leader>fu", cmd "UndotreeToggle", { desc = "Toggle undotree" })
 set("n", "<leader>fk", pick "keymaps", { desc = "Show keymaps" })
 set("n", "<leader>fx", pick "commands", { desc = "Search commands" })
-set("n", "<leader>ft", pick "colorscheme", { desc = "Find themes" })
+set("n", "<leader>fc", pick (
+  "colorscheme", { prompt_title = "Find colorschemes" }
+), { desc = "Find colorschemes" })
 set("n", "<leader>fm", pick "man_pages", { desc = "Find man" })
 set("n", "<leader>fh", pick "help_tags", { desc = "Find help" })
 
@@ -298,6 +340,17 @@ set({ "n", "v" }, "<leader>gb", pick ("git_branches",
   { prompt_title = "Git branches" }
 ), { desc = "Find branches" })
 
+wk.add { { "<leader>gs", group = "Git status" } }
+set("n", "<leader>gss", git_status "tab Git", {
+  desc = "Toggle git status (full window)",
+})
+set("n", "<leader>gs\\", git_status "vertical Git", {
+  desc = "Toggle git status (vertical split)",
+})
+set("n", "<leader>gs|", git_status "Git", {
+  desc = "Toggle git status (horizontal split)",
+})
+
 -- Language tools; the LSP maps are buffer-local, see plugins/lsp.lua and
 -- plugins/telescope.lua
 wk.add { { "<leader>l", group = "Language tools" } }
@@ -311,7 +364,6 @@ end, { desc = "Format buffer" })
 set("v", "<leader>lf", function()
   require("conform").format { async = true }
 end, { desc = "Format" })
-wk.add { { "gl", group = "LSP" } }
 
 wk.add { { "<leader>P", group = "Plugins" } }
 set("n", "<leader>Ps", cmd "Lazy home", { desc = "Lazy status" })
@@ -322,7 +374,7 @@ set("n", "<leader>PU", cmd "Lazy update", { desc = "Update" })
 set("n", "<leader>Pm", cmd "Mason", { desc = "Open Mason" })
 
 wk.add { { "<leader>u", group = "UI/UX" } }
-set("n", "<leader>ua", cmd "AerialToggle", { desc = "Toggle Aerial" })
+set("n", "<leader>uf", cmd "AerialToggle", { desc = "Toggle Aerial" })
 set("n", "<leader>ud", function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = "Toggle diagnostics" })
@@ -335,9 +387,12 @@ end, { desc = "Toggle sign column" })
 set("n", "<leader>us", cmd "set spell!", { desc = "Toggle spellcheck" })
 set("n", "<leader>uw", cmd "set wrap!", { desc = "Toggle wrap" })
 set("n", "<leader>up", cmd "set paste!", { desc = "Toggle paste mode" })
-set("n", "<leader>ub", function()
+set("n", "<leader>ub", function() require("core.transparency").toggle() end, {
+  desc = "Toggle transparent background",
+})
+set("n", "<leader>uB", function()
   vim.o.background = vim.o.background == "dark" and "light" or "dark"
-end, { desc = "Toggle background theme" })
+end, { desc = "Toggle light/dark background" })
 set("n", "<leader>ul", function()
   vim.o.laststatus = vim.o.laststatus == 0 and 3 or 0
 end, { desc = "Toggle statusline" })
@@ -571,6 +626,23 @@ set(
   cmd "vertical resize +2",
   { desc = "Increase window width" }
 )
+
+-- Arrow bookmarks; `<leader>''` (menu) and `<leader>'b` (buffer bookmarks) are
+-- set by the plugin
+wk.add {
+  { "<leader>'", group = "Arrow" },
+  { "<leader>'s", group = "Open bookmark in split" },
+}
+set("n", "<leader>'m", function()
+  require("arrow.persist").toggle()
+  vim.notify("Arrow: toggled bookmark for " .. vim.fn.expand "%:t")
+end, { desc = "Bookmark file" })
+set("n", "<leader>'sv", function() arrow_split_open "vsplit" end, {
+  desc = "Open bookmark in vertical split",
+})
+set("n", "<leader>'sh", function() arrow_split_open "split" end, {
+  desc = "Open bookmark in horizontal split",
+})
 
 -- Explorer
 set("n", "<leader>E", cmd "Ex", { desc = "Open netrw" })

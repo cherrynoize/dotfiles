@@ -1,4 +1,4 @@
-vim.o.shell = "sh"
+vim.o.shell = "fish"
 
 vim.o.nu = true
 vim.o.relativenumber = true
@@ -47,7 +47,7 @@ vim.o.splitbelow = true
 vim.o.winwidth = 10
 vim.o.winminwidth = 10
 vim.o.equalalways = false
-vim.o.winborder = rounded
+vim.o.winborder = "rounded"
 
 vim.o.completeopt = "menu,menuone,noselect"
 vim.o.diffopt = vim.o.diffopt .. ",algorithm:histogram,linematch:60"

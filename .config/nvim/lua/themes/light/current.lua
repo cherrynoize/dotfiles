@@ -1,1 +1,1 @@
-tokyonight-day.lua
+return "tokyonight-day"
