@@ -139,6 +139,13 @@ set("n", "<Esc>i", "i <esc>r", { desc = "Insert a single character" })
 
 set("v", "P", "p", { desc = "Paste and yank" })
 set("v", "p", "\"_dP", { desc = "Yankless paste" })
+set("v", "D", "\"_d", { desc = "Yankless delete" })
+
+set({ "n", "v" }, "<leader>y", "\"*y", { desc = "Yank to selection" })
+set({ "n", "v" }, "<leader>Y", "\"*Y", { desc = "Yank to selection" })
+set({ "n", "v" }, "<leader>d", "\"*d", { desc = "Delete into selection" })
+set("n", "<leader>p", "\"*p", { desc = "Paste from selection" })
+set("v", "<leader>p", "\"_d\"*P", { desc = "Paste from selection" })
 
 set({ "i", "x" }, "<C-c>", "<esc>yiwea", { desc = "Copy word" })
 set("i", "<C-h>", "<c-o>dB", { desc = "Delete back to start of WORD" })
@@ -160,6 +167,13 @@ set("n", "<C-n>", "0ji<cr><esc>kP", { desc = "Paste below the current line" })
 set("n", "n", "nzzzv", { desc = "Next search result" }) -- last `zv` somehow looks smoother
 set("n", "N", "Nzzzv", { desc = "Previous search result" })
 
+wk.add { { "gq", group = "Quickfix" } }
+set("n", "gqk", "<cmd>cnext<cr>zz", { desc = "Quickfix next error" })
+set("n", "gqj", "<cmd>cprev<cr>zz", { desc = "Quickfix previous error" })
+wk.add { { "gq", group = "Location list" } }
+set("n", "glk", "<cmd>lnext<cr>zz", { desc = "Location list next error" })
+set("n", "glj", "<cmd>lprev<cr>zz", { desc = "Location list previous error" })
+
 set("v", "<leader>=", ":! column -t -s= -o=<cr>", { desc = "Align on =" })
 set("n", "<leader>=", "Vk:! column -t -s= -o=<cr>2$",
   { desc = "Align with last line on =" }
@@ -172,6 +186,20 @@ set("v", "J", ":m '>+1<cr>gv=gv", { desc = "Move selected lines down" })
 set("v", "K", ":m '<-2<cr>gv=gv", { desc = "Move selected lines up" })
 set("v", "<Esc>j", ":m '>+10<cr>gv=gv", { desc = "Move 10 lines down" })
 set("v", "<Esc>k", ":m '<-11<cr>gv=gv", { desc = "Move 10 lines up" })
+
+set({ "n", "v" }, "<leader>\\", ":%s/", { desc = "Replace all instances of" })
+set(
+  "n", "<leader>%",
+  ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", -- wtf?
+  { desc = "Replace word under cursor" }
+)
+set(
+  "v", "<leader>%",
+  ":s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>",
+  { desc = "Replace word under cursor in selection" }
+)
+
+set("n", "<leader>X", "<cmd>!chmod +x %<CR>", { desc = "Make current file executable", silent = true })
 
 wk.add { { "<leader>f", group = "Find" } }
 set("n", "<leader>ff", pick "find_files", { desc = "Find files" })
@@ -285,13 +313,13 @@ set("v", "<leader>lf", function()
 end, { desc = "Format" })
 wk.add { { "gl", group = "LSP" } }
 
-wk.add { { "<leader>p", group = "Packages" } }
-set("n", "<leader>pi", cmd "Lazy install", { desc = "Plugins install" })
-set("n", "<leader>ps", cmd "Lazy home", { desc = "Plugins status" })
-set("n", "<leader>pS", cmd "Lazy sync", { desc = "Plugins sync" })
-set("n", "<leader>pu", cmd "Lazy check", { desc = "Plugins check updates" })
-set("n", "<leader>pU", cmd "Lazy update", { desc = "Plugins update" })
-set("n", "<leader>pm", cmd "Mason", { desc = "Mason installer" })
+wk.add { { "<leader>P", group = "Plugins" } }
+set("n", "<leader>Ps", cmd "Lazy home", { desc = "Lazy status" })
+set("n", "<leader>Pi", cmd "Lazy install", { desc = "Install" })
+set("n", "<leader>PS", cmd "Lazy sync", { desc = "Sync" })
+set("n", "<leader>Pu", cmd "Lazy check", { desc = "Check updates" })
+set("n", "<leader>PU", cmd "Lazy update", { desc = "Update" })
+set("n", "<leader>Pm", cmd "Mason", { desc = "Open Mason" })
 
 wk.add { { "<leader>u", group = "UI/UX" } }
 set("n", "<leader>ua", cmd "AerialToggle", { desc = "Toggle Aerial" })
