@@ -1,5 +1,6 @@
 {
   "aerial.nvim": { "branch": "master", "commit": "28fe6e822ae344544c379d60fcb13c9519a1f08a" },
+  "alpha-nvim": { "branch": "main", "commit": "4ba26e41990c11620c96c0e1cff20eab65efde4a" },
   "animation.nvim": { "branch": "main", "commit": "fb77091ab72ec9971aee0562e7081182527aaa6a" },
   "arrow.nvim": { "branch": "master", "commit": "6e0f726f55f99332dd726a53effd6813786b6d49" },
   "blink.cmp": { "branch": "main", "commit": "78336bc89ee5365633bcf754d93df01678b5c08f" },
@@ -27,6 +28,7 @@
   "nvim-treesitter": { "branch": "main", "commit": "a2f694478be07f89c2d03cc17858a8745a400c4b" },
   "nvim-treesitter-textobjects": { "branch": "main", "commit": "5c7b0263797dfd1bd6202f2b219f3b53a80b2187" },
   "nvim-ufo": { "branch": "main", "commit": "ab3eb124062422d276fae49e0dd63b3ad1062cfc" },
+  "nvim-web-devicons": { "branch": "master", "commit": "ec309a0eaff6ea967e58c275996155ab5c16938d" },
   "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
   "promise-async": { "branch": "main", "commit": "119e8961014c9bfaf1487bf3c2a393d254f337e2" },
   "resession.nvim": { "branch": "master", "commit": "0983fbdd3fe938c80fb7dd33817f08f428426ac8" },

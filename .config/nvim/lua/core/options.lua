@@ -47,7 +47,8 @@ vim.o.splitbelow = true
 vim.o.winwidth = 10
 vim.o.winminwidth = 10
 vim.o.equalalways = false
-vim.o.winborder = "rounded"
+
+-- vim.o.winborder = "rounded" -- show rounded corner borders on all floating windows
 
 vim.o.completeopt = "menu,menuone,noselect"
 vim.o.diffopt = vim.o.diffopt .. ",algorithm:histogram,linematch:60"
