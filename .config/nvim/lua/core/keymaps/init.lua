@@ -123,6 +123,64 @@ local function git_status(open)
   end
 end
 
+-- close diffview if one is showing in this session, otherwise open it
+local function diffview_toggle()
+  if require("diffview.lib").get_current_view() then
+    vim.cmd "DiffviewClose"
+  else
+    vim.cmd "DiffviewOpen"
+  end
+end
+
+-- mini.map doubles as a pure scrollbar when its window is one column wide;
+-- `vim.g.minimap_bar` tells which of the two is showing
+local minimap_bar_opts = {
+  window = { width = 1, winblend = 100, show_integration_count = false },
+}
+
+local function minimap_is_open()
+  local win = require("mini.map").current.win_data[
+    vim.api.nvim_get_current_tabpage()
+  ]
+  return win ~= nil and vim.api.nvim_win_is_valid(win)
+end
+
+-- closed -> map; bar -> map; map -> closed
+local function minimap_toggle()
+  local map = require "mini.map"
+  if not minimap_is_open() then
+    vim.g.minimap_bar = false
+    map.open()
+  elseif vim.g.minimap_bar then
+    vim.g.minimap_bar = false
+    local window = map.config.window
+    map.refresh {
+      window = {
+        width = window.width,
+        winblend = window.winblend,
+        show_integration_count = window.show_integration_count,
+      },
+    }
+  else
+    map.close()
+  end
+end
+
+-- closed -> bar; map -> bar; bar -> closed
+local function minimap_toggle_bar()
+  local map = require "mini.map"
+  if not minimap_is_open() then
+    vim.g.minimap_bar = true
+    map.open(minimap_bar_opts)
+  elseif vim.g.minimap_bar then
+    vim.g.minimap_bar = false
+    map.close()
+  else
+    vim.g.minimap_bar = true
+    map.refresh(minimap_bar_opts)
+  end
+end
+
 -- pick one of this project's Arrow bookmarks and open it in a split
 local function arrow_split_open(split)
   local ok, persist = pcall(require, "arrow.persist")
@@ -321,6 +379,18 @@ set("n", "<leader>fc", pick (
 ), { desc = "Find colorschemes" })
 set("n", "<leader>fm", pick "man_pages", { desc = "Find man" })
 set("n", "<leader>fh", pick "help_tags", { desc = "Find help" })
+set("n", "<leader>fp", cmd "Telescope projects", { desc = "Find projects" })
+set("n", "<leader>fi", function() require("core.scratch").pick "project" end, {
+  desc = "Find project scratch files",
+})
+set("n", "<leader>fI", function() require("core.scratch").pick "global" end, {
+  desc = "Find global scratch files",
+})
+set("n", "<leader>fN", function()
+  require "notify" -- make sure the telescope extension is on the rtp
+  pcall(require("telescope").load_extension, "notify")
+  vim.cmd "Telescope notify"
+end, { desc = "Notification history" })
 
 set({ "n", "v" }, "<leader>fg", function()
   require("telescope.builtin").grep_string {
@@ -330,16 +400,22 @@ set({ "n", "v" }, "<leader>fg", function()
 end)
 
 wk.add { { "<leader>g", group = "git" } }
-set("n", "<leader>gf", pick ("git_files",
+set("n", "<leader>gd", diffview_toggle, { desc = "Toggle diffview" })
+set("n", "<leader>gD", cmd "DiffviewFileHistory %", {
+  desc = "Diffview file history (current file)",
+})
+
+wk.add { { "<leader>gf", group = "Find" } }
+set("n", "<leader>gff", pick("git_files",
   { prompt_title = "Git files" }
 ), { desc = "Find tracked files" })
-set({ "n", "v" }, "<leader>gd", pick("git_status", {
+set({ "n", "v" }, "<leader>gfd", pick("git_status", {
   prompt_title = "Find diff",
 }), { desc = "Git changes" })
-set({ "n", "v" }, "<leader>gc", pick ("git_bcommits",
+set({ "n", "v" }, "<leader>gfc", pick("git_bcommits",
   { prompt_title = "Git commits" }
 ), { desc = "Find commits" })
-set({ "n", "v" }, "<leader>gb", pick ("git_branches",
+set({ "n", "v" }, "<leader>gfb", pick("git_branches",
   { prompt_title = "Git branches" }
 ), { desc = "Find branches" })
 
@@ -472,6 +548,8 @@ set("n", "<leader>uu", function()
   notify_toggle("URL highlight", vim.g.url_highlight)
 end, { desc = "Toggle URL highlight" })
 set("n", "<leader>uL", toggle_codelens, { desc = "Toggle CodeLens" })
+set("n", "<leader>um", minimap_toggle, { desc = "Toggle minimap" })
+set("n", "<leader>uM", minimap_toggle_bar, { desc = "Toggle scrollbar" })
 
 vim.api.nvim_set_hl(0, "HighlightURL", { underline = true })
 vim.api.nvim_create_autocmd(
@@ -657,6 +735,15 @@ set("n", "<leader>o", function()
     vim.cmd.Neotree "focus"
   end
 end, { desc = "Toggle explorer focus" })
+
+-- Scratch pads; project files live per project root, global ones in
+-- stdpath("data")/scratch, see core/scratch.lua
+set("n", "<leader>i", function() require("core.scratch").toggle "project" end, {
+  desc = "Toggle project scratch pad",
+})
+set("n", "<leader>I", function() require("core.scratch").toggle "global" end, {
+  desc = "Toggle global scratch pad",
+})
 
 -- Folds
 set("n", "zR", function() require("ufo").openAllFolds() end, {
