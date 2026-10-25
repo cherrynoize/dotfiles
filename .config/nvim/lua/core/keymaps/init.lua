@@ -180,7 +180,8 @@ set({ "n", "v" }, "<leader>d", "\"*d", { desc = "Delete into selection" })
 set("n", "<leader>p", "\"*p", { desc = "Paste from selection" })
 set("v", "<leader>p", "\"_d\"*P", { desc = "Paste from selection" })
 
-set({ "i", "x" }, "<C-c>", "<esc>yiwea", { desc = "Copy word" })
+set({ "i", "x" }, "<C-c>", "<esc>yiwea", { desc = "Yank word" })
+set("n", "yA", "<cmd>silent %y<CR>", { desc = "Yank buffer" })
 set("i", "<C-h>", "<c-o>dB", { desc = "Delete back to start of WORD" })
 set("i", "<C-Del>", "<c-o>dE", { desc = "Delete to end of WORD" })
 
@@ -237,7 +238,9 @@ set(
   { desc = "Replace word under cursor in selection" }
 )
 
-set("n", "<leader>X", "<cmd>!chmod +x %<CR>", { desc = "Make current file executable", silent = true })
+set("n", "<leader>X", function()
+  require("chmod").run("+x")
+end, { desc = "Make current file executable" })
 
 wk.add { { "<leader>f", group = "Find" } }
 set("n", "<leader>ff", pick "find_files", { desc = "Find files" })
@@ -292,7 +295,7 @@ set(
     follow = true,
     prompt_title = "Search config",
   }),
-  { desc = "Find Neovim config files" }
+  { desc = "Find string in Neovim config" }
 )
 set("n", "<leader>fb", pick "buffers", { desc = "Find open buffers" })
 set("n", "<leader>/", function()

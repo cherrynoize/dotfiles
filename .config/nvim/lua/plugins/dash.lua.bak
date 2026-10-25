@@ -1,0 +1,906 @@
+-- ~/.config/nvim/lua/dash.lua
+--
+-- Dash: a multi-panel dashboard for Neovim.
+--
+--   require("dash").setup()     -- in init.lua (after lazy.nvim's setup)
+--   :Dash                       -- reopen it any time (:Dashboard works too)
+--
+-- Keys
+--   H J K L      move between panels (left / down / up / right, like h j k l)
+--   Tab, S-Tab   next / previous panel
+--   j k          move inside a panel (wraps around; long lists scroll)
+--   l, <CR>      select          gg / G   first / last    C-d / C-u   page down / up
+--   mouse        click = focus, double click = select, wheel = scroll a panel
+--   plus the hotkey shown on each button (f n c p q, 1-9, w s b ...)
+--
+-- Needs: Neovim 0.9+, a Nerd Font, termguicolors.
+-- Optional: telescope.nvim, nvim-web-devicons, lazy.nvim, toggleterm.nvim.
+
+local M = {}
+local api, fn = vim.api, vim.fn
+local dw = fn.strdisplaywidth
+
+-------------------------------------------------------------------------------
+-- Palette
+-------------------------------------------------------------------------------
+local C = {
+  bg       = "#07040D",
+  surface  = "#160C26",
+  elevated = "#211139",
+  border   = "#3A1F5E",
+  purple   = "#A855F7",
+  text     = "#F3E8FF",
+  soft     = "#C084FC",
+  muted    = "#8B5CF6",
+  orange   = "#F97316",
+  ok       = "#10B981",
+  -- neon blue (buttons)
+  blue      = "#00D1FF",
+  blue_bg   = "#0A2240",
+  blue_key  = "#12396B",
+  blue_txt  = "#7DE3FF",
+  blue_dim  = "#0B3A5A",
+  blue_deep = "#0A86AD", -- keycap on the focused row
+}
+
+local function set_highlights()
+  local function hl(name, spec) api.nvim_set_hl(0, name, spec) end
+  hl("DashNormal",          { fg = C.text, bg = C.bg })
+  hl("DashCursor",          { blend = 100, nocombine = true })
+  hl("DashBorder",          { fg = C.border })
+  hl("DashBorderActive",    { fg = C.purple })
+  hl("DashTitle",           { fg = C.muted, bold = true })
+  hl("DashTitleActive",     { fg = C.soft, bold = true })
+  hl("DashCount",           { fg = C.muted })
+  hl("DashThumb",           { fg = C.soft })
+  hl("DashMuted",           { fg = C.muted })
+  hl("DashHeader",          { fg = C.text, bold = true })
+  hl("DashHeaderDiamond",   { fg = C.orange })
+  hl("DashGreeting",        { fg = C.text, bold = true })
+  hl("DashGreetingName",    { fg = C.blue, bold = true })
+  -- neon blue buttons
+  hl("DashBtn",             { fg = C.blue, bg = C.blue_bg })
+  hl("DashBtnKey",          { fg = C.blue_txt, bg = C.blue_key, bold = true })
+  -- the focused row (any panel)
+  hl("DashBtnActive",       { fg = C.bg, bg = C.blue, bold = true })
+  hl("DashBtnActiveDim",    { fg = C.blue_dim, bg = C.blue })
+  hl("DashBtnKeyActive",    { fg = "#EAFBFF", bg = C.blue_deep, bold = true })
+  -- purple "pick an item" rows
+  hl("DashItem",            { fg = C.text, bg = C.surface })
+  hl("DashItemDim",         { fg = C.muted, bg = C.surface })
+  hl("DashItemKey",         { fg = C.soft, bg = C.elevated, bold = true })
+  -- status chips + hints
+  hl("DashCap",             { fg = C.elevated })
+  hl("DashChip",            { fg = C.soft, bg = C.elevated })
+  hl("DashChipAccent",      { fg = C.orange, bg = C.elevated })
+  hl("DashChipOk",          { fg = C.ok, bg = C.elevated })
+  hl("DashHint",            { fg = C.muted })
+  hl("DashHintKey",         { fg = C.soft, bold = true })
+end
+
+-------------------------------------------------------------------------------
+-- Icons (Nerd Font codepoints)
+--
+-- Two sets with identical keys. "md" = Nerd Fonts v3 Material Design icons (the
+-- same family as the glyphs in your which-key groups), "fa" = Font Awesome.
+-- Pick one with `vim.g.dash_icons = "fa"` before setup(), or edit any single
+-- codepoint below if a glyph looks wrong in your font.
+-------------------------------------------------------------------------------
+local ICON_SETS = {
+  md = {
+    -- quick actions
+    find_files = 0xF0770, new_file = 0xF0752, config = 0xF0493, plugins = 0xF0431, quit = 0xF0425,
+    -- search
+    find_word = 0xF0349, find_string = 0xF027E, open_files = 0xF018F, buffers = 0xF0328,
+    diagnostics = 0xF0026, marks = 0xF00C0, registers = 0xF0147, keymaps = 0xF030C,
+    commands = 0xF018D, help_tags = 0xF02D7, man = 0xF00BA, resume = 0xF02DA,
+    -- git
+    git_files = 0xF0219, git_changes = 0xF03EB, git_commits = 0xF0718, git_branches = 0xF062C,
+    git_status = 0xF02A2, lazygit = 0xF062D,
+    -- system
+    health = 0xF05F6, messages = 0xF0361, sync = 0xF0450, updates = 0xF01DA,
+    mason = 0xF05B7, lsp = 0xF048B, help = 0xF0625,
+    -- misc
+    file = 0xF0214, colorscheme = 0xF03D8,
+    -- status chips
+    branch = 0xE0A0, folder = 0xF024B, version = 0xF0174, startup = 0xF140B,
+  },
+  fa = {
+    find_files = 0xF07C, new_file = 0xF15B, config = 0xF013, plugins = 0xF1E6, quit = 0xF011,
+    find_word = 0xF002, find_string = 0xF10D, open_files = 0xF0C5, buffers = 0xF24D,
+    diagnostics = 0xF071, marks = 0xF02E, registers = 0xF0EA, keymaps = 0xF11C,
+    commands = 0xF120, help_tags = 0xF059, man = 0xF02D, resume = 0xF01E,
+    git_files = 0xF1D3, git_changes = 0xF044, git_commits = 0xE729, git_branches = 0xE725,
+    git_status = 0xE702, lazygit = 0xF1D2,
+    health = 0xF21E, messages = 0xF075, sync = 0xF021, updates = 0xF019,
+    mason = 0xF0AD, lsp = 0xF0E8, help = 0xF128,
+    file = 0xF016, colorscheme = 0xF1FC,
+    branch = 0xE0A0, folder = 0xF07B, version = 0xF121, startup = 0xF0E7,
+  },
+}
+
+-------------------------------------------------------------------------------
+-- Constants / state
+-------------------------------------------------------------------------------
+local PANEL_W = 46            -- outer width of a panel
+local PILL = PANEL_W - 4      -- width of a button row
+local GAP = 3                 -- space between panels
+
+-- entries shown at once: panels with a footer row (recent files, colorschemes)
+-- show 5, every other panel shows 6 so all panels end up the same height
+local function visible_of(p) return p.footer and 5 or 6 end
+
+local ns = api.nvim_create_namespace("dash")
+local S = { active = 1, ncols = 1, hit = {} }
+
+local STYLE = {
+  primary = { base = "DashBtn",  dim = "DashBtn",     key = "DashBtnKey" },
+  item    = { base = "DashItem", dim = "DashItemDim", key = "DashItemKey" },
+  active  = { base = "DashBtnActive", dim = "DashBtnActiveDim", key = "DashBtnKeyActive" },
+}
+
+local render -- forward declaration
+
+local function ic(name)
+  local set = ICON_SETS[vim.g.dash_icons or "md"] or ICON_SETS.md
+  return fn.nr2char(set[name])
+end
+
+local function trunc_right(s, n)
+  if n < 2 then return "" end
+  if dw(s) <= n then return s end
+  return fn.strcharpart(s, 0, n - 1) .. "…"
+end
+
+local function trunc_left(s, n)
+  if n < 2 then return "" end
+  if dw(s) <= n then return s end
+  return "…" .. fn.strcharpart(s, fn.strchars(s) - (n - 1))
+end
+
+local function pieces_width(pieces)
+  local w = 0
+  for _, p in ipairs(pieces) do w = w + dw(p[1]) end
+  return w
+end
+
+local function centered(pieces, width)
+  local m = math.max(0, math.floor((width - pieces_width(pieces)) / 2))
+  table.insert(pieces, 1, { string.rep(" ", m) })
+  return pieces
+end
+
+local function safe(f)
+  return function()
+    local ok, err = pcall(f)
+    if not ok then
+      local msg = (tostring(err):gsub("^Vim%b():", ""))
+      vim.notify("Dash: " .. msg, vim.log.levels.WARN)
+    end
+  end
+end
+
+local function cmd(c)
+  return safe(function() vim.cmd(c) end)
+end
+
+-- same helper as in the keymaps config: open a Telescope builtin picker
+local function pick(name, opts)
+  return safe(function() require("telescope.builtin")[name](opts) end)
+end
+
+local terminals = {}
+local function float_term(command)
+  return safe(function()
+    if fn.executable(command) == 0 then error(command .. " is not executable", 0) end
+    if not terminals[command] then
+      terminals[command] = require("toggleterm.terminal").Terminal:new {
+        cmd = command, direction = "float", hidden = true,
+      }
+    end
+    terminals[command]:toggle()
+  end)
+end
+
+local function item_key(item)
+  local k = item.key
+  if type(k) == "function" then k = k() end
+  return k
+end
+
+-------------------------------------------------------------------------------
+-- Panels
+-------------------------------------------------------------------------------
+local function git_branch()
+  local ok, out = pcall(fn.systemlist, { "git", "rev-parse", "--abbrev-ref", "HEAD" })
+  if ok and vim.v.shell_error == 0 and out[1] and out[1] ~= "" then return out[1] end
+end
+
+local function list_colorschemes()
+  local seen, list = {}, {}
+  local function add(n)
+    if n and n ~= "" and not seen[n] then
+      seen[n] = true
+      list[#list + 1] = n
+    end
+  end
+  for _, n in ipairs(fn.getcompletion("", "color")) do add(n) end
+  -- also pick up themes from plugins lazy.nvim hasn't loaded yet
+  local ok, cfg = pcall(require, "lazy.core.config")
+  if ok and cfg.plugins then
+    for _, plug in pairs(cfg.plugins) do
+      if plug.dir then
+        for _, f in ipairs(fn.glob(plug.dir .. "/colors/*", false, true)) do
+          add((fn.fnamemodify(f, ":t:r")))
+        end
+      end
+    end
+  end
+  table.sort(list)
+  return list
+end
+
+-- the palette strip in the bottom row of the colorschemes panel: six wide
+-- swatches, evenly spaced. "▆" (lower three quarters) is a bit shorter than a
+-- full block, so a thin gap of panel background separates it from the last
+-- entry; use "▄" for a bigger gap or "█" for none.
+local SWATCH = "▆▆▆▆▆"
+
+local function swatch_row()
+  local specs = {
+    { "Normal", "bg" }, { "Keyword", "fg" }, { "Function", "fg" },
+    { "String", "fg" }, { "Type", "fg" }, { "Comment", "fg" },
+  }
+  local pieces = {}
+  for i, s in ipairs(specs) do
+    local ok, h = pcall(api.nvim_get_hl, 0, { name = s[1], link = false })
+    local v = ok and h and h[s[2]] or nil
+    api.nvim_set_hl(0, "DashSw" .. i, { fg = v and string.format("#%06x", v) or C.muted, bg = C.surface })
+    pieces[#pieces + 1] = { SWATCH, "DashSw" .. i }
+    if i < #specs then pieces[#pieces + 1] = { "  ", "DashItem" } end
+  end
+  return pieces
+end
+
+local function recent_panel()
+  local items, seen = {}, {}
+  local has_icons, devicons = pcall(require, "nvim-web-devicons")
+  for _, f in ipairs(vim.v.oldfiles or {}) do
+    if #items >= 50 then break end
+    if not seen[f] and fn.filereadable(f) == 1 and not f:match("/%.git/") then
+      seen[f] = true
+      local name = fn.fnamemodify(f, ":t")
+      local dir = fn.fnamemodify(f, ":~:.:h")
+      if dir == "." then dir = "" end
+      local icon
+      if has_icons then
+        icon = devicons.get_icon(name, fn.fnamemodify(f, ":e"), { default = true })
+      end
+      local i = #items + 1
+      items[i] = {
+        icon = icon or ic("file"),
+        label = name,
+        dim = dir,
+        path = fn.fnamemodify(f, ":~"),
+        key = tostring(i),
+        hot = i <= 9,
+        run = safe(function() vim.cmd("edit " .. fn.fnameescape(f)) end),
+      }
+    end
+  end
+  if #items == 0 then items[1] = { icon = ic("file"), label = "No recent files yet" } end
+  return {
+    title = "RECENT FILES", style = "item", items = items,
+    -- the bottom row of the panel shows the full path of the selected file
+    footer = function(item)
+      if item and item.path then return { { trunc_left(item.path, PILL - 2), "DashItemDim" } } end
+    end,
+  }
+end
+
+local function colors_panel()
+  local cur = vim.g.colors_name or "default"
+  local items, sel = {}, 1
+  for i, name in ipairs(list_colorschemes()) do
+    if name == cur then sel = i end
+    items[i] = {
+      icon = ic("colorscheme"),
+      label = name,
+      key = function() return (vim.g.colors_name or "default") == name and "●" or nil end,
+      run = function()
+        local ok, err = pcall(vim.cmd.colorscheme, name)
+        if not ok then vim.notify("Dash: " .. tostring(err), vim.log.levels.WARN) end
+        render()
+      end,
+    }
+  end
+  if #items == 0 then items[1] = { icon = ic("colorscheme"), label = "No colorschemes found" } end
+  return {
+    title = "COLORSCHEMES", style = "item", items = items, sel = sel,
+    off = math.max(0, sel - 2),
+    footer = swatch_row, -- palette strip in the bottom row
+  }
+end
+
+local function build_panels()
+  local actions = {
+    title = "QUICK ACTIONS", style = "primary",
+    items = {
+      { icon = ic("find_files"), label = "Find files", key = "f", hot = true, run = pick "find_files" },
+      { icon = ic("new_file"), label = "New file", key = "n", hot = true, run = cmd "enew | startinsert" },
+      { icon = ic("config"), label = "Configuration", key = "c", hot = true,
+        run = pick("find_files", {
+          cwd = fn.stdpath "config",
+          follow = true,
+          prompt_title = "Find config files",
+        }) },
+      { icon = ic("plugins"), label = "Plugins", key = "p", hot = true, run = cmd "Lazy home" },
+      { icon = ic("quit"), label = "Quit", key = "q", hot = true, run = cmd "qa" },
+    },
+  }
+
+  local search = {
+    title = "SEARCH", style = "primary",
+    items = {
+      { icon = ic("find_word"), label = "Find word", key = "w", hot = true,
+        run = pick("grep_string", {
+          prompt_title = "Find word",
+          word_match = "-w",
+          use_regex = true,
+          search = "",
+        }) },
+      { icon = ic("find_string"), label = "Find string", key = "s", hot = true,
+        run = pick("live_grep", { prompt_title = "Match exact string", search = "" }) },
+      { icon = ic("open_files"), label = "Find in open files", key = "/", hot = true,
+        run = pick("live_grep", { grep_open_files = true, prompt_title = "Match in open files" }) },
+      { icon = ic("buffers"), label = "Open buffers", key = "b", hot = true, run = pick "buffers" },
+      { icon = ic("diagnostics"), label = "Diagnostics", key = "d", hot = true, run = pick "diagnostics" },
+      { icon = ic("marks"), label = "Marks", key = "'", hot = true, run = pick "marks" },
+      { icon = ic("registers"), label = "Registers", key = "r", hot = true, run = pick "registers" },
+      { icon = ic("keymaps"), label = "Keymaps", key = "?", hot = true, run = pick "keymaps" },
+      { icon = ic("commands"), label = "Commands", key = "x", hot = true, run = pick "commands" },
+      { icon = ic("help_tags"), label = "Help", key = "h", hot = true, run = pick "help_tags" },
+      { icon = ic("man"), label = "Man pages", key = "m", hot = true, run = pick "man_pages" },
+      { icon = ic("resume"), label = "Reopen last search", key = "%", hot = true, run = pick "resume" },
+    },
+  }
+
+  local git = {
+    title = "GIT", style = "primary",
+    items = {
+      { icon = ic("git_files"), label = "Tracked files", key = "t", hot = true,
+        run = pick("git_files", { prompt_title = "Git files" }) },
+      { icon = ic("git_changes"), label = "Git changes", key = "a", hot = true,
+        run = pick("git_status", { prompt_title = "Find diff" }) },
+      { icon = ic("git_commits"), label = "Commits", key = "o", hot = true,
+        run = pick("git_bcommits", { prompt_title = "Git commits" }) },
+      { icon = ic("git_branches"), label = "Branches", key = "e", hot = true,
+        run = pick("git_branches", { prompt_title = "Git branches" }) },
+      { icon = ic("git_status"), label = "Git status", key = "i", hot = true, run = cmd "tab Git" },
+    },
+  }
+  if fn.executable("lazygit") == 1 then
+    git.items[#git.items + 1] = {
+      icon = ic("lazygit"), label = "Lazygit", key = "z", hot = true, run = float_term "lazygit",
+    }
+  end
+
+  local system = {
+    title = "SYSTEM", style = "primary",
+    items = {
+      { icon = ic("health"), label = "Check health", key = "C", hot = true, run = cmd "checkhealth" },
+      { icon = ic("lsp"), label = "LSP information", key = "I", hot = true, run = cmd "checkhealth vim.lsp" },
+      { icon = ic("messages"), label = "Messages", key = "M", hot = true, run = cmd "messages" },
+      { icon = ic("sync"), label = "Sync plugins", key = "S", hot = true, run = cmd "Lazy sync" },
+      { icon = ic("updates"), label = "Check plugin updates", key = "U", hot = true, run = cmd "Lazy check" },
+      { icon = ic("help"), label = "Neovim help", key = "V", hot = true, run = cmd "help" },
+    },
+  }
+  if fn.exists(":Mason") == 2 then
+    table.insert(system.items, 5, {
+      icon = ic("mason"), label = "Mason", key = "N", hot = true, run = cmd "Mason",
+    })
+  end
+
+  local panels = { actions, recent_panel(), search, colors_panel(), git, system }
+  for _, p in ipairs(panels) do
+    p.sel = p.sel or 1
+    p.off = p.off or 0
+  end
+  return panels
+end
+
+-------------------------------------------------------------------------------
+-- Panel drawing
+-------------------------------------------------------------------------------
+local function pill(item, st, selected)
+  local left = " " .. (item.icon or "") .. "  "
+  local key = item_key(item) or ""
+  if key == "" and selected and item.run then key = "l" end
+  local keyw = key ~= "" and (dw(key) + 2) or 0
+  local room = PILL - dw(left) - keyw - 1
+  local name = trunc_right(item.label, room)
+  local spare = room - dw(name)
+  local dimtxt = ""
+  if item.dim and item.dim ~= "" and spare > 6 then
+    dimtxt = "  " .. trunc_left(item.dim, spare - 2)
+  end
+  local gap = PILL - dw(left .. name .. dimtxt) - keyw
+  local pieces = {
+    { left .. name, st.base },
+    { dimtxt, st.dim },
+    { string.rep(" ", math.max(0, gap)), st.base },
+  }
+  if keyw > 0 then pieces[#pieces + 1] = { " " .. key .. " ", st.key } end
+  return pieces
+end
+
+-- returns the panel's rows (each a list of {text, hl} pieces, PANEL_W wide),
+-- the index of the selected row, and a map row -> item index (for the mouse)
+local function panel_rows(p, is_active, gaps)
+  local rows, sel_row, item_at = {}, nil, {}
+  local bc = is_active and "DashBorderActive" or "DashBorder"
+  local st = STYLE[p.style]
+  local n = #p.items
+  local vis = visible_of(p)
+  local scrollable = n > vis
+  local w = dw(p.title)
+
+  -- top border (+ "3/24" counter on scrollable panels)
+  local top = {
+    { "╭─ ", bc },
+    { p.title, is_active and "DashTitleActive" or "DashTitle" },
+    { " ", bc },
+  }
+  if scrollable then
+    local chip = string.format("%d/%d", p.sel, n)
+    top[#top + 1] = { string.rep("─", math.max(1, PANEL_W - 8 - w - #chip)), bc }
+    top[#top + 1] = { " " .. chip .. " ", "DashCount" }
+    top[#top + 1] = { "─╮", bc }
+  else
+    top[#top + 1] = { string.rep("─", math.max(1, PANEL_W - 5 - w)) .. "╮", bc }
+  end
+  rows[#rows + 1] = top
+
+  -- scrollbar geometry (the right border doubles as the track)
+  local area_items = gaps and (vis * 2 - 1) or vis
+  local thumb_len, thumb_start = 0, 0
+  if scrollable then
+    thumb_len = math.max(1, math.floor(area_items * vis / n + 0.5))
+    thumb_start = math.floor((area_items - thumb_len) * p.off / (n - vis) + 0.5)
+  end
+  local area_row = 0
+  local function right_border()
+    local r = area_row
+    area_row = area_row + 1
+    if scrollable and r < area_items and r >= thumb_start and r < thumb_start + thumb_len then
+      return { "┃", "DashThumb" }
+    end
+    return { "│", bc }
+  end
+  -- an empty row carrying the panel's own entry background (used between
+  -- entries, for unused slots, and below the last entry)
+  local function gap_row()
+    return { { "│", bc }, { " " }, { string.rep(" ", PILL), st.base }, { " " }, right_border() }
+  end
+
+  for slot = 1, vis do
+    local idx = p.off + slot
+    local item = slot <= vis and p.items[idx] or nil
+    if item then
+      local is_sel = is_active and idx == p.sel
+      local row = { { "│", bc }, { " " } }
+      for _, piece in ipairs(pill(item, is_sel and STYLE.active or st, is_sel)) do
+        row[#row + 1] = piece
+      end
+      row[#row + 1] = { " " }
+      row[#row + 1] = right_border()
+      rows[#rows + 1] = row
+      item_at[#rows] = idx
+      if is_sel then sel_row = #rows end
+    else
+      rows[#rows + 1] = gap_row()
+    end
+    if gaps and slot < vis then rows[#rows + 1] = gap_row() end
+  end
+
+  -- panels with a footer get one more row of entry background below the last
+  -- entry (the selected file's path / the colorscheme palette). Panels without
+  -- one use that row for a 6th entry instead, so every panel has the same height.
+  if p.footer then
+    if gaps then rows[#rows + 1] = gap_row() end
+    local footer = p.footer(p.items[p.sel]) or {}
+    local frow = { { "│", bc }, { " " }, { " ", st.base } }
+    for _, piece in ipairs(footer) do frow[#frow + 1] = piece end
+    frow[#frow + 1] = { string.rep(" ", math.max(0, PILL - 1 - pieces_width(footer))), st.base }
+    frow[#frow + 1] = { " " }
+    frow[#frow + 1] = { "│", bc }
+    rows[#rows + 1] = frow
+  end
+
+  rows[#rows + 1] = { { "╰" .. string.rep("─", PANEL_W - 2) .. "╯", bc } }
+  return rows, sel_row, item_at
+end
+
+-------------------------------------------------------------------------------
+-- Full render (called on every state change and on resize)
+-------------------------------------------------------------------------------
+local function startup_ms()
+  local ok, stats = pcall(function() return require("lazy").stats() end)
+  if ok and stats and stats.startuptime and stats.startuptime > 0 then
+    return math.floor(stats.startuptime + 0.5)
+  end
+end
+
+function render()
+  local buf = S.buf
+  if not (buf and api.nvim_buf_is_valid(buf) and S.panels) then return end
+  local win = fn.bufwinid(buf)
+  if win == -1 then return end
+
+  local width, height = api.nvim_win_get_width(win), api.nvim_win_get_height(win)
+  local panels = S.panels
+  local ncols = math.max(1, math.min(3, #panels, math.floor((width + GAP) / (PANEL_W + GAP))))
+  S.ncols = ncols
+  local nrows = math.ceil(#panels / ncols)
+  -- roomy layout (blank rows between entries) if it fits: a panel is 13 rows tall
+  local gaps = height >= (11 + nrows * 13 + (nrows - 1))
+
+  local lines, marks = {}, {}
+  S.hit = {}
+  local function emit(pieces)
+    local row0, col, parts = #lines, 0, {}
+    for _, p in ipairs(pieces) do
+      local t = p[1]
+      if #t > 0 then
+        if p[2] then marks[#marks + 1] = { row0, col, col + #t, p[2] } end
+        parts[#parts + 1] = t
+        col = col + #t
+      end
+    end
+    lines[#lines + 1] = table.concat(parts)
+    return row0 + 1
+  end
+
+  for _ = 1, gaps and 2 or 1 do emit({}) end
+
+  -- header
+  local hour = tonumber(os.date("%H"))
+  local greeting = hour < 5 and "Working late" or hour < 12 and "Good morning"
+    or hour < 18 and "Good afternoon" or "Good evening"
+  emit(centered({ { "◆", "DashHeaderDiamond" }, { "  N E O V I M", "DashHeader" } }, width))
+  emit({})
+  emit(centered({ { greeting .. ", ", "DashGreeting" }, { S.user, "DashGreetingName" } }, width))
+  emit(centered({ { os.date("%A, %d %B"), "DashMuted" } }, width))
+  emit({})
+
+  -- panel grid
+  local block_w = ncols * PANEL_W + (ncols - 1) * GAP
+  local pad = string.rep(" ", math.max(0, math.floor((width - block_w) / 2)))
+  local sel_line
+  for gr = 1, nrows do
+    local first = (gr - 1) * ncols + 1
+    local last = math.min(first + ncols - 1, #panels)
+    local grid, sel_rows, item_ats, height_rows = {}, {}, {}, 0
+    for pi = first, last do
+      grid[pi], sel_rows[pi], item_ats[pi] = panel_rows(panels[pi], pi == S.active, gaps)
+      height_rows = #grid[pi]
+    end
+    for r = 1, height_rows do
+      local pieces = { { pad } }
+      local hits = {}
+      for pi = first, last do
+        if pi > first then pieces[#pieces + 1] = { string.rep(" ", GAP) } end
+        for _, piece in ipairs(grid[pi][r]) do pieces[#pieces + 1] = piece end
+        local c1 = #pad + (pi - first) * (PANEL_W + GAP) + 1
+        hits[#hits + 1] = { c1 = c1, c2 = c1 + PANEL_W - 1, panel = pi, item = item_ats[pi][r] }
+      end
+      local lnum = emit(pieces)
+      S.hit[lnum] = hits
+      if S.active >= first and S.active <= last and sel_rows[S.active] == r then sel_line = lnum end
+    end
+    if gr < nrows then emit({}) end
+  end
+  emit({})
+
+  -- status chips
+  local chips = {}
+  local function chip(icon, text, group)
+    if #chips > 0 then chips[#chips + 1] = { " " } end
+    chips[#chips + 1] = { fn.nr2char(0xe0b6), "DashCap" }
+    chips[#chips + 1] = { " " .. icon .. " " .. text .. " ", group }
+    chips[#chips + 1] = { fn.nr2char(0xe0b4), "DashCap" }
+  end
+  if S.branch then chip(ic("branch"), S.branch, "DashChip") end
+  chip(ic("folder"), S.cwd, "DashChip")
+  local v = vim.version()
+  chip(ic("version"), string.format("v%d.%d.%d", v.major, v.minor, v.patch), "DashChipAccent")
+  local ms = startup_ms()
+  if ms then chip(ic("startup"), ms .. "ms", "DashChipOk") end
+  emit(centered(chips, width))
+  emit({})
+  emit(centered({
+    { "H J K L", "DashHintKey" }, { " panels", "DashHint" }, { "    " },
+    { "j k", "DashHintKey" }, { " move", "DashHint" }, { "    " },
+    { "l", "DashHintKey" }, { " select", "DashHint" },
+  }, width))
+
+  -- write buffer + highlights
+  vim.bo[buf].modifiable = true
+  api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+  vim.bo[buf].modifiable = false
+  api.nvim_buf_clear_namespace(buf, ns, 0, -1)
+  for _, m in ipairs(marks) do
+    api.nvim_buf_set_extmark(buf, ns, m[1], m[2], { end_col = m[3], hl_group = m[4] })
+  end
+  -- park the (hidden) cursor on the selection so the window scrolls to follow it
+  if sel_line then pcall(api.nvim_win_set_cursor, win, { sel_line, 0 }) end
+end
+
+-------------------------------------------------------------------------------
+-- Navigation
+-------------------------------------------------------------------------------
+local function clamp_scroll(p)
+  local n, vis = #p.items, visible_of(p)
+  p.sel = math.max(1, math.min(p.sel, n))
+  if p.sel <= p.off then p.off = p.sel - 1 end
+  if p.sel > p.off + vis then p.off = p.sel - vis end
+  p.off = math.max(0, math.min(p.off, math.max(0, n - vis)))
+end
+
+-- single steps wrap around; pass no_wrap for page jumps / the mouse wheel
+local function move(delta, no_wrap)
+  local p = S.panels[S.active]
+  local n = #p.items
+  local target = p.sel + delta
+  if not no_wrap and math.abs(delta) == 1 then
+    if target < 1 then target = n elseif target > n then target = 1 end
+  end
+  p.sel = target
+  clamp_scroll(p)
+  render()
+end
+
+local function goto_index(i)
+  local p = S.panels[S.active]
+  p.sel = i == -1 and #p.items or i
+  clamp_scroll(p)
+  render()
+end
+
+local function switch_panel(i)
+  S.active = i
+  render()
+end
+
+-- spatial panel movement: H/J/K/L behave like h/j/k/l on the panel grid
+local function nav_panel(dx, dy)
+  local n, cols, i = #S.panels, S.ncols, S.active
+  local col = (i - 1) % cols
+  local target
+  if dx < 0 and col > 0 then target = i - 1
+  elseif dx > 0 and col < cols - 1 and i < n then target = i + 1
+  elseif dy > 0 and i + cols <= n then target = i + cols
+  elseif dy < 0 and i - cols >= 1 then target = i - cols end
+  if target then switch_panel(target) end
+end
+
+local function activate()
+  local p = S.panels[S.active]
+  local item = p.items[p.sel]
+  if item and item.run then item.run() end
+end
+
+-- mouse ------------------------------------------------------------------------
+local function mouse_hit()
+  local m = fn.getmousepos()
+  if not S.buf or m.winid == 0 or m.winid ~= fn.bufwinid(S.buf) then return nil end
+  for _, h in ipairs(S.hit[m.line] or {}) do
+    if m.wincol >= h.c1 and m.wincol <= h.c2 then return h end
+  end
+end
+
+local function click(do_activate)
+  local h = mouse_hit()
+  if not h then return end
+  S.active = h.panel
+  local p = S.panels[h.panel]
+  if h.item then
+    p.sel = h.item
+    clamp_scroll(p)
+  end
+  render()
+  if do_activate and h.item then activate() end
+end
+
+local function wheel(delta)
+  local h = mouse_hit()
+  if h then S.active = h.panel end
+  move(delta, true)
+end
+
+-------------------------------------------------------------------------------
+-- Cursor hiding (restored whenever you leave the dashboard)
+-------------------------------------------------------------------------------
+local function hide_cursor()
+  if not S.saved_cursor then S.saved_cursor = vim.o.guicursor end
+  vim.o.guicursor = "a:DashCursor/DashCursor"
+end
+
+local function show_cursor()
+  if S.saved_cursor then
+    vim.o.guicursor = S.saved_cursor
+    S.saved_cursor = nil
+  end
+end
+
+-------------------------------------------------------------------------------
+-- Open
+-------------------------------------------------------------------------------
+function M.open()
+  local old = api.nvim_get_current_buf()
+  local buf = api.nvim_create_buf(false, true)
+  api.nvim_set_current_buf(buf)
+  local win = api.nvim_get_current_win()
+
+  -- drop the empty startup buffer
+  if api.nvim_buf_is_valid(old) and old ~= buf and vim.bo[old].buftype == ""
+    and api.nvim_buf_get_name(old) == "" and not vim.bo[old].modified
+    and api.nvim_buf_line_count(old) <= 1
+    and (api.nvim_buf_get_lines(old, 0, 1, false)[1] or "") == "" then
+    pcall(api.nvim_buf_delete, old, { force = true })
+  end
+
+  for k, v in pairs({
+    buftype = "nofile", bufhidden = "wipe", swapfile = false,
+    buflisted = false, filetype = "dash",
+  }) do
+    vim.bo[buf][k] = v
+  end
+
+  for k, v in pairs({
+    number = false, relativenumber = false, signcolumn = "no", foldcolumn = "0",
+    cursorline = false, cursorcolumn = false, colorcolumn = "", list = false,
+    wrap = false, spell = false, scrolloff = 0, sidescrolloff = 0,
+    statuscolumn = "", fillchars = "eob: ",
+    winhighlight = "Normal:DashNormal,NormalNC:DashNormal,EndOfBuffer:DashNormal,CursorLine:DashNormal",
+  }) do
+    -- scope = "local" (like :setlocal) so nothing leaks into files opened later
+    pcall(api.nvim_set_option_value, k, v, { scope = "local", win = win })
+  end
+
+  local user = os.getenv("USER") or os.getenv("USERNAME") or "operator"
+  S.user = user:sub(1, 1):upper() .. user:sub(2)
+  S.buf = buf
+  S.active = 1
+  S.hit = {}
+  S.branch = git_branch()
+  S.cwd = trunc_left(fn.fnamemodify(fn.getcwd(), ":~"), 22)
+  S.panels = build_panels()
+  for _, p in ipairs(S.panels) do clamp_scroll(p) end
+
+  -- keymaps -------------------------------------------------------------------
+  local function map(lhs, rhs)
+    vim.keymap.set("n", lhs, rhs, { buffer = buf, nowait = true, silent = true })
+  end
+
+  -- inside a panel (wraps around)
+  for _, k in ipairs({ "j", "<Down>", "<C-n>" }) do map(k, function() move(1) end) end
+  for _, k in ipairs({ "k", "<Up>", "<C-p>" }) do map(k, function() move(-1) end) end
+  for _, k in ipairs({ "<C-d>", "<PageDown>" }) do
+    map(k, function() move(visible_of(S.panels[S.active]), true) end)
+  end
+  for _, k in ipairs({ "<C-u>", "<PageUp>" }) do
+    map(k, function() move(-visible_of(S.panels[S.active]), true) end)
+  end
+  map("gg", function() goto_index(1) end)
+  map("G", function() goto_index(-1) end)
+
+  -- select
+  map("l", activate)
+  map("<CR>", activate)
+
+  -- between panels (shift + h/j/k/l)
+  map("H", function() nav_panel(-1, 0) end)
+  map("J", function() nav_panel(0, 1) end)
+  map("K", function() nav_panel(0, -1) end)
+  map("L", function() nav_panel(1, 0) end)
+  map("<Tab>", function() switch_panel(S.active % #S.panels + 1) end)
+  map("<S-Tab>", function() switch_panel((S.active - 2) % #S.panels + 1) end)
+
+  -- mouse
+  map("<LeftMouse>", function() click(false) end)
+  map("<2-LeftMouse>", function() click(true) end)
+  map("<ScrollWheelDown>", function() wheel(1) end)
+  map("<ScrollWheelUp>", function() wheel(-1) end)
+  for _, k in ipairs({ "<LeftDrag>", "<LeftRelease>", "<RightMouse>", "<3-LeftMouse>", "<4-LeftMouse>" }) do
+    map(k, "<Nop>")
+  end
+
+  -- per-item hotkeys (never steal the navigation keys)
+  local bound = {
+    j = true, k = true, l = true, g = true,
+    H = true, J = true, K = true, L = true, G = true,
+  }
+  for pi, p in ipairs(S.panels) do
+    for ii, item in ipairs(p.items) do
+      local key = item.hot and item_key(item)
+      if key and not bound[key] then
+        bound[key] = true
+        map(key, function()
+          S.active = pi
+          p.sel = ii
+          clamp_scroll(p)
+          render()
+          if item.run then item.run() end
+        end)
+      end
+    end
+  end
+
+  -- this is a read-only screen: neutralise keys that would try to edit or
+  -- move the (hidden) cursor sideways
+  for _, k in ipairs({ "h", "<Left>", "<Right>", "a", "A", "I", "O", "x", "X", "d", "<C-r>" }) do
+    if not bound[k] then map(k, "<Nop>") end
+  end
+
+  -- buffer lifecycle ----------------------------------------------------------
+  local g = api.nvim_create_augroup("DashBuf", { clear = true })
+  api.nvim_create_autocmd("BufEnter", {
+    group = g, buffer = buf,
+    callback = function() hide_cursor(); vim.schedule(render) end,
+  })
+  api.nvim_create_autocmd({ "BufLeave", "BufWipeout" }, {
+    group = g, buffer = buf, callback = show_cursor,
+  })
+  api.nvim_create_autocmd("BufWipeout", {
+    group = g, buffer = buf, callback = function() if S.buf == buf then S.buf = nil end end,
+  })
+
+  hide_cursor()
+  render()
+  vim.schedule(render) -- once more after the UI has settled on its final size
+end
+
+-------------------------------------------------------------------------------
+-- Setup
+-------------------------------------------------------------------------------
+function M.setup()
+  set_highlights()
+  local g = api.nvim_create_augroup("Dash", { clear = true })
+
+  api.nvim_create_user_command("Dash", function() M.open() end, {})
+  api.nvim_create_user_command("Dashboard", function() M.open() end, {})
+
+  api.nvim_create_autocmd("ColorScheme", {
+    group = g,
+    callback = function() set_highlights(); render() end,
+  })
+  api.nvim_create_autocmd({ "VimResized", "WinResized", "UIEnter" }, {
+    group = g,
+    callback = function() vim.schedule(render) end,
+  })
+  api.nvim_create_autocmd("User", {
+    group = g, pattern = "LazyVimStarted",
+    callback = function() vim.schedule(render) end,
+  })
+
+  local function autostart()
+    if vim.g.dash_disable or fn.argc() > 0 then return end
+    local buf = api.nvim_get_current_buf()
+    if api.nvim_buf_get_name(buf) ~= "" or vim.bo[buf].modified then return end
+    if api.nvim_buf_line_count(buf) > 1 then return end
+    if (api.nvim_buf_get_lines(buf, 0, 1, false)[1] or "") ~= "" then return end
+    M.open()
+  end
+
+  if vim.v.vim_did_enter == 1 then
+    vim.schedule(autostart)
+  else
+    api.nvim_create_autocmd("VimEnter", { group = g, once = true, callback = autostart })
+  end
+end
+
+M.setup()
+
+return M

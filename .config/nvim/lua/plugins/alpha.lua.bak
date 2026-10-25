@@ -1,0 +1,401 @@
+-- ~/.config/nvim/lua/plugins/alpha.lua
+-- A near-future "workspace launcher" dashboard for alpha-nvim (lazy.nvim spec).
+-- Needs: Nerd Font (Mono variant recommended), termguicolors, telescope.nvim
+-- (swap the commands in `actions` if you use something else).
+
+return {
+  "goolord/alpha-nvim",
+  event = "VimEnter",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  config = function()
+    local alpha = require("alpha")
+    local api, fn = vim.api, vim.fn
+
+    ---------------------------------------------------------------------------
+    -- Palette
+    ---------------------------------------------------------------------------
+    local C = {
+      bg       = "#07040D",
+      surface  = "#160C26",
+      elevated = "#211139",
+      border   = "#3A1F5E",
+      text     = "#F3E8FF",
+      soft     = "#C084FC",
+      muted    = "#8B5CF6",
+      orange   = "#F97316",
+      ok       = "#10B981",
+      -- neon blue (buttons)
+      blue     = "#00D1FF",
+      blue_bg  = "#0A2240",
+      blue_key = "#12396B",
+      blue_txt = "#7DE3FF",
+    }
+
+    local function set_highlights()
+      local function hl(name, spec) api.nvim_set_hl(0, name, spec) end
+      hl("AlphaNormal",         { fg = C.text, bg = C.bg })
+      hl("AlphaCursor",         { blend = 100, nocombine = true })
+      hl("AlphaBorder",         { fg = C.border })
+      hl("AlphaPanelTitle",     { fg = C.muted, bold = true })
+      hl("AlphaSubtle",         { fg = C.muted })
+      hl("AlphaBrand",          { fg = C.text, bold = true })
+      hl("AlphaBrandMark",      { fg = C.orange })
+      hl("AlphaGreeting",       { fg = C.text, bold = true })
+      hl("AlphaGreetingName",   { fg = C.blue, bold = true })
+      -- primary (neon blue) buttons
+      hl("AlphaBtn",            { fg = C.blue, bg = C.blue_bg })
+      hl("AlphaBtnKey",         { fg = C.blue_txt, bg = C.blue_key, bold = true })
+      hl("AlphaBtnActive",      { fg = C.bg, bg = C.blue, bold = true })
+      hl("AlphaBtnKeyActive",   { fg = C.blue, bg = C.bg, bold = true })
+      -- secondary (recent files) rows
+      hl("AlphaItem",           { fg = C.text, bg = C.surface })
+      hl("AlphaItemDim",        { fg = C.muted, bg = C.surface })
+      hl("AlphaItemKey",        { fg = C.soft, bg = C.elevated, bold = true })
+      -- status chips + hints
+      hl("AlphaCap",            { fg = C.elevated })
+      hl("AlphaChip",           { fg = C.soft, bg = C.elevated })
+      hl("AlphaChipAccent",     { fg = C.orange, bg = C.elevated })
+      hl("AlphaChipOk",         { fg = C.ok, bg = C.elevated })
+      hl("AlphaHint",           { fg = C.muted })
+      hl("AlphaHintKey",        { fg = C.soft, bold = true })
+    end
+    set_highlights()
+    api.nvim_create_autocmd("ColorScheme", { callback = set_highlights })
+
+    ---------------------------------------------------------------------------
+    -- Rendering helpers
+    --
+    -- Every row we hand to alpha is registered with a list of highlight ranges.
+    -- After alpha renders the buffer we look each line up and paint it with
+    -- extmarks. Rows must not start/end with whitespace (alpha pads the left).
+    ---------------------------------------------------------------------------
+    local PW = 44 -- inner width of a button "pill"
+    local registry = {}
+    local ns = api.nvim_create_namespace("alpha_ui")
+    local ns_focus = api.nvim_create_namespace("alpha_ui_focus")
+
+    local function ic(code) return fn.nr2char(code) end
+
+    local function register(pieces)
+      local s, ranges, pos = "", {}, 0
+      local pill_s, pill_e, key_s, key_e
+      for _, p in ipairs(pieces) do
+        local t, group, tag = p[1], p[2], p[3]
+        if #t > 0 then
+          if group then ranges[#ranges + 1] = { group, pos, pos + #t } end
+          if tag == "pill" or tag == "key" then
+            pill_s = pill_s or pos
+            pill_e = pos + #t
+          end
+          if tag == "key" then key_s, key_e = pos, pos + #t end
+          s = s .. t
+          pos = pos + #t
+        end
+      end
+      registry[s] = {
+        ranges = ranges,
+        pill = pill_s and { pill_s, pill_e } or nil,
+        key = key_s and { key_s, key_e } or nil,
+      }
+      return s
+    end
+
+    local function line(pieces)
+      return { type = "text", val = register(pieces), opts = { position = "center" } }
+    end
+
+    local function pad(n) return { type = "padding", val = n } end
+
+    local function trunc_right(s, n)
+      if fn.strdisplaywidth(s) <= n then return s end
+      return fn.strcharpart(s, 0, n - 1) .. "…"
+    end
+
+    local function trunc_left(s, n)
+      if fn.strdisplaywidth(s) <= n then return s end
+      return "…" .. fn.strcharpart(s, fn.strchars(s) - (n - 1))
+    end
+
+    local B = "AlphaBorder"
+
+    -- a clickable row: │ [ icon  label            key ] │
+    local function pill_pieces(icon, label, dim, key, style)
+      local left = " " .. icon .. "  "
+      local room = PW - fn.strdisplaywidth(left) - 4
+      local name = trunc_right(label, room)
+      local spare = room - fn.strdisplaywidth(name)
+      local dimtxt = ""
+      if dim and dim ~= "" and spare > 6 then dimtxt = "  " .. trunc_left(dim, spare - 2) end
+      local gap = PW - fn.strdisplaywidth(left .. name .. dimtxt) - 3
+      return {
+        { "│", B }, { " " },
+        { left .. name, style.base, "pill" },
+        { dimtxt, style.dim, "pill" },
+        { string.rep(" ", gap), style.base, "pill" },
+        { " " .. key .. " ", style.key, "key" },
+        { " " }, { "│", B },
+      }
+    end
+
+    local function button(key, cmd, pieces)
+      return {
+        type = "button",
+        val = register(pieces),
+        on_press = function()
+          local k = api.nvim_replace_termcodes(key .. "<Ignore>", true, false, true)
+          api.nvim_feedkeys(k, "t", false)
+        end,
+        opts = {
+          position = "center",
+          cursor = 6,
+          keymap = { "n", key, cmd, { noremap = true, silent = true, nowait = true } },
+        },
+      }
+    end
+
+    local function blank_row()
+      return line({ { "│" .. string.rep(" ", PW + 2) .. "│", B } })
+    end
+
+    local function panel(title, rows, compact)
+      local out = {}
+      local w = fn.strdisplaywidth(title)
+      out[#out + 1] = line({
+        { "╭─ ", B }, { title, "AlphaPanelTitle" },
+        { " " .. string.rep("─", PW - 1 - w) .. "╮", B },
+      })
+      if not compact then out[#out + 1] = blank_row() end
+      for i, r in ipairs(rows) do
+        out[#out + 1] = r
+        if not compact and i < #rows then out[#out + 1] = blank_row() end
+      end
+      if not compact then out[#out + 1] = blank_row() end
+      out[#out + 1] = line({ { "╰" .. string.rep("─", PW + 2) .. "╯", B } })
+      return out
+    end
+
+    ---------------------------------------------------------------------------
+    -- Content
+    ---------------------------------------------------------------------------
+    local compact = vim.o.lines < 44
+
+    local action_style = { base = "AlphaBtn", dim = "AlphaBtn", key = "AlphaBtnKey" }
+    local recent_style = { base = "AlphaItem", dim = "AlphaItemDim", key = "AlphaItemKey" }
+
+    local actions = {
+      { "f", 0xf002, "Find files",      "Telescope find_files" },
+      { "g", 0xf036, "Search project",  "Telescope live_grep" },
+      { "n", 0xf067, "New file",        "enew | startinsert" },
+      { "c", 0xf013, "Configuration",   "e $MYVIMRC" },
+      { "l", 0xf1e6, "Plugins",         "Lazy" },
+      { "q", 0xf011, "Quit",            "qa" },
+    }
+
+    local action_rows = {}
+    for _, a in ipairs(actions) do
+      action_rows[#action_rows + 1] = button(
+        a[1], "<cmd>" .. a[4] .. "<CR>",
+        pill_pieces(ic(a[2]), a[3], nil, a[1], action_style)
+      )
+    end
+
+    local function recent_rows(max)
+      local rows, seen = {}, {}
+      local ok, devicons = pcall(require, "nvim-web-devicons")
+      for _, f in ipairs(vim.v.oldfiles or {}) do
+        if #rows >= max then break end
+        if not seen[f] and fn.filereadable(f) == 1
+          and not f:match("/%.git/") and not f:match("COMMIT_EDITMSG") then
+          seen[f] = true
+          local name = fn.fnamemodify(f, ":t")
+          local dir = fn.fnamemodify(f, ":~:.:h")
+          if dir == "." then dir = "" end
+          local icon = ic(0xf016)
+          if ok then
+            icon = devicons.get_icon(name, fn.fnamemodify(f, ":e"), { default = true }) or icon
+          end
+          local key = tostring(#rows + 1)
+          rows[#rows + 1] = button(
+            key, "<cmd>edit " .. fn.fnameescape(f) .. "<CR>",
+            pill_pieces(icon, name, dir, key, recent_style)
+          )
+        end
+      end
+      if #rows == 0 then
+        local msg = "No recent files yet"
+        rows[1] = line({
+          { "│", B }, { " " },
+          { msg .. string.rep(" ", PW - fn.strdisplaywidth(msg)), "AlphaSubtle" },
+          { " " }, { "│", B },
+        })
+      end
+      return rows
+    end
+
+    -- header ------------------------------------------------------------------
+    local hour = tonumber(os.date("%H"))
+    local greeting = hour < 5 and "Working late" or hour < 12 and "Good morning"
+      or hour < 18 and "Good afternoon" or "Good evening"
+    local user = os.getenv("USER") or os.getenv("USERNAME") or "operator"
+    user = user:sub(1, 1):upper() .. user:sub(2)
+
+    local header = {
+      line({ { "◆", "AlphaBrandMark" }, { "  N E O V I M", "AlphaBrand" } }),
+      pad(1),
+      line({ { greeting .. ", ", "AlphaGreeting" }, { user, "AlphaGreetingName" } }),
+      line({ { os.date("%A, %d %B"), "AlphaSubtle" } }),
+    }
+
+    -- status chips (rounded, powerline-style) ---------------------------------
+    local cap_l, cap_r = ic(0xe0b6), ic(0xe0b4)
+
+    local function git_branch()
+      local ok, out = pcall(fn.systemlist, { "git", "rev-parse", "--abbrev-ref", "HEAD" })
+      if ok and vim.v.shell_error == 0 and out[1] and out[1] ~= "" then return out[1] end
+    end
+
+    local branch = git_branch()
+    local version = vim.version()
+    local cwd = trunc_left(fn.fnamemodify(fn.getcwd(), ":~"), 22)
+
+    local function status_pieces(startup_ms)
+      local pieces = {}
+      local function chip(icon, txt, group)
+        if #pieces > 0 then pieces[#pieces + 1] = { " " } end
+        pieces[#pieces + 1] = { cap_l, "AlphaCap" }
+        pieces[#pieces + 1] = { " " .. icon .. " " .. txt .. " ", group }
+        pieces[#pieces + 1] = { cap_r, "AlphaCap" }
+      end
+      if branch then chip(ic(0xe0a0), branch, "AlphaChip") end
+      chip(ic(0xf07b), cwd, "AlphaChip")
+      chip(ic(0xf121), string.format("v%d.%d.%d", version.major, version.minor, version.patch), "AlphaChipAccent")
+      if startup_ms then chip(ic(0xf0e7), startup_ms .. "ms", "AlphaChipOk") end
+      return pieces
+    end
+
+    local status = line(status_pieces())
+
+    local hints = line({
+      { "↑↓", "AlphaHintKey" }, { " navigate", "AlphaHint" }, { "    " },
+      { "↵", "AlphaHintKey" }, { " select", "AlphaHint" }, { "    " },
+      { "key", "AlphaHintKey" }, { " jump", "AlphaHint" },
+    })
+
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "LazyVimStarted",
+      once = true,
+      callback = function()
+        local ok, stats = pcall(function() return require("lazy").stats() end)
+        if not ok then return end
+        status.val = register(status_pieces(math.floor(stats.startuptime + 0.5)))
+        pcall(vim.cmd, "AlphaRedraw")
+        vim.schedule(function() require("alpha_ui_refresh")() end)
+      end,
+    })
+
+    ---------------------------------------------------------------------------
+    -- Layout
+    ---------------------------------------------------------------------------
+    local layout = { pad(compact and 1 or 3) }
+    vim.list_extend(layout, header)
+    layout[#layout + 1] = pad(1)
+    vim.list_extend(layout, panel("QUICK ACTIONS", action_rows, compact))
+    layout[#layout + 1] = pad(1)
+    vim.list_extend(layout, panel("RECENT", recent_rows(compact and 3 or 5), compact))
+    layout[#layout + 1] = pad(1)
+    layout[#layout + 1] = status
+    layout[#layout + 1] = pad(1)
+    layout[#layout + 1] = hints
+
+    alpha.setup({ layout = layout, opts = { noautocmd = true } })
+
+    ---------------------------------------------------------------------------
+    -- Painting + focus state
+    ---------------------------------------------------------------------------
+    local function decorate(buf)
+      api.nvim_buf_clear_namespace(buf, ns, 0, -1)
+      for i, text in ipairs(api.nvim_buf_get_lines(buf, 0, -1, false)) do
+        local entry = registry[vim.trim(text)]
+        if entry then
+          local lead = #text:match("^%s*")
+          for _, r in ipairs(entry.ranges) do
+            api.nvim_buf_set_extmark(buf, ns, i - 1, lead + r[2], {
+              end_col = lead + r[3], hl_group = r[1], priority = 100,
+            })
+          end
+        end
+      end
+    end
+
+    local function focus(buf)
+      api.nvim_buf_clear_namespace(buf, ns_focus, 0, -1)
+      local row = api.nvim_win_get_cursor(0)[1]
+      local text = api.nvim_buf_get_lines(buf, row - 1, row, false)[1] or ""
+      local entry = registry[vim.trim(text)]
+      if entry and entry.pill then
+        local lead = #text:match("^%s*")
+        api.nvim_buf_set_extmark(buf, ns_focus, row - 1, lead + entry.pill[1], {
+          end_col = lead + entry.pill[2], hl_group = "AlphaBtnActive", priority = 200,
+        })
+        api.nvim_buf_set_extmark(buf, ns_focus, row - 1, lead + entry.key[1], {
+          end_col = lead + entry.key[2], hl_group = "AlphaBtnKeyActive", priority = 210,
+        })
+      end
+    end
+
+    local function refresh()
+      if vim.bo.filetype ~= "alpha" then return end
+      local buf = api.nvim_get_current_buf()
+      decorate(buf)
+      focus(buf)
+    end
+    package.loaded["alpha_ui_refresh"] = refresh
+
+    ---------------------------------------------------------------------------
+    -- Window chrome: dark bg, hidden cursor (restored when you leave)
+    ---------------------------------------------------------------------------
+    local saved_cursor
+    local function enter_ui()
+      vim.wo.winhighlight =
+        "Normal:AlphaNormal,NormalNC:AlphaNormal,EndOfBuffer:AlphaNormal,CursorLine:AlphaNormal"
+      if not saved_cursor then saved_cursor = vim.o.guicursor end
+      vim.o.guicursor = "a:AlphaCursor/AlphaCursor"
+    end
+    local function leave_ui()
+      vim.wo.winhighlight = ""
+      if saved_cursor then
+        vim.o.guicursor = saved_cursor
+        saved_cursor = nil
+      end
+    end
+
+    local group = api.nvim_create_augroup("AlphaUI", { clear = true })
+
+    api.nvim_create_autocmd("User", {
+      group = group,
+      pattern = "AlphaReady",
+      callback = function()
+        local buf = api.nvim_get_current_buf()
+        enter_ui()
+        refresh()
+        vim.schedule(refresh)
+        if not vim.b[buf].alpha_ui_attached then
+          vim.b[buf].alpha_ui_attached = true
+          api.nvim_create_autocmd({ "CursorMoved" }, {
+            group = group, buffer = buf, callback = function() focus(buf) end,
+          })
+          api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+            group = group, buffer = buf, callback = function() enter_ui(); refresh() end,
+          })
+          api.nvim_create_autocmd("BufLeave", { group = group, buffer = buf, callback = leave_ui })
+        end
+      end,
+    })
+
+    api.nvim_create_autocmd("User", { group = group, pattern = "AlphaClosed", callback = leave_ui })
+    api.nvim_create_autocmd("VimLeavePre", { group = group, callback = leave_ui })
+    api.nvim_create_autocmd("VimResized", {
+      group = group, callback = function() vim.defer_fn(refresh, 30) end,
+    })
+  end,
+}
