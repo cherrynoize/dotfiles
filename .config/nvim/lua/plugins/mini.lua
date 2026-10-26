@@ -3,7 +3,7 @@ return {
   lazy = false,
   config = function()
     require("mini.icons").setup()
-    -- plugins such as telescope still look for nvim-web-devicons
+    -- for plugins that still need nvim-web-devicons
     MiniIcons.mock_nvim_web_devicons()
 
     require("mini.ai").setup { n_lines = 500 }
@@ -16,7 +16,6 @@ return {
     statusline.setup { use_icons = true }
     statusline.section_location = function() return "%2l:%-2v" end
 
-    -- scrollbar + minimap, toggled with `<leader>um` / `<leader>uM`
     local map = require "mini.map"
     map.setup {
       integrations = {
@@ -25,10 +24,19 @@ return {
         map.gen_integration.gitsigns(),
       },
       -- the default encoding uses sextant glyphs most fonts lack (they show
-      -- up as white boxes); braille dots render almost everywhere
+      -- up as white boxes); braille dots are more likely to render
       symbols = { encode = map.gen_encode_symbols.dot "4x2" },
       window = { show_integration_count = false },
     }
+
+    local mouse_scrolled = false
+    for _, scroll_key in ipairs({ 'Up', 'Down' }) do
+      local key = '<ScrollWheel' .. scroll_key .. '>'
+      vim.keymap.set({ '', 'i' }, key, function()
+        mouse_scrolled = true
+        return key
+      end, { expr = true })
+    end
 
     -- windows.nvim already animates resizes (via animation.nvim), so that
     -- one stays off here to keep the two from fighting
@@ -37,8 +45,19 @@ return {
       return animate.gen_timing.linear { duration = duration, unit = "total" }
     end
     animate.setup {
-      cursor = { timing = total(100) },
-      scroll = { timing = total(60) },
+      cursor = { enable = false },
+      scroll = {
+        timing = animate.gen_timing.linear({ duration = 60, unit = 'total' }),
+        subscroll = animate.gen_subscroll.equal({
+          predicate = function(total_scroll)
+            if mouse_scrolled then
+              mouse_scrolled = false
+              return false
+            end
+            return total_scroll > 1
+          end,
+        }),
+      },
       resize = { enable = false },
       open = { timing = total(150) },
       close = { timing = total(150) },

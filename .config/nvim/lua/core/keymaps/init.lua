@@ -228,10 +228,7 @@ set("n", "x", "i<del><c-o><cmd>stopinsert<cr>", {
 set("n", "<Esc>x", "vd", { desc = "Cut character" })
 set("n", "<Esc>i", "i <esc>r", { desc = "Insert a single character" })
 
-set("v", "P", "p", { desc = "Paste and yank" })
-set("v", "p", "\"_dP", { desc = "Yankless paste" })
-set("v", "D", "\"_d", { desc = "Yankless delete" })
-
+set("v", "x", "D", { desc = "Delete without yanking" })
 set({ "n", "v" }, "<leader>y", "\"*y", { desc = "Yank to selection" })
 set({ "n", "v" }, "<leader>Y", "\"*Y", { desc = "Yank to selection" })
 set({ "n", "v" }, "<leader>d", "\"*d", { desc = "Delete into selection" })
@@ -256,8 +253,24 @@ set("v", "A", ":s/$/", { desc = "Append to all selected lines" })
 set("n", "<C-p>", "0i<cr><esc>kP", { desc = "Paste above the current line" })
 set("n", "<C-n>", "0ji<cr><esc>kP", { desc = "Paste below the current line" })
 
-set("n", "n", "nzzzv", { desc = "Next search result" }) -- last `zv` somehow looks smoother
+set("n", "n", "nzzzv", { desc = "Next search result" }) -- with the final `zv` somehow looks smoother
 set("n", "N", "Nzzzv", { desc = "Previous search result" })
+set("n", "<C-d>", "<C-d>zzzv", { desc = "Scroll half a page down" })
+set("n", "<C-u>", "<C-u>zzzv", { desc = "Scroll half a page up" })
+
+for _, key in ipairs({ '<C-f>', '<C-b>' }) do
+  set('n', key, function()
+    local saved_so = vim.o.scrolloff
+    local function restore_so() vim.o.scrolloff = saved_so end
+
+    vim.cmd.normal({ args = { 'zz' }, bang = true })
+    vim.o.scrolloff = 999
+    vim.cmd.normal({ args = { vim.v.count1 .. vim.keycode(key) }, bang = true })
+
+    require('mini.animate').execute_after('scroll', restore_so)
+    vim.defer_fn(restore_so, 500) -- fallback in case no scroll animation fires
+  end)
+end
 
 wk.add {
   { "g", group = "Goto" },
