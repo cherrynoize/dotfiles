@@ -281,8 +281,8 @@ set({ "n", "x", "o" }, "ò", "}", { desc = "Next paragraph" })
 
 set("v", "J", ":m '>+1<cr>gv=gv", { desc = "Move selected lines down" })
 set("v", "K", ":m '<-2<cr>gv=gv", { desc = "Move selected lines up" })
-set("v", "<Esc>j", ":m '>+10<cr>gv=gv", { desc = "Move 10 lines down" })
-set("v", "<Esc>k", ":m '<-11<cr>gv=gv", { desc = "Move 10 lines up" })
+set("v", "<C-j>", ":m '>+10<cr>gv=gv", { desc = "Move 10 lines down" })
+set("v", "<C-k>", ":m '<-11<cr>gv=gv", { desc = "Move 10 lines up" })
 
 set({ "n", "v" }, "<leader>\\", ":%s/", { desc = "Replace all instances of" })
 set(
@@ -371,7 +371,6 @@ set({ "n", "v" }, "<leader>f'", pick "marks", { desc = "Find marks" })
 set("n", "<leader>fr", pick "registers", { desc = "Find registers" })
 set("n", "<leader>fd", pick "lsp_definitions", { desc = "Find definitions" })
 set("n", "<leader>fD", pick "diagnostics", { desc = "Search diagnostics" })
-set("n", "<leader>fu", cmd "UndotreeToggle", { desc = "Toggle undotree" })
 set("n", "<leader>fk", pick "keymaps", { desc = "Show keymaps" })
 set("n", "<leader>fx", pick "commands", { desc = "Search commands" })
 set("n", "<leader>fc", pick (
@@ -540,7 +539,7 @@ set("n", "<leader>uN", function()
     notification.suppress(true)
   end
 end, { desc = "Toggle notifications" })
-set("n", "<leader>uu", function()
+set("n", "<leader>uh", function()
   vim.g.url_highlight = vim.g.url_highlight == false
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     vim.api.nvim_win_call(win, update_url_highlight)
@@ -550,6 +549,7 @@ end, { desc = "Toggle URL highlight" })
 set("n", "<leader>uL", toggle_codelens, { desc = "Toggle CodeLens" })
 set("n", "<leader>um", minimap_toggle, { desc = "Toggle minimap" })
 set("n", "<leader>uM", minimap_toggle_bar, { desc = "Toggle scrollbar" })
+set("n", "<leader>uu", cmd "UndotreeToggle", { desc = "Toggle undotree" })
 
 vim.api.nvim_set_hl(0, "HighlightURL", { underline = true })
 vim.api.nvim_create_autocmd(
@@ -634,7 +634,7 @@ for i = 0, 9 do
 end
 set({ "n", "v", "i" }, "<Esc>ℵ", cmd "<Nop>", { desc = "Go to tab ℵ (1-10)" })
 set({ "n", "v", "i" }, "<Esc>t", cmd "tabe", { desc = "New tab" })
-set({ "n", "v", "i" }, "<Esc>w", cmd "tabc", { desc = "Close tab" })
+set({ "n", "v" }, "<Esc>w", cmd "tabc", { desc = "Close tab" })
 set({ "n", "v", "i" }, "<Esc><Tab>", "<Esc>gt", { desc = "Next tab" })
 set({ "n" }, "<S-Tab>", "<Esc>gT", { desc = "Previous tab" })
 set("n", "]t", cmd "tabnext", { desc = "Next tab" })

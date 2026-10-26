@@ -4,5 +4,7 @@
 return {
   "DrKJeff16/project.nvim",
   lazy = false,
-  opts = {},
+  opts = {
+    exclude_dirs = { "~" },
+  }
 }

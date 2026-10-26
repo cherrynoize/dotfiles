@@ -1,7 +1,4 @@
--- ~/.config/nvim/lua/plugins/alpha.lua
--- A near-future "workspace launcher" dashboard for alpha-nvim (lazy.nvim spec).
--- Needs: Nerd Font (Mono variant recommended), termguicolors, telescope.nvim
--- (swap the commands in `actions` if you use something else).
+-- deps: Nerd Font (Mono variant recommended), termguicolors, telescope.nvim
 
 return {
   "goolord/alpha-nvim",
