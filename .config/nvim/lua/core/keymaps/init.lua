@@ -123,6 +123,59 @@ local function git_status(open)
   end
 end
 
+-- run `git add %`; empty args defaults to current file
+local function git_add()
+  vim.ui.input({ prompt = "git add (empty = current file): ", completion = "file" },
+    function(args)
+      if args == nil then return end -- cancelled
+      args = vim.trim(args)
+      vim.cmd("Git add " .. (args == "" and "%" or args))
+    end
+  )
+end
+
+-- telescope commit picker with map to commit staged changes (using the
+-- prompt text as message); `opts` are passed to telescope
+local function git_commits(name, opts)
+  opts = opts or {}
+  return function()
+    local dir = opts.cwd or vim.fn.expand "%:p:h"
+    if dir == "" then dir = vim.fn.getcwd() end
+    local user_attach = opts.attach_mappings
+    require("telescope.builtin")[name](vim.tbl_extend("force", opts, {
+      prompt_title = (opts.prompt_title or "Git commits")
+        .. " (<C-s>: commit with message)",
+      attach_mappings = function(prompt_bufnr, map)
+        local actions = require "telescope.actions"
+        local action_state = require "telescope.actions.state"
+        local function create_commit()
+          local message = vim.trim(action_state.get_current_line())
+          if message == "" then
+            vim.notify("Type a commit message first", vim.log.levels.WARN)
+            return
+          end
+          actions.close(prompt_bufnr)
+          vim.system(
+            { "git", "commit", "-m", message },
+            { cwd = dir, text = true },
+            vim.schedule_wrap(function(res)
+              if res.code == 0 then
+                vim.notify("Committed: " .. message)
+              else
+                local err = vim.trim(res.stderr .. res.stdout)
+                vim.notify("git commit failed:\n" .. err, vim.log.levels.ERROR)
+              end
+            end)
+          )
+        end
+        map({ "i", "n" }, "<C-s>", create_commit)
+        if user_attach then return user_attach(prompt_bufnr, map) end
+        return true -- keep the default mappings
+      end,
+    }))
+  end
+end
+
 -- close diffview if one is showing in this session, otherwise open it
 local function diffview_toggle()
   if require("diffview.lib").get_current_view() then
@@ -227,16 +280,17 @@ set("n", "x", "i<del><c-o><cmd>stopinsert<cr>", {
 )
 set("n", "<Esc>x", "vd", { desc = "Cut character" })
 set("n", "<Esc>i", "i <esc>r", { desc = "Insert a single character" })
-
 set("v", "x", "D", { desc = "Delete without yanking" })
+
+wk.add { { "<leader>y", group = "Yank" } }
 set({ "n", "v" }, "<leader>y", "\"*y", { desc = "Yank to selection" })
 set({ "n", "v" }, "<leader>Y", "\"*Y", { desc = "Yank to selection" })
+set("n", "<leader>yA", "<cmd>silent %y<CR>", { desc = "Yank buffer" })
 set({ "n", "v" }, "<leader>d", "\"*d", { desc = "Delete into selection" })
 set("n", "<leader>p", "\"*p", { desc = "Paste from selection" })
 set("v", "<leader>p", "\"_d\"*P", { desc = "Paste from selection" })
 
 set({ "i", "x" }, "<C-c>", "<esc>yiwea", { desc = "Yank word" })
-set("n", "yA", "<cmd>silent %y<CR>", { desc = "Yank buffer" })
 set("i", "<C-h>", "<c-o>dB", { desc = "Delete back to start of WORD" })
 set("i", "<C-Del>", "<c-o>dE", { desc = "Delete to end of WORD" })
 
@@ -412,24 +466,30 @@ set({ "n", "v" }, "<leader>fg", function()
 end)
 
 wk.add { { "<leader>g", group = "git" } }
+set("n", "<leader>ga", git_add, { desc = "Git add" })
+set("n", "<leader>gp", cmd "Git pull", { desc = "Git pull" })
+set("n", "<leader>gP", cmd "Git push", { desc = "Git push" })
 set("n", "<leader>gd", diffview_toggle, { desc = "Toggle diffview" })
 set("n", "<leader>gD", cmd "DiffviewFileHistory %", {
   desc = "Diffview file history (current file)",
 })
 
-wk.add { { "<leader>gf", group = "Find" } }
+wk.add { { "<leader>gf", group = "Git find" } }
 set("n", "<leader>gff", pick("git_files",
   { prompt_title = "Git files" }
 ), { desc = "Find tracked files" })
 set({ "n", "v" }, "<leader>gfd", pick("git_status", {
   prompt_title = "Find diff",
 }), { desc = "Git changes" })
-set({ "n", "v" }, "<leader>gfc", pick("git_bcommits",
-  { prompt_title = "Git commits" }
-), { desc = "Find commits" })
+set("n", "<leader>gfc", git_commits("git_bcommits",
+  { prompt_title = "Git commits (buffer)" }
+), { desc = "Git commits (buffer)" })
+set("n", "<leader>gfC", git_commits("git_commits",
+  { prompt_title = "Git commits (repo)" }
+), { desc = "Git commits (repo)" })
 set({ "n", "v" }, "<leader>gfb", pick("git_branches",
   { prompt_title = "Git branches" }
-), { desc = "Find branches" })
+), { desc = "Git branches" })
 
 wk.add { { "<leader>gs", group = "Git status" } }
 set("n", "<leader>gss", git_status "tab Git", {
@@ -626,7 +686,7 @@ end, { desc = "Close buffer" })
 set("n", "<leader>bC", function()
   require("mini.bufremove").delete(0, true)
 end, { desc = "Force close buffer" })
-wk.add { { "<leader>bs", group = "Batch close buffers" } }
+wk.add { { "<leader>bx", group = "Batch close buffers" } }
 set("n", "<leader>bxo", function()
   close_buffers(function(offset) return offset ~= 0 end)
 end, { desc = "Close all buffers except current" })
@@ -917,7 +977,7 @@ set(
   cmd "call codeium#Clear()",
   { desc = "Clear Codeium suggestion" }
 )
-set("i", "<C-f>", function() return vim.fn["codeium#Accept"]() end, {
+set("i", "<C-e>", function() return vim.fn["codeium#Accept"]() end, {
   desc = "Accept Codeium suggestion",
   script = true,
   silent = true,
