@@ -278,9 +278,8 @@ set("i", "<C-z>", cmd "undo", { desc = "Undo" })
 set("n", "x", "i<del><c-o><cmd>stopinsert<cr>", {
   desc = "Delete character without yanking" }
 )
-set("n", "<Esc>x", "vd", { desc = "Cut character" })
-set("n", "<Esc>i", "i <esc>r", { desc = "Insert a single character" })
-set("v", "x", "D", { desc = "Delete without yanking" })
+set("n", "<Esc>x", "vd", { desc = "Cut character" })                    
+set("n", "<Esc>i", "i <esc>r", { desc = "Insert a single character" })  
 
 wk.add { { "<leader>y", group = "Yank" } }
 set({ "n", "v" }, "<leader>y", "\"*y", { desc = "Yank to selection" })
