@@ -308,6 +308,19 @@ started.</summary>
 > Please note: **may not always be up to date**, refer to full cheatsheet if
 > having issues.
 
+### 👉 Gestures
+
+    SUPER + 2 finger pinch       Zoom
+    3 finger swipe (horizontal)  Switch workspace
+    3 finger swipe (vertical)    Toggle special workspace
+    3 finger pinch               Toggle fullscreen
+    4 finger swipe               Move window (in or between workspaces)
+    SHIFT + 4 finger swipe       Swap windows
+    4 finger swipe up then down  Close window
+
+Code and configuration options for gestures live in
+`~/.config/hypr/ux/gestures`.
+
 ###  Useful commands
 
 #### Text editor

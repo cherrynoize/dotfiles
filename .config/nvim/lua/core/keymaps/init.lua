@@ -337,7 +337,7 @@ wk.add { { "gl", group = "Location list" } }
 set("n", "glk", "<cmd>lnext<cr>zz", { desc = "Location list next error" })
 set("n", "glj", "<cmd>lprev<cr>zz", { desc = "Location list previous error" })
 
-set("v", "<leader>=", ":! column -t -s= -o=<cr>", { desc = "Align on =" })
+set("v", "<leader>=", ":silent ! column -t -s= -o=<cr>", { desc = "Align on =" })
 set("n", "<leader>=", "Vk:! column -t -s= -o=<cr>2$",
   { desc = "Align with last line on =" }
 )
