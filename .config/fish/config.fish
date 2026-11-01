@@ -266,7 +266,7 @@ if status is-interactive
   abbr --command git '>' ' push -u origin'
   abbr pull 'git pull'
   abbr --command git '<' ' pull'
-  abbr --command git merge 'git pull --no-rebase || git mergetool'
+  abbr --command git merge 'pull --no-rebase || git mergetool'
   abbr --command git rem 'git remote add origin git@github.com:%.git'
   abbr --command git st 'status'
   abbr cfgqu 'update-config'

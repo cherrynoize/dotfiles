@@ -132,8 +132,15 @@ unfuck_hyprland () {
 }
 
 unfuck_zen () {
-  local f_array="$BROWSER_PROFILE_DIR/$BROWSER_DEFAULT_PROFILE/places.sqlite"
-  [ ! -s "$f" ] && rm "$f"
+  local f_array=(
+    "$BROWSER_PROFILE_DIR/$BROWSER_DEFAULT_PROFILE/places.sqlite"
+    "$BROWSER_PROFILE_DIR/$BROWSER_DEFAULT_PROFILE/places.sqlite-wal"
+    "$BROWSER_PROFILE_DIR/$BROWSER_DEFAULT_PROFILE/places.sqlite-shm"
+  )
+  for f in "${f_array[@]}"; do
+    [ ! -s "$f" ] && rm "$f" # softer version
+    # rm "$f" # hardcore one
+  done
 }
 
 unfuck_sxhkd () {

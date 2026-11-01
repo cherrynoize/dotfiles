@@ -10,7 +10,7 @@ vim.o.signcolumn = "yes"
 
 vim.o.laststatus = 3
 vim.o.cmdheight = 0
-vim.o.updatetime = 1000
+vim.o.updatetime = 1000 -- do I need this?
 
 vim.opt.fillchars:append { eob = " " }
 vim.o.list = true
