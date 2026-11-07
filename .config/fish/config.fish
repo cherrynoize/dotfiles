@@ -138,6 +138,7 @@ if status is-interactive
   abbr fde 'firefox-developer-edition'
   abbr chrome 'google-chrome-stable'
   abbr ytmp3 'youtube-dl --extract-audio --audio-format mp3' # yt to mp3 download
+  abbr cmus 'systemd-inhibit --what=idle --who=cmus --why="cmus running" cmus' # make cmus inhibit sleep while running
   abbr --set-cursor silent-spinner 'spinner -q % 2>/dev/null'
   abbr nvim 'launch-nvim'
   abbr define 'dict -d gcide'
