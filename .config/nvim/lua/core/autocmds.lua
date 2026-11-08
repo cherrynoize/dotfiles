@@ -148,14 +148,14 @@ autocmd("BufReadPost", {
     if no_restore[vim.bo[buf].filetype] or vim.b[buf].restored_cursor then
       return
     end
+    if vim.api.nvim_get_current_buf() ~= buf then
+      return  -- not displayed yet; don't mark as restored
+    end
     vim.b[buf].restored_cursor = true
     local mark = vim.api.nvim_buf_get_mark(buf, '"')
-    if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(buf) then
-      if pcall(vim.api.nvim_win_set_cursor, 0, mark) then
-        if vim.api.nvim_get_current_buf() == buf then
-          pcall(vim.cmd, "normal! zz")
-        end
-      end
+    if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(buf)
+      and pcall(vim.api.nvim_win_set_cursor, 0, mark) then
+      pcall(vim.cmd, "normal! zvzz")
     end
   end,
 })

@@ -306,22 +306,22 @@ set("v", "A", ":s/$/", { desc = "Append to all selected lines" })
 set("n", "<C-p>", "0i<cr><esc>kP", { desc = "Paste above the current line" })
 set("n", "<C-n>", "0ji<cr><esc>kP", { desc = "Paste below the current line" })
 
-set("n", "n", "nzzzv", { desc = "Next search result" }) -- with the final `zv` somehow looks smoother
-set("n", "N", "Nzzzv", { desc = "Previous search result" })
-set("n", "<C-d>", "<C-d>zzzv", { desc = "Scroll half a page down" })
-set("n", "<C-u>", "<C-u>zzzv", { desc = "Scroll half a page up" })
+set("n", "n", "nzvzz", { desc = "Next search result" }) -- with the final `zv` somehow looks smoother
+set("n", "N", "Nzvzz", { desc = "Previous search result" })
 
-for _, key in ipairs({ '<C-f>', '<C-b>' }) do
+for _, key in ipairs({ '<C-u>', '<C-d>', '<C-b>', '<C-f>' }) do
   set('n', key, function()
     local saved_so = vim.o.scrolloff
     local function restore_so() vim.o.scrolloff = saved_so end
 
     vim.cmd.normal({ args = { 'zz' }, bang = true })
     vim.o.scrolloff = 999
-    vim.cmd.normal({ args = { vim.v.count1 .. vim.keycode(key) }, bang = true })
+
+    local count = vim.v.count > 0 and vim.v.count or ''
+    vim.cmd.normal({ args = { count .. vim.keycode(key) }, bang = true })
 
     require('mini.animate').execute_after('scroll', restore_so)
-    vim.defer_fn(restore_so, 500) -- fallback in case no scroll animation fires
+    vim.defer_fn(restore_so, 500)
   end)
 end
 

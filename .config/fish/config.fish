@@ -141,6 +141,7 @@ if status is-interactive
   abbr cmus 'systemd-inhibit --what=idle --who=cmus --why="cmus running" cmus' # make cmus inhibit sleep while running
   abbr --set-cursor silent-spinner 'spinner -q % 2>/dev/null'
   abbr nvim 'launch-nvim'
+  abbr w 'launch-nvim ~/Untitled.txt'
   abbr define 'dict -d gcide'
   abbr translate 'dict -d fd-ita-eng'
   abbr traduci 'dict -d fd-eng-ita'
