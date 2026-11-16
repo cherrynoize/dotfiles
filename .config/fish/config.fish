@@ -230,8 +230,8 @@ if status is-interactive
   abbr --set-cursor rotate 'set img "%s";set tmpdst /tmp/"$(basename "$img")";convert "$img" -rotate 90 "$tmpdst";mv "$tmpdst" "$img"'
   abbr --set-cursor country 'curl -s "http://country.io/names.json" | jq "."'
   abbr r 'trash-put'
-  abbr m 'mv -n'
-  abbr c 'cp -n'
+  abbr mv 'mv -n'
+  abbr cp 'cp -n'
   abbr ^ 'set _s "/home/shared/notes/scratchpad.md"; $EDITOR "$_s" && [ -f "$_s" ] && [ ! -s "$_s" ] && rm "$_s" || true'
 
   # hacking
