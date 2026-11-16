@@ -40,7 +40,4 @@ if [ -f "$git_prompt" ]; then
   . "$git_prompt"
 fi
 
-# Run fish if not child of fish already and if not run with bash -c for instance.
-if [[ $(ps --no-header --pid=$PPID --format=comm) != "fish" && -z ${BASH_EXECUTION_STRING} ]]; then
-  exec fish
-fi
+[ -f ~/.bash_profile ] && . ~/.bash_profile

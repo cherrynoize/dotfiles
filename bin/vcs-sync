@@ -3,12 +3,12 @@
 # sync changes inside git repositories
 # author | cherrynoize
 
-repo_file="$HOME/.repos"
+repo_file="${XDG_CONFIG_HOME:-"$HOME/.config"}/vcs-sync/.repos"
 
 msg="auto sync (vcs-sync: $(date "+%Y-%m-%d %H:%M"))"
 sep="===================="
 
-result="completed successfully"
+result="successful"
 
 # read and store repos into array
 # (ignore lines starting with a #)
@@ -37,4 +37,4 @@ for repo in "${repos[@]}"; do
 done
 
 echo "$sep"
-notify-send "vcs-sync" "backup $result."
+notify-send "vcs-sync" "Backup $result."
