@@ -1,4 +1,48 @@
 #!/bin/sh
-loginctl \
-  show-session $(awk '/tty/ {print $1}' <(loginctl)) \
-  -p Type | awk -F= '{print $2}'
+# print the display server type of a session
+
+session_type () {
+  loginctl show-session "$1" -p Type --value 2>/dev/null
+}
+
+current () {
+  # own session first; fall back to the user's graphical session
+  sid="${XDG_SESSION_ID:-$(loginctl show-user "$(id -u)" -p Display --value 2>/dev/null)}"
+  type=""
+  [ -n "$sid" ] && type="$(session_type "$sid")"
+
+  case "$type" in
+    wayland|x11|mir)
+      echo "$type"
+      return
+      ;;
+  esac
+
+  # compositor started from a tty: logind still says "tty", so use env hints
+  # (check wayland first: xwayland sets DISPLAY inside wayland sessions)
+  if [ -n "$WAYLAND_DISPLAY" ]; then
+    echo wayland
+  elif [ -n "$DISPLAY" ]; then
+    echo x11
+  else
+    echo "${type:-tty}"
+  fi
+}
+
+all () {
+  loginctl list-sessions --no-legend 2>/dev/null | awk '{ print $1 }' |
+    while read -r sid; do
+      session_type "$sid"
+    done
+}
+
+case "${1:--c}" in
+  -c|--current) current ;;
+  -a|--all)     all ;;
+  *)
+    echo "usage: ${0##*/} [-c|--current] [-a|--all]"
+    echo "-c, --current   type of the current session (default)"
+    echo "-a, --all       type of every session, one per line"
+    exit 1
+    ;;
+esac
