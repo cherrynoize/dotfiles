@@ -113,7 +113,7 @@ if status is-interactive
   abbr l 'lsd --group-directories-first'
   abbr la 'lsd -a --group-directories-first'
   abbr ll 'lsd -la --group-directories-first'
-  abbr lsds 'du -sh (ls -A) | sort -rhb'
+  abbr lss 'du -sh (ls -A) | sort -rhb'
   abbr e 'echo'
   abbr d 'dirs'
   abbr cls 'clear'
