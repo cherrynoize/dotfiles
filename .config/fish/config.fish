@@ -242,6 +242,8 @@ if status is-interactive
   # dev
   abbr python-server 'python -m http.server 5555'
   abbr venv 'python -m venv venv' # create python virtual environment
+  abbr veon 'source .venv/bin/activate.fish' # turn on
+  abbr veoff 'deactivate' # turn off
   abbr arduino-prep 'sudo chmod 660 /dev/ttyACM0'
 
   # git --auto-skip death when I'm coding 
